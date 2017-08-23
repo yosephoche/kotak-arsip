@@ -1,0 +1,28 @@
+{
+	"users": [
+		{
+			"id": "1",
+			"name": "Gifa Eriyanto",
+			"img": "1.jpg",
+			"position": "CEO"
+		},
+		{
+			"id": "2",
+			"name": "Alfian Saputra",
+			"img": "2.png",
+			"position": "Advisor"
+		},
+		{
+			"id": "3",
+			"name": "Alfian Labeda",
+			"img": "3.jpg",
+			"position": "CCO"
+		},
+		{
+			"id": "4",
+			"name": "Mashuri Mansur",
+			"img": "4.jpg",
+			"position": "CTO"
+		}
+	]
+}

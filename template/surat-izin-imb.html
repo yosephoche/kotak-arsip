@@ -1,0 +1,325 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+
+	<meta name="keyword" content="">
+
+	<meta name="description" content="">
+
+	<meta name="author" content="">
+
+	<meta property="og:image" content="assets/img/logo.svg" />
+
+	<meta charset="UTF-8">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+	<title>Kotakarsip</title>
+
+	<link rel="icon" sizes="16x16" href="assets/img/favicon.png" />
+
+	<!-- Font Icon -->
+	<link rel="stylesheet" href="assets/libs/font-icons/entypo/css/entypo.css">
+	<link rel="stylesheet" href="assets/libs/font-icons/font-awesome/css/font-awesome.min.css">
+
+	<!-- Bootstrap Vue -->
+	<link type="text/css" rel="stylesheet" href="assets/css/bootstrap-vue.css"/>
+
+	<!-- Custom css -->
+	<link href="assets/css/kotakarsip.css" rel="stylesheet">
+
+</head>
+
+
+<body>
+
+	<div id="app">
+		<nav class="ka-nav">
+			<ul class="left-side">
+				<li class="nav-toggle">
+					<a href="#"><i class="fa fa-bars"></i></a>
+				</li>
+				<li class="brand">
+					<img src="assets/img/logo-white.svg" class="logo" alt="Logo KotakArsip">
+				</li>
+				<li class="search">
+					<form action="">
+						<input type="text" placeholder="Pencarian">
+					</form>
+				</li>
+			</ul>
+			<ul class="right-side">
+				<li class="notif new-notif dropdown">
+					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" @click="notification"><i class="fa fa-bell animated swing infinite"></i> <span class="badge">2</span></a>
+					<ul class="dropdown-menu pull-right">
+						<li class="notif-title">
+							<h3>Notifikasi</h3>
+							<a href="#">Tandai semua sudah dibaca</a>
+						</li>
+						<li role="separator" class="divider"></li>
+
+						<li class="unread">
+							<a href="detail.html">
+								<div class="img-profile" style="background: url('assets/img/users/2.png')"></div>
+								<span>
+									Alfian Saputra membagikan <b>Kontrak Kerja</b> kepada Anda<br>
+									<div class="btn btn-primary btn-sm">Buka File</div>
+								</span>
+							</a>
+						</li>
+						<li role="separator" class="divider"></li>
+
+						<li class="unread">
+							<a href="detail.html">
+								<div class="img-profile" style="background: url('assets/img/users/3.jpg')"></div>
+								<span>
+									Alfian Labeda membagikan <b>Hasil Rapat 12 Agustus 2017</b> kepada Anda<br>
+									<div class="btn btn-primary btn-sm">Buka File</div>
+								</span>
+							</a>
+						</li>
+						<li role="separator" class="divider"></li>
+
+						<li>
+							<a href="detail.html">
+								<div class="img-profile" style="background: url('assets/img/users/4.jpg')"></div>
+								<span>
+									Mashuri Mansur mendisposisi surat masuk dari <b>CV. Media SAKTI</b> kepada Anda<br>
+									<div class="btn btn-primary btn-sm">Buka File</div>
+								</span>
+							</a>
+						</li>
+						<li role="separator" class="divider"></li>
+						
+						<li class="text-center"><a href="notifikasi.html">Lihat semua pemberitahuan</a></li>
+					</ul>
+				</li>
+				<li class="profile dropdown">
+					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						<div class="img-profile" style="background: url('assets/img/users/1.jpg')"></div>
+						<span class="view-desktop-only">Gifa Eriyanto</span> &nbsp;<i class="fa fa-caret-down"></i>
+					</a>
+					<ul class="dropdown-menu pull-right">
+						<li><a href="pengaturan-akun.html">Pengaturan Akun</a></li>
+						<li><a href="bantuan.html">Bantuan</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="login.html">Keluar</a></li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+
+		<section class="ka-body">
+			<header class="ka-menus">
+				<ul class="list-unstyled">
+					<li class="label-menus">Arsip</li>
+					<li><a href="index.html">Surat Masuk</a></li>
+					<li><a href="surat-keluar.html">Surat Keluar</a></li>
+					<li class="active"><a href="surat-izin.html">Surat Perizinan</a></li>
+					<li><button type="button" class="new-type">+ Jenis Arsip</button></li>
+				</ul>
+
+				<br>
+
+				<ul class="list-unstyled">
+					<li class="label-menus">Konfigurasi</li>
+					<li><a href="penyimpanan-arsip.html">Penyimpanan Arsip</a></li>
+					<li><a href="anggota.html">Anggota</a></li>
+					<li><a href="pengaturan.html">Pengaturan</a></li>
+				</ul>
+
+				<br>
+
+				<ul class="list-unstyled">
+					<li><a href="sampah.html"><i class="fa fa-trash-o"></i> &nbsp;Sampah</a></li>
+				</ul>
+			</header>
+
+			<div class="ka-main">
+				<div class="breadcrumbs">
+					<ul class="list-inline">
+						<li><a href="index.html">Surat Perizinan</a></li>
+						<li>Izin Mendirikan Bangunan (IMB)</li>
+					</ul>
+				</div>
+
+				<table class="table table-hover">
+					<tr>
+						<th class="sort">Pemohon <i class="fa fa-angle-down"></i></th>
+						<th>Alamat Bangunan</th>
+						<th class="view-tablet-only">Dibagikan bersama</th>
+						<th class="view-tablet-only">Tanggal Masuk</th>
+						<th class="text-right dropdown">
+							<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list-ul"></i></a>
+							<ul class="dropdown-menu pull-right">
+								<li class="label-dropdown">Mode Tampilan</li>
+								<li><a href="detail.html">List <i class="fa fa-list-ul pull-right"></i></a></li>
+								<li><a href="#">Grid <i class="fa fa-th-large pull-right"></i></a></li>
+							</ul>
+						</th>
+					</tr>
+					<tr class="item" v-for="val in json.licenseImb" @click="detailSidebar(val, $event)">
+						<td><a href="surat-izin-berkas.html">{{ val.from }}</a></td>
+						<td>{{ val.address }}</td>
+						<td class="view-tablet-only">
+							<ul class="list-unstyled disposisi">
+								<li v-for="share in val.share" class="img-disposisi">
+									<b-tooltip v-bind:content="share.name" placement="bottom">
+										<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url(assets/img/users/' + share.img + ')' }"></div>
+									</b-tooltip>
+								</li>
+							</ul>
+						</td>
+						<td class="view-tablet-only">{{ val.date }}</td>
+						<td class="text-right dropdown">
+							<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
+							<ul class="dropdown-menu pull-right">
+								<li><a href="surat-izin-berkas.html">Lihat Detail</a></li>
+								<li><a href="#" data-toggle="modal" data-target="#disposisiModal">Bagikan</a></li>
+								<li><a href="sunting.html">Sunting</a></li>
+								<li><a href="#" data-toggle="modal" data-target="#deleteModal" class="text-danger" class="text-danger">Hapus</a></li>
+							</ul>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<aside class="ka-sidebar-detail">
+				<form action="create.html">
+					<input type="file" @change="inputFileSubmit" id="inputFileSubmit" name="image" class="hide" accept=".jpg, .png, .jpeg">
+					<label for="inputFileSubmit" class="btn btn-primary btn-block">Tambah</label>
+				</form>
+
+				<br>
+
+				<div class="detail-info">
+
+					<div v-if="detail !== ''">
+						<detail :detail="detail"></detail>
+					</div>
+					<div v-else>
+						<no-select></no-select>
+					</div>
+
+				</div>
+			</aside>
+		</section>
+
+
+		<!-- Modals -->
+		<div class="modal fade modal-disposisi" id="disposisiModal" tabindex="-1" role="dialog" aria-labelledby="disposisiLabelModal">
+			<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<form action="">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="disposisiLabelModal">Bagikan</h4>
+						</div>
+						<div class="modal-body">
+							<table class="table">
+								<tr>
+									<td class="search" colspan="4"><input type="text" class="form-control" placeholder="Cari" v-model="search"></td>
+								</tr>
+								<tr v-for="val in filteredUsers">
+									<td class="text-center"><input type="checkbox"></td>
+									<td><div class="img-profile" v-bind:style="{ backgroundImage: 'url(assets/img/users/' + val.img + ')' }"></div></td>
+									<td>
+										<span class="name">{{ val.name }}</span><br>
+										<span class="position">{{ val.position }}</span>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+							<button class="btn btn-primary">Disposisi</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabelModal">
+			<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<form action="">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="deleteLabelModal">Hapus</h4>
+						</div>
+						<div class="modal-body">
+							Apakah Anda yakin ingin menghapus data ini?
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+							<button class="btn btn-danger">Ya, hapus</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- End Modal -->
+	</div>
+	
+	<!-- No select data in table -->
+	<template id="no-select">
+		<div class="no-select text-center">
+			<img src="assets/img/icons/select_file.svg" alt="Pilih salah satu">
+			<p>Pilih salah satu data untuk melihat detail</p>
+		</div>
+	</template>
+
+	<!-- Detail after select data in table -->
+	<template id="sidebar-detail">
+		<div>
+			<div class="select">
+				<div class="item" v-if="detail.from">
+					<label>Pemohon</label>
+					<div class="value">{{ detail.from }}</div>
+				</div>
+				<div class="item" v-if="detail.address">
+					<label>Alamat Bangunan</label>
+					<div class="value">{{ detail.address }}</div>
+				</div>
+				<div class="item" v-if="detail.storage">
+					<label>Penyimpanan Arsip</label>
+					<div class="value">{{ detail.storage }}</div>
+				</div>
+				<div class="item" v-if="detail.share">
+					<label>Dibagikan bersama:</label>
+					<div class="value">
+						<ul class="list-unstyled">
+							<li v-for="bagikan in detail.share"><a href="">{{ bagikan.name }}</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="item" v-if="detail.date">
+					<label>Tanggal Masuk</label>
+					<div class="value">{{ detail.date }}</div>
+				</div>
+			</div>
+
+			<div class="attachment">
+				<span>3 file terlampir</span>
+				<a href="surat-izin-berkas.html" class="btn btn-default btn-block">Lihat Detail</a>
+			</div>
+		</div>
+	</template>
+
+	<script src="assets/js/kotakarsip.js"></script>
+	<script src="assets/vue/components/sidebar-detail.js"></script>
+	<script src="assets/vue/surat-izin-imb.js"></script>
+	<script>
+		getDataLicenseImb([
+			// Surat Masuk
+			'data/surat_izin_imb.json',
+			// Pengguna
+			'data/pengguna.json'
+			], 'licenseImb');
+	</script>
+
+</body>
+
+</html>

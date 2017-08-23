@@ -1,0 +1,140 @@
+{
+	"incomingMail": [
+		{
+			"_id": "59982fc241a1db3c8c0026a8",
+			"id_user": "59846a9241a1db2de40020e6",
+			"id_company": "59846a9641a1db2de40020e7",
+			"type": "incoming_mail",
+			"from": "Belawa City",
+			"reference_number": "BLW-01",
+			"subject": "Kerja Keras",
+			"date": "09\/08\/2017",
+			"storage": "Rak 202",
+			"share": [
+				{
+					"_id": {
+						"$oid": "59846a9241a1db2de40020e6"
+					},
+					"name": "Gifa Eriyanto",
+					"email": "mashurimansur18@gmail.com",
+					"phone": "85268524940",
+					"email_status": "pending",
+					"password": "$2y$10$tewVXpm\/KRfGJIBs\/84vIOdo\/VoKa2ZlyilXc8c4zZM\/cftM2k\/hS",
+					"updated_at": {
+						"$date": {
+							"$numberLong": "1502517280000"
+						}
+					},
+					"created_at": {
+						"$date": {
+							"$numberLong": "1501850258000"
+						}
+					},
+					"status": "admin",
+					"id_company": "59846a9641a1db2de40020e7",
+					"remember_token": "VXS8AZ65Q1JrlqH7zFyemHbiQKJi7a8JSY5AL85tld3IPlu0EJKAv71y34fy",
+					"photo": "1.jpg",
+					"position": "CEO"
+				},
+				{
+					"_id": {
+						"$oid": "598e072741a1db1804004853"
+					},
+					"name": "Alfian Labeda",
+					"id_company": "59846a9641a1db2de40020e7",
+					"phone": "123123123",
+					"email": "huri@mail.com",
+					"email_status": "pending",
+					"position": "CCO",
+					"photo": "3.jpg",
+					"status": "admin",
+					"remember_token": "vnTIgmH3kK5ORtts2iYEO9zvMlUOSXEtN9QrbOYa",
+					"password": "$2y$10$UPdWlrC6qMaiRA1KCfe35..AVYN2yUFFNLKxsUqKu\/.mkNQpTeDre",
+					"updated_at": {
+						"$date": {
+							"$numberLong": "1502480428000"
+						}
+					},
+					"created_at": {
+						"$date": {
+							"$numberLong": "1502480167000"
+						}
+					}
+				},
+				{
+					"_id": {
+						"$oid": "598f10bd41a1db1804004865"
+					},
+					"name": "Mashuri Mansur",
+					"id_company": "59846a9641a1db2de40020e7",
+					"phone": "12312312",
+					"email": "juma@mail.com",
+					"email_status": "pending",
+					"position": "CTO",
+					"photo": "4.jpg",
+					"status": "admin",
+					"remember_token": "u8Kh7t0aMjxk9VFmAjEm51VZ41lqwVhYYRVO6Mcw",
+					"password": "$2y$10$1AUnp7YC8R4HQ23rB6kTO.tEOFbnnWgcVyiZCQqEkwoeYg17LRG4G",
+					"updated_at": {
+						"$date": {
+							"$numberLong": "1502548157000"
+						}
+					},
+					"created_at": {
+						"$date": {
+							"$numberLong": "1502548157000"
+						}
+					}
+				}
+			],
+			"information": "Hai Semua",
+			"files": [
+				"dok-1.jpg",
+				"dok-1.png"
+			],
+			"updated_at": "2017-08-19 12:32:02",
+			"created_at": "2017-08-19 12:32:02"
+		}
+	],
+	"users": [
+		{
+			"_id": "59846a9241a1db2de40020e6",
+			"name": "Gifa Eriyanto",
+			"email": "mashurimansur18@gmail.com",
+			"phone": "85268524940",
+			"email_status": "pending",
+			"updated_at": "2017-08-12 05:54:40",
+			"created_at": "2017-08-04 12:37:38",
+			"status": "admin",
+			"id_company": "59846a9641a1db2de40020e7",
+			"photo": "1.jpg",
+			"position": "CEO"
+		},
+		{
+			"_id": "598e072741a1db1804004853",
+			"name": "Alfian Labeda",
+			"id_company": "59846a9641a1db2de40020e7",
+			"phone": "123123123",
+			"email": "huri@mail.com",
+			"email_status": "pending",
+			"position": "CCO",
+			"photo": "3.jpg",
+			"status": "admin",
+			"updated_at": "2017-08-11 19:40:28",
+			"created_at": "2017-08-11 19:36:07"
+		},
+		{
+			"_id": "598f10bd41a1db1804004865",
+			"name": "Mashuri Mansur",
+			"id_company": "59846a9641a1db2de40020e7",
+			"phone": "12312312",
+			"email": "juma@mail.com",
+			"email_status": "pending",
+			"position": "CTO",
+			"photo": "4.jpg",
+			"status": "admin",
+			"updated_at": "2017-08-12 14:29:17",
+			"created_at": "2017-08-12 14:29:17"
+		}
+	]
+}
