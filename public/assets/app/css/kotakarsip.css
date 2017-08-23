@@ -11285,9 +11285,18 @@ a:hover, a:focus, a:active, a:visited {
 .ka-nav .brand {
   width: 200px;
   height: 100%;
+  color: #999;
+  font-family: "Century Gothic Bold", arial;
+}
+.ka-nav .brand span {
+  color: #0070ff;
 }
 .ka-nav .brand .logo {
   height: 100%;
+}
+.ka-nav .brand.brand-center {
+  text-align: center;
+  width: 100%;
 }
 .ka-nav .search {
   width: 450px;
@@ -11636,6 +11645,7 @@ a:hover, a:focus, a:active, a:visited {
   border-radius: 50%;
   box-shadow: 0px 1px 1px #ccc;
   color: #999;
+  display: none;
 }
 .ka-body.ka-body-form .ka-menus .delete-img:hover {
   background-color: #e74c3c;
@@ -11646,6 +11656,9 @@ a:hover, a:focus, a:active, a:visited {
   margin-bottom: 20px;
   border-radius: 3px;
   box-shadow: 0px 7px 12px #eee;
+}
+.ka-body.ka-body-form .ka-menus .pos-r:hover .delete-img {
+  display: block;
 }
 .ka-body.ka-body-form .ka-main {
   width: calc(100% - 550px);
@@ -11688,6 +11701,16 @@ a:hover, a:focus, a:active, a:visited {
 }
 .modal-disposisi .modal-body .table tr:first-child td {
   border-top: 0;
+}
+
+.page-login .ka-body {
+  padding-top: 22vh;
+}
+.page-login .ka-body h1 {
+  font-family: "Century Gothic Bold", arial;
+  font-weight: normal;
+  margin-bottom: 20px;
+  margin-top: 50px;
 }
 
 @media only screen and (min-width: 960px) {
