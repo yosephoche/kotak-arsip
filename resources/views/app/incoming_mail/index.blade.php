@@ -26,7 +26,7 @@
 				</th>
 			</tr>
 			<tr class="item" v-for="val in json.incomingMail" @click="detailSidebar(val, $event)">
-				<td><a href="detail.html" v-html="val.from"></a></td>
+				<td><a :href="'{{ route('incoming_mail_detail') }}/' + val._id" v-html="val.from"></a></td>
 				<td v-html="val.subject"></td>
 				<td class="view-tablet-only">
 					<ul class="list-unstyled disposisi">
@@ -49,7 +49,24 @@
 				</td>
 			</tr>
 		</table>
-	</div>	
+	</div>
+
+	<aside class="ka-sidebar-detail">
+		<a href="create.html" class="btn btn-primary btn-block">Tambah</a>
+
+		<br>
+
+		<div class="detail-info">
+
+			<div v-if="detail !== ''">
+				<detail :detail="detail"></detail>
+			</div>
+			<div v-else>
+				<no-select></no-select>
+			</div>
+
+		</div>
+	</aside>		
 @endsection
 
 @section('modal')

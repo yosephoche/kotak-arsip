@@ -25,7 +25,6 @@
 
 			@yield('contents')
 
-			@include('app.layouts.partial.aside')
 		</section>
 		
 		<!-- Modal -->

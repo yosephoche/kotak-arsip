@@ -1,0 +1,100 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+
+	<meta name="keyword" content="">
+
+	<meta name="description" content="">
+
+	<meta name="author" content="">
+
+	<meta property="og:image" content="assets/img/logo.svg" />
+
+	<meta charset="UTF-8">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+	<title>Kotakarsip</title>
+
+	<link rel="icon" sizes="16x16" href="assets/img/favicon.png" />
+
+	<!-- Font Icon -->
+	<link rel="stylesheet" href="assets/libs/font-icons/entypo/css/entypo.css">
+	<link rel="stylesheet" href="assets/libs/font-icons/font-awesome/css/font-awesome.min.css">
+
+	<!-- Bootstrap Vue -->
+	<link type="text/css" rel="stylesheet" href="assets/css/bootstrap-vue.css"/>
+
+	<!-- Custom css -->
+	<link href="assets/css/kotakarsip.css" rel="stylesheet">
+
+</head>
+
+
+<body class="page-login">
+
+	<div id="app">
+		<nav class="ka-nav ka-nav-detail">
+			<div class="brand brand-center">
+				<img src="assets/img/logo.svg" class="logo" alt="Logo KotakArsip"> &nbsp;&nbsp;<b>KOTAK<span>ARSIP</span></b>
+			</div>
+		</nav>
+
+		<div class="ka-body">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-offset-2 col-md-4">
+						<img src="assets/img/company.svg" alt="" width="98%" style="margin-top: 60px">
+					</div>
+					<div class="col-md-4">
+						<h1>Perusahaan</h1>
+
+						<form action="setup-company-success.html">
+							<p>Masukkan <b data-toggle="tooltip" data-placement="bottom" title="Silahkan minta kode perusahaan Anda pada Admin Perusahaan">kode perusahaan</b> Anda!</p>
+							<div class="form-group">
+								<input type="text" id="company_code" class="form-control" placeholder="Kode Perusahaan">
+							</div>
+							<p>Perusahaan Anda belum terdaftar pada KotakArsip? Silahkan masukkan nama perusahaan Anda!</p>
+							<div class="form-group">
+								<input type="text" id="company_name" class="form-control" placeholder="Nama Perusahaan">
+							</div>
+							<div class="form-group row">
+								<div class="col-md-6">
+									<button class="btn btn-primary btn-block">Lanjutkan &nbsp;<i class="fa fa-angle-double-right"></i></button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="assets/js/kotakarsip.js"></script>
+	<script>
+		$('input').keyup(function() {
+
+			// Company Code filled
+			var company_code = $('#company_code').val();
+			if (company_code !== '') {
+				$('#company_name').attr('disabled', 'disabled');
+			} else {
+				$('#company_name').removeAttr('disabled');
+			}
+
+			// Company Name filled
+			var company_name = $('#company_name').val();
+			if (company_name !== '') {
+				$('#company_code').attr('disabled', 'disabled');
+			} else {
+				$('#company_code').removeAttr('disabled');
+			}
+
+		});
+	</script>
+
+</body>
+
+</html>

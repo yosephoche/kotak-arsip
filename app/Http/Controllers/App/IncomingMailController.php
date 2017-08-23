@@ -16,25 +16,12 @@ class IncomingMailController extends Controller
 
     public function index()
     {
-    	$data['archieve'] = Archieve::where('type', 'incoming_mail')->where('id_company', Auth::user()->id_company)->whereNull('deleted_at')->orderBy('created_at')->raw(function($collection){
-    		return $collection->aggregate(array(
-    			array(
-					'$lookup' => array(
-						'from'=>'users',
-						'localField'=>'share',
-						'foreignField'=>'_id',
-						'as'=>'share'
-					)
-    			)
-    		));
-    	});
-
-    	return view('app.incoming_mail.index', $data);
+    	return view('app.incoming_mail.index');
     }
 
     public function getData()
     {
-    	$archieve = Archieve::where('type', 'incoming_mail')->where('id_company', Auth::user()->id_company)->whereNull('deleted_at')->orderBy('created_at')->raw(function($collection){
+    	$archieve = Archieve::raw(function($collection){
     		return $collection->aggregate(array(
     			array(
 					'$lookup' => array(
@@ -45,7 +32,37 @@ class IncomingMailController extends Controller
 					)
     			)
     		));
-    	});
+    	})->where('type', 'incoming_mail')->where('id_company', Auth::user()->id_company);
+
+    	$users = User::all();
+
+    	return response()->json([
+            'incomingMail'  =>  $archieve,
+            'users' => $users
+        ]);
+    }
+
+    public function detail($id)
+    {
+    	$data['archieve'] = Archieve::find($id);
+
+    	return view('app.incoming_mail.detail', $data);
+    }
+
+    public function getDetail($id)
+    {
+    	$archieve = Archieve::raw(function($collection){
+    		return $collection->aggregate(array(
+    			array(
+					'$lookup' => array(
+						'from'=>'users',
+						'localField'=>'share',
+						'foreignField'=>'_id',
+						'as'=>'share'
+					)
+    			)
+    		));
+    	})->where('_id', $id);
 
     	$users = User::all();
 
@@ -73,12 +90,8 @@ class IncomingMailController extends Controller
 		]);
 
     	if ( $r->hasFile('files') ) {
-			if (!file_exists('assets/kotakarsip/img/data-img')) {
-				mkdir('assets/kotakarsip/img/data-img', 0777, true);
-				mkdir('assets/kotakarsip/img/data-img/surat-masuk', 0777, true);
-			}
 			 // Upload Image
-			$destination = resource_path('assets/kotakarsip/img/data-img/surat-masuk');
+			$destination = public_path('assets/app/img/incoming_mail');
 			$files = GlobalClass::Upload($r->file('files'), $destination, 200);
 		}
 

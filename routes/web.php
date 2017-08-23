@@ -25,6 +25,7 @@ Route::group(['namespace' => 'App'], function () {
 		//API-Incoming_Mail
 		Route::group(['prefix' => 'surat/masuk'], function(){
 			Route::get('/', 'IncomingMailController@getData')->name('api_incoming_mail');
+			Route::get('/detail/{id?}', 'IncomingMailController@getDetail')->name('api_incoming_mail_detail');
 		});
 	});
 
@@ -76,12 +77,13 @@ Route::group(['namespace' => 'App'], function () {
 		//Surat Masuk
 		Route::group(['prefix' => 'masuk'], function(){
 			Route::get('/', 'IncomingMailController@index')->name('incoming_mail');
-			Route::get('/create', 'IncomingMailController@create')->name('surat_masuk_create');
-			Route::post('/store', 'IncomingMailController@store')->name('surat_masuk_store');
-			Route::post('/edit/{id?}', 'IncomingMailController@edit')->name('surat_masuk_edit');
-			Route::post('/update', 'IncomingMailController@update')->name('surat_masuk_update');
-			Route::get('/delete/{id?}', 'IncomingMailController@delete')->name('surat_masuk_delete');
-			Route::get('/restore/{id?}', 'IncomingMailController@restore')->name('surat_masuk_restore');
+			Route::get('/create', 'IncomingMailController@create')->name('incoming_mail_create');
+			Route::post('/store', 'IncomingMailController@store')->name('incoming_mail_store');
+			Route::get('/detail/{id?}', 'IncomingMailController@detail')->name('incoming_mail_detail');
+			Route::post('/edit/{id?}', 'IncomingMailController@edit')->name('incoming_mail_edit');
+			Route::post('/update', 'IncomingMailController@update')->name('incoming_mail_update');
+			Route::get('/delete/{id?}', 'IncomingMailController@delete')->name('incoming_mail_delete');
+			Route::get('/restore/{id?}', 'IncomingMailController@restore')->name('incoming_mail_restore');
 		});
 	});
 

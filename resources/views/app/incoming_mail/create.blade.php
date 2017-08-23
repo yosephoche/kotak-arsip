@@ -17,7 +17,7 @@
 		</div>
 
 		<ul class="list-content">
-			<form action="{{ route('surat_masuk_store') }}" method="post" enctype="multipart/form-data">
+			<form action="{{ route('incoming_mail_store') }}" method="post" enctype="multipart/form-data">
 				{{ csrf_field() }}
 				<div class="row">
 					<div class="col-md-6">
@@ -77,7 +77,7 @@
 						</div>
 
 						<div class="form-footer">
-							<a href="{{ route('surat_masuk') }}" class="btn btn-default close-form">Kembali</a>
+							<a href="{{ route('incoming_mail') }}" class="btn btn-default close-form">Kembali</a>
 							<button class="btn btn-primary">Simpan</button>
 						</div>
 					</div>
