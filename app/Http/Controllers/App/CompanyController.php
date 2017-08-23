@@ -4,13 +4,32 @@ namespace App\Http\Controllers\App;
 use App\Company, App\User, App\CompanyService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Auth, Session;
+use Auth, Session, GlobalClass;
 
 class CompanyController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    public function index()
+    {
+        $data['company'] = Company::where('_id', Auth::user()->id_company)->first();
+
+        return view('app.company.index', $data);
+    }
+
+    public function update($id, Request $r)
+    {
+        $company = Company::find($id);
+        $company->name = $r->name;
+        $company->address = $r->address;
+        $company->phone = $r->phone;
+        $company->email = $r->email;
+        $company->save();
+
+        return redirect()->back();
     }
 
     public function register()

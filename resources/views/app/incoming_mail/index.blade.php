@@ -25,8 +25,8 @@
 					</ul>
 				</th>
 			</tr>
-			<tr class="item" v-for="val in json.incomingMail" @click="detailSidebar(val, $event)">
-				<td><a href="detail.html" v-html="val.from"></a></td>
+			<tr class="item" v-for="val in json.incomingMail" v-on:click="detailSidebar(val, $event)">
+				<td><a v-bind:href="'{{ route('incoming_mail_detail') }}/' + val._id" v-html="val.from"></a></td>
 				<td v-html="val.subject"></td>
 				<td class="view-tablet-only">
 					<ul class="list-unstyled disposisi">
@@ -49,7 +49,28 @@
 				</td>
 			</tr>
 		</table>
-	</div>	
+	</div>
+
+	<aside class="ka-sidebar-detail">
+		<form action="{{ route('incoming_mail_upload') }}" method="post" enctype="multipart/form-data">
+			{{ csrf_field() }}
+			<input type="file" v-on:change="inputFileSubmit" id="inputFileSubmit" name="image" class="hide" accept=".jpg, .png, .jpeg">
+			<label for="inputFileSubmit" class="btn btn-primary btn-block">Tambah</label>
+		</form>
+
+		<br>
+
+		<div class="detail-info">
+
+			<div v-if="detail !== ''">
+				<detail :detail="detail"></detail>
+			</div>
+			<div v-else>
+				<no-select></no-select>
+			</div>
+
+		</div>
+	</aside>		
 @endsection
 
 @section('modal')
@@ -132,7 +153,7 @@
 
 			<div class="attachment">
 				<span v-html="detail.files.length + ' file terlampir'"></span>
-				<a href="detail.html" class="btn btn-default btn-block">Lihat Detail</a>
+				<a v-bind:href="'{{ route('incoming_mail_detail') }}/' + detail._id" class="btn btn-default btn-block">Lihat Detail</a>
 			</div>
 		</div>
 	</template>
@@ -140,11 +161,6 @@
 
 @section('registerscript')
 	<script>
-		getDataIncomingMail([
-				// Surat Masuk
-				'{{ route("api_incoming_mail") }}',
-				// Pengguna
-				'{{ route("api_incoming_mail") }}'
-				], 'incomingMail');
+		getDataIncomingMail('{{ route("api_incoming_mail") }}', 'incomingMail');
 	</script>
 @endsection

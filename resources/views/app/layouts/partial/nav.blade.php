@@ -60,8 +60,8 @@
 		</li>
 		<li class="profile dropdown">
 			<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-				<div class="img-profile" style="background: url('{{ asset('assets/app/img/users/1.jpg') }}')"></div>
-				<span class="view-desktop-only">Gifa Eriyanto</span> &nbsp;<i class="fa fa-caret-down"></i>
+				<div class="img-profile" style="background: url({{ asset('assets/app/img/users').'/'.Auth::user()->photo }})"></div>
+				<span class="view-desktop-only">{{ Auth::user()->name }}</span> &nbsp;<i class="fa fa-caret-down"></i>
 			</a>
 			<ul class="dropdown-menu pull-right">
 				<li><a href="pengaturan-akun.html">Pengaturan Akun</a></li>
@@ -71,7 +71,7 @@
 					<a href="{{ route('logout') }}"
                         onclick="event.preventDefault();
                                  document.getElementById('logout-form').submit();">
-                        Kelaur
+                        Keluar
                     </a>
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
