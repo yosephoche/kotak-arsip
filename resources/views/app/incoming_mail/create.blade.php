@@ -1,47 +1,14 @@
 <!doctype html>
 
-<<<<<<< HEAD
 <html lang="en">
-=======
-		<ul class="list-content">
-			<form action="{{ route('incoming_mail_store') }}" method="post" enctype="multipart/form-data">
-				{{ csrf_field() }}
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group hidden">
-							<input type="hidden" name="id_user" value="{{ Auth::user()->_id }}">
-							<input type="hidden" name="id_company" value="{{ Auth::user()->id_company }}">
-							<input type="hidden" name="type" value="incoming_mail">
-						</div>
->>>>>>> 5f168c0f7554c46f2b086656d961d7c550d77f40
 
 <head>
 
-	<meta name="keyword" content="">
-
-	<meta name="description" content="">
-
-	<meta name="author" content="">
-
-	<meta property="og:image" content="{{ asset('assets/app/img/logo.svg') }}" />
-
-	<meta charset="UTF-8">
-
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	@include('app.layouts.partial.meta')
 
 	<title>Kotakarsip</title>
 
-	<link rel="icon" sizes="16x16" href="{{ asset('assets/app/img/logo.svg') }}" />
-
-	<!-- Font Icon -->
-	<link rel="stylesheet" href="{{ asset('assets/app/libs/font-icons/entypo/css/entypo.css') }}">
-	<link rel="stylesheet" href="{{ asset('assets/app/libs/font-icons/font-awesome/css/font-awesome.min.css') }}">
-
-	<!-- Bootstrap Vue -->
-	<link type="text/css" rel="stylesheet" href="{{ asset('assets/app/css/bootstrap-vue.css') }}"/>
-
-	<!-- Custom css -->
-	<link href="{{ asset('assets/app/css/kotakarsip.css') }}" rel="stylesheet">
+	@include('app.layouts.partial.style')
 
 </head>
 
@@ -141,8 +108,6 @@
 			</aside>
 		</section>
 
-<<<<<<< HEAD
-
 		<!-- Modals -->
 		<div class="modal fade modal-disposisi" id="disposisiModal" tabindex="-1" role="dialog" aria-labelledby="disposisiLabelModal">
 			<div class="modal-dialog modal-sm" role="document">
@@ -151,11 +116,6 @@
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 							<h4 class="modal-title" id="disposisiLabelModal">Disposisi</h4>
-=======
-						<div class="form-footer">
-							<a href="{{ route('incoming_mail') }}" class="btn btn-default close-form">Kembali</a>
-							<button class="btn btn-primary">Simpan</button>
->>>>>>> 5f168c0f7554c46f2b086656d961d7c550d77f40
 						</div>
 						<div class="modal-body">
 							<table class="table">

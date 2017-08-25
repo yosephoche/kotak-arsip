@@ -1,69 +1,95 @@
-@extends('layouts.app')
+<!doctype html>
 
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Silahkan isi penyimpanan anda</div>
+<html lang="en">
 
-                <div class="panel-body">
-                    <div class="col-md-12">
-                        <label for="">{{ $storage->name }}</label>
-                    </div>
-                    <br>
-                    <br>
-                    <form action="{{ route('storage_sub_store') }}" class="form-inline" method="POST">
+<head>
+
+    @include('app.layouts.partial.meta')
+
+    <title>Kotakarsip</title>
+
+    @include('app.layouts.partial.style')
+
+</head>
+
+
+<body class="page-login">
+
+    <div id="app">
+        <nav class="ka-nav ka-nav-detail">
+            <div class="brand brand-center">
+                <img src="{{ asset('assets/app/img/logo.svg') }}" class="logo" alt="Logo KotakArsip"> &nbsp;&nbsp;<b>KOTAK<span>ARSIP</span></b>
+            </div>
+        </nav>
+
+        <div class="ka-body" style="padding-top: 50px">
+            <div class="container setup-storage-sub">
+                <div class="row">
+                    <form action="{{ route('storage_sub_register_store') }}" method="post">
+                        <div class="col-md-offset-2 col-md-4">
+                            <br>
+                            <img src="{{ asset('assets/app/img/company.svg') }}" alt="" width="98%" style="margin-top: 60px">
+                        </div>
                         {{ csrf_field() }}
+                        <div class="col-md-4">
+                            @if ($storage == "filling_cabinet")
+                                <h1><input type="text" name="storage_name" placeholder="Nama Filling Cabinet" autofocus></h1>
+                            @elseif ($storage == "rotary_cabinet")
+                                <h1><input type="text" name="storage_name" placeholder="Nama Rotary Cabinet" autofocus></h1>
+                            @elseif ($storage == "lemari_arsip")
+                                <h1><input type="text" name="storage_name" placeholder="Nama Lemari Arsip" autofocus></h1>
+                            @else
+                                <h1><input type="text" name="storage_name" placeholder="Nama Rak Arsip" autofocus></h1>
+                            @endif
+                            <input type="hidden" name="type" value="{{ $storage }}">
+                            <p>Silahkan masukkan nama sub penyimpanan Anda seperti map, folder, guide dan ordner pada filling cabinet ini!</p>
 
-                        <input type="hidden" name="id_storage" value="{{ $storage->_id }}">
+                            <br>
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <div class="col-md-12">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Nama Rak" required autofocus>
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
+                            <div id="list">
+                                <div class="form-group">
+                                    <input type="text" name="name[]" class="form-control" placeholder="Nama/Kode map, folder, guide dan ordner">
+                                </div>
                             </div>
-                        </div>
-                        <button type="submit" class="btn btn-default">Tambah</button>
-                    </form>
-                    <br>
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <td width="10%">No</td>
-                                <td>Nama</td>
-                                <td>Aksi</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($storage_sub as $sub)
-                                <tr>
-                                    <td>1</td>
-                                    <td>{{ $sub->name }}</td>
-                                    <td>
-                                        <form action="{{ route('storage_sub_delete', ['id' => $sub->_id ]) }}" method="post">
-                                            {{ csrf_field() }}
-                                            <input type="submit" name="submit" value="Hapus">
-                                            <input type="hidden" type="_method" value="DELETE">
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
 
-                    <div class="form-group">
-                        <div class="col-sm-offset-10 col-sm-10">
-                            <a href="/" class="btn btn-primary">Finish</a>
+                            <br>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a href="" id="add-list">+ Tambah</a>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <button class="btn btn-primary">Lanjutkan &nbsp;<i class="fa fa-angle-double-right"></i></button>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <br>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-</div>
-@endsection
+
+    <script src="{{ asset('assets/app/js/kotakarsip.js') }}"></script>
+    <script>
+        $('.select-cabinet label').click(function() {
+            var id = $(this).attr('for');
+
+            $('input[type="radio"]').removeAttr('checked');
+            $('input#' + id).attr('checked', 'checked');
+
+            $('label').removeClass('active');
+            $('label[for="' + id + '"]').addClass('active');
+        });
+
+        $('#add-list').click(function(e) {
+            e.preventDefault();
+            $('#list').append('<div class="form-group"><input type="text" name="name[]" class="form-control" placeholder="Nama/Kode map, folder, guide dan ordner"></div>')
+        });
+    </script>
+
+</body>
+
+</html>

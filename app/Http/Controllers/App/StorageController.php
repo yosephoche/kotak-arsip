@@ -24,23 +24,6 @@ class StorageController extends Controller
         return view('app.storage.register');
     }
 
-    public function registerstore(Request $r)
-    {
-        $this->validate($r, [
-            'name' => 'required',
-            'type' => 'required'
-        ]);
-
-        //Storage Store
-        $storage = new Storage;
-        $storage->name = $r->name;
-        $storage->type = $r->type;
-        $storage->id_company = Auth::user()->id_company;
-        $storage->save();
-
-        return redirect()->route('storage_sub_register');
-    }
-
     public function create()
     {
         return view('app.storage.create');

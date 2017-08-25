@@ -13,6 +13,40 @@ class StorageSubController extends Controller
         $this->middleware('auth');
     }
 
+    public function register(Request $r)
+    {
+        //Get_Type_Storage_From_URL
+        $data['storage'] = $r->storage;
+
+    	return view('app.storage_sub.register', $data);
+    }
+
+    public function registerstore(Request $r)
+    {
+        $this->validate($r, [
+            'storage_name' => 'required',
+            'type' => 'required',
+        ]);
+
+        //Save_Storage
+        $storage = new Storage;
+        $storage->name = $r->storage_name;
+        $storage->type = $r->type;
+        $storage->id_company = Auth::user()->id_company;
+        $storage->save();
+
+        //Save_Sub_Storage
+        $search = Storage::where('id_company', Auth::user()->id_company)->first();
+        foreach ($r->name as $name) {
+            $sub = new StorageSub;
+            $sub->id_storage = GlobalClass::generateMongoObjectId($search->_id);
+            $sub->name = $name;
+            $sub->save();
+        }
+
+        return redirect()->back();
+    }
+
     public function index($id)
     {
         $data['storage'] = Storage::find($id);
@@ -21,29 +55,6 @@ class StorageSubController extends Controller
         return view('app.storage_sub.index', $data);
     }
     
-    public function register()
-    {
-    	$storage = Storage::where('id_company', Auth::user()->id_company)->first();
-    	$data['storage'] = $storage;
-
-    	$data['storage_sub'] = StorageSub::where('id_storage', $storage->_id)->get();
-    	return view('app.storage_sub.register', $data);
-    }
-
-    public function registerstore(Request $r)
-    {
-    	$this->validate($r, [
-            'name' => 'required',
-            'id_storage' => 'required'
-        ]);
-
-        $sub = new StorageSub;
-        $sub->id_storage = $r->id_storage;
-        $sub->name = $r->name;
-        $sub->save();
-
-        return redirect()->back();
-    }
 
     public function create($storage)
     {

@@ -48,7 +48,6 @@ Route::group(['namespace' => 'App'], function () {
 	Route::group(['prefix' => 'storage'], function(){
 		Route::get('/', 'StorageController@index')->name('storage');
 		Route::get('/register', 'StorageController@register')->name('storage_register');
-		Route::post('/register/store', 'StorageController@registerstore')->name('storage_register_store');
 		Route::get('/create', 'StorageController@create')->name('storage_create');
 		Route::post('/store', 'StorageController@store')->name('storage_store');
 		Route::get('/edit/{id?}', 'StorageController@edit')->name('storage_edit');
@@ -59,9 +58,9 @@ Route::group(['namespace' => 'App'], function () {
 
 	//Storage-Sub
 	Route::group(['prefix' => 'storage/sub'], function(){
-		Route::get('/{id?}', 'StorageSubController@index')->name('storage_sub');
 		Route::get('/register', 'StorageSubController@register')->name('storage_sub_register');
 		Route::post('/register/store', 'StorageSubController@registerstore')->name('storage_sub_register_store');
+		Route::get('/{id?}', 'StorageSubController@index')->name('storage_sub');
 		Route::get('/{storage?}/create', 'StorageSubController@create')->name('storage_sub_create');
 		Route::post('/store', 'StorageSubController@store')->name('storage_sub_store');
 		Route::get('/edit/{id?}', 'StorageSubController@edit')->name('storage_sub_edit');
@@ -79,11 +78,8 @@ Route::group(['namespace' => 'App'], function () {
 		//Incoming Mail
 		Route::group(['prefix' => 'masuk'], function(){
 			Route::get('/', 'IncomingMailController@index')->name('incoming_mail');
-<<<<<<< HEAD
 			Route::post('/upload', 'IncomingMailController@upload')->name('incoming_mail_upload');
 			Route::post('/upload/ajax', 'IncomingMailController@uploadAjax')->name('incoming_mail_upload_ajax');
-=======
->>>>>>> 5f168c0f7554c46f2b086656d961d7c550d77f40
 			Route::get('/create', 'IncomingMailController@create')->name('incoming_mail_create');
 			Route::post('/store', 'IncomingMailController@store')->name('incoming_mail_store');
 			Route::get('/detail/{id?}', 'IncomingMailController@detail')->name('incoming_mail_detail');
