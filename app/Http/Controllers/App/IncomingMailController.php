@@ -74,14 +74,24 @@ class IncomingMailController extends Controller
 
 	public function upload(Request $r)
 	{
-		$image = $r->_token;
+		$image = $r->file('image');
 
-		// $ext = $image->getClientOriginalExtension();
-		// $nm_file = "image.".$ext;
-		// $destination = public_path('assets/tesseract/image');
-		// $upload = $image->move($destination, $nm_file);
+		$ext = $image->getClientOriginalExtension();
+		$nm_file = "image.".$ext;
+		$destination = public_path('assets/tesseract/image');
+		$upload = $image->move($destination, $nm_file);
 
-		return response()->json($image);
+		return redirect()->route('incoming_mail_create');
+	}
+
+	public function uploadAjax(Request $r)
+	{
+		if ( $r->hasFile('files') ) {
+			 // Upload Image
+			$destination = public_path('assets/tesseract/image');
+			$files = GlobalClass::Upload($r->file('files'), $destination, 200);
+		}
+		return redirect()->back();
 	}
 
 	public function create()

@@ -43,20 +43,20 @@
 
 		<section class="ka-body ka-body-detail ka-body-form">
 			<header class="ka-menus">
-				<form enctype="multipart/form-data">
-					<input type="hidden" id="token" value="{{ csrf_token() }}">
+				<form action="{{ route('incoming_mail_upload_ajax') }}" method="post" enctype="multipart/form-data">
+					{{ csrf_field() }}
 					<label for="files" class="btn btn-default btn-block">+ Tambah file lainnya</label>
-					<input type="file" class="hide" name="files" id="files" multiple>
-									<button class="btn btn-primary btn-block">Simpan</button>
+					<input type="file" class="hide" name="files[]" id="files" multiple>
+					<button>Simpan</button>
 				</form>
 				<hr>
 				<div class="images" v-for="val in json.incomingMail">
-					<div class="pos-r">
-						@foreach ($image as $img)
+					@foreach ($image as $img)
+						<div class="pos-r">
 							<a href="#" class="delete-img" title="Hapus">×</a>
 							<img src="{{ asset('assets/tesseract/image').'/'.$img }}" alt="">
-						@endforeach
-					</div>
+						</div>
+					@endforeach
 				</div>
 			</header>
 
@@ -164,38 +164,6 @@
 	</div>
 
 	<script src="{{ asset('assets/app/js/kotakarsip.js') }}"></script>
-	<script>
-		// $('#files').change(function () {
-		// 	$(this).closest('form').submit();
-		// });
-		$('form').on('submit', function (e) {
-			e.preventDefault();
-			
-			var token = $('#token').val();
-			
-			var data = new FormData();
-			data.append('_token', token);
-			data.append('files', $('#files')[0].files);
-			// Display the key/value pairs
-			for (var pair of data.entries()) {
-			    // console.log(pair[0]+ ', ' + pair[1]); 
-			}
-
-			$.ajax({
-				url: '{{ route("incoming_mail_upload") }}', // point to server-side PHP script 
-				cache: false,
-				contentType: false,
-				processData: false,
-				data: data,
-				type: 'post',
-				success: function(data2){
-					console.log(JSON.stringify(data2));
-				},error:function(){ 
-					alert("error!!!!");
-				}
-			 });
-		});
-	</script>
 </body>
 
 </html>

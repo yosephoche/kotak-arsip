@@ -38,7 +38,7 @@ class StorageController extends Controller
         $storage->id_company = Auth::user()->id_company;
         $storage->save();
 
-        return redirect(route('storage_sub_register'));
+        return redirect()->route('storage_sub_register');
     }
 
     public function create()

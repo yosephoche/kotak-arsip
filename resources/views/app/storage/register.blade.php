@@ -8,7 +8,7 @@
                 <div class="panel-heading">Silahkan Pilih Jenis Penyimpanan</div>
 
                 <div class="panel-body">
-                    <form action="{{ route('storage_store') }}" class="form-horizontal" method="POST">
+                    <form action="{{ route('storage_register_store') }}" class="form-horizontal" method="POST">
                         {{ csrf_field() }}
                         <div class="" align="center">
                             <label class="radio-inline">

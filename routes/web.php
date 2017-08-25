@@ -35,7 +35,7 @@ Route::group(['namespace' => 'App'], function () {
 		Route::put('/update/{id?}', 'CompanyController@update')->name('company_update');
 		Route::get('/register', 'CompanyController@register')->name('company_register');
 		Route::post('/store', 'CompanyController@store')->name('company_store');
-		Route::post('/code', 'CompanyController@code')->name('company_code');
+		Route::get('/register/success', 'CompanyController@registerSuccess')->name('company_register_success');
 	});
 
 	//Archieve-Types
@@ -76,10 +76,11 @@ Route::group(['namespace' => 'App'], function () {
 
 	//Surat
 	Route::group(['prefix' => 'surat'], function(){
-		//Surat Masuk
+		//Incoming Mail
 		Route::group(['prefix' => 'masuk'], function(){
 			Route::get('/', 'IncomingMailController@index')->name('incoming_mail');
 			Route::post('/upload', 'IncomingMailController@upload')->name('incoming_mail_upload');
+			Route::post('/upload/ajax', 'IncomingMailController@uploadAjax')->name('incoming_mail_upload_ajax');
 			Route::get('/create', 'IncomingMailController@create')->name('incoming_mail_create');
 			Route::post('/store', 'IncomingMailController@store')->name('incoming_mail_store');
 			Route::get('/detail/{id?}', 'IncomingMailController@detail')->name('incoming_mail_detail');

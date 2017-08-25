@@ -41,6 +41,8 @@
 
                         <form method="POST" action="{{ route('register') }}">
                             {{ csrf_field() }}
+                            <input type="hidden" name="email_status" value="pending">
+                            
                             <div class="form-group">
                                 <input type="text" name="name" value="{{ old('name') }}" class="form-control" placeholder="Nama Lengkap" required>
                                 @if ($errors->has('name'))
@@ -65,6 +67,9 @@
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                 @endif
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password_confirmation" class="form-control" placeholder="Ulang Kata Sandi" required>
                             </div>
                             <div class="form-group">
                                 <input type="checkbox"> &nbsp;Saya setuju dengan ketentuan <a href="">KotakArsip</a>
