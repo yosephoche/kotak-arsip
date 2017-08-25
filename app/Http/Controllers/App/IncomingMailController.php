@@ -9,6 +9,7 @@ use Carbon\Carbon;
 
 class IncomingMailController extends Controller
 {
+<<<<<<< HEAD
 	public function __construct()
 	{
 		$this->middleware('auth');
@@ -24,12 +25,30 @@ class IncomingMailController extends Controller
 		$archieve = Archieve::raw(function($collection){
 			return $collection->aggregate(array(
 				array(
+=======
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function index()
+    {
+    	return view('app.incoming_mail.index');
+    }
+
+    public function getData()
+    {
+    	$archieve = Archieve::raw(function($collection){
+    		return $collection->aggregate(array(
+    			array(
+>>>>>>> 5f168c0f7554c46f2b086656d961d7c550d77f40
 					'$lookup' => array(
 						'from'=>'users',
 						'localField'=>'share',
 						'foreignField'=>'_id',
 						'as'=>'share'
 					)
+<<<<<<< HEAD
 				)
 			));
 		})->where('type', 'incoming_mail')->where('id_company', Auth::user()->id_company);
@@ -54,15 +73,47 @@ class IncomingMailController extends Controller
 		$archieve = Archieve::raw(function($collection){
 			return $collection->aggregate(array(
 				array(
+=======
+    			)
+    		));
+    	})->where('type', 'incoming_mail')->where('id_company', Auth::user()->id_company);
+
+    	$users = User::all();
+
+    	return response()->json([
+            'incomingMail'  =>  $archieve,
+            'users' => $users
+        ]);
+    }
+
+    public function detail($id)
+    {
+    	$data['archieve'] = Archieve::find($id);
+
+    	return view('app.incoming_mail.detail', $data);
+    }
+
+    public function getDetail($id)
+    {
+    	$archieve = Archieve::raw(function($collection){
+    		return $collection->aggregate(array(
+    			array(
+>>>>>>> 5f168c0f7554c46f2b086656d961d7c550d77f40
 					'$lookup' => array(
 						'from'=>'users',
 						'localField'=>'share',
 						'foreignField'=>'_id',
 						'as'=>'share'
 					)
+<<<<<<< HEAD
 				)
 			));
 		})->where('_id', $id);
+=======
+    			)
+    		));
+    	})->where('_id', $id);
+>>>>>>> 5f168c0f7554c46f2b086656d961d7c550d77f40
 
 		$users = User::all();
 
@@ -176,7 +227,11 @@ class IncomingMailController extends Controller
 			'storage'			=> 'required'
 		]);
 
+<<<<<<< HEAD
 		if ( $r->hasFile('files') ) {
+=======
+    	if ( $r->hasFile('files') ) {
+>>>>>>> 5f168c0f7554c46f2b086656d961d7c550d77f40
 			 // Upload Image
 			$destination = public_path('assets/app/img/incoming_mail');
 			$files = GlobalClass::Upload($r->file('files'), $destination, 200);

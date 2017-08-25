@@ -25,8 +25,13 @@
 					</ul>
 				</th>
 			</tr>
+<<<<<<< HEAD
 			<tr class="item" v-for="val in json.incomingMail" v-on:click="detailSidebar(val, $event)">
 				<td><a v-bind:href="'{{ route('incoming_mail_detail') }}/' + val._id" v-html="val.from"></a></td>
+=======
+			<tr class="item" v-for="val in json.incomingMail" @click="detailSidebar(val, $event)">
+				<td><a :href="'{{ route('incoming_mail_detail') }}/' + val._id" v-html="val.from"></a></td>
+>>>>>>> 5f168c0f7554c46f2b086656d961d7c550d77f40
 				<td v-html="val.subject"></td>
 				<td class="view-tablet-only">
 					<ul class="list-unstyled disposisi">
@@ -52,11 +57,15 @@
 	</div>
 
 	<aside class="ka-sidebar-detail">
+<<<<<<< HEAD
 		<form action="{{ route('incoming_mail_upload') }}" method="post" enctype="multipart/form-data">
 			{{ csrf_field() }}
 			<input type="file" v-on:change="inputFileSubmit" id="inputFileSubmit" name="image" class="hide" accept=".jpg, .png, .jpeg">
 			<label for="inputFileSubmit" class="btn btn-primary btn-block">Tambah</label>
 		</form>
+=======
+		<a href="create.html" class="btn btn-primary btn-block">Tambah</a>
+>>>>>>> 5f168c0f7554c46f2b086656d961d7c550d77f40
 
 		<br>
 

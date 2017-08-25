@@ -138,7 +138,16 @@
 	<script src="{{ asset('assets/app/vue/components/sidebar-detail.js') }}"></script>
 	<script src="{{ asset('assets/app/vue/surat-masuk.js') }}"></script>
 	<script>
+<<<<<<< HEAD
 		getDataIncomingMailDetail('{{ route('api_incoming_mail_detail', ['id' => $archieve->_id]) }}', 'incomingMail');
+=======
+		getDataIncomingMailDetail([
+			// Detail Surat Masuk
+			'{{ route('api_incoming_mail_detail', ['id' => $archieve->_id]) }}',
+			// Pengguna
+			'{{ route('api_incoming_mail_detail', ['id' => $archieve->_id]) }}'],
+			'incomingMail');
+>>>>>>> 5f168c0f7554c46f2b086656d961d7c550d77f40
 	</script>
 
 </body>

@@ -79,8 +79,11 @@ Route::group(['namespace' => 'App'], function () {
 		//Incoming Mail
 		Route::group(['prefix' => 'masuk'], function(){
 			Route::get('/', 'IncomingMailController@index')->name('incoming_mail');
+<<<<<<< HEAD
 			Route::post('/upload', 'IncomingMailController@upload')->name('incoming_mail_upload');
 			Route::post('/upload/ajax', 'IncomingMailController@uploadAjax')->name('incoming_mail_upload_ajax');
+=======
+>>>>>>> 5f168c0f7554c46f2b086656d961d7c550d77f40
 			Route::get('/create', 'IncomingMailController@create')->name('incoming_mail_create');
 			Route::post('/store', 'IncomingMailController@store')->name('incoming_mail_store');
 			Route::get('/detail/{id?}', 'IncomingMailController@detail')->name('incoming_mail_detail');
