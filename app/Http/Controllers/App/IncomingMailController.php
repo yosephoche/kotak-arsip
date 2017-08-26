@@ -84,6 +84,17 @@ class IncomingMailController extends Controller
 		return redirect()->route('incoming_mail_create');
 	}
 
+	public function uploadAjax(Request $r)
+	{
+		$image = $r->file('file');
+
+		$ext = $image->getClientOriginalExtension();
+		$nm_file = rand(111111,999999).".".$ext;
+		$destination = public_path('assets/tesseract/image');
+		$upload = $image->move($destination, $nm_file);
+			
+	}
+
 	public function create()
 	{
 		$image = '"E:\WEB Developer\MediaSakti\KotakArsip_MongoDB\public\assets\tesseract\image\image.jpg"';

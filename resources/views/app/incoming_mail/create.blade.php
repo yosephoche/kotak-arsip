@@ -24,7 +24,7 @@
 		<section class="ka-body ka-body-detail ka-body-form">
 			<header class="ka-menus">
 				<form action="{{ route('incoming_mail_upload_ajax') }}" method="post" enctype="multipart/form-data">
-					{{ csrf_field() }}
+					<input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
 					<label for="files" class="btn btn-default btn-block">+ Tambah file lainnya</label>
 					<input type="file" class="hide" name="files[]" id="files" multiple>
 					<button>Simpan</button>
@@ -143,7 +143,36 @@
 	</div>
 
 	<script src="{{ asset('assets/app/js/kotakarsip.js') }}"></script>
+	<script>
+		$('form').submit(function(e) {
+		  e.preventDefault();
+
+		  var files = $('input[type=file]')[0].files;
+		  var token = $('#token').val();
+
+		  var form = new FormData();
+
+		  form.append('_token', token);
+		  form.append('file', files[0]);
+
+		  console.log(form.get('file'));
+
+		  $.ajax({
+				url: '{{ route("incoming_mail_upload_ajax") }}',
+				cache: false,
+				contentType: false,
+				processData: false,
+				data: form,
+				type: 'post',
+				success: function(data2){
+					alert("success");
+				},error:function(){ 
+					alert("error!!!!");
+				} 
+			 });
+		});
+
+	</script>
 </body>
 
 </html>
-
