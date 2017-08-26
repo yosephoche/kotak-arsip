@@ -41,28 +41,28 @@
                             <div class="row select-cabinet">
                                 <div class="col-md-3 text-center">
                                     <label for="filling-cabinet" class="text-center active">
-                                        <img src="{{ asset('assets/app/img/icons/filling_cabinet.svg') }}" width="100%">
+                                        <img src="{{ asset('assets/app/img/icons/filling_cabinet.svg') }}" width="80%">
                                         <p>Filling Cabinet</p>
                                     </label>
                                 </div>
 
                                 <div class="col-md-3 text-center">
                                     <label for="rotary-cabinet" class="text-center">
-                                        <img src="{{ asset('assets/app/img/icons/rotary_cabinet.svg') }}" width="100%">
+                                        <img src="{{ asset('assets/app/img/icons/rotary_cabinet.svg') }}" width="80%">
                                         <p>Rotary Cabinet</p>
                                     </label>
                                 </div>
 
                                 <div class="col-md-3 text-center">
                                     <label for="lemari-arsip" class="text-center">
-                                        <img src="{{ asset('assets/app/img/icons/lemari_arsip.svg') }}" width="100%">
+                                        <img src="{{ asset('assets/app/img/icons/lemari_arsip.svg') }}" width="80%">
                                         <p>Lemari Arsip</p>
                                     </label>
                                 </div>
 
                                 <div class="col-md-3 text-center">
                                     <label for="rak-arsip" class="text-center">
-                                        <img src="{{ asset('assets/app/img/icons/rak_arsip.svg') }}" width="100%">
+                                        <img src="{{ asset('assets/app/img/icons/rak_arsip.svg') }}" width="80%">
                                         <p>Rak Arsip</p>
                                     </label>
                                 </div>

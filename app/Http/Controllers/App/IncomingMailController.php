@@ -77,7 +77,7 @@ class IncomingMailController extends Controller
 		$image = $r->file('image');
 
 		$ext = $image->getClientOriginalExtension();
-		$nm_file = "image.".$ext;
+		$nm_file = "111111.".$ext;
 		$destination = public_path('assets/tesseract/image');
 		$upload = $image->move($destination, $nm_file);
 
@@ -99,7 +99,7 @@ class IncomingMailController extends Controller
 	{
 		// --- OCR Code ---
 		// Path Variables For Run OCR
-		$image = public_path('assets\tesseract\image\image.jpg');
+		$image = public_path('assets\tesseract\image\111111.jpg');
 		$result = public_path('assets\tesseract\out');
 		$open = public_path('assets/tesseract/out.txt');
 

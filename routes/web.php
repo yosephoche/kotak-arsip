@@ -48,6 +48,7 @@ Route::group(['namespace' => 'App'], function () {
 	Route::group(['prefix' => 'storage'], function(){
 		Route::get('/', 'StorageController@index')->name('storage');
 		Route::get('/register', 'StorageController@register')->name('storage_register');
+		Route::get('/success', 'StorageController@success')->name('storage_register_success');
 		Route::get('/create', 'StorageController@create')->name('storage_create');
 		Route::post('/store', 'StorageController@store')->name('storage_store');
 		Route::get('/edit/{id?}', 'StorageController@edit')->name('storage_edit');

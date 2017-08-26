@@ -36,7 +36,7 @@ class StorageSubController extends Controller
         $storage->save();
 
         //Save_Sub_Storage
-        $search = Storage::where('id_company', Auth::user()->id_company)->first();
+        $search = Storage::where('id_company', Auth::user()->id_company)->select('_id')->orderBy('_id', 'DESC')->first();
         foreach ($r->name as $name) {
             $sub = new StorageSub;
             $sub->id_storage = GlobalClass::generateMongoObjectId($search->_id);
@@ -44,7 +44,7 @@ class StorageSubController extends Controller
             $sub->save();
         }
 
-        return redirect()->back();
+        return redirect()->route('storage_register_success');
     }
 
     public function index($id)

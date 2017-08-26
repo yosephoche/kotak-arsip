@@ -40,7 +40,7 @@
 				</div>
 			</header>
 
-			<div class="ka-main">
+			<div class="ka-main images">
 				<div>
 					@foreach ($image as $img)
 						<img src="{{ asset('assets/tesseract/image').'/'.$img }}" alt="">
@@ -165,7 +165,7 @@
 				data: form,
 				type: 'post',
 				success: function(data2){
-					alert("success");
+					$('.images').load(' .images');
 				},error:function(){ 
 					alert("error!!!!");
 				} 

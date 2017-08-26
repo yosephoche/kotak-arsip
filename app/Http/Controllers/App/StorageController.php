@@ -24,6 +24,11 @@ class StorageController extends Controller
         return view('app.storage.register');
     }
 
+    public function success()
+    {
+        return view('app.storage.success');
+    }
+
     public function create()
     {
         return view('app.storage.create');
