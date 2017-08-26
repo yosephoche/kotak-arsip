@@ -104,7 +104,11 @@ class IncomingMailController extends Controller
 		$open = public_path('assets/tesseract/out.txt');
 
 		// OCR Execution By Tesseract
-		$output = exec("tesseract '$image' '$result' -l ind+eng");
+		// For Windows
+		$output = exec('tesseract "'.$image.'" "'.$result.'" -l ind+eng');
+
+		// For Mac
+		$output = exec('/usr/local/bin/tesseract "'.$image.'" "'.$result.'" -l ind+eng');
 
 		// OCR From
 		$data['from'] = GlobalClass::OCRKey($image, $result, $open, 'from');

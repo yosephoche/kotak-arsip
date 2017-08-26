@@ -90,6 +90,7 @@
 						<div class="item">
 							<label>Keterangan</label>
 							<div class="value"><input type="text" class="form-control" name="note"></div>
+							<input type="hidden" name="fulltext" value="{{ $fulltext }}">
 						</div>
 						<div class="item">
 							<hr>
