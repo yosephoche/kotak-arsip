@@ -40,4 +40,69 @@ class GlobalClass
 		return $share;
 	}
 
+	function OCRKey($image, $result, $open, $key)
+	{
+		// From
+		if ($key == 'from') {
+			$from = '';
+			$searchfrom = array("LEMBAGA", "KERUKUNAN", "PT");
+			$myfile = fopen($open, "r") or die("Unable to open file!");
+			while(!feof($myfile)) 
+			{
+				$buffer =  fgets($myfile);
+				for ($i=0; $i < count($searchfrom) ; $i++) { 
+					if(strpos($buffer, $searchfrom[$i]) !== FALSE) {
+						if ($from != '') {
+							break;
+						}
+						$from = $buffer;
+					}
+				}
+			}
+			fclose($myfile);
+			return $from;
+		}
+
+		// Refrence_Number
+		if ($key == 'reference_number') {
+			$reference_number = '';
+			$searchnumber = array("Nomor :", "No. Surat", "No Surat");
+			$myfile = fopen($open, "r") or die("Unable to open file!");
+			while(!feof($myfile)) 
+			{
+				$buffer =  fgets($myfile);
+				for ($i=0; $i < count($searchnumber) ; $i++) { 
+					if(strpos($buffer, $searchnumber[$i]) !== FALSE) {
+						$reference_number = $buffer;
+					}
+				}
+			}
+			fclose($myfile);
+			return explode(':',$reference_number, 2)[1];
+		}
+
+		// Subject
+		if ($key == 'subject') {
+			$subject = '';
+			$searchsubject = array("Perihal :", "Hal :");
+			$myfile = fopen($open, "r") or die("Unable to open file!");
+			while(!feof($myfile)) 
+			{
+				$buffer =  fgets($myfile);
+				for ($i=0; $i < count($searchsubject) ; $i++) { 
+					if(strpos($buffer, $searchsubject[$i]) !== FALSE) {
+						$subject = $buffer;
+					}
+				}
+			}
+			fclose($myfile);
+			return explode(':',$subject, 2)[1];
+		}
+
+		// Full Text
+		if ($key == 'fulltext') {
+			return file_get_contents($open);
+		}
+	}
+
 }

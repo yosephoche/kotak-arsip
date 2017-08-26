@@ -59,11 +59,11 @@
 						</div>
 						<div class="item">
 							<label>Nomor Surat</label>
-							<div class="value"><input type="text" class="form-control" name="reference_number" value="{{ @ltrim($reference_number[1]) }}"></div>
+							<div class="value"><input type="text" class="form-control" name="reference_number" value="{{ @ltrim($reference_number) }}"></div>
 						</div>
 						<div class="item">
 							<label>Perihal</label>
-							<div class="value"><input type="text" class="form-control" name="subject" value="{{ @ltrim($subject[1]) }}"></div>
+							<div class="value"><input type="text" class="form-control" name="subject" value="{{ @ltrim($subject) }}"></div>
 						</div>
 						<div class="item">
 							<label>Penyimpanan Arsip</label>
