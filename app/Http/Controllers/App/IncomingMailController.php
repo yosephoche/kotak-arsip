@@ -97,57 +97,26 @@ class IncomingMailController extends Controller
 
 	public function create()
 	{
-		$image = '"E:\WEB Developer\MediaSakti\KotakArsip_MongoDB\public\assets\tesseract\image\image.jpg"';
-		$result = '"E:\WEB Developer\MediaSakti\KotakArsip_MongoDB\public\assets\tesseract\out"';
-		$open = "E:/WEB Developer/MediaSakti/KotakArsip_MongoDB/public/assets/tesseract/out.txt";
+		// --- OCR Code ---
+		// Path Variables For Run OCR
+		$image = public_path('assets/tesseract/image/image.jpg');
+		$result = public_path('assets/tesseract/out');
+		$open = public_path('assets/tesseract/out.txt');
 
+		// OCR Execution By Tesseract
 		$output = exec("tesseract $image $result -l ind+eng");
 
-		//From
-		$searchfrom = array("LEMBAGA", "KERUKUNAN", "PT");
-		$myfile = fopen($open, "r") or die("Unable to open file!");
-		while(!feof($myfile)) 
-		{
-			$buffer =  fgets($myfile);
-			for ($i=0; $i < count($searchfrom) ; $i++) { 
-				if(strpos($buffer, $searchfrom[$i]) !== FALSE) {
-					$from = $buffer;
-				}
-			}
-		}
-		fclose($myfile);
-		$data['from'] = $from;
+		// OCR From
+		$data['from'] = GlobalClass::OCRKey($image, $result, $open, 'from');
 
-		//Refrence_Number
-		$searchnumber = array("Nomor :", "No. Surat", "No Surat");
-		$myfile = fopen($open, "r") or die("Unable to open file!");
-		while(!feof($myfile)) 
-		{
-			$buffer =  fgets($myfile);
-			for ($i=0; $i < count($searchnumber) ; $i++) { 
-				if(strpos($buffer, $searchnumber[$i]) !== FALSE)
-					$reference_number = $buffer;
-			}
-		}
-		fclose($myfile);
-		$data['reference_number'] = explode(':',$reference_number, 2);
+		// OCR Refrence_Number
+		$data['reference_number'] = GlobalClass::OCRKey($image, $result, $open, 'reference_number');
 
-		//Subject
-		$searchsubject = array("Perihal :", "Hal :");
-		$myfile = fopen($open, "r") or die("Unable to open file!");
-		while(!feof($myfile)) 
-		{
-			$buffer =  fgets($myfile);
-			for ($i=0; $i < count($searchsubject) ; $i++) { 
-				if(strpos($buffer, $searchsubject[$i]) !== FALSE) {
-					$subject = $buffer;
-				}
-			}
-		}
-		fclose($myfile);
-		$data['subject'] = explode(':',$subject, 2);
+		// OCR Subject
+		$data['subject'] = GlobalClass::OCRKey($image, $result, $open, 'subject');
 
-		$data['fulltext'] = file_get_contents($open);
+		// --- END OCR Code ---
+
 
 		// Image
 		$dir = public_path('assets/tesseract/image');
