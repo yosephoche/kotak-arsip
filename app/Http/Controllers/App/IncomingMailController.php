@@ -115,6 +115,9 @@ class IncomingMailController extends Controller
 		// OCR Subject
 		$data['subject'] = GlobalClass::OCRKey($image, $result, $open, 'subject');
 
+		// OCR Fulltext
+		$data['subject'] = GlobalClass::OCRKey($image, $result, $open, 'fulltext');
+
 		// --- END OCR Code ---
 
 
