@@ -41,6 +41,10 @@ function getDataLicenseImb(api, key) {
 				element.find('.fa-bell').removeClass('animated infinite');
 				element.removeClass('new-notif');
 				element.find('.badge').remove();
+			},
+			inputFileSubmit: function (e) {
+				var element = $(e.target);
+				element.closest('form').submit();
 			}
 		},
 		computed: {

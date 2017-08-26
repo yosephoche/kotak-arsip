@@ -4,31 +4,11 @@
 
 <head>
 
-	<meta name="keyword" content="">
-
-	<meta name="description" content="">
-
-	<meta name="author" content="">
-
-	<meta property="og:image" content="{{ asset('assets/app/img/logo.svg') }}" />
-
-	<meta charset="UTF-8">
-
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	@include('app.layouts.partial.meta')
 
 	<title>Kotakarsip</title>
 
-	<link rel="icon" sizes="16x16" href="{{ asset('assets/app/img/logo.svg') }}" />
-
-	<!-- Font Icon -->
-	<link rel="stylesheet" href="{{ asset('assets/app/libs/font-icons/entypo/css/entypo.css') }}">
-	<link rel="stylesheet" href="{{ asset('assets/app/libs/font-icons/font-awesome/css/font-awesome.min.css') }}">
-
-	<!-- Bootstrap Vue -->
-	<link type="text/css" rel="stylesheet" href="{{ asset('assets/app/css/bootstrap-vue.css') }}"/>
-
-	<!-- Custom css -->
-	<link href="{{ asset('assets/app/css/kotakarsip.css') }}" rel="stylesheet">
+	@include('app.layouts.partial.style')
 
 </head>
 
@@ -134,16 +114,10 @@
 		</div>
 	</div>
 
-	<script src="{{ asset('assets/app/js/kotakarsip.js') }}"></script>
-	<script src="{{ asset('assets/app/vue/components/sidebar-detail.js') }}"></script>
-	<script src="{{ asset('assets/app/vue/surat-masuk.js') }}"></script>
+	@include('app.layouts.partial.script')
+	
 	<script>
-		getDataIncomingMailDetail([
-			// Detail Surat Masuk
-			'{{ route('api_incoming_mail_detail', ['id' => $archieve->_id]) }}',
-			// Pengguna
-			'{{ route('api_incoming_mail_detail', ['id' => $archieve->_id]) }}'],
-			'incomingMail');
+		getDataIncomingMailDetail('{{ route('api_incoming_mail_detail', ['id' => $archieve->_id]) }}', 'incomingMail');
 	</script>
 
 </body>

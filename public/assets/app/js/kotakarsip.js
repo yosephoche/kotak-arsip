@@ -48641,6 +48641,12 @@ $('#favorite').click(function() {
 });
 
 
+// Auto submit after selected file
+$('#inputFileSubmit').change(function() {
+	$(this).closest('form').submit();
+});
+
+
 $('a').click(function() {
 	$(this).attr('href').replace(/\#*/g, "");
 });

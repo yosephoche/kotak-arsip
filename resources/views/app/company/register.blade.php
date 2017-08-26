@@ -1,62 +1,84 @@
-@extends('layouts.app')
+<!doctype html>
 
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <form action="{{ route('company_store') }}" method="POST">
-                        {{ csrf_field() }}
-                        <input type="hidden" name="id_user" value="{{ Auth::user()->_id }}">
-                        <input type="hidden" name="status" value="super_admin">
+<html lang="en">
 
-                        <div class="col-md-12">
-                            <label for="">Buat Perusahaan</label>
-                        </div>
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+<head>
 
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
+    @include('app.layouts.partial.meta')
+
+    <title>Kotakarsip</title>
+
+    @include('app.layouts.partial.style')
+
+</head>
+
+
+<body class="page-login">
+
+    <div id="app">
+        <nav class="ka-nav ka-nav-detail">
+            <div class="brand brand-center">
+                <img src="{{ asset('assets/app/img/logo.svg') }}" class="logo" alt="Logo KotakArsip"> &nbsp;&nbsp;<b>KOTAK<span>ARSIP</span></b>
+            </div>
+        </nav>
+
+        <div class="ka-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-offset-2 col-md-4">
+                        <img src="{{ asset('assets/app/img/company.svg') }}" alt="" width="98%" style="margin-top: 60px">
+                    </div>
+                    <div class="col-md-4">
+                        <h1>Perusahaan</h1>
+
+                        <form action="{{ route('company_store') }}" method="post">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="id_user" value="{{ Auth::user()->_id }}">
+
+                            <p>Masukkan <b data-toggle="tooltip" data-placement="bottom" title="Silahkan minta kode perusahaan Anda pada Admin Perusahaan">kode perusahaan</b> Anda!</p>
+                            <div class="form-group">
+                                <input type="text" id="company_code" name="company_code" class="form-control" placeholder="Kode Perusahaan">
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-default">Daftar</button>
-                        </div>
-                    </form>
-
-                    <form action="{{ route('company_code') }}" method="POST">
-                        {{ csrf_field() }}
-                        <div class="col-md-12">
-                            <label for="">atau Masukkan Kode Perusahaan</label>
-                        </div>
-                        <div class="form-group{{ $errors->has('code') ? ' has-error' : '' }}">
-                            <div class="col-md-6">
-                                <input id="code" type="text" class="form-control" name="code" value="{{ old('code') }}" required autofocus>
-                                @if ( Session::has('failed') ) 
-                                    <span class="help-block">
-                                        <strong>{{ session('failed') }}</strong>
-                                    </span>
-                                @endif
-                                @if ($errors->has('code'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('code') }}</strong>
-                                    </span>
-                                @endif
+                            <p>Perusahaan Anda belum terdaftar pada KotakArsip? Silahkan masukkan nama perusahaan Anda!</p>
+                            <div class="form-group">
+                                <input type="text" id="company_name" name="company_name" class="form-control" placeholder="Nama Perusahaan">
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-default">Cari</button>
-                        </div>
-                    </form>
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary btn-block">Lanjutkan &nbsp;<i class="fa fa-angle-double-right"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-@endsection
+
+    <script src="{{ asset('assets/app/js/kotakarsip.js') }}"></script>
+
+    <script>
+        $('input').keyup(function() {
+
+            // Company Code filled
+            var company_code = $('#company_code').val();
+            if (company_code !== '') {
+                $('#company_name').attr('disabled', 'disabled');
+            } else {
+                $('#company_name').removeAttr('disabled');
+            }
+
+            // Company Name filled
+            var company_name = $('#company_name').val();
+            if (company_name !== '') {
+                $('#company_code').attr('disabled', 'disabled');
+            } else {
+                $('#company_code').removeAttr('disabled');
+            }
+
+        });
+    </script>
+
+</body>
+
+</html>
