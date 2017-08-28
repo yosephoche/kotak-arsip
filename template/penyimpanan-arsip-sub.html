@@ -119,7 +119,7 @@
 			<header class="ka-menus">
 				<ul class="list-unstyled">
 					<li class="label-menus">Arsip</li>
-					<li class="active"><a href="index.html">Surat Masuk</a></li>
+					<li><a href="index.html">Surat Masuk</a></li>
 					<li><a href="surat-keluar.html">Surat Keluar</a></li>
 					<li><a href="surat-izin.html">Surat Perizinan</a></li>
 					<li><button type="button" class="new-type">+ Jenis Arsip</button></li>
@@ -145,21 +145,21 @@
 				<div class="breadcrumbs">
 					<ul class="list-inline">
 						<li><a href="penyimpanan-arsip.html">Penyimpanan Arsip</a></li>
+						<li><a href="penyimpanan-arsip.html">Filling Cabinet 1</a></li>
+						<li>Sub Penyimpanan</li>
 					</ul>
 				</div>
 
 				<table class="table table-hover">
 					<tr>
-						<th class="sort" @click="sortBy('name', $event)">Nama/Kode Penyimpanan Arsip <i class="fa fa-angle-down i-sort"></i></th>
-						<th colspan="2" @click="sortBy('type', $event)">Jenis</th>
+						<th colspan="2" class="sort" @click="sortBy('name', $event)">Nama/Kode map, folder, guide atau ordner <i class="fa fa-angle-down i-sort"></i></th>
 					</tr>
 					<tr class="item" v-for="val in orderedStorage" @click="detailSidebar(val, $event)">
 						<td><a href="penyimpanan-arsip-sub.html">{{ val.name }}</a></td>
-						<td>{{ val.type.replace('_', ' ').replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}) }}</td>
 						<td class="text-right dropdown">
 							<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
 							<ul class="dropdown-menu pull-right">
-								<li><a href="#" data-toggle="modal" data-target="#editModal" :data-id="val._id" :data-name="val.name" :data-type="val.type">Sunting</a></li>
+								<li><a href="#" data-toggle="modal" data-target="#editModal" :data-id="val._id" :data-name="val.name">Sunting</a></li>
 								<li><a href="#" data-toggle="modal" data-target="#deleteModal" class="text-danger" v-bind:data-id="val._id">Hapus</a></li>
 							</ul>
 						</td>
@@ -187,7 +187,7 @@
 
 		<!-- Modals -->
 		<div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="newLabelModal">
-			<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-dialog modal" role="document">
 				<div class="modal-content">
 					<form action="">
 						<div class="modal-header">
@@ -195,43 +195,7 @@
 							<h4 class="modal-title" id="newLabelModal">Tambah Media Penyimpanan Baru</h4>
 						</div>
 						<div class="modal-body">
-							<input type="radio" name="storage" class="hide" id="filling-cabinet" value="filling_cabinet" checked>
-							<input type="radio" name="storage" class="hide" id="rotary-cabinet" value="rotary_cabinet">
-							<input type="radio" name="storage" class="hide" id="lemari-arsip" value="lemari_arsip">
-							<input type="radio" name="storage" class="hide" id="rak-arsip" value="rak_arsip">
-
-							<div class="row select-cabinet">
-								<div class="col-md-3 text-center">
-									<label for="filling-cabinet" class="text-center active">
-										<img src="assets/img/icons/filling_cabinet.svg" width="80%">
-										<p>Filling Cabinet</p>
-									</label>
-								</div>
-
-								<div class="col-md-3 text-center">
-									<label for="rotary-cabinet" class="text-center">
-										<img src="assets/img/icons/rotary_cabinet.svg" width="80%">
-										<p>Rotary Cabinet</p>
-									</label>
-								</div>
-
-								<div class="col-md-3 text-center">
-									<label for="lemari-arsip" class="text-center">
-										<img src="assets/img/icons/lemari_arsip.svg" width="80%">
-										<p>Lemari Arsip</p>
-									</label>
-								</div>
-
-								<div class="col-md-3 text-center">
-									<label for="rak-arsip" class="text-center">
-										<img src="assets/img/icons/rak_arsip.svg" width="80%">
-										<p>Rak Arsip</p>
-									</label>
-								</div>
-							</div>
-
 							<div class="form-group">
-								<br>
 								<input type="text" name="name" class="form-control" placeholder="Nama/Kode Penyimpanan Arsip">
 							</div>
 						</div>
@@ -245,7 +209,7 @@
 		</div>
 
 		<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editLabelModal">
-			<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<form action="">
 						<div class="modal-header">
@@ -255,43 +219,7 @@
 						<div class="modal-body">
 							<input type="hidden" name="id">
 
-							<input type="radio" name="type" class="hide" id="edit-filling-cabinet" value="filling_cabinet" checked>
-							<input type="radio" name="type" class="hide" id="edit-rotary-cabinet" value="rotary_cabinet">
-							<input type="radio" name="type" class="hide" id="edit-lemari-arsip" value="lemari_arsip">
-							<input type="radio" name="type" class="hide" id="edit-rak-arsip" value="rak_arsip">
-
-							<div class="row select-cabinet">
-								<div class="col-md-3 text-center">
-									<label for="edit-filling-cabinet" class="text-center active">
-										<img src="assets/img/icons/filling_cabinet.svg" width="80%">
-										<p>Filling Cabinet</p>
-									</label>
-								</div>
-
-								<div class="col-md-3 text-center">
-									<label for="edit-rotary-cabinet" class="text-center">
-										<img src="assets/img/icons/rotary_cabinet.svg" width="80%">
-										<p>Rotary Cabinet</p>
-									</label>
-								</div>
-
-								<div class="col-md-3 text-center">
-									<label for="edit-lemari-arsip" class="text-center">
-										<img src="assets/img/icons/lemari_arsip.svg" width="80%">
-										<p>Lemari Arsip</p>
-									</label>
-								</div>
-
-								<div class="col-md-3 text-center">
-									<label for="edit-rak-arsip" class="text-center">
-										<img src="assets/img/icons/rak_arsip.svg" width="80%">
-										<p>Rak Arsip</p>
-									</label>
-								</div>
-							</div>
-
 							<div class="form-group">
-								<br>
 								<input type="text" name="name" class="form-control" placeholder="Nama/Kode Penyimpanan Arsip">
 							</div>
 						</div>
@@ -339,14 +267,8 @@
 	<template id="sidebar-detail">
 		<div class="select no-border">
 			<div class="item" v-if="detail.name">
-				<label>Nama/Kode Penyimpanan Arsip</label>
+				<label>Nama/Kode Penyimpanan</label>
 				<div class="value">{{ detail.name }}</div>
-			</div>
-			<div class="item" v-if="detail.type">
-				<div class="text-center">
-					<img :src="'assets/img/icons/' + detail.type + '.svg'">
-					<p>{{ detail.type.replace('_', ' ').replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}) }}</p>
-				</div>
 			</div>
 		</div>
 	</template>
@@ -355,7 +277,7 @@
 	<script src="assets/vue/components/sidebar-detail.js"></script>
 	<script src="assets/vue/penyimpanan-arsip.js"></script>
 	<script>
-		getDataStorage('data/penyimpanan_arsip.json', 'storage');
+		getDataStorageSub('data/penyimpanan_arsip_sub.json', 'subStorage');
 
 		// Radio Button For Select Cabinet
 		$('.select-cabinet label').click(function() {
@@ -374,12 +296,6 @@
 			for (var i = 0; i < key.length; i++) {
 				$(this).find('input[name="' + key[i] + '"]').val($(e.relatedTarget).data(key[i]));
 			}
-
-			// For Type
-			var type = 'edit-' + $(e.relatedTarget).data('type').replace('_', '-');
-			$(this).find('input#' + type).attr('checked', 'checked');
-			$(this).find('label').removeClass('active');
-			$(this).find('label[for="' + type + '"]').addClass('active');
 		});
 	</script>
 
