@@ -84,10 +84,9 @@ Route::group(['namespace' => 'App'], function () {
 			Route::get('/create', 'IncomingMailController@create')->name('incoming_mail_create');
 			Route::post('/store', 'IncomingMailController@store')->name('incoming_mail_store');
 			Route::get('/detail/{id?}', 'IncomingMailController@detail')->name('incoming_mail_detail');
-			Route::post('/edit/{id?}', 'IncomingMailController@edit')->name('incoming_mail_edit');
+			Route::get('/edit/{id?}', 'IncomingMailController@edit')->name('incoming_mail_edit');
 			Route::post('/update', 'IncomingMailController@update')->name('incoming_mail_update');
-			Route::get('/delete/{id?}', 'IncomingMailController@delete')->name('incoming_mail_delete');
-			Route::get('/restore/{id?}', 'IncomingMailController@restore')->name('incoming_mail_restore');
+			Route::post('/delete', 'IncomingMailController@delete')->name('incoming_mail_delete');
 		});
 	});
 

@@ -32,7 +32,7 @@ class IncomingMailController extends Controller
 					)
 				)
 			));
-		})->where('type', 'incoming_mail')->where('id_company', Auth::user()->id_company);
+		})->where('type', 'incoming_mail')->where('id_company', Auth::user()->id_company)->where('deleted_at', '');
 
 		$users = User::all();
 
@@ -86,17 +86,29 @@ class IncomingMailController extends Controller
 
 	public function uploadAjax(Request $r)
 	{
-		$image = $r->file('file');
-
-		$ext = $image->getClientOriginalExtension();
-		$nm_file = rand(111111,999999).".".$ext;
-		$destination = public_path('assets/tesseract/image');
-		$upload = $image->move($destination, $nm_file);
-			
+		if ( $r->hasFile('file') ) {
+			 // Upload Image
+			$destination = public_path('assets/tesseract/image');
+			$file = GlobalClass::Upload($r->file('file'), $destination, 200);
+		}
 	}
 
 	public function create()
 	{
+		// Image
+		$dir = public_path('assets/tesseract/image');
+		$files = scandir($dir);
+
+		$images = [];
+		for ($i=0; $i < count($files); $i++) { 
+			// Conditions for find images
+			$ext = substr($files[$i], -3);
+			if ($ext == 'jpg' || $ext == 'peg' || $ext == 'png') {
+				array_push($images, $files[$i]);
+			}
+		}
+		$data['image'] = $images; 
+
 		// --- OCR Code ---
 		// Path Variables For Run OCR
 		$image = public_path('assets\tesseract\image\111111.jpg');
@@ -124,22 +136,6 @@ class IncomingMailController extends Controller
 
 		// --- END OCR Code ---
 
-
-		// Image
-		$dir = public_path('assets/tesseract/image');
-		$files = scandir($dir);
-
-		$image = [];
-		for ($i=0; $i < count($files); $i++) { 
-			// Conditions for find image
-			$ext = substr($files[$i], -3);
-			if ($ext == 'jpg' || $ext == 'peg' || $ext == 'png') {
-				array_push($image, $files[$i]);
-			}
-		}
-
-		$data['image'] = $image; 
-
 		return view('app.incoming_mail.create', $data);
 	}
 
@@ -149,35 +145,53 @@ class IncomingMailController extends Controller
 			'from'				=> 'required',
 			'reference_number'	=> 'required',
 			'subject'			=> 'required',
-			'date'				=> 'required',
-			'storage'			=> 'required'
+			'date'				=> 'required'
 		]);
 
-		if ( $r->hasFile('files') ) {
-			 // Upload Image
-			$destination = public_path('assets/app/img/incoming_mail');
-			$files = GlobalClass::Upload($r->file('files'), $destination, 200);
+		//Check Image From Tesseract
+		$dir = public_path('assets/tesseract/image');
+		$file = scandir($dir);
+		$images = [];
+		for ($i=0; $i < count($file); $i++) { 
+			// Conditions for find images
+			$ext = substr($file[$i], -3);
+			if ($ext == 'jpg' || $ext == 'peg' || $ext == 'png') {
+				array_push($images, $file[$i]);
+			}
 		}
 
-		//Make ObjectId
-		$share = GlobalClass::arrayObjectId($r->share);
+		//Move Images from tesseract to incoming mail
+		$files = [];
+		foreach ($images as $img) {
+			$rand = rand(111111,999999);
+			$ext = substr($img, -3);
+			if ($ext == 'jpg') {
+				$nm_file = $rand.'.'.'jpg';
+			} elseif ($ext == 'png') {
+				$nm_file = $rand.'.'.'png';
+			} else {
+				$nm_file = $rand.'.'.'jpeg';
+			}
+			rename(public_path('assets/tesseract/image').'/'.$img, public_path('assets/app/img/incoming_mail').'/'.$nm_file);
+			$files[] = $nm_file;
+		}
 
 		$surat = new Archieve;
-		$surat->id_user = $r->id_user;
-		$surat->id_company = $r->id_company;
-		$surat->type = $r->type;
+		$surat->id_user = Auth::user()->_id;
+		$surat->id_company = Auth::user()->id_company;
+		$surat->type = "incoming_mail";
 		$surat->from = $r->from;
 		$surat->reference_number = $r->reference_number;
 		$surat->subject = $r->subject;
 		$surat->date = Carbon::createFromFormat('d/m/Y', $r->date)->format('d/m/Y');
 		$surat->storage = $r->storage;
-		$surat->share = $share;
 		$surat->note = $r->note;
+		$surat->fulltext = $r->fulltext;
 		$surat->files = $files;
 		$surat->save();
 
 		Session::flash('message', "Berhasil menambahkan surat masuk baru");
-		return redirect()->back();
+		return redirect()->route('incoming_mail');
 	}
 
 	public function update(Request $r)
@@ -207,15 +221,10 @@ class IncomingMailController extends Controller
 		return redirect()->back();
 	}
 
-	public function delete($id)
+	public function delete(Request $r)
 	{
-		Archieve::where('_id', $id)->delete();
-		return redirect()->back();
-	}
+		$archieve = Archieve::where('_id', $r->id)->delete();
 
-	public function restore(Request $r, $id)
-	{
-		Archieve::withTrashed()->where('_id', $id)->restore();
 		return redirect()->back();
 	}
 }
