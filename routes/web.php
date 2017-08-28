@@ -33,6 +33,9 @@ Route::group(['namespace' => 'App'], function () {
 			Route::get('/', 'StorageController@getData')->name('api_storage');
 		});
 
+		Route::group(['prefix' => 'storage/sub'], function(){
+			Route::get('/{id?}', 'StorageSubController@getData')->name('api_storage_sub');
+		});
 	});
 
 	//Company
@@ -65,10 +68,8 @@ Route::group(['namespace' => 'App'], function () {
 		Route::get('/register', 'StorageSubController@register')->name('storage_sub_register');
 		Route::post('/register/store', 'StorageSubController@registerstore')->name('storage_sub_register_store');
 		Route::get('/{id?}', 'StorageSubController@index')->name('storage_sub');
-		Route::get('/{storage?}/create', 'StorageSubController@create')->name('storage_sub_create');
 		Route::post('/store', 'StorageSubController@store')->name('storage_sub_store');
-		Route::get('/edit/{id?}', 'StorageSubController@edit')->name('storage_sub_edit');
-		Route::put('/update/{id?}', 'StorageSubController@update')->name('storage_sub_update');
+		Route::post('/update', 'StorageSubController@update')->name('storage_sub_update');
 		Route::post('/delete', 'StorageSubController@delete')->name('storage_sub_delete');
 	});
 
@@ -79,8 +80,8 @@ Route::group(['namespace' => 'App'], function () {
 			Route::get('/', 'IncomingMailController@index')->name('incoming_mail');
 			Route::post('/upload', 'IncomingMailController@upload')->name('incoming_mail_upload');
 			Route::post('/upload/ajax', 'IncomingMailController@uploadAjax')->name('incoming_mail_upload_ajax');
-			Route::get('/create', 'IncomingMailController@create')->name('incoming_mail_create');
 			Route::post('/delete/ajax', 'IncomingMailController@removeAjax')->name('incoming_mail_delete_ajax');
+			Route::get('/create', 'IncomingMailController@create')->name('incoming_mail_create');
 			Route::post('/store', 'IncomingMailController@store')->name('incoming_mail_store');
 			Route::get('/detail/{id?}', 'IncomingMailController@detail')->name('incoming_mail_detail');
 			Route::get('/edit/{id?}', 'IncomingMailController@edit')->name('incoming_mail_edit');

@@ -1,81 +1,171 @@
 @extends('app.layouts.main')
 
-@section('title', 'Sub Storage')
+@section('title', 'Sub-Storage')
 
 @section('contents')
-	<div class="body">
-		<div class="body-action">
-			<div class="sort">
-				Urutkan berdasarkan&nbsp;
-				<label class="select-text">
-					<select>
-						<option value="">Terbaru</option>
-						<option value="">Asal Surat</option>
-					</select>
-				</label>
-			</div>
-
-			<div class="right">
-				<a href="{{ route('storage_sub_create', ['storage' => $storage->_id]) }}"><img src="{{ url('/resources/assets/app') }}/img/icons/svg/newdoc.svg">Tambah</a>
-			</div>
+	<div class="ka-main">
+		<div class="breadcrumbs">
+			<ul class="list-inline">
+				<li><a href="{{ route('storage') }}">Penyimpanan Arsip</a></li>
+				<li>{{ $storage->name }}</li>
+			</ul>
 		</div>
 
-		<ul class="list-content">
-			@forelse ($sub as $s)
-				<li class="list-item" data-id="{{ $s->_id }}" data-rak="{{ $s->name }}">
-					<div class="icon">
-						<img src="{{ url('/resources/assets/app') }}/img/icons/svg/rak.svg" alt="Document">
-					</div>
-					<div class="property">
-						<a href=""><h2>{{ $s->name }}</h2></a>
-						<div class="date">1 file</div>
-					</div>
-					<div class="action">
-						<div class="btn-group" role="group" aria-label="...">
-							<a href="{{ route('storage_sub_edit', ['id' => $s->_id]) }}" type="button" class="btn btn-default"><i class="fa fa-pencil"></i></a>
-							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-delete" data-id="{{ $s->_id }}"><i class="fa fa-trash-o"></i></button>
-						</div>
-					</div>
-				</li>
-			@empty
-				<li class="list-empty">
-					<div class="title">sub penyimpanan ini kosong</div>
-				</li>
-			@endforelse
-		</ul>
+		<table class="table table-hover">
+			<tr>
+				<th colspan="2" class="sort" @click="sortBy('name', $event)">Nama/Kode map, folder, guide atau ordner <i class="fa fa-angle-down i-sort"></i></th>
+			</tr>
+			<tr class="item" v-for="val in orderedStorage" @click="detailSidebar(val, $event)">
+				<td><a href="penyimpanan-arsip-sub.html" v-html="val.name"></a></td>
+				<td class="text-right dropdown">
+					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
+					<ul class="dropdown-menu pull-right">
+						<li><a href="#" data-toggle="modal" data-target="#editModal" :data-id="val._id" :data-name="val.name">Sunting</a></li>
+						<li><a href="#" data-toggle="modal" data-target="#deleteModal" class="text-danger" v-bind:data-id="val._id">Hapus</a></li>
+					</ul>
+				</td>
+			</tr>
+		</table>
 	</div>
+
+	<aside class="ka-sidebar-detail">
+		<a href="#" data-toggle="modal" data-target="#newModal" class="btn btn-primary btn-block">Tambah</a>
+
+		<br>
+
+		<div class="detail-info">
+
+			<div v-if="detail !== ''">
+				<detail :detail="detail"></detail>
+			</div>
+			<div v-else>
+				<no-select></no-select>
+			</div>
+
+		</div>
+	</aside>
 @endsection
 
 @section('modal')
-	<div class="modal fade modal-custom modal-small" id="modal-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<!-- Modals -->
+	<div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="newLabelModal">
 		<div class="modal-dialog" role="document">
-			<form action="{{ route('storage_sub_delete') }}" method="post" class="form-custom">
-				{{ csrf_field() }}
-
-				<div class="modal-content">
+			<div class="modal-content">
+				<form action="{{ route('storage_sub_store') }}" method="POST">
+					{{ csrf_field() }}
+					<input type="hidden" name="id_storage" value="{{ $storage->_id }}">
 					<div class="modal-header">
-						<h4 class="modal-title" id="myModalLabel"><i class="fa fa-exclamation-circle"></i>&nbsp; Hapus</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="newLabelModal">Tambah Media Penyimpanan Baru</h4>
 					</div>
 					<div class="modal-body">
-						<div class="content">
-							<input type="text" class="hidden" id="delete-val" value="">
-							<input type="hidden" name="id">
-							Apakah Anda yakin ingin menghapus rak ini?
+						<div class="form-group">
+							<input type="text" name="name" class="form-control" placeholder="Nama/Kode Penyimpanan Arsip">
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Tidak</button>
-						<button type="submit" class="btn btn-danger">Ya</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+						<button class="btn btn-primary">Tambahkan</button>
 					</div>
-				</div>
-			</form>
+				</form>
+			</div>
 		</div>
 	</div>
+
+	<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editLabelModal">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<form action="{{ route('storage_sub_update') }}" method="POST">
+					{{ csrf_field() }}
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="editLabelModal">Sunting Media Penyimpanan</h4>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" name="id">
+						<div class="form-group">
+							<input type="text" name="name" class="form-control" placeholder="Nama/Kode Penyimpanan Arsip">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+						<button class="btn btn-primary">Simpan</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabelModal">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<form action="{{ route('storage_sub_delete') }}" method="POST">
+					{{ csrf_field() }}
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="deleteLabelModal">Hapus</h4>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" name="id">
+						Apakah Anda yakin ingin menghapus data ini?
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+						<button class="btn btn-danger">Ya, hapus</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- End Modal -->
+@endsection
+
+@section('template')
+	<!-- No select data in table -->
+	<template id="no-select">
+		<div class="no-select text-center">
+			<img src="{{ asset('assets/app/img/icons/select_file.svg') }}" alt="Pilih salah satu">
+			<p>Pilih salah satu data untuk melihat detail</p>
+		</div>
+	</template>
+
+	<!-- Detail after select data in table -->
+	<template id="sidebar-detail">
+		<div class="select no-border">
+			<div class="item" v-if="detail.name">
+				<label>Nama/Kode Penyimpanan</label>
+				<div class="value" v-html="detail.name"></div>
+			</div>
+		</div>
+	</template>
 @endsection
 
 @section('registerscript')
+	<script src="{{ asset('assets/app/vue/penyimpanan-arsip.js') }}"></script>
 	<script>
-		$('#modal-delete').on('show.bs.modal', function (e) {
+		getDataStorageSub('{{ route("api_storage_sub", ["id" => $storage->_id]) }}', 'subStorage');
+
+		// Radio Button For Select Cabinet
+		$('.select-cabinet label').click(function() {
+			var id = $(this).attr('for');
+
+			$('input[type="radio"]').removeAttr('checked');
+			$('input#' + id).attr('checked', 'checked');
+
+			$('label').removeClass('active');
+			$('label[for="' + id + '"]').addClass('active');
+		});
+
+		// Edit Modal
+		$('#editModal').on('show.bs.modal', function (e) {
+			var key = ['id', 'name'];
+			for (var i = 0; i < key.length; i++) {
+				$(this).find('input[name="' + key[i] + '"]').val($(e.relatedTarget).data(key[i]));
+			}
+		});
+
+		// Delete Modal
+		$('#deleteModal').on('show.bs.modal', function (e) {
 			var id = $(e.relatedTarget).data('id');
 			$(this).find('input[name="id"]').val(id);
 		});

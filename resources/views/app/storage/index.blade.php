@@ -16,7 +16,7 @@
 				<th colspan="2" @click="sortBy('type', $event)">Jenis</th>
 			</tr>
 			<tr class="item" v-for="val in orderedStorage" @click="detailSidebar(val, $event)">
-				<td><a href="detail.html" v-html="val.name"></a></td>
+				<td><a v-bind:href="'{{ route('storage_sub') }}/' + val._id" v-html="val.name"></a></td>
 				<td v-html="val.type.replace('_', ' ').replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();})"></td>
 				<td class="text-right dropdown">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
@@ -100,7 +100,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-						<button class="btn btn-primary">Tambahkan</button>
+						<button class="btn btn-primary">Tambah</button>
 					</div>
 				</form>
 			</div>
