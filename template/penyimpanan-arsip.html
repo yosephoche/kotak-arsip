@@ -119,9 +119,9 @@
 			<header class="ka-menus">
 				<ul class="list-unstyled">
 					<li class="label-menus">Arsip</li>
-					<li><a href="index.html">Surat Masuk</a></li>
+					<li class="active"><a href="index.html">Surat Masuk</a></li>
 					<li><a href="surat-keluar.html">Surat Keluar</a></li>
-					<li class="active"><a href="surat-izin.html">Surat Perizinan</a></li>
+					<li><a href="surat-izin.html">Surat Perizinan</a></li>
 					<li><button type="button" class="new-type">+ Jenis Arsip</button></li>
 				</ul>
 
@@ -144,46 +144,23 @@
 			<div class="ka-main">
 				<div class="breadcrumbs">
 					<ul class="list-inline">
-						<li><a href="index.html">Surat Perizinan</a></li>
-						<li>Izin Mendirikan Bangunan (IMB)</li>
+						<li><a href="penyimpanan-arsip.html">Penyimpanan Arsip</a></li>
 					</ul>
 				</div>
 
 				<table class="table table-hover">
 					<tr>
-						<th class="sort">Pemohon <i class="fa fa-angle-down"></i></th>
-						<th>Alamat Bangunan</th>
-						<th class="view-tablet-only">Dibagikan bersama</th>
-						<th class="view-tablet-only">Tanggal Masuk</th>
-						<th class="text-right dropdown">
-							<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list-ul"></i></a>
-							<ul class="dropdown-menu pull-right">
-								<li class="label-dropdown">Mode Tampilan</li>
-								<li><a href="detail.html">List <i class="fa fa-list-ul pull-right"></i></a></li>
-								<li><a href="#">Grid <i class="fa fa-th-large pull-right"></i></a></li>
-							</ul>
-						</th>
+						<th class="sort" @click="sortBy('name', $event)">Nama/Kode Penyimpanan Arsip <i class="fa fa-angle-down i-sort"></i></th>
+						<th colspan="2" @click="sortBy('type', $event)">Jenis</th>
 					</tr>
-					<tr class="item" v-for="val in json.licenseImb" @click="detailSidebar(val, $event)">
-						<td><a href="surat-izin-berkas.html">{{ val.from }}</a></td>
-						<td>{{ val.address }}</td>
-						<td class="view-tablet-only">
-							<ul class="list-unstyled disposisi">
-								<li v-for="share in val.share" class="img-disposisi">
-									<b-tooltip v-bind:content="share.name" placement="bottom">
-										<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url(assets/img/users/' + share.img + ')' }"></div>
-									</b-tooltip>
-								</li>
-							</ul>
-						</td>
-						<td class="view-tablet-only">{{ val.date }}</td>
+					<tr class="item" v-for="val in orderedStorage" @click="detailSidebar(val, $event)">
+						<td><a href="detail.html">{{ val.name }}</a></td>
+						<td>{{ val.type.replace('_', ' ').replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}) }}</td>
 						<td class="text-right dropdown">
 							<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
 							<ul class="dropdown-menu pull-right">
-								<li><a href="surat-izin-berkas.html">Lihat Detail</a></li>
-								<li><a href="#" data-toggle="modal" data-target="#disposisiModal">Bagikan</a></li>
-								<li><a href="sunting.html">Sunting</a></li>
-								<li><a href="#" data-toggle="modal" data-target="#deleteModal" class="text-danger" class="text-danger">Hapus</a></li>
+								<li><a href="#" data-toggle="modal" data-target="#editModal" :data-id="val._id" :data-name="val.name" :data-type="val.type">Sunting</a></li>
+								<li><a href="#" data-toggle="modal" data-target="#deleteModal" class="text-danger" v-bind:data-id="val._id">Hapus</a></li>
 							</ul>
 						</td>
 					</tr>
@@ -191,10 +168,7 @@
 			</div>
 
 			<aside class="ka-sidebar-detail">
-				<form action="create.html">
-					<input type="file" @change="inputFileSubmit" id="inputFileSubmit" name="image" class="hide" accept=".jpg, .png, .jpeg">
-					<label for="inputFileSubmit" class="btn btn-primary btn-block">Tambah</label>
-				</form>
+				<a href="#" data-toggle="modal" data-target="#newModal" class="btn btn-primary btn-block">Tambah</a>
 
 				<br>
 
@@ -211,34 +185,119 @@
 			</aside>
 		</section>
 
-
 		<!-- Modals -->
-		<div class="modal fade modal-disposisi" id="disposisiModal" tabindex="-1" role="dialog" aria-labelledby="disposisiLabelModal">
-			<div class="modal-dialog modal-sm" role="document">
+		<div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="newLabelModal">
+			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
 					<form action="">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title" id="disposisiLabelModal">Bagikan</h4>
+							<h4 class="modal-title" id="newLabelModal">Tambah Media Penyimpanan Baru</h4>
 						</div>
 						<div class="modal-body">
-							<table class="table">
-								<tr>
-									<td class="search" colspan="4"><input type="text" class="form-control" placeholder="Cari" v-model="search"></td>
-								</tr>
-								<tr v-for="val in filteredUsers">
-									<td class="text-center"><input type="checkbox"></td>
-									<td><div class="img-profile" v-bind:style="{ backgroundImage: 'url(assets/img/users/' + val.img + ')' }"></div></td>
-									<td>
-										<span class="name">{{ val.name }}</span><br>
-										<span class="position">{{ val.position }}</span>
-									</td>
-								</tr>
-							</table>
+							<input type="radio" name="storage" class="hide" id="filling-cabinet" value="filling_cabinet" checked>
+							<input type="radio" name="storage" class="hide" id="rotary-cabinet" value="rotary_cabinet">
+							<input type="radio" name="storage" class="hide" id="lemari-arsip" value="lemari_arsip">
+							<input type="radio" name="storage" class="hide" id="rak-arsip" value="rak_arsip">
+
+							<div class="row select-cabinet">
+								<div class="col-md-3 text-center">
+									<label for="filling-cabinet" class="text-center active">
+										<img src="assets/img/icons/filling_cabinet.svg" width="80%">
+										<p>Filling Cabinet</p>
+									</label>
+								</div>
+
+								<div class="col-md-3 text-center">
+									<label for="rotary-cabinet" class="text-center">
+										<img src="assets/img/icons/rotary_cabinet.svg" width="80%">
+										<p>Rotary Cabinet</p>
+									</label>
+								</div>
+
+								<div class="col-md-3 text-center">
+									<label for="lemari-arsip" class="text-center">
+										<img src="assets/img/icons/lemari_arsip.svg" width="80%">
+										<p>Lemari Arsip</p>
+									</label>
+								</div>
+
+								<div class="col-md-3 text-center">
+									<label for="rak-arsip" class="text-center">
+										<img src="assets/img/icons/rak_arsip.svg" width="80%">
+										<p>Rak Arsip</p>
+									</label>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<br>
+								<input type="text" name="name" class="form-control" placeholder="Nama/Kode Penyimpanan Arsip">
+							</div>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-							<button class="btn btn-primary">Disposisi</button>
+							<button class="btn btn-primary">Tambahkan</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editLabelModal">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<form action="">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="editLabelModal">Sunting Media Penyimpanan</h4>
+						</div>
+						<div class="modal-body">
+							<input type="hidden" name="id">
+
+							<input type="radio" name="storage" class="hide" id="edit-filling-cabinet" value="filling_cabinet" checked>
+							<input type="radio" name="storage" class="hide" id="edit-rotary-cabinet" value="rotary_cabinet">
+							<input type="radio" name="storage" class="hide" id="edit-lemari-arsip" value="lemari_arsip">
+							<input type="radio" name="storage" class="hide" id="edit-rak-arsip" value="rak_arsip">
+
+							<div class="row select-cabinet">
+								<div class="col-md-3 text-center">
+									<label for="edit-filling-cabinet" class="text-center active">
+										<img src="assets/img/icons/filling_cabinet.svg" width="80%">
+										<p>Filling Cabinet</p>
+									</label>
+								</div>
+
+								<div class="col-md-3 text-center">
+									<label for="edit-rotary-cabinet" class="text-center">
+										<img src="assets/img/icons/rotary_cabinet.svg" width="80%">
+										<p>Rotary Cabinet</p>
+									</label>
+								</div>
+
+								<div class="col-md-3 text-center">
+									<label for="edit-lemari-arsip" class="text-center">
+										<img src="assets/img/icons/lemari_arsip.svg" width="80%">
+										<p>Lemari Arsip</p>
+									</label>
+								</div>
+
+								<div class="col-md-3 text-center">
+									<label for="edit-rak-arsip" class="text-center">
+										<img src="assets/img/icons/rak_arsip.svg" width="80%">
+										<p>Rak Arsip</p>
+									</label>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<br>
+								<input type="text" name="name" class="form-control" placeholder="Nama/Kode Penyimpanan Arsip">
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+							<button class="btn btn-primary">Simpan</button>
 						</div>
 					</form>
 				</div>
@@ -254,6 +313,7 @@
 							<h4 class="modal-title" id="deleteLabelModal">Hapus</h4>
 						</div>
 						<div class="modal-body">
+							<input type="hidden" name="id">
 							Apakah Anda yakin ingin menghapus data ini?
 						</div>
 						<div class="modal-footer">
@@ -277,51 +337,50 @@
 
 	<!-- Detail after select data in table -->
 	<template id="sidebar-detail">
-		<div>
-			<div class="select">
-				<div class="item" v-if="detail.from">
-					<label>Pemohon</label>
-					<div class="value">{{ detail.from }}</div>
-				</div>
-				<div class="item" v-if="detail.address">
-					<label>Alamat Bangunan</label>
-					<div class="value">{{ detail.address }}</div>
-				</div>
-				<div class="item" v-if="detail.storage">
-					<label>Penyimpanan Arsip</label>
-					<div class="value">{{ detail.storage }}</div>
-				</div>
-				<div class="item" v-if="detail.share">
-					<label>Dibagikan bersama:</label>
-					<div class="value">
-						<ul class="list-unstyled">
-							<li v-for="bagikan in detail.share"><a href="">{{ bagikan.name }}</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="item" v-if="detail.date">
-					<label>Tanggal Masuk</label>
-					<div class="value">{{ detail.date }}</div>
-				</div>
+		<div class="select no-border">
+			<div class="item" v-if="detail.name">
+				<label>Nama/Kode Penyimpanan Arsip</label>
+				<div class="value">{{ detail.name }}</div>
 			</div>
-
-			<div class="attachment">
-				<span>3 file terlampir</span>
-				<a href="surat-izin-berkas.html" class="btn btn-default btn-block">Lihat Detail</a>
+			<div class="item" v-if="detail.type">
+				<div class="text-center">
+					<img :src="'assets/img/icons/' + detail.type + '.svg'">
+					<p>{{ detail.type.replace('_', ' ').replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}) }}</p>
+				</div>
 			</div>
 		</div>
 	</template>
 
 	<script src="assets/js/kotakarsip.js"></script>
 	<script src="assets/vue/components/sidebar-detail.js"></script>
-	<script src="assets/vue/surat-izin-imb.js"></script>
+	<script src="assets/vue/penyimpanan-arsip.js"></script>
 	<script>
-		getDataLicenseImb([
-			// Surat Masuk
-			'data/surat_izin_imb.json',
-			// Pengguna
-			'data/pengguna.json'
-			], 'licenseImb');
+		getDataStorage('data/penyimpanan_arsip.json', 'storage');
+
+		// Radio Button For Select Cabinet
+		$('.select-cabinet label').click(function() {
+			var id = $(this).attr('for');
+
+			$('input[type="radio"]').removeAttr('checked');
+			$('input#' + id).attr('checked', 'checked');
+
+			$('label').removeClass('active');
+			$('label[for="' + id + '"]').addClass('active');
+		});
+
+		// Edit Modal
+		$('#editModal').on('show.bs.modal', function (e) {
+			var key = ['id', 'name'];
+			for (var i = 0; i < key.length; i++) {
+				$(this).find('input[name="' + key[i] + '"]').val($(e.relatedTarget).data(key[i]));
+			}
+
+			// For Type
+			var type = 'edit-' + $(e.relatedTarget).data('type').replace('_', '-');
+			$(this).find('input#' + type).attr('checked', 'checked');
+			$(this).find('label').removeClass('active');
+			$(this).find('label[for="' + type + '"]').addClass('active');
+		});
 	</script>
 
 </body>

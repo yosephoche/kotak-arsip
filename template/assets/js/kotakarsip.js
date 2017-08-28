@@ -48615,6 +48615,10 @@ $(document).ready(function() {
 	}
 });
 
+$(window).load(function(){
+	$(".page-loader").fadeOut();
+});
+
 
 // Checkbox Custom
 function checkboxCustom (e) {

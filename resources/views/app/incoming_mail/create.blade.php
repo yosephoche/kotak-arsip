@@ -166,7 +166,7 @@
 				success: function(data){
 					console.log(data);
 					$('#images').load(' #images');
-					$('#main').load(' #images');
+					$('#main').load(' #main');
 				},error:function(){ 
 					alert("Masukkan File Terlebih Dahulu");
 				} 
