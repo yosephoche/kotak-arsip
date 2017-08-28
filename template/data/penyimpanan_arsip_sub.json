@@ -1,0 +1,32 @@
+{
+	"subStorage" : [
+		{
+			"_id": "59846aa341a1db2de40020eb",
+			"id_storage": "59846a9f41a1db2de40020ea",
+			"name": "Rak1",
+			"updated_at": "2017-08-12 18:25:10",
+			"created_at": "2017-08-04 12:37:55"
+		},
+		{
+			"_id": "598f3c6f41a1db1804004868",
+			"id_storage": "59846a9f41a1db2de40020ea",
+			"name": "AKu",
+			"updated_at": "2017-08-12 17:35:43",
+			"created_at": "2017-08-12 17:35:43"
+		},
+		{
+			"_id": "59a2a33541a1db33e40017e6",
+			"id_storage": "59a2a33541a1db33e40017e5",
+			"name": "Lemari1",
+			"updated_at": "2017-08-27 10:47:17",
+			"created_at": "2017-08-27 10:47:17"
+		},
+		{
+			"_id": "59a2a33541a1db33e40017e7",
+			"id_storage": "59a2a33541a1db33e40017e5",
+			"name": "Lemari2",
+			"updated_at": "2017-08-27 10:47:17",
+			"created_at": "2017-08-27 10:47:17"
+		}
+	]
+}
