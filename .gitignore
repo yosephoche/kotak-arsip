@@ -5,8 +5,8 @@
 /vendor
 /.idea
 /.vagrant
-/public/tesserct
-/public/app/incoming_mail
+/public/assets/tesseract
+/public/assets/app/img/incoming_mail
 Homestead.json
 Homestead.yaml
 npm-debug.log
