@@ -81,6 +81,12 @@ function getDataIncomingMailDetail(api, key) {
 			favorite: function (e) {
 				var element = $(e.target).closest('#favorite');
 				element.find('i').toggleClass('fa-star fa-star-o');
+			},
+			notification: function (e) {
+				var element = $(e.target).closest('.new-notif');
+				element.find('.fa-bell').removeClass('animated infinite');
+				element.removeClass('new-notif');
+				element.find('.badge').remove();
 			}
 		}
 	});
