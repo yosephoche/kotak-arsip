@@ -15,8 +15,14 @@ class StorageController extends Controller
     
     public function index()
     {
-        $data['storage'] = Storage::where('id_company', Auth::user()->id_company)->get();
-        return view('app.storage.index', $data);
+        return view('app.storage.index');
+    }
+
+    public function getData()
+    {
+        $storage = Storage::where('id_company', Auth::user()->id_company)->get();
+
+        return response()->json(['storage' => $storage]);
     }
 
     public function register()
@@ -27,11 +33,6 @@ class StorageController extends Controller
     public function success()
     {
         return view('app.storage.success');
-    }
-
-    public function create()
-    {
-        return view('app.storage.create');
     }
 
     public function store(Request $r)
@@ -48,7 +49,7 @@ class StorageController extends Controller
         $storage->id_company = Auth::user()->id_company;
         $storage->save();
 
-        return redirect(route('storage'));
+        return redirect()->back();
     }
 
     public function edit($id)
@@ -58,7 +59,7 @@ class StorageController extends Controller
         return view('app.storage.edit', $data);
     }
 
-    public function update(Request $r, $id)
+    public function update(Request $r)
     {
         $this->validate($r, [
             'name' => 'required',
@@ -66,13 +67,13 @@ class StorageController extends Controller
         ]);
 
         //Storage Update
-        $storage = Storage::find($id);
+        $storage = Storage::find($r->id);
         $storage->name = $r->name;
         $storage->type = $r->type;
         $storage->id_company = Auth::user()->id_company;
         $storage->save();
 
-        return redirect()->route('storage');
+        return redirect()->back();
     }
 
     public function delete(Request $r)

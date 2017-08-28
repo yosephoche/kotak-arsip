@@ -27,6 +27,12 @@ Route::group(['namespace' => 'App'], function () {
 			Route::get('/', 'IncomingMailController@getData')->name('api_incoming_mail');
 			Route::get('/detail/{id?}', 'IncomingMailController@getDetail')->name('api_incoming_mail_detail');
 		});
+
+		//API-Storage
+		Route::group(['prefix' => 'storage'], function(){
+			Route::get('/', 'StorageController@getData')->name('api_storage');
+		});
+
 	});
 
 	//Company
@@ -49,11 +55,8 @@ Route::group(['namespace' => 'App'], function () {
 		Route::get('/', 'StorageController@index')->name('storage');
 		Route::get('/register', 'StorageController@register')->name('storage_register');
 		Route::get('/success', 'StorageController@success')->name('storage_register_success');
-		Route::get('/create', 'StorageController@create')->name('storage_create');
 		Route::post('/store', 'StorageController@store')->name('storage_store');
-		Route::get('/edit/{id?}', 'StorageController@edit')->name('storage_edit');
-		Route::get('/edit/{id?}', 'StorageController@edit')->name('storage_edit');
-		Route::put('/update/{id?}', 'StorageController@update')->name('storage_update');
+		Route::post('/update', 'StorageController@update')->name('storage_update');
 		Route::post('/delete', 'StorageController@delete')->name('storage_delete');
 	});
 
@@ -67,11 +70,6 @@ Route::group(['namespace' => 'App'], function () {
 		Route::get('/edit/{id?}', 'StorageSubController@edit')->name('storage_sub_edit');
 		Route::put('/update/{id?}', 'StorageSubController@update')->name('storage_sub_update');
 		Route::post('/delete', 'StorageSubController@delete')->name('storage_sub_delete');
-	});
-
-	//Dashboard
-	Route::group(['prefix' => 'dashboard'], function(){
-		Route::get('/', 'DashboardController@index')->name('dashboard');
 	});
 
 	//Surat

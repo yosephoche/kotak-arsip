@@ -32,7 +32,7 @@
 						<h1>Penyimpanan Arsip berhasil ditambahkan</h1>
 						<p>Apakah Anda masih memiliki media penyimpanan lainnya? <a href="{{ route('storage_register') }}">Klik disini</a> jika masih ada</p>
 						<br>
-						<a href="{{ route('dashboard') }}" class="btn btn-primary">Lanjutkan &nbsp;&nbsp;<i class="fa fa-angle-double-right"></i></a>
+						<a href="{{ route('incoming_mail') }}" class="btn btn-primary">Lanjutkan &nbsp;&nbsp;<i class="fa fa-angle-double-right"></i></a>
 					</div>
 				</div>
 			</div>
