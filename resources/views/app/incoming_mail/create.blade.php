@@ -80,7 +80,7 @@
 							</div>
 							<div class="item">
 								<label>Tanggal Masuk</label>
-								<div class="value"><input type="date" class="form-control" name="date" value="{{ date('d/m/Y') }}"></div>
+								<div class="value"><input type="date" class="form-control" name="date" value="{{ date('Y-m-d') }}"></div>
 							</div>
 							<div class="item">
 								<label>Keterangan</label>

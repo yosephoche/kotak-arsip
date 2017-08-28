@@ -183,7 +183,7 @@ class IncomingMailController extends Controller
 		$surat->from = $r->from;
 		$surat->reference_number = $r->reference_number;
 		$surat->subject = $r->subject;
-		$surat->date = Carbon::createFromFormat('d/m/Y', $r->date)->format('d/m/Y');
+		$surat->date = GlobalClass::generateIsoDate($r->date);
 		$surat->storage = $r->storage;
 		$surat->note = $r->note;
 		$surat->fulltext = $r->fulltext;
