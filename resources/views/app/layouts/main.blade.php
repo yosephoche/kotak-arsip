@@ -16,6 +16,9 @@
 
 
 <body>
+	<div class="page-loader">
+		<img src="{{ asset('assets/app/img/load.gif') }}" alt="Loading...">
+	</div>
 
 	<div id="app">
 		@include('app.layouts.partial.nav')

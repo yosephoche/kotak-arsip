@@ -11,7 +11,7 @@
 
 	<ul class="list-unstyled">
 		<li class="label-menus">Konfigurasi</li>
-		<li><a href="penyimpanan-arsip.html">Penyimpanan Arsip</a></li>
+		<li {{ Request::is('storage*') ? 'class=active' : '' }}><a href="{{ route('storage') }}">Penyimpanan Arsip</a></li>
 		<li><a href="anggota.html">Anggota</a></li>
 		<li><a href="pengaturan.html">Pengaturan</a></li>
 	</ul>

@@ -50,17 +50,14 @@ class StorageSubController extends Controller
     public function index($id)
     {
         $data['storage'] = Storage::find($id);
-        $data['sub'] = StorageSub::where('id_storage', GlobalClass::generateMongoObjectId($id))->get();
-
         return view('app.storage_sub.index', $data);
     }
-    
 
-    public function create($storage)
+    public function getData($id)
     {
-        $data['storage'] = Storage::find($storage);
+        $sub = StorageSub::where('id_storage', GlobalClass::generateMongoObjectId($id))->get();
 
-        return view('app.storage_sub.create', $data);
+        return response()->json(['subStorage' => $sub]);
     }
 
     public function store(Request $r)
@@ -75,33 +72,26 @@ class StorageSubController extends Controller
         $sub->name = $r->name;
         $sub->save();
 
-        return redirect()->route('storage_sub', ['id' => $r->id_storage]);
+        return redirect()->back();
     }
 
-    public function edit($id)
-    {
-        $data['sub'] = StorageSub::find($id);
-
-        return view('app.storage_sub.edit', $data);
-    }
-
-    public function update($id, Request $r)
+    public function update(Request $r)
     {
         $this->validate($r, [
             'name' => 'required'
         ]);
 
-        $sub = StorageSub::find($id);
+        $sub = StorageSub::find($r->id);
         $sub->name = $r->name;
         $sub->save();
 
-        return redirect()->route('storage_sub', ['id' => $sub->id_storage]);
+        return redirect()->back();
     }
 
     public function delete(Request $r)
     {
     	StorageSub::where('_id', $r->id)->delete();
-
+        
     	return redirect()->back();
     }
 }

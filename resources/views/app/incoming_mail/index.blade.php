@@ -184,6 +184,7 @@
 @endsection
 
 @section('registerscript')
+	<script src="{{ asset('assets/app/vue/surat-masuk.js') }}"></script>
 	<script>
 		getDataIncomingMail('{{ route("api_incoming_mail") }}', 'incomingMail');
 	</script>
