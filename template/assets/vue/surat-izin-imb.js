@@ -10,7 +10,7 @@ function getDataLicenseImb(api, key) {
 		},
 		created: function () {
 			var _this = this;
-			// Incoming Mail
+			// Surat Izin
 			$.getJSON(api[0], function (json) {
 				_this.json = json;
 			});
@@ -69,7 +69,7 @@ function getDataLicenseFiles(api, key) {
 		},
 		created: function () {
 			var _this = this;
-			// Incoming Mail
+			// Surat Izin
 			$.getJSON(api, function (json) {
 				_this.json = json;
 			});
