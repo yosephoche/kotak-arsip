@@ -2,7 +2,7 @@
 
 namespace App\Classes;
 use App\Posts;
-use DB, Session, Response, Image, Auth;
+use DB, Session, Response, Image, Auth, DateTime;
 
 
 class GlobalClass
@@ -28,6 +28,11 @@ class GlobalClass
 	function generateMongoObjectId($string)
 	{
 	    return new \MongoDB\BSON\ObjectID($string);
+	}
+
+	function generateIsoDate($date)
+	{
+		return new \MongoDB\BSON\UTCDateTime(new DateTime($date));
 	}
 
 	function arrayObjectId($string)
