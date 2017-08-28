@@ -5,6 +5,8 @@
 /vendor
 /.idea
 /.vagrant
+/public/tesserct
+/public/app/incoming_mail
 Homestead.json
 Homestead.yaml
 npm-debug.log
