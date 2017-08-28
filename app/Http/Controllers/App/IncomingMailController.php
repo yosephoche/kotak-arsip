@@ -93,6 +93,11 @@ class IncomingMailController extends Controller
 		}
 	}
 
+	public function removeAjax(Request $r)
+	{
+		unlink(public_path('assets/tesseract/image').'/'.$r->image);
+	}
+
 	public function create()
 	{
 		// Image

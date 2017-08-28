@@ -39,7 +39,7 @@
                     <div class="col-md-4">
                         <h1>Masuk</h1>
 
-                        <form action="{{ route('login') }}" class="form-custom row" method="POST">
+                        <form action="{{ route('login') }}" method="POST">
                             {{ csrf_field() }}
                             @if ( $errors->has('email') or $errors->has('password') )
                                 <div class="alert-top alert alert-danger text-center">Email atau kata sandi salah</div>
