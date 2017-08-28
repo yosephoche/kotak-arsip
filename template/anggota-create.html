@@ -129,8 +129,8 @@
 
 				<ul class="list-unstyled">
 					<li class="label-menus">Konfigurasi</li>
-					<li class="active"><a href="penyimpanan-arsip.html">Penyimpanan Arsip</a></li>
-					<li><a href="anggota.html">Anggota</a></li>
+					<li><a href="penyimpanan-arsip.html">Penyimpanan Arsip</a></li>
+					<li class="active"><a href="anggota.html">Anggota</a></li>
 					<li><a href="pengaturan.html">Pengaturan</a></li>
 				</ul>
 
@@ -144,93 +144,132 @@
 			<div class="ka-main">
 				<div class="breadcrumbs">
 					<ul class="list-inline">
-						<li><a href="penyimpanan-arsip.html">Penyimpanan Arsip</a></li>
-						<li>Filling Cabinet 1</li>
+						<li><a href="anggota.html">Anggota</a></li>
+						<li>Tambah Anggota</li>
 					</ul>
 				</div>
 
-				<table class="table table-hover">
-					<tr>
-						<th colspan="2" class="sort" @click="sortBy('name', $event)">Nama/Kode map, folder, guide atau ordner <i class="fa fa-angle-down i-sort"></i></th>
-					</tr>
-					<tr class="item" v-for="val in orderedStorage" @click="detailSidebar(val, $event)">
-						<td><a>{{ val.name }}</a></td>
-						<td class="text-right dropdown">
-							<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
-							<ul class="dropdown-menu pull-right">
-								<li><a href="#" data-toggle="modal" data-target="#editModal" :data-id="val._id" :data-name="val.name">Sunting</a></li>
-								<li><a href="#" data-toggle="modal" data-target="#deleteModal" class="text-danger" v-bind:data-id="val._id">Hapus</a></li>
-							</ul>
-						</td>
-					</tr>
-				</table>
+				<hr>
+
+				<form action="" class="row">
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group form-line">
+									<label for="">Nama Lengkap</label>
+									<input type="text" class="form-control" v-model="userName">
+								</div>
+							
+								<div class="form-group form-line">
+									<label for="">Email</label>
+									<input type="email" class="form-control" v-model="userEmail">
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group form-line">
+									<label for="">No. Telpon/HP</label>
+									<input type="text" class="form-control" v-model="userHp">
+								</div>
+							</div>
+							
+							<div class="col-md-4">
+								<div class="form-group form-line">
+									<label for="">Jabatan</label>
+									<input type="text" class="form-control" v-model="userPosition">
+								</div>
+							</div>
+
+							<div class="col-md-4">
+								<div class="form-group form-line">
+									<label for="">Status</label>
+									<select class="form-control">
+										<option value="Pilih">Pilih</option>
+										<option value="anggota">Anggota</option>
+										<option value="kepala-divisi">Kepala Divisi</option>
+										<option value="operator">Operator</option>
+										<option value="admin">Admin</option>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group form-line">
+									<label for="">Foto</label>
+									<input type="file" class="form-control" accept=".jpg, .png, .jpeg" onchange="readURL(this)" @change="userPhoto = true">
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group form-line">
+									<label for="">Kata Sandi</label>
+									<input type="password" class="form-control">
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group form-line">
+									<label for="">Konfirmasi Kata Sandi</label>
+									<input type="password" class="form-control">
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12">
+								<br>
+								<button class="btn btn-primary">Tambah</button>
+							</div>
+						</div>
+					</div>
+				</form>
 			</div>
 
 			<aside class="ka-sidebar-detail">
-				<a href="#" data-toggle="modal" data-target="#newModal" class="btn btn-primary btn-block">Tambah</a>
-
-				<br>
-
 				<div class="detail-info">
+					<div class="select no-border" style="height: calc(100vh - 70px); padding-top: 0">
+						<h5 class="no-margin">Pratinjau</h5>
+						<hr>
 
-					<div v-if="detail !== ''">
-						<detail :detail="detail"></detail>
-					</div>
-					<div v-else>
-						<no-select></no-select>
-					</div>
+						<div class="item" v-if="userPhoto == true">
+							<label for="img" id="img-preview" class="value"></label>
+						</div>
 
+						<div class="item">
+							<label>Nama</label>
+							<div class="value" v-if="userName != ''">{{ userName }}</div>
+							<div class="value" v-else>...</div>
+						</div>
+
+						<div class="item">
+							<label>Email</label>
+							<div class="value" v-if="userEmail != ''">{{ userEmail }}</div>
+							<div class="value" v-else>...</div>
+						</div>
+
+						<div class="item">
+							<label>No. Telpon/HP</label>
+							<div class="value" v-if="userHp != ''">{{ userHp }}</div>
+							<div class="value" v-else>...</div>
+						</div>
+
+						<div class="item">
+							<label>Jabatan</label>
+							<div class="value" v-if="userPosition != ''">{{ userPosition }}</div>
+							<div class="value" v-else>...</div>
+						</div>
+					</div>
 				</div>
 			</aside>
 		</section>
 
 		<!-- Modals -->
-		<div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="newLabelModal">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<form action="">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title" id="newLabelModal">Tambah Media Penyimpanan Baru</h4>
-						</div>
-						<div class="modal-body">
-							<div class="form-group">
-								<input type="text" name="name" class="form-control" placeholder="Nama/Kode Penyimpanan Arsip">
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-							<button class="btn btn-primary">Tambahkan</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-
-		<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editLabelModal">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<form action="">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title" id="editLabelModal">Sunting Media Penyimpanan</h4>
-						</div>
-						<div class="modal-body">
-							<input type="hidden" name="id">
-
-							<div class="form-group">
-								<input type="text" name="name" class="form-control" placeholder="Nama/Kode Penyimpanan Arsip">
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-							<button class="btn btn-primary">Simpan</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-
 		<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabelModal">
 			<div class="modal-dialog modal-sm" role="document">
 				<div class="modal-content">
@@ -241,7 +280,7 @@
 						</div>
 						<div class="modal-body">
 							<input type="hidden" name="id">
-							Apakah Anda yakin ingin menghapus data ini?
+							Apakah Anda yakin ingin menghapus anggota ini?
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
@@ -253,49 +292,12 @@
 		</div>
 		<!-- End Modal -->
 	</div>
-	
-	<!-- No select data in table -->
-	<template id="no-select">
-		<div class="no-select text-center">
-			<img src="assets/img/icons/select_file.svg" alt="Pilih salah satu">
-			<p>Pilih salah satu data untuk melihat detail</p>
-		</div>
-	</template>
-
-	<!-- Detail after select data in table -->
-	<template id="sidebar-detail">
-		<div class="select no-border">
-			<div class="item" v-if="detail.name">
-				<label>Nama/Kode Penyimpanan</label>
-				<div class="value">{{ detail.name }}</div>
-			</div>
-		</div>
-	</template>
 
 	<script src="assets/js/kotakarsip.js"></script>
 	<script src="assets/vue/components/sidebar-detail.js"></script>
-	<script src="assets/vue/penyimpanan-arsip.js"></script>
+	<script src="assets/vue/pengguna.js"></script>
 	<script>
-		getDataStorageSub('data/penyimpanan_arsip_sub.json', 'subStorage');
-
-		// Radio Button For Select Cabinet
-		$('.select-cabinet label').click(function() {
-			var id = $(this).attr('for');
-
-			$('input[type="radio"]').removeAttr('checked');
-			$('input#' + id).attr('checked', 'checked');
-
-			$('label').removeClass('active');
-			$('label[for="' + id + '"]').addClass('active');
-		});
-
-		// Edit Modal
-		$('#editModal').on('show.bs.modal', function (e) {
-			var key = ['id', 'name'];
-			for (var i = 0; i < key.length; i++) {
-				$(this).find('input[name="' + key[i] + '"]').val($(e.relatedTarget).data(key[i]));
-			}
-		});
+		getDataUsers('data/pengguna.json', 'users');
 	</script>
 
 </body>
