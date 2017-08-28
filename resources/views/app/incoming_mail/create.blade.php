@@ -23,14 +23,14 @@
 
 		<section class="ka-body ka-body-detail ka-body-form">
 			<header class="ka-menus">
-				<form action="{{ route('incoming_mail_upload_ajax') }}" method="post" enctype="multipart/form-data">
-					{{ csrf_field() }}
+				<form method="post" id="form" enctype="multipart/form-data">
+					<input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
 					<label for="files" class="btn btn-default btn-block">+ Tambah file lainnya</label>
 					<input type="file" class="hide" name="files[]" id="files" multiple>
 					<button>Simpan</button>
 				</form>
 				<hr>
-				<div class="images" v-for="val in json.incomingMail">
+				<div class="images" id="images">
 					@foreach ($image as $img)
 						<div class="pos-r">
 							<a href="#" class="delete-img" title="Hapus">×</a>
@@ -39,9 +39,9 @@
 					@endforeach
 				</div>
 			</header>
-
-			<div class="ka-main">
-				<div>
+			
+			<div class="ka-main images">
+				<div id="main">
 					@foreach ($image as $img)
 						<img src="{{ asset('assets/tesseract/image').'/'.$img }}" alt="">
 					@endforeach
@@ -53,56 +53,52 @@
 			<aside class="ka-sidebar-detail">
 				<div class="detail-info">
 					<div class="select">
-						<div class="item">
-							<label>Asal Surat</label>
-							<div class="value"><input type="text" class="form-control" name="from" value="{{ @ltrim($from) }}"></div>
-						</div>
-						<div class="item">
-							<label>Nomor Surat</label>
-							<div class="value"><input type="text" class="form-control" name="reference_number" value="{{ @ltrim($reference_number) }}"></div>
-						</div>
-						<div class="item">
-							<label>Perihal</label>
-							<div class="value"><input type="text" class="form-control" name="subject" value="{{ @ltrim($subject) }}"></div>
-						</div>
-						<div class="item">
-							<label>Penyimpanan Arsip</label>
-							<div class="value">
-								<select name="storage" class="form-control">
-									<option value="">Pilih</option>
-									<option value="">Filling Cabinet 1</option>
-									<option value="">Filling Cabinet 2</option>
-									<option value="">Filling Cabinet 3</option>
-								</select>
-								<!-- <select name="storage" class="form-control m-t-10">
-									<option value="">Pilih</option>
-									<option value="">Laci 1</option>
-									<option value="">Laci 2</option>
-									<option value="">Laci 3</option>
-									<option value="">Laci 4</option>
-								</select> -->
+						<form action="{{ route('incoming_mail_store') }}" method="post" enctype="multipart/form-data">
+							{{ csrf_field() }}
+							<div class="item">
+								<label>Asal Surat</label>
+								<div class="value"><input type="text" class="form-control" name="from" value="{{ @ltrim($from) }}"></div>
 							</div>
-						</div>
-						<div class="item">
-							<label>Tanggal Masuk</label>
-							<div class="value"><input type="date" class="form-control" name="date" value="{{ date('Y-m-d') }}"></div>
-						</div>
-						<div class="item">
-							<label>Keterangan</label>
-							<div class="value"><input type="text" class="form-control" name="note"></div>
-						</div>
-						<input type="hidden" name="fulltext" value="{{ $fulltext }}">
-						<div class="item">
-							<hr>
-							<div class="row">
-								<div class="col-md-6">
-									<a href="" class="btn btn-default btn-block">Batal</a>
-								</div>
-								<div class="col-md-6">
-									<button class="btn btn-primary btn-block">Simpan</button>
+							<div class="item">
+								<label>Nomor Surat</label>
+								<div class="value"><input type="text" class="form-control" name="reference_number" value="{{ @ltrim($reference_number) }}"></div>
+							</div>
+							<div class="item">
+								<label>Perihal</label>
+								<div class="value"><input type="text" class="form-control" name="subject" value="{{ @ltrim($subject) }}"></div>
+							</div>
+							<div class="item">
+								<label>Penyimpanan Arsip</label>
+								<div class="value">
+									<select name="storage" class="form-control">
+										<option value="">Pilih</option>
+										<option value="F1">Filling Cabinet 1</option>
+										<option value="F2">Filling Cabinet 2</option>
+										<option value="F3">Filling Cabinet 3</option>
+									</select>
 								</div>
 							</div>
-						</div>
+							<div class="item">
+								<label>Tanggal Masuk</label>
+								<div class="value"><input type="date" class="form-control" name="date" value="{{ date('d/m/Y') }}"></div>
+							</div>
+							<div class="item">
+								<label>Keterangan</label>
+								<div class="value"><input type="text" class="form-control" name="note"></div>
+								<input type="hidden" name="fulltext" value="{{ $fulltext }}">
+							</div>
+							<div class="item">
+								<hr>
+								<div class="row">
+									<div class="col-md-6">
+										<a href="" class="btn btn-default btn-block">Batal</a>
+									</div>
+									<div class="col-md-6">
+										<button class="btn btn-primary btn-block">Simpan</button>
+									</div>
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
 			</aside>
@@ -143,7 +139,41 @@
 	</div>
 
 	<script src="{{ asset('assets/app/js/kotakarsip.js') }}"></script>
+	<script>
+		//Upload Multiple Image
+		$('#form').submit(function(e) {
+		  e.preventDefault();
+
+		  var files = $('#files')[0].files;
+		  var token = $('#token').val();
+
+		  var form = new FormData();
+
+		  form.append('_token', token);
+		  for (var i = 0; i < files.length; i++) {
+		  	form.append('file[]', files[i]);
+		  }
+
+		  console.log(form.get('file'));
+
+		  $.ajax({
+				url: '{{ route("incoming_mail_upload_ajax") }}',
+				cache: false,
+				contentType: false,
+				processData: false,
+				data: form,
+				type: 'post',
+				success: function(data){
+					console.log(data);
+					$('#images').load(' #images');
+					$('#main').load(' #images');
+				},error:function(){ 
+					alert("Masukkan File Terlebih Dahulu");
+				} 
+			 });
+		});
+
+	</script>
 </body>
 
 </html>
-

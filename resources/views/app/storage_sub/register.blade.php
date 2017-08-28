@@ -28,18 +28,18 @@
                     <form action="{{ route('storage_sub_register_store') }}" method="post">
                         <div class="col-md-offset-2 col-md-4">
                             <br>
-                            <img src="{{ asset('assets/app/img/company.svg') }}" alt="" width="98%" style="margin-top: 60px">
+                            <img src="{{ asset('assets/app/img/icons/map_arsip.svg') }}" alt="" width="98%" style="margin-top: 60px">
                         </div>
                         {{ csrf_field() }}
                         <div class="col-md-4">
                             @if ($storage == "filling_cabinet")
-                                <h1><input type="text" name="storage_name" placeholder="Nama Filling Cabinet" autofocus></h1>
+                                <h1><input type="text" name="storage_name" placeholder="Nama Filling Cabinet"></h1>
                             @elseif ($storage == "rotary_cabinet")
-                                <h1><input type="text" name="storage_name" placeholder="Nama Rotary Cabinet" autofocus></h1>
+                                <h1><input type="text" name="storage_name" placeholder="Nama Rotary Cabinet"></h1>
                             @elseif ($storage == "lemari_arsip")
-                                <h1><input type="text" name="storage_name" placeholder="Nama Lemari Arsip" autofocus></h1>
+                                <h1><input type="text" name="storage_name" placeholder="Nama Lemari Arsip"></h1>
                             @else
-                                <h1><input type="text" name="storage_name" placeholder="Nama Rak Arsip" autofocus></h1>
+                                <h1><input type="text" name="storage_name" placeholder="Nama Rak Arsip"></h1>
                             @endif
                             <input type="hidden" name="type" value="{{ $storage }}">
                             <p>Silahkan masukkan nama sub penyimpanan Anda seperti map, folder, guide dan ordner pada filling cabinet ini!</p>
