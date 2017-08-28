@@ -11660,6 +11660,9 @@ a:hover, a:focus, a:active, a:visited {
 .ka-body.ka-body-form .ka-sidebar-detail {
   width: 325px;
 }
+.ka-body.ka-body-single .ka-main {
+  width: calc(100% - 225px);
+}
 
 .modal-disposisi .img-profile {
   width: 35px;
@@ -11719,6 +11722,13 @@ a:hover, a:focus, a:active, a:visited {
 }
 .select-cabinet label.active {
   border: 3px solid #0070ff;
+}
+
+.timeline .time {
+  color: #999;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
 }
 
 .setup-storage-sub h1 input {
