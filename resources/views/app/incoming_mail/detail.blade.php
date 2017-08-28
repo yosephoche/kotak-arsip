@@ -115,7 +115,7 @@
 	</div>
 
 	@include('app.layouts.partial.script')
-	
+	<script src="{{ asset('assets/app/vue/surat-masuk.js') }}"></script>
 	<script>
 		getDataIncomingMailDetail('{{ route('api_incoming_mail_detail', ['id' => $archieve->_id]) }}', 'incomingMail');
 	</script>

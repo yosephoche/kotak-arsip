@@ -43,7 +43,7 @@
 					<ul class="dropdown-menu pull-right">
 						<li><a href="detail.html">Lihat Detail</a></li>
 						<li><a href="#" data-toggle="modal" data-target="#disposisiModal">Disposisi</a></li>
-						<li><a href="sunting.html">Sunting</a></li>
+						<li><a v-bind:href="'{{ route('incoming_mail_edit') }}/' + val._id">Sunting</a></li>
 						<li><a type="button" data-toggle="modal" data-target="#deleteModal" v-bind:data-id="val._id" class="text-danger">Hapus</a></li>
 					</ul>
 				</td>

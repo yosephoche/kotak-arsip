@@ -179,7 +179,6 @@ return [
         Jenssegers\Mongodb\MongodbServiceProvider::class,
         Jenssegers\Mongodb\MongodbQueueServiceProvider::class,
         App\Providers\GlobalClassServiceProvider::class,
-        'Folklore\Image\ImageServiceProvider'
 
     ],
 
@@ -231,7 +230,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'GlobalClass' => App\Facades\GlobalClass::class,
         'Moloquent' => Jenssegers\Mongodb\Eloquent\Model::class,
-        'Image' => 'Folklore\Image\Facades\Image'
     ],
 
 ];

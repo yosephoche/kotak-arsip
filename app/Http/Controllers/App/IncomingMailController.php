@@ -199,6 +199,27 @@ class IncomingMailController extends Controller
 		return redirect()->route('incoming_mail');
 	}
 
+	public function edit($id)
+	{
+		// Image
+		$dir = public_path('assets/tesseract/image');
+		$files = scandir($dir);
+
+		$images = [];
+		for ($i=0; $i < count($files); $i++) { 
+			// Conditions for find images
+			$ext = substr($files[$i], -3);
+			if ($ext == 'jpg' || $ext == 'peg' || $ext == 'png') {
+				array_push($images, $files[$i]);
+			}
+		}
+		$data['image'] = $images; 
+		
+		$data['archieve'] = Archieve::find($id);
+
+		return view('app.incoming_mail.edit', $data);
+	}
+
 	public function update(Request $r)
 	{
 		$this->validate($r, [

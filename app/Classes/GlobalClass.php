@@ -20,12 +20,6 @@ class GlobalClass
 			$nm_file = rand(111111,999999).".".$ext;
 			$upload = $files[$i]->move($destinationPath, $nm_file);
 			$filename[] = $nm_file;
-
-			// Create Thumbnail
-			Image::make($destinationPath.'/'.$nm_file,array(
-				'width' => $thumb,
-				'grayscale' => false
-			))->save($destinationPath.'/thumb-'.$nm_file);
 		}
 
 		return $filename;

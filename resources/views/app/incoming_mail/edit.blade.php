@@ -27,17 +27,18 @@
 					<input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
 					<label for="files" class="btn btn-default btn-block">+ Tambah file lainnya</label>
 					<input type="file" class="hide" name="files[]" id="files" multiple>
+					<button>Simpan</button>
 				</form>
 				<hr>
 				<div class="images" id="images">
-					@foreach ($image as $img)
+					@foreach ($archieve->files as $file)
 						<div class="pos-r">
 							<form action="a" id="formdelete">
 								<input type="hidden" name="_token" id="delete_token" value="{{ csrf_token() }}">
-								<button type="button" id="delete" class="delete-img" data-image="{{ $img }}" title="Hapus">×</button>
+								<button type="button" id="delete" class="delete-img" data-image="{{ $file }}" title="Hapus">×</button>
 								<!-- <a type="button" id="delete"  class="delete-img" title="Hapus">×</a> -->
 							</form>
-							<img src="{{ asset('assets/tesseract/image').'/'.$img }}" alt="">
+							<img src="{{ asset('assets/app/img/incoming_mail').'/'.$file }}" alt="">
 						</div>
 					@endforeach
 				</div>
@@ -45,8 +46,8 @@
 			
 			<div class="ka-main images">
 				<div id="main">
-					@foreach ($image as $img)
-						<img src="{{ asset('assets/tesseract/image').'/'.$img }}" alt="">
+					@foreach ($archieve->files as $file)
+						<img src="{{ asset('assets/app/img/incoming_mail').'/'.$file }}" alt="">
 					@endforeach
 					<!-- <img src="'{{ url(asset('assets/tesseract/image.jpg')) }}'" alt=""> -->
 					<!-- <object data="assets/img/data-img/surat-masuk/dok-2.pdf" type=""></object> -->
@@ -60,15 +61,15 @@
 							{{ csrf_field() }}
 							<div class="item">
 								<label>Asal Surat</label>
-								<div class="value"><input type="text" class="form-control" name="from" value="{{ @ltrim($from) }}"></div>
+								<div class="value"><input type="text" class="form-control" name="from" value="{{ $archieve->from }}"></div>
 							</div>
 							<div class="item">
 								<label>Nomor Surat</label>
-								<div class="value"><input type="text" class="form-control" name="reference_number" value="{{ @ltrim($reference_number) }}"></div>
+								<div class="value"><input type="text" class="form-control" name="reference_number" value="{{ $archieve->reference_number }}"></div>
 							</div>
 							<div class="item">
 								<label>Perihal</label>
-								<div class="value"><input type="text" class="form-control" name="subject" value="{{ @ltrim($subject) }}"></div>
+								<div class="value"><input type="text" class="form-control" name="subject" value="{{ $archieve->subject }}"></div>
 							</div>
 							<div class="item">
 								<label>Penyimpanan Arsip</label>
@@ -83,12 +84,11 @@
 							</div>
 							<div class="item">
 								<label>Tanggal Masuk</label>
-								<div class="value"><input type="date" class="form-control" name="date" value="{{ date('Y-m-d') }}"></div>
+								<div class="value"><input type="date" class="form-control" name="date" value="{{ $archieve->date }}"></div>
 							</div>
 							<div class="item">
 								<label>Keterangan</label>
-								<div class="value"><input type="text" class="form-control" name="note"></div>
-								<input type="hidden" name="fulltext" value="{{ $fulltext }}">
+								<div class="value"><input type="text" class="form-control" name="note" value="{{ $archieve->note }}"></div>
 							</div>
 							<div class="item">
 								<hr>
@@ -144,7 +144,7 @@
 	<script src="{{ asset('assets/app/js/kotakarsip.js') }}"></script>
 	<script>
 		//Upload Multiple Image
-		$('#files').change(function(e) {
+		$('#form').submit(function(e) {
 		  e.preventDefault();
 
 		  var files = $('#files')[0].files;
