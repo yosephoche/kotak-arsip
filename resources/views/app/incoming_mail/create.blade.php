@@ -33,7 +33,11 @@
 				<div class="images" id="images">
 					@foreach ($image as $img)
 						<div class="pos-r">
-							<a href="#" class="delete-img" title="Hapus">×</a>
+							<form action="a" id="formdelete">
+								<input type="hidden" name="_token" id="delete_token" value="{{ csrf_token() }}">
+								<button type="button" id="delete" class="delete-img" data-image="{{ $img }}" title="Hapus">X</button>
+								<!-- <a type="button" id="delete"  class="delete-img" title="Hapus">×</a> -->
+							</form>
 							<img src="{{ asset('assets/tesseract/image').'/'.$img }}" alt="">
 						</div>
 					@endforeach
@@ -172,6 +176,34 @@
 				} 
 			 });
 		});
+
+		//delete Image
+		$(document).on('click', '#delete', function() {
+
+			var image = $(this).data('image');	
+			var token = $('#delete_token').val();	
+
+			var form = new FormData();
+			form.append('_token', token);
+			form.append('image', image);
+
+			console.log(form.get('image'));
+			$.ajax({
+				url: '{{ route("incoming_mail_delete_ajax") }}',
+				contentType: false,
+				processData: false,
+				method: 'POST',
+				data: form,
+				success: function(data){
+					console.log(data);
+					$('#images').load(' #images');
+					$('#main').load(' #main');
+				},
+				error: function(){
+					alert('Telah terjadi kesalahan')
+				}
+			});
+		})
 
 	</script>
 </body>

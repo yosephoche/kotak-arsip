@@ -14,7 +14,7 @@
 			<tr>
 				<th class="sort">Asal Surat <i class="fa fa-angle-down"></i></th>
 				<th>Perihal</th>
-				<th class="view-tablet-only">Disposisi</th>
+				<th class="view-tablet-only" width="150px">Disposisi</th>
 				<th class="view-tablet-only">Tanggal Masuk</th>
 				<th class="text-right dropdown">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list-ul"></i></a>
