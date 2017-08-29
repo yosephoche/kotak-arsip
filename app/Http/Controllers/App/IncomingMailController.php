@@ -116,13 +116,13 @@ class IncomingMailController extends Controller
 
 		// --- OCR Code ---
 		// Path Variables For Run OCR
-		$image = public_path('assets\tesseract\image\111111.jpg');
-		$result = public_path('assets\tesseract\out');
+		$image = public_path('assets/tesseract/image/111111.jpg');
+		$result = public_path('assets/tesseract/out');
 		$open = public_path('assets/tesseract/out.txt');
 
 		// OCR Execution By Tesseract
 		// For Windows
-		$output = exec('tesseract "'.$image.'" "'.$result.'" -l ind+eng');
+		// $output = exec('tesseract "'.$image.'" "'.$result.'" -l ind+eng');
 
 		// For Mac
 		$output = exec('/usr/local/bin/tesseract "'.$image.'" "'.$result.'" -l ind+eng');
