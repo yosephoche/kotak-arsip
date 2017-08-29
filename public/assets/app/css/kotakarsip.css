@@ -273,6 +273,10 @@ a {
   outline: none !important;
 }
 
+.va-mid {
+  vertical-align: middle;
+}
+
 @media only screen and (max-width: 960px) {
   .view-desktop-only {
     display: none;
@@ -375,6 +379,31 @@ a {
 }
 .modal .modal-footer {
   background-color: #f9f9f9;
+}
+
+.badge.badge-line {
+  background-color: transparent;
+  color: #0070ff;
+  font-weight: normal;
+  border: 1px solid #0070ff;
+}
+
+.table tr.va-mid td {
+  vertical-align: middle;
+}
+
+.form-group label {
+  font-size: 12px;
+  color: #999999;
+  font-weight: normal;
+}
+.form-group.form-line .form-control {
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-radius: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 /*!
@@ -11658,7 +11687,9 @@ a:hover, a:focus, a:active, a:visited {
   display: block;
   background: #fff;
   text-align: center;
+  border: none;
   border-radius: 50%;
+  outline: none;
   box-shadow: 0px 1px 1px #ccc;
   color: #999;
   display: none;

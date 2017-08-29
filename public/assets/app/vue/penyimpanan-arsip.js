@@ -1,4 +1,4 @@
-// Get data Surat Masuk json
+// Get data Penyimpanan json
 function getDataStorage(api, key) {
 	var app = new Vue({
 		el: '#app',
@@ -10,7 +10,7 @@ function getDataStorage(api, key) {
 		},
 		created: function () {
 			var _this = this;
-			// Surat Masuk
+			// Penyimpanan
 			$.getJSON(api, function (json) {
 				_this.json = json;
 			});
@@ -67,7 +67,7 @@ function getDataStorage(api, key) {
 
 
 
-// Get data Surat Masuk json
+// Get data Sub Penyimpanan json
 function getDataStorageSub(api, key) {
 	var app = new Vue({
 		el: '#app',
@@ -79,7 +79,7 @@ function getDataStorageSub(api, key) {
 		},
 		created: function () {
 			var _this = this;
-			// Surat Masuk
+			// Sub Penyimpanan
 			$.getJSON(api, function (json) {
 				_this.json = json;
 			});

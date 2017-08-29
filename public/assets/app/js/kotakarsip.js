@@ -48607,6 +48607,8 @@ function seePassword(e) {
 }
 
 seePassword('.see-password');
+
+// NiceScroll
 $(document).ready(function() {
 	if($(window).width() > 992) {
 		$('.ka-menus, .ka-main, .detail-info .select').niceScroll({
@@ -48615,9 +48617,25 @@ $(document).ready(function() {
 	}
 });
 
+
+// Page Loader
 $(window).load(function(){
 	$(".page-loader").fadeOut();
 });
+
+
+// Image Preview
+function readURL(input) {
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+
+		reader.onload = function (e) {
+			$('#img-preview').html('<img src="'+ e.target.result +'" width="100%">');
+		}
+
+		reader.readAsDataURL(input.files[0]);
+	}
+}
 
 
 // Checkbox Custom
