@@ -1,30 +1,34 @@
-// Get data Surat Izin json
-function getDataLicense(api, key) {
+// Get data Pengguna json
+function getDataUsers(api, key) {
 	var app = new Vue({
 		el: '#app',
 		data: {
-			search: '',
 			sort: 'asc',
 			json: { key : [] },
 			detail: '',
+			sortKey: 'name',
+			userName: '',
+			userEmail: '',
+			userHp: '',
+			userPosition: '',
+			userPhoto: ''
 		},
 		created: function () {
 			var _this = this;
-			// Surat Izin
+			// Pengguna
 			$.getJSON(api, function (json) {
 				_this.json = json;
 			});
 		},
 		computed: {
-			orderedLicense: function () {
-				return _.orderBy(this.json.license, 'type', this.sort);
+			orderedUsers: function () {
+				return _.orderBy(this.json.users, this.sortKey, this.sort);
 			}
 		},
 		methods: {
 			detailSidebar: function (val, e) {
 				this.detail = val;
 				var element = $(e.target).closest('.item');
-				console.log(element);
 				
 				// remove all class active except this
 				element.siblings().removeClass('active');
@@ -43,13 +47,21 @@ function getDataLicense(api, key) {
 				element.removeClass('new-notif');
 				element.find('.badge').remove();
 			},
-			sortBy: function (e) {
+			sortBy: function (key, e) {
+				this.sortKey = key;
+
 				// change icon
-				$(e.target.closest('th')).find('i').toggleClass('fa-angle-down fa-angle-up');
+				var element = $(e.target.closest('th'));
+				$('.sort').removeClass('sort');
+				element.addClass('sort');
+
+				$('th i.i-sort').remove();
 				
 				if (this.sort === "asc") {
+					$('.sort').append(' <i class="fa fa-angle-up i-sort"></i>');
 					this.sort = "desc";
 				} else {
+					$('.sort').append(' <i class="fa fa-angle-down i-sort"></i>');
 					this.sort = "asc";
 				}
 
