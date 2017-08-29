@@ -205,51 +205,36 @@ class IncomingMailController extends Controller
 	}
 
 	public function edit($id)
-	{
-		// Image
-		$dir = public_path('assets/tesseract/image');
-		$files = scandir($dir);
-
-		$images = [];
-		for ($i=0; $i < count($files); $i++) { 
-			// Conditions for find images
-			$ext = substr($files[$i], -3);
-			if ($ext == 'jpg' || $ext == 'peg' || $ext == 'png') {
-				array_push($images, $files[$i]);
-			}
-		}
-		$data['image'] = $images; 
-		
+	{	
 		$data['archieve'] = Archieve::find($id);
 
 		return view('app.incoming_mail.edit', $data);
 	}
 
-	public function update(Request $r)
+	public function update($id, Request $r)
 	{
 		$this->validate($r, [
-			'asal'	=> 'required',
-			'nomor'	=> 'required',
-			'perihal'	=> 'required',
-			'tanggal'	=> 'required',
-			'penyimpanan'	=> 'required',
+			'from'				=> 'required',
+			'reference_number'	=> 'required',
+			'subject'			=> 'required',
+			'date'				=> 'required',
+			'storage'			=> 'required',
 		]);
 
-		$surat = Archieve::find($r->_id);
-		$surat->id_user = $r->id_user;
-		$surat->id_company = $r->id_company;
-		$surat->type = $r->type;
-		$surat->asal = $r->asal;
-		$surat->nomor = $r->nomor;
-		$surat->perihal = $r->perihal;
-		$surat->tanggal = Carbon::createFromFormat('d/m/Y', $r->tanggal)->format('d/m/Y');
-		$surat->penyimpanan = $r->penyimpanan;
-		$surat->share = $r->share;
-		$surat->keterangan = $r->keterangan;
+		$surat = Archieve::find($id);
+		$surat->id_user = Auth::user()->_id;
+		$surat->id_company = Auth::user()->id_company;
+		$surat->type = "incoming_mail";
+		$surat->from = $r->from;
+		$surat->reference_number = $r->reference_number;
+		$surat->subject = $r->subject;
+		$surat->date = GlobalClass::generateIsoDate($r->date);
+		$surat->storage = $r->storage;
+		$surat->note = $r->note;
 		$surat->save();
 
 		Session::flash('message', "Berhasil menyimpan pembaruan");
-		return redirect()->back();
+		return redirect()->route('incoming_mail');
 	}
 
 	public function delete(Request $r)

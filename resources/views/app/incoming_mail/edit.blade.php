@@ -57,7 +57,7 @@
 			<aside class="ka-sidebar-detail">
 				<div class="detail-info">
 					<div class="select">
-						<form action="{{ route('incoming_mail_store') }}" method="post" enctype="multipart/form-data">
+						<form action="{{ route('incoming_mail_update', ['id' => $archieve->_id]) }}" method="post" enctype="multipart/form-data">
 							{{ csrf_field() }}
 							<div class="item">
 								<label>Asal Surat</label>
