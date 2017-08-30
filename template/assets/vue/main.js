@@ -23,7 +23,6 @@ function getDataSuratMasuk(api, key) {
 			detailSidebar: function (val, e) {
 				this.detail = val;
 				var element = $(e.target).closest('.item');
-				console.log(element);
 				
 				// remove all class active except this
 				element.siblings().removeClass('active');
