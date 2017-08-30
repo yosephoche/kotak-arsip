@@ -37,7 +37,7 @@
 						</li>
 					</ul>
 				</td>
-				<td class="view-tablet-only" v-html="val.date"></td>
+				<td class="view-tablet-only" v-html="$options.filters.moment(val.date.$date.$numberLong)"></td>
 				<td class="text-right dropdown">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
 					<ul class="dropdown-menu pull-right">
