@@ -24,7 +24,6 @@ function getDataLicense(api, key) {
 			detailSidebar: function (val, e) {
 				this.detail = val;
 				var element = $(e.target).closest('.item');
-				console.log(element);
 				
 				// remove all class active except this
 				element.siblings().removeClass('active');
@@ -53,6 +52,14 @@ function getDataLicense(api, key) {
 					this.sort = "asc";
 				}
 
+			}
+		},
+		filters: {
+			moment: function (date) {
+				var day = moment(date, "x").date();
+				var month = moment(date, "x").month();
+				var year = moment(date, "x").year();
+				return day + "/" + month + "/" + year;
 			}
 		}
 	});

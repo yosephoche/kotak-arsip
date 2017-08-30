@@ -54,6 +54,14 @@ function getDataLicenseImb(api, key) {
 					return user.name.toLowerCase().indexOf(self.search.toLowerCase())>=0;
 				});
 			}
+		},
+		filters: {
+			moment: function (date) {
+				var day = moment(date, "x").date();
+				var month = moment(date, "x").month();
+				var year = moment(date, "x").year();
+				return day + "/" + month + "/" + year;
+			}
 		}
 	});
 }
@@ -96,6 +104,14 @@ function getDataLicenseFiles(api, key) {
 				element.find('.fa-bell').removeClass('animated infinite');
 				element.removeClass('new-notif');
 				element.find('.badge').remove();
+			}
+		},
+		filters: {
+			moment: function (date) {
+				var day = moment(date, "x").date();
+				var month = moment(date, "x").month();
+				var year = moment(date, "x").year();
+				return day + "/" + month + "/" + year;
 			}
 		}
 	});
