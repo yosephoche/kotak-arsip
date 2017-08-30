@@ -37,7 +37,7 @@
 								<button type="button" id="delete" class="delete-img" data-image="{{ $img }}" title="Hapus">×</button>
 								<!-- <a type="button" id="delete"  class="delete-img" title="Hapus">×</a> -->
 							</form>
-							<img src="{{ asset('assets/tesseract/image').'/'.$img }}" alt="">
+							<img src="{{ asset('assets/tesseract/').'/'.Auth::user()->_id.'/'.$img }}" alt="">
 						</div>
 					@endforeach
 				</div>
@@ -46,7 +46,7 @@
 			<div class="ka-main images">
 				<div id="main">
 					@foreach ($image as $img)
-						<img src="{{ asset('assets/tesseract/image').'/'.$img }}" alt="">
+						<img src="{{ asset('assets/tesseract').'/'.Auth::user()->_id.'/'.$img }}" alt="">
 					@endforeach
 					<!-- <img src="'{{ url(asset('assets/tesseract/image.jpg')) }}'" alt=""> -->
 					<!-- <object data="assets/img/data-img/surat-masuk/dok-2.pdf" type=""></object> -->

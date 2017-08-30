@@ -73,7 +73,7 @@ Route::group(['namespace' => 'App'], function () {
 		Route::post('/delete', 'StorageSubController@delete')->name('storage_sub_delete');
 	});
 
-	//Surat
+	//Mail
 	Route::group(['prefix' => 'surat'], function(){
 		//Incoming Mail
 		Route::group(['prefix' => 'masuk'], function(){
@@ -85,7 +85,7 @@ Route::group(['namespace' => 'App'], function () {
 			Route::post('/store', 'IncomingMailController@store')->name('incoming_mail_store');
 			Route::get('/detail/{id?}', 'IncomingMailController@detail')->name('incoming_mail_detail');
 			Route::get('/edit/{id?}', 'IncomingMailController@edit')->name('incoming_mail_edit');
-			Route::post('/update', 'IncomingMailController@update')->name('incoming_mail_update');
+			Route::post('/update/{id?}', 'IncomingMailController@update')->name('incoming_mail_update');
 			Route::post('/delete', 'IncomingMailController@delete')->name('incoming_mail_delete');
 		});
 	});

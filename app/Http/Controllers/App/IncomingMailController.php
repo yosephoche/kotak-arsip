@@ -74,11 +74,16 @@ class IncomingMailController extends Controller
 
 	public function upload(Request $r)
 	{
-		$image = $r->file('image');
+		//Delete All file in the Directory
+		$file = public_path('assets/tesseract'.'/'.Auth::user()->_id); 
+		if (file_exists($file)) {
+			array_map('unlink', glob("$file/*.*"));
+		}
 
+		$image = $r->file('image');
 		$ext = $image->getClientOriginalExtension();
 		$nm_file = "111111.".$ext;
-		$destination = public_path('assets/tesseract/image');
+		$destination = public_path('assets/tesseract'.'/'.Auth::user()->_id);
 		$upload = $image->move($destination, $nm_file);
 
 		return redirect()->route('incoming_mail_create');
@@ -88,20 +93,20 @@ class IncomingMailController extends Controller
 	{
 		if ( $r->hasFile('file') ) {
 			 // Upload Image
-			$destination = public_path('assets/tesseract/image');
+			$destination = public_path('assets/tesseract'.'/'.Auth::user()->_id);
 			$file = GlobalClass::Upload($r->file('file'), $destination, 200);
 		}
 	}
 
 	public function removeAjax(Request $r)
 	{
-		unlink(public_path('assets/tesseract/image').'/'.$r->image);
+		unlink(public_path('assets/tesseract').'/'.Auth::user()->_id.'/'.$r->image);
 	}
 
 	public function create()
 	{
 		// Image
-		$dir = public_path('assets/tesseract/image');
+		$dir = public_path('assets/tesseract'.'/'.Auth::user()->_id);
 		$files = scandir($dir);
 
 		$images = [];
@@ -116,13 +121,13 @@ class IncomingMailController extends Controller
 
 		// --- OCR Code ---
 		// Path Variables For Run OCR
-		$image = public_path('assets/tesseract/image/111111.jpg');
-		$result = public_path('assets/tesseract/out');
-		$open = public_path('assets/tesseract/out.txt');
+		$image = public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.'111111.jpg');
+		$result = public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.'out');
+		$open = public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.'out.txt');
 
 		// OCR Execution By Tesseract
 		// For Windows
-		// $output = exec('tesseract "'.$image.'" "'.$result.'" -l ind+eng');
+		$output = exec('tesseract "'.$image.'" "'.$result.'" -l ind+eng');
 
 		// For Mac
 		$output = exec('/usr/local/bin/tesseract "'.$image.'" "'.$result.'" -l ind+eng');
@@ -154,7 +159,7 @@ class IncomingMailController extends Controller
 		]);
 
 		//Check Image From Tesseract
-		$dir = public_path('assets/tesseract/image');
+		$dir = public_path('assets/tesseract'.'/'.Auth::user()->_id);
 		$file = scandir($dir);
 		$images = [];
 		for ($i=0; $i < count($file); $i++) { 
@@ -177,7 +182,7 @@ class IncomingMailController extends Controller
 			} else {
 				$nm_file = $rand.'.'.'jpeg';
 			}
-			rename(public_path('assets/tesseract/image').'/'.$img, public_path('assets/app/img/incoming_mail').'/'.$nm_file);
+			rename(public_path('assets/tesseract').'/'.Auth::user()->_id.'/'.$img, public_path('assets/app/img/incoming_mail').'/'.$nm_file);
 			$files[] = $nm_file;
 		}
 
@@ -200,51 +205,36 @@ class IncomingMailController extends Controller
 	}
 
 	public function edit($id)
-	{
-		// Image
-		$dir = public_path('assets/tesseract/image');
-		$files = scandir($dir);
-
-		$images = [];
-		for ($i=0; $i < count($files); $i++) { 
-			// Conditions for find images
-			$ext = substr($files[$i], -3);
-			if ($ext == 'jpg' || $ext == 'peg' || $ext == 'png') {
-				array_push($images, $files[$i]);
-			}
-		}
-		$data['image'] = $images; 
-		
+	{	
 		$data['archieve'] = Archieve::find($id);
 
 		return view('app.incoming_mail.edit', $data);
 	}
 
-	public function update(Request $r)
+	public function update($id, Request $r)
 	{
 		$this->validate($r, [
-			'asal'	=> 'required',
-			'nomor'	=> 'required',
-			'perihal'	=> 'required',
-			'tanggal'	=> 'required',
-			'penyimpanan'	=> 'required',
+			'from'				=> 'required',
+			'reference_number'	=> 'required',
+			'subject'			=> 'required',
+			'date'				=> 'required',
+			'storage'			=> 'required',
 		]);
 
-		$surat = Archieve::find($r->_id);
-		$surat->id_user = $r->id_user;
-		$surat->id_company = $r->id_company;
-		$surat->type = $r->type;
-		$surat->asal = $r->asal;
-		$surat->nomor = $r->nomor;
-		$surat->perihal = $r->perihal;
-		$surat->tanggal = Carbon::createFromFormat('d/m/Y', $r->tanggal)->format('d/m/Y');
-		$surat->penyimpanan = $r->penyimpanan;
-		$surat->share = $r->share;
-		$surat->keterangan = $r->keterangan;
+		$surat = Archieve::find($id);
+		$surat->id_user = Auth::user()->_id;
+		$surat->id_company = Auth::user()->id_company;
+		$surat->type = "incoming_mail";
+		$surat->from = $r->from;
+		$surat->reference_number = $r->reference_number;
+		$surat->subject = $r->subject;
+		$surat->date = GlobalClass::generateIsoDate($r->date);
+		$surat->storage = $r->storage;
+		$surat->note = $r->note;
 		$surat->save();
 
 		Session::flash('message', "Berhasil menyimpan pembaruan");
-		return redirect()->back();
+		return redirect()->route('incoming_mail');
 	}
 
 	public function delete(Request $r)
