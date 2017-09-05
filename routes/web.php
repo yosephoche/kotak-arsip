@@ -33,8 +33,14 @@ Route::group(['namespace' => 'App'], function () {
 			Route::get('/', 'StorageController@getData')->name('api_storage');
 		});
 
+		//API-Storage-Sub
 		Route::group(['prefix' => 'storage/sub'], function(){
 			Route::get('/{id?}', 'StorageSubController@getData')->name('api_storage_sub');
+		});
+
+		//API-Member
+		Route::group(['prefix' => 'member'], function(){
+			Route::get('/', 'MemberController@getData')->name('api_member');
 		});
 	});
 

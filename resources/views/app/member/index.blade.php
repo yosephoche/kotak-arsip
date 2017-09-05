@@ -1,73 +1,117 @@
 @extends('app.layouts.main')
 
-@section('title', 'Member')
+@section('title', 'Company')
 
 @section('contents')
-	<div class="body">
-		<div class="body-action">
-			<h4>Members</h4>
-			<br>
-			<div class="right">
-				<a href="{{ route('member_create') }}"><img src="{{ url('/resources/assets/app') }}/img/icons/svg/newdoc.svg">Tambah</a>
-			</div>
+	<div class="ka-main">
+		<div class="breadcrumbs">
+			<ul class="list-inline">
+				<li><a href="{{ route('member') }}">Anggota</a></li>
+			</ul>
 		</div>
 
-		<ul class="list-content">
-			@forelse ($member as $m)
-				<li class="list-item">
-					<div class="icon">
-						<div class="dp" style="background-image: url({{ url('resources') }}/assets/kotakarsip/img/data-img/pengguna/{{ $m->photo ? $m->photo : 'user.png' }});"></div>
-					</div>
-					<div class="property">
-						<h2>{{ $m->name }}</h2>
-						<div class="date">{{ $m->position }}</div>
-					</div>
-					<div class="action">
-						<div class="btn-group" role="group" aria-label="...">
-							<a href="{{ route('member_edit', ['id' => $m->_id]) }}" class="btn btn-default"><i class="fa fa-pencil"></i></a>
-							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-delete" data-id="{{ $m->_id }}"><i class="fa fa-trash-o"></i></button>
-						</div>
-					</div>
-				</li>
-			@empty
-				
-			@endforelse
-		</ul>
+		<table class="table table-hover">
+			<tr>
+				<th class="sort" @click="sortBy('name', $event)">Nama Lengkap <i class="fa fa-angle-down i-sort"></i></th>
+				<th @click="sortBy('position', $event)">Jabatan</th>
+				<th colspan="2"></th>
+			</tr>
+			<tr class="item va-mid" v-for="val in orderedUsers" @click="detailSidebar(val, $event)">
+				<td>
+					<a class="disposisi">
+						<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users')}}/'+ val.photo +')' }"></div>&nbsp;&nbsp;&nbsp;
+						<span v-html="val.name"></span>
+					</a>
+				</td>
+				<td v-html="val.position"></td>
+				<td><div class="badge badge-line" v-html="val.status"></div></td>
+				<td class="text-right dropdown">
+					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
+					<ul class="dropdown-menu pull-right">
+						<li><a href="anggota-create.html">Sunting</a></li>
+						<li v-if="val.status != 'admin'"><a href="#" data-toggle="modal" data-target="#deleteModal" class="text-danger" v-bind:data-id="val._id">Hapus</a></li>
+					</ul>
+				</td>
+			</tr>
+		</table>
 	</div>
+
+	<aside class="ka-sidebar-detail">
+		<a href="{{ route('member_create') }}" class="btn btn-primary btn-block">Tambah</a>
+
+		<br>
+
+		<div class="detail-info">
+
+			<div v-if="detail !== ''">
+				<detail :detail="detail"></detail>
+			</div>
+			<div v-else>
+				<no-select></no-select>
+			</div>
+
+		</div>
+	</aside>
 @endsection
 
 @section('modal')
-	<div class="modal fade modal-custom modal-small" id="modal-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document">
-			<form action="{{ route('member_delete') }}" method="post" class="form-custom">
-				{{ csrf_field() }}
-
-				<div class="modal-content">
+	<!-- Modals -->
+	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabelModal">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<form action="">
 					<div class="modal-header">
-						<h4 class="modal-title" id="myModalLabel"><i class="fa fa-exclamation-circle"></i>&nbsp; Hapus</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="deleteLabelModal">Hapus</h4>
 					</div>
 					<div class="modal-body">
-						<div class="content">
-							<input type="text" class="hidden" id="delete-val" value="">
-							<input type="hidden" name="id">
-							Apakah Anda yakin ingin menghapus user ini?
-						</div>
+						<input type="hidden" name="id">
+						Apakah Anda yakin ingin menghapus anggota ini?
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Tidak</button>
-						<button type="submit" class="btn btn-danger">Ya</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+						<button class="btn btn-danger">Ya, hapus</button>
 					</div>
-				</div>
-			</form>
+				</form>
+			</div>
 		</div>
 	</div>
+	<!-- End Modal -->
+@endsection
+
+@section('template')
+	<!-- No select data in table -->
+	<template id="no-select">
+		<div class="no-select text-center">
+			<img src="assets/img/icons/select_file.svg" alt="Pilih salah satu">
+			<p>Pilih salah satu data untuk melihat detail</p>
+		</div>
+	</template>
+
+	<!-- Detail after select data in table -->
+	<template id="sidebar-detail">
+		<div class="select no-border">
+			<div class="item" v-if="detail.photo">
+				<label>Foto Anggota</label>
+				<div class="value">
+					<img :src="'{{ asset('assets/app/img/users') }}/' + detail.photo" :alt="detail.photo">
+				</div>
+			</div>
+			<div class="item" v-if="detail.name">
+				<label>Nama Lengkap</label>
+				<div class="value" v-html="detail.name"></div>
+			</div>
+			<div class="item" v-if="detail.position">
+				<label>Jabatan</label>
+				<div class="value" v-html="detail.position"></div>
+			</div>
+		</div>
+	</template>
 @endsection
 
 @section('registerscript')
+	<script src="{{ asset('assets/app/vue/pengguna.js') }}"></script>
 	<script>
-		$('#modal-delete').on('show.bs.modal', function (e) {
-			var id = $(e.relatedTarget).data('id');
-			$(this).find('input[name="id"]').val(id);
-		});
+		getDataUsers('{{ route("api_member") }}', 'users');
 	</script>
 @endsection

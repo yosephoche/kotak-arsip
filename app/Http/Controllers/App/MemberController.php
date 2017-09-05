@@ -10,9 +10,14 @@ class MemberController extends Controller
 {
     public function index()
     {
-    	$data['member'] = Member::where('id_company', Auth::user()->id_company)->get();
+        return view('app.member.index');
+    }
 
-    	return view('app.member.index', $data);
+    public function getData()
+    {
+    	$member = Member::where('id_company', Auth::user()->id_company)->get();
+
+        return response()->json(['users' => $member]);
     }
 
     public function create()
