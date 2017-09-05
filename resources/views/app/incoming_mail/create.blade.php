@@ -75,9 +75,9 @@
 								<div class="value">
 									<select name="storage" class="form-control">
 										<option value="">Pilih</option>
-										<option value="F1">Filling Cabinet 1</option>
-										<option value="F2">Filling Cabinet 2</option>
-										<option value="F3">Filling Cabinet 3</option>
+										@foreach ($storage as $s)
+											<option value="{{ $s->_id }}">{{ $s->name }}</option>
+										@endforeach
 									</select>
 								</div>
 							</div>

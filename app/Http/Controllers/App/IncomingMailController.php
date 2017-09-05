@@ -82,7 +82,7 @@ class IncomingMailController extends Controller
 
 		$image = $r->file('image');
 		$ext = $image->getClientOriginalExtension();
-		$nm_file = "111111.".$ext;
+		$nm_file = "0.".$ext;
 		$destination = public_path('assets/tesseract'.'/'.Auth::user()->_id);
 		$upload = $image->move($destination, $nm_file);
 
@@ -91,10 +91,34 @@ class IncomingMailController extends Controller
 
 	public function uploadAjax(Request $r)
 	{
-		if ( $r->hasFile('file') ) {
-			 // Upload Image
+		// Image
+		$dir = public_path('assets/tesseract'.'/'.Auth::user()->_id);
+		$files = scandir($dir, 1);
+
+		$string = $files[1];
+		$firstCharacter = $string[0];
+
+		//String To Integer
+		$strtoint = (int)$firstCharacter + 1;
+
+		$countfiles = count($r->file);
+
+		$file = $r->file('file');
+
+		//Make Name File
+		$filename = [];
+		for ($i= $strtoint; $i < $strtoint + $countfiles ; $i++) { 
+			$nm_file = $i;
+			$filename[] = $nm_file;
+		}
+
+		//Move File
+		for ($i=0; $i < $countfiles ; $i++) { 
+			// Image Upload Process
+			$ext = $file[$i]->getClientOriginalExtension();
+			$nm_file = $filename[$i].".".$ext;
 			$destination = public_path('assets/tesseract'.'/'.Auth::user()->_id);
-			$file = GlobalClass::Upload($r->file('file'), $destination, 200);
+			$upload = $file[$i]->move($destination, $nm_file);
 		}
 	}
 
@@ -121,7 +145,7 @@ class IncomingMailController extends Controller
 
 		// --- OCR Code ---
 		// Path Variables For Run OCR
-		$image = public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.'111111.jpg');
+		$image = public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.$images[0]);
 		$result = public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.'out');
 		$open = public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.'out.txt');
 
@@ -145,6 +169,20 @@ class IncomingMailController extends Controller
 		$data['fulltext'] = GlobalClass::OCRKey($image, $result, $open, 'fulltext');
 
 		// --- END OCR Code ---
+
+		//Storage
+		$data['storage'] = StorageSub::raw(function($collection){
+			return $collection->aggregate(array(
+				array(
+					'$lookup' => array(
+						'from' => 'storage',
+						'localField' => 'id_storage',
+						'foreignField' => '_id',
+						'as' => 'storage'
+					)
+				)
+			));
+		});
 
 		return view('app.incoming_mail.create', $data);
 	}

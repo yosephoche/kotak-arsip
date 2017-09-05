@@ -171,7 +171,7 @@
 				</div>
 				<div class="item" v-if="detail.date">
 					<label>Tanggal Masuk</label>
-					<div class="value" v-html="detail.date"></div>
+					<div class="value" v-html="$options.filters.moment(detail.date.$date.$numberLong)"></div>
 				</div>
 			</div>
 

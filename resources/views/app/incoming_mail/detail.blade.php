@@ -72,7 +72,7 @@
 						</div>
 						<div class="item" v-if="val.date">
 							<label>Tanggal Masuk</label>
-							<div class="value" v-html="val.date"></div>
+							<div class="value" v-html="$options.filters.moment(val.date.$date.$numberLong)"></div>
 						</div>
 					</div>
 				</div>
