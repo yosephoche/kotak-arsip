@@ -58,9 +58,13 @@
 							<label>Perihal</label>
 							<div class="value" v-html="val.subject"></div>
 						</div>
-						<div class="item" v-if="val.storage">
+						<div class="item" v-if="val.storagesub">
 							<label>Penyimpanan Arsip</label>
-							<div class="value" v-html="val.storage"></div>
+							<div class="value">
+								<ul class="list-unstyled">
+									<li v-for="storage in val.storagesub"><div class="value" v-html="storage.name"></div></li>
+								</ul>
+							</div>
 						</div>
 						<div class="item" v-if="val.share">
 							<label>Disposisi</label>
