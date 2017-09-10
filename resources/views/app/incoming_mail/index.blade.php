@@ -161,7 +161,7 @@
 					<label>Penyimpanan Arsip</label>
 					<div class="value" v-html="detail.storage"></div>
 				</div>
-				<div class="item" v-if="detail.share">
+				<div class="item" v-if="detail.share != ''">
 					<label>Disposisi</label>
 					<div class="value">
 						<ul class="list-unstyled">
