@@ -73,11 +73,19 @@
 							<div class="item">
 								<label>Penyimpanan Arsip</label>
 								<div class="value">
-									<select name="storage" class="form-control">
-										<option value="">Pilih</option>
+									<select name="storage" id="storage" class="form-control">
+										<option value="">Pilih Penyimpanan</option>
 										@foreach ($storage as $s)
 											<option value="{{ $s->_id }}">{{ $s->name }}</option>
 										@endforeach
+									</select>
+								</div>
+							</div>
+							<div class="item">
+								<label>Sub Penyimpanan Arsip</label>
+								<div class="value">
+									<select name="storagesub" id="substorage" class="form-control">
+										<option value="0" disabled="true" selected="true">Pilih Sub Penyimpanan</option>
 									</select>
 								</div>
 							</div>
@@ -202,7 +210,20 @@
 					alert('Telah terjadi kesalahan')
 				}
 			});
-		})
+		});
+
+		//Ajax Dropdown
+		$('#storage').on('change', function(e){
+			var storage_id = e.target.value;
+			//ajax
+			$.get('dropdown?storage_id=' + storage_id, function(data){
+				// console.log(data);
+				$('#substorage').empty();
+				$.each(data, function(index, substorageObj){
+					$('#substorage').append('<option value="'+substorageObj._id+'">'+substorageObj.name+'</option>');
+				});
+			});
+		});
 
 	</script>
 </body>

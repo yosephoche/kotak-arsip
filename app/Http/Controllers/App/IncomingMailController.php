@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\App;
-use App\Archieve, App\StorageSub, App\User;
+use App\Archieve, App\StorageSub, App\User, App\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use Auth, Session, GlobalClass;
 use Carbon\Carbon;
@@ -29,6 +30,14 @@ class IncomingMailController extends Controller
 						'localField'=>'share',
 						'foreignField'=>'_id',
 						'as'=>'share'
+					)
+				),
+				array(
+					'$lookup' => array(
+						'from' => 'storage_sub',
+						'localField' => 'storagesub',
+						'foreignField' =>  '_id',
+						'as' => 'storagesub'
 					)
 				)
 			));
@@ -59,6 +68,14 @@ class IncomingMailController extends Controller
 						'localField'=>'share',
 						'foreignField'=>'_id',
 						'as'=>'share'
+					)
+				),
+				array(
+					'$lookup' => array(
+						'from' => 'storage_sub',
+						'localField' => 'storagesub',
+						'foreignField' =>  '_id',
+						'as' => 'storagesub'
 					)
 				)
 			));
@@ -127,6 +144,14 @@ class IncomingMailController extends Controller
 		unlink(public_path('assets/tesseract').'/'.Auth::user()->_id.'/'.$r->image);
 	}
 
+	public function dropdownAjax()
+	{
+    	$storage_id = Input::get('storage_id');
+
+    	$kabupaten = StorageSub::where('id_storage', '=', GlobalClass::generateMongoObjectId($storage_id))->orderBy('name')->get();
+        return response()->json($kabupaten);
+	}
+
 	public function create()
 	{
 		// Image
@@ -171,18 +196,7 @@ class IncomingMailController extends Controller
 		// --- END OCR Code ---
 
 		//Storage
-		$data['storage'] = StorageSub::raw(function($collection){
-			return $collection->aggregate(array(
-				array(
-					'$lookup' => array(
-						'from' => 'storage',
-						'localField' => 'id_storage',
-						'foreignField' => '_id',
-						'as' => 'storage'
-					)
-				)
-			));
-		});
+		$data['storage'] = Storage::where('id_company', Auth::user()->id_company)->orderBy('name')->get();
 
 		return view('app.incoming_mail.create', $data);
 	}
@@ -195,6 +209,18 @@ class IncomingMailController extends Controller
 			'subject'			=> 'required',
 			'date'				=> 'required'
 		]);
+
+		$surat = new Archieve;
+		$surat->id_user = Auth::user()->_id;
+		$surat->id_company = Auth::user()->id_company;
+		$surat->type = "incoming_mail";
+		$surat->from = $r->from;
+		$surat->reference_number = $r->reference_number;
+		$surat->subject = $r->subject;
+		$surat->date = GlobalClass::generateIsoDate($r->date);
+		$surat->storagesub = GlobalClass::generateMongoObjectId($r->storagesub);
+		$surat->note = $r->note;
+		$surat->fulltext = $r->fulltext;
 
 		//Check Image From Tesseract
 		$dir = public_path('assets/tesseract'.'/'.Auth::user()->_id);
@@ -224,17 +250,6 @@ class IncomingMailController extends Controller
 			$files[] = $nm_file;
 		}
 
-		$surat = new Archieve;
-		$surat->id_user = Auth::user()->_id;
-		$surat->id_company = Auth::user()->id_company;
-		$surat->type = "incoming_mail";
-		$surat->from = $r->from;
-		$surat->reference_number = $r->reference_number;
-		$surat->subject = $r->subject;
-		$surat->date = GlobalClass::generateIsoDate($r->date);
-		$surat->storage = $r->storage;
-		$surat->note = $r->note;
-		$surat->fulltext = $r->fulltext;
 		$surat->files = $files;
 		$surat->save();
 
