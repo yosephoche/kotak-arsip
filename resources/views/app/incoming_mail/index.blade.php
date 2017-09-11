@@ -158,7 +158,7 @@
 					<label>Perihal</label>
 					<div class="value" v-html="detail.subject"></div>
 				</div>
-				<div class="item" v-if="detail.storagesub">
+				<div class="item" v-if="detail.storagesub != ''">
 					<label>Penyimpanan Arsip</label>
 					<div class="value">
 						<ul class="list-unstyled">
