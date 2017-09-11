@@ -58,7 +58,7 @@
 							<label>Perihal</label>
 							<div class="value" v-html="val.subject"></div>
 						</div>
-						<div class="item" v-if="val.storagesub">
+						<div class="item" v-if="val.storagesub != ''">
 							<label>Penyimpanan Arsip</label>
 							<div class="value">
 								<ul class="list-unstyled">
@@ -66,7 +66,7 @@
 								</ul>
 							</div>
 						</div>
-						<div class="item" v-if="val.share">
+						<div class="item" v-if="val.share != ''">
 							<label>Disposisi</label>
 							<div class="value">
 								<ul class="list-unstyled">
