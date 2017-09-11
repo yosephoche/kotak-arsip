@@ -131,3 +131,10 @@
 		</div>
 	</aside>
 @endsection
+
+@section('registerscript')
+	<script src="{{ asset('assets/app/vue/pengguna.js') }}"></script>
+	<script>
+		getDataUsers('#', 'users');
+	</script>
+@endsection

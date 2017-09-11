@@ -21,12 +21,12 @@
 					<div class="col-md-12">
 						<div class="form-group form-line">
 							<label for="">Nama Lengkap</label>
-							<input type="text" name="name" value="{{ $member->name }}" class="form-control" v-model="userName">
+							<input type="text" name="name" value="{{ $member->name }}" class="form-control">
 						</div>
 					
 						<div class="form-group form-line">
 							<label for="">Email</label>
-							<input type="email" name="email" value="{{ $member->email }}" class="form-control" v-model="userEmail">
+							<input type="email" name="email" value="{{ $member->email }}" class="form-control">
 						</div>
 					</div>
 				</div>
@@ -35,14 +35,14 @@
 					<div class="col-md-4">
 						<div class="form-group form-line">
 							<label for="">No. Telpon/HP</label>
-							<input type="text" name="phone" value="{{ $member->phone }}" class="form-control" v-model="userHp">
+							<input type="text" name="phone" value="{{ $member->phone }}" class="form-control">
 						</div>
 					</div>
 					
 					<div class="col-md-4">
 						<div class="form-group form-line">
 							<label for="">Jabatan</label>
-							<input type="text" name="position" value="{{ $member->position }}" class="form-control" v-model="userPosition">
+							<input type="text" name="position" value="{{ $member->position }}" class="form-control">
 						</div>
 					</div>
 
@@ -101,37 +101,42 @@
 	<aside class="ka-sidebar-detail">
 		<div class="detail-info">
 			<div class="select no-border" style="height: calc(100vh - 70px); padding-top: 0">
-				<h5 class="no-margin">Pratinjau</h5>
+				<h5 class="no-margin">Data saat ini</h5>
 				<hr>
 
-				<div class="item" v-if="userPhoto == true">
-					<label for="img" id="img-preview" class="value"></label>
+				<div class="item">
+					<label for="img" id="img-preview" class="value">
+						<img src="{{ url('assets/app/img/users').'/'.$member->photo }}" width="100%">
+					</label>
 				</div>
 
 				<div class="item">
 					<label>Nama</label>
-					<div class="value" v-if="userName != ''" v-html="userName"></div>
-					<div class="value" v-else>...</div>
+					<div class="value">{{ $member->name }}</div>
 				</div>
 
 				<div class="item">
 					<label>Email</label>
-					<div class="value" v-if="userEmail != ''" v-html="userEmail"></div>
-					<div class="value" v-else>...</div>
+					<div class="value">{{ $member->email }}</div>
 				</div>
 
 				<div class="item">
 					<label>No. Telpon/HP</label>
-					<div class="value" v-if="userHp != ''" v-html="userHp"></div>
-					<div class="value" v-else>...</div>
+					<div class="value">{{ $member->phone }}</div>
 				</div>
 
 				<div class="item">
 					<label>Jabatan</label>
-					<div class="value" v-if="userPosition != ''" v-html="userPosition"></div>
-					<div class="value" v-else>...</div>
+					<div class="value">{{ $member->position }}</div>
 				</div>
 			</div>
 		</div>
 	</aside>
+@endsection
+
+@section('registerscript')
+	<script src="{{ asset('assets/app/vue/pengguna.js') }}"></script>
+	<script>
+		getDataUsers('#', 'users');
+	</script>
 @endsection

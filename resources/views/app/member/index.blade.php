@@ -1,6 +1,6 @@
 @extends('app.layouts.main')
 
-@section('title', 'Company')
+@section('title', 'Anggota')
 
 @section('contents')
 	<div class="ka-main">
@@ -84,7 +84,7 @@
 	<!-- No select data in table -->
 	<template id="no-select">
 		<div class="no-select text-center">
-			<img src="assets/img/icons/select_file.svg" alt="Pilih salah satu">
+			<img src="assets/app/img/icons/select_file.svg" alt="Pilih salah satu">
 			<p>Pilih salah satu data untuk melihat detail</p>
 		</div>
 	</template>

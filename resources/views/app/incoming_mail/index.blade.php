@@ -14,8 +14,8 @@
 			<tr>
 				<th class="sort">Asal Surat <i class="fa fa-angle-down"></i></th>
 				<th>Perihal</th>
-				<th class="view-tablet-only" width="150px">Disposisi</th>
-				<th class="view-tablet-only">Tanggal Masuk</th>
+				<th class="view-tablet-only">Disposisi</th>
+				<th class="view-tablet-only" width="120px">Tanggal Masuk</th>
 				<th class="text-right dropdown">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list-ul"></i></a>
 					<ul class="dropdown-menu pull-right">
@@ -28,7 +28,7 @@
 			<tr class="item" v-for="val in json.incomingMail" v-on:click="detailSidebar(val, $event)">
 				<td><a v-bind:href="'{{ route('incoming_mail_detail') }}/' + val._id" v-html="val.from"></a></td>
 				<td v-html="val.subject"></td>
-				<td class="view-tablet-only">
+				<td class="view-tablet-only" v-if="val.share != ''" width="150px">
 					<ul class="list-unstyled disposisi">
 						<li v-for="disposisi in val.share" class="img-disposisi">
 							<b-tooltip v-bind:content="disposisi.name" placement="bottom">
@@ -37,6 +37,7 @@
 						</li>
 					</ul>
 				</td>
+				<td v-else>-</td>
 				<td class="view-tablet-only" v-html="$options.filters.moment(val.date.$date.$numberLong)"></td>
 				<td class="text-right dropdown">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
