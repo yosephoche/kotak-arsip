@@ -28,7 +28,7 @@
 				<td class="text-right dropdown">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
 					<ul class="dropdown-menu pull-right">
-						<li><a href="anggota-create.html">Sunting</a></li>
+						<li><a v-bind:href="'{{ route('member_edit') }}/' + val._id">Sunting</a></li>
 						<li v-if="val.status != 'admin'"><a href="#" data-toggle="modal" data-target="#deleteModal" class="text-danger" v-bind:data-id="val._id">Hapus</a></li>
 					</ul>
 				</td>
@@ -59,7 +59,8 @@
 	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabelModal">
 		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
-				<form action="">
+				<form action="{{ route('member_delete') }}" method="POST">
+					{{ csrf_field() }}
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						<h4 class="modal-title" id="deleteLabelModal">Hapus</h4>
@@ -113,5 +114,11 @@
 	<script src="{{ asset('assets/app/vue/pengguna.js') }}"></script>
 	<script>
 		getDataUsers('{{ route("api_member") }}', 'users');
+
+		// Delete Modal
+		$('#deleteModal').on('show.bs.modal', function (e) {
+			var id = $(e.relatedTarget).data('id');
+			$(this).find('input[name="id"]').val(id);
+		});
 	</script>
 @endsection

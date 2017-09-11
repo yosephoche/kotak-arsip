@@ -3,68 +3,131 @@
 @section('title', 'Member')
 
 @section('contents')
-	<div class="body">
-		<h4>Members Create</h4>
-		<br>
-		<form action="{{ route('member_store') }}" method="post" enctype="multipart/form-data">
-			<div class="row">
-				<div class="col-md-6">
-					<div class="form-group hidden">
-						<label for="">ID</label>
-						<input id="form-id" type="text" class="form-control" disabled>
-						<input type="hidden" name="id_company" value="{{ Auth::user()->id_company }}">
-						<input type="hidden" name="_token" value="{{ csrf_token() }}">
-					</div>
+	<div class="ka-main">
+		<div class="breadcrumbs">
+			<ul class="list-inline">
+				<li><a href="{{ route('member') }}">Anggota</a></li>
+				<li>Tambah Anggota</li>
+			</ul>
+		</div>
 
-					<div class="form-group">
-						<label for="">Nama</label>
-						<input type="text" name="name" class="form-control" data-validation="required" data-validation-error-msg-required="* Wajib diisi">
-					</div>
+		<hr>
 
-					<div class="form-group">
-						<label for="">Email</label>
-						<input type="text" name="email" class="form-control" data-validation="required email" data-validation-error-msg-required="* Wajib diisi" data-validation-error-msg-email="* Mohon masukkan email yang valid">
+		<form action="{{ route('member_store') }}" method="post" enctype="multipart/form-data" class="row">
+			{{ csrf_field() }}
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group form-line">
+							<label for="">Nama Lengkap</label>
+							<input type="text" name="name" class="form-control" v-model="userName">
+						</div>
+					
+						<div class="form-group form-line">
+							<label for="">Email</label>
+							<input type="email" name="email" class="form-control" v-model="userEmail">
+						</div>
 					</div>
+				</div>
 
-					<div class="form-group">
-						<label for="">Jabatan</label>
-						<input type="text" name="position" class="form-control" data-validation="required" data-validation-error-msg-required="* Wajib diisi">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group form-line">
+							<label for="">No. Telpon/HP</label>
+							<input type="text" name="phone" class="form-control" v-model="userHp">
+						</div>
 					</div>
-
-					<div class="form-group">
-						<label for="">No. Telepon</label>
-						<input type="text" name="phone" class="form-control" data-validation="required" data-validation-error-msg-required="* Wajib diisi">
-					</div>
-
-					<div class="form-group">
-						<label for="">Hak Akses Pengguna</label>
-						<select name="status" class="form-control">
-							<option value="admin">Admin</option>
-							<option value="member">Member</option>
-						</select>
-					</div>
-
-					<div class="form-group">
-						<label for=""><span>Ganti </span>Foto Profil</label>
-						<input type="file" name="photo[]" class="form-control">
-					</div>
-
-					<div class="form-group">
-						<label for=""><span>Ubah </span>Password</label>
-						<div class="input-group">
-							<input type="password" name="password" class="form-control" placeholder="Masukkan password baru">
-							<span class="input-group-btn">
-								<button type="button" class="btn btn-default see-password" data-name="password" style="height: 34px"><i class="fa fa-eye"></i></button>
-							</span>
+					
+					<div class="col-md-4">
+						<div class="form-group form-line">
+							<label for="">Jabatan</label>
+							<input type="text" name="position" class="form-control" v-model="userPosition">
 						</div>
 					</div>
 
-					<div class="form-footer">
-						<a href="{{ route('member') }}" class="btn btn-default close-form">Kembali</a>
-						<button class="btn btn-primary">Simpan</button>
+					<div class="col-md-4">
+						<div class="form-group form-line">
+							<label for="">Status</label>
+							<select class="form-control" name="status">
+								<option>Pilih</option>
+								<option value="anggota">Anggota</option>
+								<option value="kepala-divisi">Kepala Divisi</option>
+								<option value="operator">Operator</option>
+								<option value="admin">Admin</option>
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group form-line">
+							<label for="">Foto</label>
+							<input type="file" name="photo[]" class="form-control" accept=".jpg, .png, .jpeg" onchange="readURL(this)" @change="userPhoto = true">
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group form-line">
+							<label for="">Kata Sandi</label>
+							<input type="password" name="password" class="form-control">
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group form-line">
+							<label for="">Konfirmasi Kata Sandi</label>
+							<input type="password" name="password_confirmation" class="form-control">
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<br>
+						<button class="btn btn-primary">Tambah</button>
 					</div>
 				</div>
 			</div>
 		</form>
 	</div>
+
+	<aside class="ka-sidebar-detail">
+		<div class="detail-info">
+			<div class="select no-border" style="height: calc(100vh - 70px); padding-top: 0">
+				<h5 class="no-margin">Pratinjau</h5>
+				<hr>
+
+				<div class="item" v-if="userPhoto == true">
+					<label for="img" id="img-preview" class="value"></label>
+				</div>
+
+				<div class="item">
+					<label>Nama</label>
+					<div class="value" v-if="userName != ''" v-html="userName"></div>
+					<div class="value" v-else>...</div>
+				</div>
+
+				<div class="item">
+					<label>Email</label>
+					<div class="value" v-if="userEmail != ''" v-html="userEmail"></div>
+					<div class="value" v-else>...</div>
+				</div>
+
+				<div class="item">
+					<label>No. Telpon/HP</label>
+					<div class="value" v-if="userHp != ''" v-html="userHp"></div>
+					<div class="value" v-else>...</div>
+				</div>
+
+				<div class="item">
+					<label>Jabatan</label>
+					<div class="value" v-if="userPosition != ''" v-html="userPosition"></div>
+					<div class="value" v-else>...</div>
+				</div>
+			</div>
+		</div>
+	</aside>
 @endsection
