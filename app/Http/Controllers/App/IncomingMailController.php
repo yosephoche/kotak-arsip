@@ -39,6 +39,22 @@ class IncomingMailController extends Controller
 						'foreignField' =>  '_id',
 						'as' => 'storagesub'
 					)
+				),
+				array(
+					'$lookup' => array(
+						'from' => 'storage',
+						'localField' => 'storage',
+						'foreignField' =>  '_id',
+						'as' => 'storage'
+					)
+				),
+				array(
+					'$project' => array(
+						'fulltext' => 0,
+						'note' => 0,
+						'updated_at' => 0,
+						'created_at' => 0
+					)
 				)
 			));
 		})->where('type', 'incoming_mail')->where('id_company', Auth::user()->id_company)->where('deleted_at', '');
@@ -218,7 +234,10 @@ class IncomingMailController extends Controller
 		$surat->reference_number = $r->reference_number;
 		$surat->subject = $r->subject;
 		$surat->date = GlobalClass::generateIsoDate($r->date);
-		$surat->storagesub = GlobalClass::generateMongoObjectId($r->storagesub);
+		$surat->storage = GlobalClass::generateMongoObjectId($r->storage);
+		if ($r->storagesub != '') {
+			$surat->storagesub = GlobalClass::generateMongoObjectId($r->storagesub);
+		}
 		$surat->note = $r->note;
 		$surat->fulltext = $r->fulltext;
 
