@@ -165,7 +165,7 @@
 						</ul>
 					</div>
 				</div>
-				<div class="item" v-if="detail.share">
+				<div class="item" v-if="detail.share != ''">
 					<label>Disposisi</label>
 					<div class="value">
 						<ul class="list-unstyled">
