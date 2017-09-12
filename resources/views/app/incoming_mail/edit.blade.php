@@ -17,7 +17,7 @@
 	<div id="app">
 		<nav class="ka-nav ka-nav-detail">
 			<ul class="left-side">
-				<li class="back"><a href="{{ $_SERVER['HTTP_REFERER'] }}"><i class="fa fa-angle-left"></i> &nbsp;&nbsp;Surat Masuk</a></li>
+				<li class="back"><a href=""><i class="fa fa-angle-left"></i> &nbsp;&nbsp;Surat Masuk</a></li>
 			</ul>
 		</nav>
 
@@ -36,7 +36,7 @@
 							<form action="a" id="formdelete">
 								<input type="hidden" name="_token" id="delete_token" value="{{ csrf_token() }}">
 								<button type="button" id="delete" class="delete-img" data-image="{{ $file }}" title="Hapus">×</button>
-								<!-- <a type="button" id="delete"  class="delete-img" title="Hapus">×</a> -->
+								<a type="button" id="delete"  class="delete-img" title="Hapus">×</a>
 							</form>
 							<img src="{{ asset('assets/app/img/incoming_mail').'/'.$file }}" alt="">
 						</div>
@@ -74,11 +74,20 @@
 							<div class="item">
 								<label>Penyimpanan Arsip</label>
 								<div class="value">
-									<select name="storage" class="form-control">
-										<option value="">Pilih</option>
-										<option value="F1">Filling Cabinet 1</option>
-										<option value="F2">Filling Cabinet 2</option>
-										<option value="F3">Filling Cabinet 3</option>
+									<select name="storage" id="storage" class="form-control">
+										@foreach ($storage as $s)
+											<option value="{{ $s->_id }}" {{ $s->_id == $archieve->storage ? 'selected' : '' }}>{{ $s->name }}</option>
+										@endforeach
+									</select>
+								</div>
+							</div>
+							<div class="item" id="subshow">
+								<label>Sub Penyimpanan Arsip</label>
+								<div class="value">
+									<select name="storagesub" id="substorage" class="form-control">
+										@foreach (@$storagesub->where('id_storage', $archieve->storage) as $s)
+											<option value="{{ $s->_id }}" {{ $s->_id == $archieve->storagesub ? 'selected' : '' }}>{{ $s->name }}</option>
+										@endforeach
 									</select>
 								</div>
 							</div>
@@ -204,6 +213,29 @@
 			});
 		})
 
+		//Hide Sub Storage
+		@if ($archieve->storagesub == '')
+			$('#subshow').hide();
+		@endif
+
+		//Ajax Dropdown
+		$('#storage').on('change', function(e){
+			var storage_id = e.target.value;
+			//ajax
+			$.get('../dropdown?storage_id=' + storage_id, function(data){
+				if (data == 0) {
+					console.log(data);
+					$('#subshow').hide();
+					$('#subshow').find('select').empty();
+				} else {
+					$('#subshow').show();
+					$('#substorage').empty();
+					$.each(data, function(index, substorageObj){
+						$('#substorage').append('<option value="'+substorageObj._id+'">'+substorageObj.name+'</option>');
+					});
+				}
+			});
+		});
 	</script>
 </body>
 
