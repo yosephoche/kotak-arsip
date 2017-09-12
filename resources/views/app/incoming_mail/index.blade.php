@@ -12,7 +12,7 @@
 
 		<table class="table table-hover">
 			<tr>
-				<th class="sort">Asal Surat <i class="fa fa-angle-down"></i></th>
+				<th>Asal Surat</th>
 				<th>Perihal</th>
 				<th class="view-tablet-only">Disposisi</th>
 				<th class="view-tablet-only" width="120px">Tanggal Masuk</th>
@@ -47,6 +47,17 @@
 						<li><a v-bind:href="'{{ route('incoming_mail_edit') }}/' + val._id">Sunting</a></li>
 						<li><a type="button" data-toggle="modal" data-target="#deleteModal" v-bind:data-id="val._id" class="text-danger">Hapus</a></li>
 					</ul>
+				</td>
+			</tr>
+
+			<tr v-if="!json.incomingMail">
+				<td colspan="5" class="text-center">
+					<br>
+					<br>
+					<img src="{{ url('assets/app/img/icons') }}/no_file.svg" alt="" width="400px">
+					<br>
+					<br>
+					Belum ada data
 				</td>
 			</tr>
 		</table>
@@ -158,8 +169,16 @@
 					<label>Perihal</label>
 					<div class="value" v-html="detail.subject"></div>
 				</div>
-				<div class="item" v-if="detail.storagesub != ''">
+				<div class="item" v-if="detail.storage != ''">
 					<label>Penyimpanan Arsip</label>
+					<div class="value">
+						<ul class="list-unstyled">
+							<li v-for="storage in detail.storage"><div class="value" v-html="storage.name"></div></li>
+						</ul>
+					</div>
+				</div>
+				<div class="item" v-if="detail.storagesub != ''">
+					<label>Sub Penyimpanan Arsip</label>
 					<div class="value">
 						<ul class="list-unstyled">
 							<li v-for="storage in detail.storagesub"><div class="value" v-html="storage.name"></div></li>

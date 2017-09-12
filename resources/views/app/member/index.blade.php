@@ -24,7 +24,9 @@
 					</a>
 				</td>
 				<td v-html="val.position"></td>
-				<td><div class="badge badge-line" v-html="val.status"></div></td>
+				<td>
+					<div v-if="val.status == 'admin'" class="badge badge-line" v-html="val.status"></div>
+				</td>
 				<td class="text-right dropdown">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
 					<ul class="dropdown-menu pull-right">

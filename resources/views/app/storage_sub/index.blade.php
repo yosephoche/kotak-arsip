@@ -25,6 +25,17 @@
 					</ul>
 				</td>
 			</tr>
+
+			<tr v-if="orderedStorage == ''">
+				<td colspan="2" class="text-center">
+					<br>
+					<br>
+					<img src="{{ url('assets/app/img/icons') }}/no_file.svg" alt="" width="400px">
+					<br>
+					<br>
+					Belum ada data sub penyimpanan
+				</td>
+			</tr>
 		</table>
 	</div>
 

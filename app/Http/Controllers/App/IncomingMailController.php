@@ -51,7 +51,6 @@ class IncomingMailController extends Controller
 				array(
 					'$project' => array(
 						'fulltext' => 0,
-						'created_at' => 0,
 						'updated_at' => 0,
 						'storage.created_at' => 0,
 						'storage.updated_at' => 0,
@@ -60,6 +59,11 @@ class IncomingMailController extends Controller
 						'storagesub.created_at' => 0,
 						'storagesub.updated_at' => 0,
 						'storagesub.id_storage' => 0
+					)
+				),
+				array(
+					'$sort' => array(
+						'created_at' => -1
 					)
 				)
 			));
