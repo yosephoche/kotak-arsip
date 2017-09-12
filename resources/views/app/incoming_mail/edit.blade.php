@@ -27,7 +27,6 @@
 					<input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
 					<label for="files" class="btn btn-default btn-block">+ Tambah file lainnya</label>
 					<input type="file" class="hide" name="files[]" id="files" multiple>
-					<button>Simpan</button>
 				</form>
 				<hr>
 				<div class="images" id="images">
@@ -92,8 +91,12 @@
 								</div>
 							</div>
 							<div class="item">
+								<?php 
+									$format = substr($archieve->date, 0, -3);
+									$date =  Carbon\Carbon::createFromTimestamp($format)->format('d/m/Y');
+								 ?>
 								<label>Tanggal Masuk</label>
-								<div class="value"><input type="date" class="form-control" name="date" value="{{ $archieve->date }}"></div>
+								<div class="value"><input type="text" class="form-control" name="date" value="{{ $date }}" id="datepicker"></div>
 							</div>
 							<div class="item">
 								<label>Keterangan</label>
@@ -152,6 +155,11 @@
 
 	<script src="{{ asset('assets/app/js/kotakarsip.js') }}"></script>
 	<script>
+		// Date Picker
+		$('#datepicker').datepicker({
+			format: 'dd/mm/yyyy'
+		});
+
 		//Upload Multiple Image
 		$('#form').submit(function(e) {
 		  e.preventDefault();
