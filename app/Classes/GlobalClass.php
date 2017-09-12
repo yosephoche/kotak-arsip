@@ -83,7 +83,11 @@ class GlobalClass
 				}
 			}
 			fclose($myfile);
-			return explode(':',$reference_number, 2)[1];
+			if ($reference_number != '') {
+				return explode(':',$reference_number, 2)[1];
+			} else {
+				return $reference_number;
+			}
 		}
 
 		// Subject
@@ -101,7 +105,11 @@ class GlobalClass
 				}
 			}
 			fclose($myfile);
-			return explode(':',$subject, 2)[1];
+			if ($subject != '') {
+				return explode(':',$subject, 2)[1];
+			} else {
+				return $subject;
+			}
 		}
 
 		// Full Text

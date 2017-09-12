@@ -90,7 +90,7 @@
 							</div>
 							<div class="item">
 								<label>Tanggal Masuk</label>
-								<div class="value"><input type="date" class="form-control" name="date" value="{{ date('Y-m-d') }}"></div>
+								<div class="value"><input type="text" class="form-control" name="date" value="{{ date('d/m/Y') }}" id="datepicker"></div>
 							</div>
 							<div class="item">
 								<label>Keterangan</label>
@@ -150,6 +150,11 @@
 
 	<script src="{{ asset('assets/app/js/kotakarsip.js') }}"></script>
 	<script>
+		// Date Picker
+		$('#datepicker').datepicker({
+			format: 'dd/mm/yyyy'
+		});
+
 		//Upload Multiple Image
 		$('#files').change(function(e) {
 		  e.preventDefault();
