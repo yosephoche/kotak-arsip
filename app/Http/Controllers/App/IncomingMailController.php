@@ -253,6 +253,8 @@ class IncomingMailController extends Controller
 			'date'				=> 'required'
 		]);
 
+		$date = Carbon::createFromFormat('d/m/Y', $r->date);
+
 		$surat = new Archieve;
 		$surat->id_user = Auth::user()->_id;
 		$surat->id_company = Auth::user()->id_company;
@@ -260,7 +262,7 @@ class IncomingMailController extends Controller
 		$surat->from = $r->from;
 		$surat->reference_number = $r->reference_number;
 		$surat->subject = $r->subject;
-		$surat->date = GlobalClass::generateIsoDate($r->date);
+		$surat->date = GlobalClass::generateIsoDate($date);
 		$surat->storage = GlobalClass::generateMongoObjectId($r->storage);
 		if ($r->storagesub != '') {
 			$surat->storagesub = GlobalClass::generateMongoObjectId($r->storagesub);
@@ -306,6 +308,10 @@ class IncomingMailController extends Controller
 	public function edit($id)
 	{	
 		$data['archieve'] = Archieve::find($id);
+
+		//Storage
+		$data['storage'] = Storage::where('id_company', Auth::user()->id_company)->orderBy('name')->get();
+		$data['storagesub'] = StorageSub::orderBy('name')->get();
 
 		return view('app.incoming_mail.edit', $data);
 	}
