@@ -46,8 +46,6 @@ Route::group(['namespace' => 'App'], function () {
 
 	//Company
 	Route::group(['prefix' => 'company'], function(){
-		Route::get('/', 'CompanyController@index')->name('company');
-		Route::put('/update/{id?}', 'CompanyController@update')->name('company_update');
 		Route::get('/register', 'CompanyController@register')->name('company_register');
 		Route::post('/store', 'CompanyController@store')->name('company_store');
 		Route::get('/register/success', 'CompanyController@registerSuccess')->name('company_register_success');
@@ -91,6 +89,7 @@ Route::group(['namespace' => 'App'], function () {
 			Route::get('/create', 'IncomingMailController@create')->name('incoming_mail_create');
 			Route::post('/store', 'IncomingMailController@store')->name('incoming_mail_store');
 			Route::get('/detail/{id?}', 'IncomingMailController@detail')->name('incoming_mail_detail');
+			Route::get('/move/{id?}', 'IncomingMailController@move')->name('incoming_mail_move');
 			Route::get('/edit/{id?}', 'IncomingMailController@edit')->name('incoming_mail_edit');
 			Route::post('/update/{id?}', 'IncomingMailController@update')->name('incoming_mail_update');
 			Route::post('/delete', 'IncomingMailController@delete')->name('incoming_mail_delete');
@@ -106,6 +105,11 @@ Route::group(['namespace' => 'App'], function () {
 		Route::get('/edit/{id?}', 'MemberController@edit')->name('member_edit');
 		Route::put('/update/{id?}', 'MemberController@update')->name('member_update');
 		Route::post('/delete', 'MemberController@delete')->name('member_delete');
+	});
+
+	//Member
+	Route::group(['prefix' => 'setting'], function(){
+		Route::get('/', 'SettingController@index')->name('setting');
 	});
 });
 

@@ -13,7 +13,7 @@
 		<li class="label-menus">Konfigurasi</li>
 		<li {{ Request::is('storage*') ? 'class=active' : '' }}><a href="{{ route('storage') }}">Penyimpanan Arsip</a></li>
 		<li {{ Request::is('member*') ? 'class=active' : '' }}><a href="{{ route('member') }}">Anggota</a></li>
-		<li><a href="pengaturan.html">Pengaturan</a></li>
+		<li {{ Request::is('setting*') ? 'class=active' : '' }}><a href="{{ route('setting') }}">Pengaturan</a></li>
 	</ul>
 
 	<br>

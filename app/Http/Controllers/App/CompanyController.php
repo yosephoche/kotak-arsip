@@ -13,25 +13,6 @@ class CompanyController extends Controller
 		$this->middleware('auth');
 	}
 
-	public function index()
-	{
-		$data['company'] = Company::where('_id', Auth::user()->id_company)->first();
-
-		return view('app.company.index', $data);
-	}
-
-	public function update($id, Request $r)
-	{
-		$company = Company::find($id);
-		$company->name = $r->name;
-		$company->address = $r->address;
-		$company->phone = $r->phone;
-		$company->email = $r->email;
-		$company->save();
-
-		return redirect()->back();
-	}
-
 	public function register()
 	{
 		if (Auth::user()->id_company != null) {
