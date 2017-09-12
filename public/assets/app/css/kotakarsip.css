@@ -11739,6 +11739,9 @@ a:hover, a:focus, a:active, a:visited {
 .ka-body.ka-body-form .ka-sidebar-detail {
   width: 325px;
 }
+.ka-body.ka-body-form .images .pos-r:first-child .delete-img {
+  display: none;
+}
 .ka-body.ka-body-single .ka-main {
   width: calc(100% - 225px);
 }

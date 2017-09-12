@@ -35,7 +35,6 @@
 							<form action="a" id="formdelete">
 								<input type="hidden" name="_token" id="delete_token" value="{{ csrf_token() }}">
 								<button type="button" id="delete" class="delete-img" data-image="{{ $img }}" title="Hapus">×</button>
-								<!-- <a type="button" id="delete"  class="delete-img" title="Hapus">×</a> -->
 							</form>
 							<img src="{{ asset('assets/tesseract/').'/'.Auth::user()->_id.'/'.$img }}" alt="">
 						</div>
@@ -46,7 +45,7 @@
 			<div class="ka-main images">
 				<div id="main">
 					@foreach ($image as $img)
-						<img src="{{ asset('assets/tesseract').'/'.Auth::user()->_id.'/'.$img }}" alt="">
+						<img src="{{ asset('assets/tesseract').'/'.Auth::user()->_id.'/'.$img }}" alt="" data-image="{{ $img }}">
 					@endforeach
 					<!-- <img src="'{{ url(asset('assets/tesseract/image.jpg')) }}'" alt=""> -->
 					<!-- <object data="assets/img/data-img/surat-masuk/dok-2.pdf" type=""></object> -->
@@ -169,8 +168,6 @@
 		  	form.append('file[]', files[i]);
 		  }
 
-		  console.log(form.get('file'));
-
 		  $.ajax({
 				url: '{{ route("incoming_mail_upload_ajax") }}',
 				cache: false,
@@ -178,8 +175,10 @@
 				processData: false,
 				data: form,
 				type: 'post',
+				beforeSend: function () {
+					$('#images').append('<div class="progress" style="border-radius: 3px;"><div class="progress-bar progress-bar-striped progress-bar-success active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; margin-left: 0; border-left: 0">Sedang mengunggah...</div></div>');
+				},
 				success: function(data){
-					console.log(data);
 					$('#images').load(' #images');
 					$('#main').load(' #main');
 				},error:function(){ 
@@ -198,7 +197,10 @@
 			form.append('_token', token);
 			form.append('image', image);
 
-			console.log(form.get('image'));
+			// Remove image view
+			$(this).closest('.pos-r').slideUp('fast');
+			$('#main img[data-image="'+image+'"]').slideUp('fast');
+
 			$.ajax({
 				url: '{{ route("incoming_mail_delete_ajax") }}',
 				contentType: false,
@@ -206,7 +208,6 @@
 				method: 'POST',
 				data: form,
 				success: function(data){
-					console.log(data);
 					$('#images').load(' #images');
 					$('#main').load(' #main');
 				},
