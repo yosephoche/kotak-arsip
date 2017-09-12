@@ -58,7 +58,16 @@ class IncomingMailController extends Controller
 						'storage.id_company' => 0,
 						'storagesub.created_at' => 0,
 						'storagesub.updated_at' => 0,
-						'storagesub.id_storage' => 0
+						'storagesub.id_storage' => 0,
+						'share.phone' => 0,
+						'share.email' => 0,
+						'share.email_status' => 0,
+						'share.status' => 0,
+						'share.id_company' => 0,
+						'share.remember_token' => 0,
+						'share.password' => 0,
+						'share.created_at' => 0,
+						'share.updated_at' => 0
 					)
 				),
 				array(
@@ -458,6 +467,20 @@ class IncomingMailController extends Controller
 		$surat->save();
 
 		Session::flash('message', "Berhasil menyimpan pembaruan");
+		return redirect()->route('incoming_mail');
+	}
+
+	public function disposition(Request $r)
+	{
+		$this->validate($r, [
+			'share' => 'required'
+		]);
+
+		$surat = Archieve::find($r->id);
+		$surat->share = GlobalClass::arrayObjectId($r->share);
+		$surat->save();
+
+		Session::flash('message', "Berhasil");
 		return redirect()->route('incoming_mail');
 	}
 

@@ -95,6 +95,7 @@ Route::group(['namespace' => 'App'], function () {
 			Route::get('/edit/{id?}', 'IncomingMailController@edit')->name('incoming_mail_edit');
 			Route::post('/update/{id?}', 'IncomingMailController@update')->name('incoming_mail_update');
 			Route::post('/delete', 'IncomingMailController@delete')->name('incoming_mail_delete');
+			Route::post('/dispotion', 'IncomingMailController@disposition')->name('incoming_mail_disposition');
 		});
 	});
 
