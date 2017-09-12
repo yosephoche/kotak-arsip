@@ -46,8 +46,6 @@ Route::group(['namespace' => 'App'], function () {
 
 	//Company
 	Route::group(['prefix' => 'company'], function(){
-		Route::get('/', 'CompanyController@index')->name('company');
-		Route::put('/update/{id?}', 'CompanyController@update')->name('company_update');
 		Route::get('/register', 'CompanyController@register')->name('company_register');
 		Route::post('/store', 'CompanyController@store')->name('company_store');
 		Route::get('/register/success', 'CompanyController@registerSuccess')->name('company_register_success');
@@ -107,6 +105,11 @@ Route::group(['namespace' => 'App'], function () {
 		Route::get('/edit/{id?}', 'MemberController@edit')->name('member_edit');
 		Route::put('/update/{id?}', 'MemberController@update')->name('member_update');
 		Route::post('/delete', 'MemberController@delete')->name('member_delete');
+	});
+
+	//Member
+	Route::group(['prefix' => 'setting'], function(){
+		Route::get('/', 'SettingController@index')->name('setting');
 	});
 });
 
