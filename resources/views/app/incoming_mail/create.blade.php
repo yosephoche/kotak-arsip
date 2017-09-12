@@ -150,9 +150,6 @@
 
 	<script src="{{ asset('assets/app/js/kotakarsip.js') }}"></script>
 	<script>
-		//Hide Sub Storage
-		$('#subshow').hide();
-
 		//Upload Multiple Image
 		$('#files').change(function(e) {
 		  e.preventDefault();
@@ -215,15 +212,18 @@
 		});
 
 		//Ajax Dropdown
+		//Hide Sub Storage
+		$('#subshow').hide();
+
 		$('#storage').on('change', function(e){
-			//Show Sub Storage
-			$('#subshow').show();
 			var storage_id = e.target.value;
 			//ajax
 			$.get('dropdown?storage_id=' + storage_id, function(data){
 				if (data == 0) {
 					$('#subshow').hide();
+					$('#subshow').find('select').empty();
 				} else {
+					$('#subshow').show();
 					$('#substorage').empty();
 					$.each(data, function(index, substorageObj){
 						$('#substorage').append('<option value="'+substorageObj._id+'">'+substorageObj.name+'</option>');
