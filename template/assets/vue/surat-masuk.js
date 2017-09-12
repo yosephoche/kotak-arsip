@@ -5,7 +5,8 @@ function getDataIncomingMail(api, key) {
 		data: {
 			search: '',
 			json: { key : [], 'users' : [] },
-			detail: ''
+			detail: '',
+			idActive: ''
 		},
 		created: function () {
 			var _this = this;
@@ -44,6 +45,9 @@ function getDataIncomingMail(api, key) {
 				var element = $(e.target);
 				element.siblings('label').html('<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> &nbsp;Proses').attr('disabled', 'disabled');
 				element.closest('form').submit();
+			},
+			checkUserDisposition: function (id) {
+				this.idActive = id;
 			}
 		},
 		computed: {
