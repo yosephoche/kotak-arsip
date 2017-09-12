@@ -338,7 +338,10 @@ class IncomingMailController extends Controller
 		$surat->reference_number = $r->reference_number;
 		$surat->subject = $r->subject;
 		$surat->date = GlobalClass::generateIsoDate($r->date);
-		$surat->storage = $r->storage;
+		$surat->storage = GlobalClass::generateMongoObjectId($r->storage);
+		if ($r->storagesub != '') {
+			$surat->storagesub = GlobalClass::generateMongoObjectId($r->storagesub);
+		}
 		$surat->note = $r->note;
 		$surat->save();
 
