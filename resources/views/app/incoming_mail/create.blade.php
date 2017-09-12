@@ -17,7 +17,7 @@
 	<div id="app">
 		<nav class="ka-nav ka-nav-detail">
 			<ul class="left-side">
-				<li class="back"><a href="{{ $_SERVER['HTTP_REFERER'] }}"><i class="fa fa-angle-left"></i> &nbsp;&nbsp;Surat Masuk</a></li>
+				<li class="back"><a href="{{ route('incoming_mail') }}"><i class="fa fa-angle-left"></i> &nbsp;&nbsp;Surat Masuk</a></li>
 			</ul>
 		</nav>
 
@@ -101,7 +101,7 @@
 								<hr>
 								<div class="row">
 									<div class="col-md-6">
-										<a href="" class="btn btn-default btn-block">Batal</a>
+										<a href="{{ route('incoming_mail') }}" class="btn btn-default btn-block">Batal</a>
 									</div>
 									<div class="col-md-6">
 										<button class="btn btn-primary btn-block">Simpan</button>

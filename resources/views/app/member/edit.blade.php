@@ -1,6 +1,6 @@
 @extends('app.layouts.main')
 
-@section('title', 'Member')
+@section('title', 'Anggota')
 
 @section('contents')
 	<div class="ka-main">

@@ -1,6 +1,6 @@
 @extends('app.layouts.main')
 
-@section('title', 'Storage')
+@section('title', 'Penyimpanan Arsip')
 
 @section('contents')
 	<div class="ka-main">
