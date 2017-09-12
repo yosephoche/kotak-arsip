@@ -74,7 +74,7 @@
 								<label>Penyimpanan Arsip</label>
 								<div class="value">
 									<select name="storage" id="storage" class="form-control">
-										<option>Pilih Penyimpanan</option>
+										<option value="">Pilih Penyimpanan</option>
 										@foreach ($storage as $s)
 											<option value="{{ $s->_id }}">{{ $s->name }}</option>
 										@endforeach
@@ -223,11 +223,12 @@
 			$.get('dropdown?storage_id=' + storage_id, function(data){
 				if (data == 0) {
 					$('#subshow').hide();
+				} else {
+					$('#substorage').empty();
+					$.each(data, function(index, substorageObj){
+						$('#substorage').append('<option value="'+substorageObj._id+'">'+substorageObj.name+'</option>');
+					});
 				}
-				$('#substorage').empty();
-				$.each(data, function(index, substorageObj){
-					$('#substorage').append('<option value="'+substorageObj._id+'">'+substorageObj.name+'</option>');
-				});
 			});
 		});
 

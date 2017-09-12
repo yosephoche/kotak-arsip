@@ -51,15 +51,21 @@ class IncomingMailController extends Controller
 				array(
 					'$project' => array(
 						'fulltext' => 0,
-						'note' => 0,
+						'created_at' => 0,
 						'updated_at' => 0,
-						'created_at' => 0
+						'storage.created_at' => 0,
+						'storage.updated_at' => 0,
+						'storage.type' => 0,
+						'storage.id_company' => 0,
+						'storagesub.created_at' => 0,
+						'storagesub.updated_at' => 0,
+						'storagesub.id_storage' => 0
 					)
 				)
 			));
 		})->where('type', 'incoming_mail')->where('id_company', Auth::user()->id_company)->where('deleted_at', '');
 
-		$users = User::all();
+		$users = User::where('id_company', Auth::user()->id_company)->get();
 
 		return response()->json([
 			'incomingMail'  =>  $archieve,
@@ -93,11 +99,32 @@ class IncomingMailController extends Controller
 						'foreignField' =>  '_id',
 						'as' => 'storagesub'
 					)
+				),
+				array(
+					'$lookup' => array(
+						'from' => 'storage',
+						'localField' => 'storage',
+						'foreignField' =>  '_id',
+						'as' => 'storage'
+					)
+				),
+				array(
+					'$project' => array(
+						'from' => 1,
+						'reference_number' => 1,
+						'date' => 1,
+						'subject' => 1,
+						'storagesub._id' => 1,
+						'storagesub.name' => 1,
+						'storage._id' => 1,
+						'storage.name' => 1,
+						'files' => 1,
+					)
 				)
 			));
 		})->where('_id', $id);
 
-		$users = User::all();
+		$users = User::where('id_company', Auth::user()->id_company)->get();
 
 		return response()->json([
 			'incomingMail'  =>  $archieve,
