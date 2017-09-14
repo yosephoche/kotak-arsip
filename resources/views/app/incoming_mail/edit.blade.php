@@ -33,6 +33,7 @@
 					@foreach ($image as $img)
 						<?php 
 							$check = substr($img, -3);
+							$rand = rand(111111,999999);
 						?>
 						<div class="pos-r">
 							<form action="a" id="formdelete">
@@ -42,7 +43,7 @@
 							@if ($check == 'pdf')
 								<img src="{{ asset('assets/app/img/icons/pdf.svg') }}" alt="">
 							@else
-								<img src="{{ asset('assets/tesseract/').'/'.Auth::user()->_id.'/'.$img }}" alt="">
+								<img src="{{ asset('assets/tesseract/').'/'.Auth::user()->_id.'/'.$img.'?'.$rand }}" alt="">
 							@endif
 						</div>
 					@endforeach
@@ -54,11 +55,12 @@
 					@foreach ($image as $img)
 						<?php 
 							$check = substr($img, -3);
+							$rand = rand(111111,999999);
 						 ?>
 						 @if ($check == 'pdf')
 							<object data="{{ asset('assets/tesseract').'/'.Auth::user()->_id.'/'.$img }}" type="text/html"></object>
 						 @else
-							<img src="{{ asset('assets/tesseract').'/'.Auth::user()->_id.'/'.$img }}" alt="" data-image="{{ $img }}">
+							<img src="{{ asset('assets/tesseract').'/'.Auth::user()->_id.'/'.$img.'?'.$rand }}" alt="" data-image="{{ $img }}">
 						 @endif
 					@endforeach
 				</div>
