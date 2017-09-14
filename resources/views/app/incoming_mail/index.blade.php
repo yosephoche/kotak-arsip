@@ -30,10 +30,13 @@
 				<td v-html="val.subject"></td>
 				<td class="view-tablet-only" v-if="val.share != ''" width="150px">
 					<ul class="list-unstyled disposisi">
-						<li v-for="disposisi in val.share" class="img-disposisi">
+						<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index < 3">
 							<b-tooltip v-bind:content="disposisi.name" placement="bottom">
 								<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + disposisi.photo + ')' }"></div>
 							</b-tooltip>
+						</li>
+						<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index == 0 && val.share.length > 3">
+							<div class="img-disposisi" v-html="'+' + (val.share.length - 3).toString()" style="background-color: #1079ff; color: #fff"></div>
 						</li>
 					</ul>
 				</td>
@@ -43,7 +46,7 @@
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
 					<ul class="dropdown-menu pull-right">
 						<li><a v-bind:href="'{{ route('incoming_mail_detail') }}/' + val._id">Lihat Detail</a></li>
-						<li><a href="#" data-toggle="modal" data-target="#disposisiModal" v-bind:data-id="val._id" v-on:click="checkUserDisposition(val._id)">Disposisi</a></li>
+						<li><a href="#" data-toggle="modal" data-target="#disposisiModal" v-bind:data-id="val._id" v-on:click="idDispositionArray(val.share)">Disposisi</a></li>
 						<li><a v-bind:href="'{{ route('incoming_mail_move') }}/' + val._id">Sunting</a></li>
 						<li><a type="button" data-toggle="modal" data-target="#deleteModal" v-bind:data-id="val._id" class="text-danger">Hapus</a></li>
 					</ul>
@@ -104,7 +107,10 @@
 								<td class="search" colspan="4"><input type="text" class="form-control" placeholder="Cari" v-model="search"></td>
 							</tr>
 							<tr v-for="val in filteredUsers" v-if="val._id != '{{ Auth::user()->_id }}'">
-								<td class="text-center"><input type="checkbox" name="share[]" v-bind:value="val._id"></td>
+								<td class="text-center">
+									<input type="checkbox" name="share[]" :value="val._id" v-if="dispositionArray.indexOf(val._id) != -1" checked>
+									<input type="checkbox" name="share[]" :value="val._id" v-else>
+								</td>
 								<td><div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + val.photo + ')' }"></div></td>
 								<td>
 									<span class="name" v-html="val.name"></span><br>

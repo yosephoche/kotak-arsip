@@ -11612,6 +11612,10 @@ a:hover, a:focus, a:active, a:visited {
   vertical-align: middle;
   border-radius: 50%;
   margin: 2px;
+  line-height: 25px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: bold;
 }
 .ka-body .ka-main .table .dropdown-menu {
   top: 40px;

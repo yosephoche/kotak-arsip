@@ -20,8 +20,8 @@
 				<li class="back"><a href="{{ route('incoming_mail') }}"><i class="fa fa-angle-left"></i> &nbsp;&nbsp;Surat Masuk</a></li>
 			</ul>
 			<ul class="right-side">
-				<li>
-					<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#disposisiModal">Disposisi</a>
+				<li v-for="val in json.incomingMail">
+					<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#disposisiModal" v-bind:data-id="val._id" v-on:click="idDispositionArray(val.share)">Disposisi</a>
 					&nbsp;&nbsp;
 					<a href="#" class="btn btn-default" id="favorite" @click="favorite"><i class="fa fa-star-o"></i></a>
 				</li>
@@ -102,18 +102,23 @@
 		<div class="modal fade modal-disposisi" id="disposisiModal" tabindex="-1" role="dialog" aria-labelledby="disposisiLabelModal">
 			<div class="modal-dialog modal-sm" role="document">
 				<div class="modal-content">
-					<form action="">
+					<form action="{{ route('incoming_mail_disposition') }}" method="post">
+						{{ csrf_field() }}
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 							<h4 class="modal-title" id="disposisiLabelModal">Disposisi</h4>
 						</div>
 						<div class="modal-body">
+							<input type="hidden" name="id">
 							<table class="table">
 								<tr>
 									<td class="search" colspan="4"><input type="text" class="form-control" placeholder="Cari" v-model="search"></td>
 								</tr>
-								<tr v-for="val in filteredUsers">
-									<td class="text-center"><input type="checkbox"></td>
+								<tr v-for="val in filteredUsers" v-if="val._id != '{{ Auth::user()->_id }}'">
+									<td class="text-center">
+										<input type="checkbox" name="share[]" :value="val._id" v-if="dispositionArray.indexOf(val._id) != -1" checked>
+										<input type="checkbox" name="share[]" :value="val._id" v-else>
+									</td>
 									<td><div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + val.photo + ')' }"></div></td>
 									<td>
 										<span class="name" v-html="val.name"></span><br>
@@ -130,12 +135,18 @@
 				</div>
 			</div>
 		</div>
+
 	</div>
 
 	@include('app.layouts.partial.script')
 	<script src="{{ asset('assets/app/vue/surat-masuk.js') }}"></script>
 	<script>
 		getDataIncomingMailDetail('{{ route('api_incoming_mail_detail', ['id' => $archieve->_id]) }}', 'incomingMail');
+		
+		$('#disposisiModal').on('show.bs.modal', function (e) {
+			var id = $(e.relatedTarget).data('id');
+			$(this).find('input[name="id"]').val(id);
+		});
 	</script>
 
 </body>

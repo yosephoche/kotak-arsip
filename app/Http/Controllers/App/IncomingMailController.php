@@ -127,6 +127,7 @@ class IncomingMailController extends Controller
 						'reference_number' => 1,
 						'date' => 1,
 						'subject' => 1,
+						'share' => 1,
 						'storagesub._id' => 1,
 						'storagesub.name' => 1,
 						'storage._id' => 1,
@@ -488,12 +489,12 @@ class IncomingMailController extends Controller
 
 	public function disposition(Request $r)
 	{
-		$this->validate($r, [
-			'share' => 'required'
-		]);
-
 		$surat = Archieve::find($r->id);
-		$surat->share = GlobalClass::arrayObjectId($r->share);
+		if ($r->share != null) {
+			$surat->share = GlobalClass::arrayObjectId($r->share);
+		} else {
+			$surat->share = '';
+		}
 		$surat->save();
 
 		Session::flash('message', "Berhasil");
