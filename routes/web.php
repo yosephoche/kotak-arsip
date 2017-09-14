@@ -112,9 +112,11 @@ Route::group(['namespace' => 'App'], function () {
 		Route::post('/delete', 'MemberController@delete')->name('member_delete');
 	});
 
-	//Member
+	//Setting
 	Route::group(['prefix' => 'setting'], function(){
 		Route::get('/', 'SettingController@index')->name('setting');
+		Route::post('/update/user', 'SettingController@updateuser')->name('update_user');
+		Route::post('/update/company', 'SettingController@updatecompany')->name('update_company');
 	});
 });
 
