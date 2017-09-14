@@ -45,7 +45,7 @@
 					<tr>
 						<td>No. Telpon/Hp</td>
 						<td align="right">{{ $user->phone }}</td>
-						<td width="100px" align="right"><a href="" data-toggle="modal" data-target="#usereditModal" data-id="{{ $user->_id }}" data-name="phone" data-val="{{ $user->phone }}" data-label="Sunting Telepon Pengguna">Sunting</a></td>
+						<td width="100px" align="right"><a href="" data-toggle="modal" data-target="#usereditModal" data-id="{{ $user->_id }}" data-name="phone" data-val="{{ $user->phone }}" data-label="Sunting Telpon Pengguna">Sunting</a></td>
 					</tr>
 					<tr>
 						<td>Jabatan</td>
@@ -84,7 +84,7 @@
 					<tr>
 						<td>No. Telpon/Hp</td>
 						<td align="right">{{ $company->phone }}</td>
-						<td width="100px" align="right"><a href="" data-toggle="modal" data-target="#companyeditModal" data-id="{{ $company->_id }}" data-name="phone" data-val="{{ $company->phone }}" data-label="Sunting Telepon Perusahaan">Sunting</a></td>
+						<td width="100px" align="right"><a href="" data-toggle="modal" data-target="#companyeditModal" data-id="{{ $company->_id }}" data-name="phone" data-val="{{ $company->phone }}" data-label="Sunting Telpon Perusahaan">Sunting</a></td>
 					</tr>
 					<tr>
 						<td>Email Perusahaan</td>

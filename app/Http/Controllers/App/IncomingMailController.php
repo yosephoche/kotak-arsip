@@ -505,6 +505,6 @@ class IncomingMailController extends Controller
 	{
 		$archieve = Archieve::where('_id', $r->id)->delete();
 
-		return redirect()->back();
+		return redirect()->route('incoming_mail');
 	}
 }

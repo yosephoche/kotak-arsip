@@ -24,6 +24,7 @@ class SettingController extends Controller
     	}
 
     	if ($r->email != '') {
+            $this->validate($r, ['email' => 'required|email|unique:users,email,'.$user->_id.',_id']);
     		$user->email = $r->email;
     	}
 
