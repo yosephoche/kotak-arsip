@@ -105,7 +105,7 @@
 								<hr>
 								<div class="row">
 									<div class="col-md-6">
-										<a href="" class="btn btn-default btn-block">Batal</a>
+										<a href="{{ route('incoming_mail') }}" class="btn btn-default btn-block">Batal</a>
 									</div>
 									<div class="col-md-6">
 										<button class="btn btn-primary btn-block">Simpan</button>

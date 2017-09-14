@@ -95,6 +95,11 @@ Route::group(['namespace' => 'App'], function () {
 			Route::post('/delete', 'IncomingMailController@delete')->name('incoming_mail_delete');
 			Route::post('/dispotion', 'IncomingMailController@disposition')->name('incoming_mail_disposition');
 		});
+
+		//Outgoing Mail
+		Route::group(['prefix' => 'keluar'], function(){
+			Route::get('/', 'OutgoingMailController@index')->name('outgoing_mail');
+		});
 	});
 
 	//Member

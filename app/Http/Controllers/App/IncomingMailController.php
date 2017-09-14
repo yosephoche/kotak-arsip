@@ -163,28 +163,33 @@ class IncomingMailController extends Controller
 		$dir = public_path('assets/tesseract'.'/'.Auth::user()->_id);
 		$files = scandir($dir);
 
-		$images = [];
-		for ($i=0; $i < count($files); $i++) { 
-			// Conditions for find images
-			$ext = substr($files[$i], -3);
-			if ($ext == 'jpg' || $ext == 'peg' || $ext == 'png') {
-				array_push($images, $files[$i]);
+		$check = substr($files[2], -3);
+		if ($check == 'pdf') {
+			return redirect()->route('incoming_mail_create');
+		} else {
+			$images = [];
+			for ($i=0; $i < count($files); $i++) { 
+				// Conditions for find images
+				$ext = substr($files[$i], -3);
+				if ($ext == 'jpg' || $ext == 'peg' || $ext == 'png') {
+					array_push($images, $files[$i]);
+				}
 			}
+
+			// --- OCR Code ---
+			// Path Variables For Run OCR
+			$image = public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.$images[0]);
+			$result = public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.'out');
+
+			// OCR Execution By Tesseract
+			// For Windows
+			$output = exec('tesseract "'.$image.'" "'.$result.'" -l ind+eng');
+
+			// For Mac
+			$output = exec('/usr/local/bin/tesseract "'.$image.'" "'.$result.'" -l ind+eng');
+
+			return redirect()->route('incoming_mail_create');
 		}
-
-		// --- OCR Code ---
-		// Path Variables For Run OCR
-		$image = public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.$images[0]);
-		$result = public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.'out');
-
-		// OCR Execution By Tesseract
-		// For Windows
-		$output = exec('tesseract "'.$image.'" "'.$result.'" -l ind+eng');
-
-		// For Mac
-		$output = exec('/usr/local/bin/tesseract "'.$image.'" "'.$result.'" -l ind+eng');
-
-		return redirect()->route('incoming_mail_create');
 	}
 
 	public function uploadAjax(Request $r)
@@ -243,30 +248,37 @@ class IncomingMailController extends Controller
 		for ($i=0; $i < count($files); $i++) { 
 			// Conditions for find images
 			$ext = substr($files[$i], -3);
-			if ($ext == 'jpg' || $ext == 'peg' || $ext == 'png') {
+			if ($ext == 'jpg' || $ext == 'peg' || $ext == 'png' || $ext == 'pdf') {
 				array_push($images, $files[$i]);
 			}
 		}
 		$data['image'] = $images; 
 
-		// Path Variables For OCR
-		$image = public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.$images[0]);
-		$result = public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.'out');
-		$open = public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.'out.txt');
+		//Check file
+		$check = substr($files[2], -3);
 
-		// OCR From
-		$data['from'] = GlobalClass::OCRKey($image, $result, $open, 'from');
+		if ($check != 'pdf') {
+			// Path Variables For OCR
+			$image = public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.$images[0]);
+			$result = public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.'out');
+			$open = public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.'out.txt');
 
-		// OCR Refrence_Number
-		$data['reference_number'] = GlobalClass::OCRKey($image, $result, $open, 'reference_number');
+			// OCR From
+			$data['from'] = GlobalClass::OCRKey($image, $result, $open, 'from');
 
-		// OCR Subject
-		$data['subject'] = GlobalClass::OCRKey($image, $result, $open, 'subject');
+			// OCR Refrence_Number
+			$data['reference_number'] = GlobalClass::OCRKey($image, $result, $open, 'reference_number');
 
-		// OCR Fulltext
-		$data['fulltext'] = GlobalClass::OCRKey($image, $result, $open, 'fulltext');
+			// OCR Subject
+			$data['subject'] = GlobalClass::OCRKey($image, $result, $open, 'subject');
 
-		// --- END OCR Code ---
+			// OCR Fulltext
+			$data['fulltext'] = GlobalClass::OCRKey($image, $result, $open, 'fulltext');
+
+			// --- END OCR Code ---
+		} else {
+			$data['fulltext'] = "";
+		}	
 
 		//Storage
 		$data['storage'] = Storage::where('id_company', Auth::user()->id_company)->orderBy('name')->get();

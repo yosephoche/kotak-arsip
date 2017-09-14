@@ -31,12 +31,19 @@
 				<hr>
 				<div class="images" id="images">
 					@foreach ($image as $img)
+						<?php 
+							$check = substr($img, -3);
+						?>
 						<div class="pos-r">
 							<form action="a" id="formdelete">
 								<input type="hidden" name="_token" id="delete_token" value="{{ csrf_token() }}">
 								<button type="button" id="delete" class="delete-img" data-image="{{ $img }}" title="Hapus">×</button>
 							</form>
-							<img src="{{ asset('assets/tesseract/').'/'.Auth::user()->_id.'/'.$img }}" alt="">
+							@if ($check == 'pdf')
+								<img src="{{ asset('assets/app/img/load-pdf.gif') }}" alt="">
+							@else
+								<img src="{{ asset('assets/tesseract/').'/'.Auth::user()->_id.'/'.$img }}" alt="">
+							@endif
 						</div>
 					@endforeach
 				</div>
@@ -45,10 +52,15 @@
 			<div class="ka-main images">
 				<div id="main">
 					@foreach ($image as $img)
-						<img src="{{ asset('assets/tesseract').'/'.Auth::user()->_id.'/'.$img }}" alt="" data-image="{{ $img }}">
+						<?php 
+							$check = substr($img, -3);
+						 ?>
+						 @if ($check == 'pdf')
+							<object data="{{ asset('assets/tesseract').'/'.Auth::user()->_id.'/'.$img }}" type="application/pdf"></object>
+						 @else
+							<img src="{{ asset('assets/tesseract').'/'.Auth::user()->_id.'/'.$img }}" alt="" data-image="{{ $img }}">
+						 @endif
 					@endforeach
-					<!-- <img src="'{{ url(asset('assets/tesseract/image.jpg')) }}'" alt=""> -->
-					<!-- <object data="assets/img/data-img/surat-masuk/dok-2.pdf" type=""></object> -->
 				</div>
 			</div>
 
