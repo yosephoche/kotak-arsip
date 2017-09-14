@@ -25,11 +25,11 @@
 					&nbsp;&nbsp;
 					<a href="#" class="btn btn-default" id="favorite" @click="favorite"><i class="fa fa-star-o"></i></a>
 				</li>
-				<li class="dropdown">
+				<li class="dropdown" v-for="val in json.incomingMail">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
 					<ul class="dropdown-menu pull-right">
-						<li><a href="sunting.html">Sunting</a></li>
-						<li><a href="#" class="text-danger">Hapus</a></li>
+						<li><a v-bind:href="'{{ route('incoming_mail_move') }}/' + val._id">Sunting</a></li>
+						<li><a type="button" data-toggle="modal" data-target="#deleteModal" v-bind:data-id="val._id" class="text-danger">Hapus</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -136,6 +136,29 @@
 			</div>
 		</div>
 
+		<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabelModal">
+			<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<form action="{{ route('incoming_mail_delete') }}" method="post">
+						{{ csrf_field() }}
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="deleteLabelModal">Hapus</h4>
+						</div>
+						<div class="modal-body">
+							<input type="text" class="hidden" id="delete-val" value="">
+							<input type="hidden" name="id">
+							Apakah Anda yakin ingin menghapus data ini?
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+							<button type="submit" class="btn btn-danger">Ya, hapus</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- end modal -->
 	</div>
 
 	@include('app.layouts.partial.script')
@@ -144,6 +167,12 @@
 		getDataIncomingMailDetail('{{ route('api_incoming_mail_detail', ['id' => $archieve->_id]) }}', 'incomingMail');
 		
 		$('#disposisiModal').on('show.bs.modal', function (e) {
+			var id = $(e.relatedTarget).data('id');
+			$(this).find('input[name="id"]').val(id);
+		});
+
+		//Delete Modal
+		$('#deleteModal').on('show.bs.modal', function (e) {
 			var id = $(e.relatedTarget).data('id');
 			$(this).find('input[name="id"]').val(id);
 		});

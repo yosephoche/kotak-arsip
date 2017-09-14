@@ -164,6 +164,29 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabelModal">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<form action="{{ route('incoming_mail_delete') }}" method="post">
+					{{ csrf_field() }}
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="deleteLabelModal">Hapus</h4>
+					</div>
+					<div class="modal-body">
+						<input type="text" class="hidden" id="delete-val" value="">
+						<input type="hidden" name="id">
+						Apakah Anda yakin ingin menghapus data ini?
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+						<button type="submit" class="btn btn-danger">Ya, hapus</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 	<script src="{{ asset('assets/app/js/kotakarsip.js') }}"></script>
 	<script>
 		// Date Picker
