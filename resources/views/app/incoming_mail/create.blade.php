@@ -26,7 +26,7 @@
 				<form method="post" id="form" enctype="multipart/form-data">
 					<input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
 					<label for="files" class="btn btn-default btn-block">+ Tambah file lainnya</label>
-					<input type="file" class="hide" name="files[]" id="files" multiple>
+					<input type="file" class="hide" name="files[]" id="files" accept=".jpg, .png, .jpeg, .pdf" multiple>
 				</form>
 				<hr>
 				<div class="images" id="images">
