@@ -66,7 +66,7 @@
 	<aside class="ka-sidebar-detail">
 		<form action="{{ route('incoming_mail_upload') }}" method="post" enctype="multipart/form-data">
 			{{ csrf_field() }}
-			<input type="file" v-on:change="inputFileSubmit" id="inputFileSubmit" name="image" class="hide" accept=".jpg, .png, .jpeg .pdf">
+			<input type="file" v-on:change="inputFileSubmit" id="inputFileSubmit" name="image" class="hide" accept=".jpg, .png, .jpeg, .pdf">
 			<label for="inputFileSubmit" class="btn btn-primary btn-block">Tambah</label>
 		</form>
 
