@@ -21,8 +21,12 @@
 		<!-- Tab panes -->
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane active" id="tab-1">
+				<?php 
+					//Check IP Server
+					$serverIP = getHostByName(getHostName());
+				?>
 				<p>Untuk mengakses kotakarsip di komputer lainnya dalam satu jaringan adalah sebagai berikut:</p>
-				<blockquote><b>192.168.1.7</b></blockquote>
+				<blockquote><b>{{ $serverIP }}</b></blockquote>
 			</div>
 			<div role="tabpanel" class="tab-pane tab-account-setting" id="tab-2">
 				<h3>Informasi Akun Anda</h3>
@@ -140,7 +144,7 @@
 					<div class="modal-body">
 						<input type="hidden" name="id">
 						<div class="form-group">
-							<input type="text" name="name" id="inputuser" class="form-control" placeholder="Nama/Kode Penyimpanan Arsip">
+							<input type="text" name="name" id="inputuser" class="form-control">
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -165,7 +169,7 @@
 					<div class="modal-body">
 						<input type="hidden" name="id">
 						<div class="form-group">
-							<input type="text" name="name" id="inputcompany" class="form-control" placeholder="Nama/Kode Penyimpanan Arsip">
+							<input type="text" name="name" id="inputcompany" class="form-control">
 						</div>
 					</div>
 					<div class="modal-footer">
