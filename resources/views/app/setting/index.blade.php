@@ -30,27 +30,27 @@
 					<tr>
 						<td>Foto Profil</td>
 						<td align="right"><div class="img-profile-setting" style="background-image: url({{ asset('assets/app/img/users').'/'.$user->photo }})"></div></td>
-						<td width="100px" align="right"><a href="">Sunting</a></td>
+						<td width="100px" align="right"><a href="" data-toggle="modal" data-target="#updateImage" data-id="{{ $user->_id }}" data-name="photo">Sunting</a></td>
 					</tr>
 					<tr>
 						<td>Nama Lengkap</td>
 						<td align="right">{{ $user->name }}</td>
-						<td width="100px" align="right"><a href="">Sunting</a></td>
+						<td width="100px" align="right"><a href="" data-toggle="modal" data-target="#usereditModal" data-id="{{ $user->_id }}" data-name="name" data-val="{{ $user->name }}" data-label="Sunting Nama Pengguna">Sunting</a></td>
 					</tr>
 					<tr>
 						<td>Alamat Email</td>
 						<td align="right">{{ $user->email }}</td>
-						<td width="100px" align="right"><a href="">Sunting</a></td>
+						<td width="100px" align="right"><a href="" data-toggle="modal" data-target="#usereditModal" data-id="{{ $user->_id }}" data-name="email" data-val="{{ $user->email }}" data-label="Sunting Email Pengguna">Sunting</a></td>
 					</tr>
 					<tr>
 						<td>No. Telpon/Hp</td>
 						<td align="right">{{ $user->phone }}</td>
-						<td width="100px" align="right"><a href="">Sunting</a></td>
+						<td width="100px" align="right"><a href="" data-toggle="modal" data-target="#usereditModal" data-id="{{ $user->_id }}" data-name="phone" data-val="{{ $user->phone }}" data-label="Sunting Telepon Pengguna">Sunting</a></td>
 					</tr>
 					<tr>
 						<td>Jabatan</td>
 						<td align="right">{{ $user->position }}</td>
-						<td width="100px" align="right"><a href="">Sunting</a></td>
+						<td width="100px" align="right"><a href="" data-toggle="modal" data-target="#usereditModal" data-id="{{ $user->_id }}" data-name="position" data-val="{{ $user->position }}" data-label="Sunting Posisi Pengguna">Sunting</a></td>
 					</tr>
 				</table>
 			</div>
@@ -69,7 +69,7 @@
 					<tr>
 						<td>Nama Perusahaan</td>
 						<td align="right">{{ $company->name }}</td>
-						<td width="100px" align="right"><a href="">Sunting</a></td>
+						<td width="100px" align="right"><a href="" data-toggle="modal" data-target="#companyeditModal" data-id="{{ $company->_id }}" data-name="name" data-val="{{ $company->name }}" data-label="Sunting Nama Perusahaan">Sunting</a></td>
 					</tr>
 					<tr>
 						<td>Kode Perusahaan</td>
@@ -79,17 +79,17 @@
 					<tr>
 						<td>Alamat Perusahaan</td>
 						<td align="right">{{ $company->address }}</td>
-						<td width="100px" align="right"><a href="">Sunting</a></td>
+						<td width="100px" align="right"><a href="" data-toggle="modal" data-target="#companyeditModal" data-id="{{ $company->_id }}" data-name="address" data-val="{{ $company->address }}" data-label="Sunting Alamat Perusahaan">Sunting</a></td>
 					</tr>
 					<tr>
 						<td>No. Telpon/Hp</td>
 						<td align="right">{{ $company->phone }}</td>
-						<td width="100px" align="right"><a href="">Sunting</a></td>
+						<td width="100px" align="right"><a href="" data-toggle="modal" data-target="#companyeditModal" data-id="{{ $company->_id }}" data-name="phone" data-val="{{ $company->phone }}" data-label="Sunting Telepon Perusahaan">Sunting</a></td>
 					</tr>
 					<tr>
 						<td>Email Perusahaan</td>
 						<td align="right">{{ $company->email }}</td>
-						<td width="100px" align="right"><a href="">Sunting</a></td>
+						<td width="100px" align="right"><a href="" data-toggle="modal" data-target="#companyeditModal" data-id="{{ $company->_id }}" data-name="email" data-val="{{ $company->email }}" data-label="Sunting Email Perusahaan">Sunting</a></td>
 					</tr>
 				</table>
 			</div>
@@ -99,4 +99,115 @@
 	<aside class="ka-sidebar-detail">
 		
 	</aside>
+@endsection
+
+@section('modal')
+	<!-- Modal Update Photo -->
+	<div class="modal fade" id="updateImage" tabindex="-1" role="dialog" aria-labelledby="editLabelModal">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<form action="{{ route('update_user') }}" method="POST" enctype="multipart/form-data">
+					{{ csrf_field() }}
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="editLabelModal">Sunting Gambar Pengguna</h4>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" name="id">
+						<div class="form-group">
+							<input type="file" name="photo[]" class="form-control" accept=".jpg, .png, .jpeg">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+						<button class="btn btn-primary">Simpan</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Update User -->
+	<div class="modal fade" id="usereditModal" tabindex="-1" role="dialog" aria-labelledby="editLabelModal">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<form action="{{ route('update_user') }}" method="POST">
+					{{ csrf_field() }}
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="editLabelModal">Sunting Akun</h4>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" name="id">
+						<div class="form-group">
+							<input type="text" name="name" id="inputuser" class="form-control" placeholder="Nama/Kode Penyimpanan Arsip">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+						<button class="btn btn-primary">Simpan</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Update Company -->
+	<div class="modal fade" id="companyeditModal" tabindex="-1" role="dialog" aria-labelledby="editLabelModal">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<form action="{{ route('update_company') }}" method="POST">
+					{{ csrf_field() }}
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="editLabelModal">Sunting Akun</h4>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" name="id">
+						<div class="form-group">
+							<input type="text" name="name" id="inputcompany" class="form-control" placeholder="Nama/Kode Penyimpanan Arsip">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+						<button class="btn btn-primary">Simpan</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+@endsection
+
+@section('registerscript')
+	<script>
+		//Modal User Photo
+		$('#updateImage').on('show.bs.modal', function (e) {
+			var id = $(e.relatedTarget).data('id');
+			$(this).find('input[name="id"]').val(id);
+		});
+
+		// Edit Modal User
+		$('#usereditModal').on('show.bs.modal', function (e) {
+			var id = $(e.relatedTarget).data('id');
+			var name = $(e.relatedTarget).data('name');
+			var val = $(e.relatedTarget).data('val');
+			var label = $(e.relatedTarget).data('label');
+			$(this).find('input[name="id"]').val(id);
+			$(this).find('#inputuser').attr('name', name);
+			$(this).find('#inputuser').val(val);
+			$(this).find('#editLabelModal').text(label);
+		});
+
+		// Edit Modal Company
+		$('#companyeditModal').on('show.bs.modal', function (e) {
+			var id = $(e.relatedTarget).data('id');
+			var name = $(e.relatedTarget).data('name');
+			var val = $(e.relatedTarget).data('val');
+			var label = $(e.relatedTarget).data('label');
+			$(this).find('input[name="id"]').val(id);
+			$(this).find('#inputcompany').attr('name', name);
+			$(this).find('#inputcompany').val(val);
+			$(this).find('#editLabelModal').text(label);
+		});
+	</script>
 @endsection
