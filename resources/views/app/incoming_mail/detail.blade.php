@@ -38,8 +38,14 @@
 		<section class="ka-body ka-body-detail">
 			<div class="ka-main">
 				<div v-for="val in json.incomingMail">
-					<img v-for="image in val.files" :src="'{{ asset('assets/app/img/incoming_mail') }}/' + image" alt="">
-					<!-- <object data="assets/img/data-img/surat-masuk/dok-2.pdf" type=""></object> -->
+					<div v-for="image in val.files">
+						<div v-if="image.slice(-3) == 'pdf'">
+							<object :data="'{{ asset('assets/app/img/incoming_mail') }}/' + image" type="application/pdf"></object>
+						</div>
+						<div v-else>
+							<img :src="'{{ asset('assets/app/img/incoming_mail') }}/' + image" alt="">
+						</div>
+					</div>
 				</div>
 			</div>
 

@@ -319,7 +319,7 @@ class IncomingMailController extends Controller
 		for ($i=0; $i < count($file); $i++) { 
 			// Conditions for find images
 			$ext = substr($file[$i], -3);
-			if ($ext == 'jpg' || $ext == 'peg' || $ext == 'png') {
+			if ($ext == 'jpg' || $ext == 'peg' || $ext == 'png' || $ext == 'pdf') {
 				array_push($images, $file[$i]);
 			}
 		}
@@ -333,6 +333,8 @@ class IncomingMailController extends Controller
 				$nm_file = $rand.'.'.'jpg';
 			} elseif ($ext == 'png') {
 				$nm_file = $rand.'.'.'png';
+			} elseif ($ext == 'pdf'){
+				$nm_file = $rand.'.'.'pdf';
 			} else {
 				$nm_file = $rand.'.'.'jpeg';
 			}
@@ -399,7 +401,7 @@ class IncomingMailController extends Controller
 		for ($i=0; $i < count($files); $i++) { 
 			// Conditions for find images
 			$ext = substr($files[$i], -3);
-			if ($ext == 'jpg' || $ext == 'peg' || $ext == 'png') {
+			if ($ext == 'jpg' || $ext == 'peg' || $ext == 'png' || $ext == 'pdf') {
 				array_push($images, $files[$i]);
 			}
 		}
@@ -454,7 +456,7 @@ class IncomingMailController extends Controller
 		for ($i=0; $i < count($file); $i++) { 
 			// Conditions for find images
 			$ext = substr($file[$i], -3);
-			if ($ext == 'jpg' || $ext == 'peg' || $ext == 'png') {
+			if ($ext == 'jpg' || $ext == 'peg' || $ext == 'png' || $ext == 'pdf') {
 				array_push($images, $file[$i]);
 			}
 		}
@@ -468,6 +470,8 @@ class IncomingMailController extends Controller
 				$nm_file = $rand.'.'.'jpg';
 			} elseif ($ext == 'png') {
 				$nm_file = $rand.'.'.'png';
+			} elseif ($ext == 'pdf') {
+				$nm_file = $rand.'.'.'pdf';
 			} else {
 				$nm_file = $rand.'.'.'jpeg';
 			}

@@ -40,7 +40,7 @@
 								<button type="button" id="delete" class="delete-img" data-image="{{ $img }}" title="Hapus">×</button>
 							</form>
 							@if ($check == 'pdf')
-								<img src="{{ asset('assets/app/img/load-pdf.gif') }}" alt="">
+								<img src="{{ asset('assets/app/img/icons/pdf.svg') }}" alt="">
 							@else
 								<img src="{{ asset('assets/tesseract/').'/'.Auth::user()->_id.'/'.$img }}" alt="">
 							@endif
@@ -56,7 +56,7 @@
 							$check = substr($img, -3);
 						 ?>
 						 @if ($check == 'pdf')
-							<object data="{{ asset('assets/tesseract').'/'.Auth::user()->_id.'/'.$img }}" type="application/pdf"></object>
+							<object data="{{ asset('assets/tesseract').'/'.Auth::user()->_id.'/'.$img }}" type="text/html"></object>
 						 @else
 							<img src="{{ asset('assets/tesseract').'/'.Auth::user()->_id.'/'.$img }}" alt="" data-image="{{ $img }}">
 						 @endif
