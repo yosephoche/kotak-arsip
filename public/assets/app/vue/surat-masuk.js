@@ -6,7 +6,7 @@ function getDataIncomingMail(api, key) {
 			search: '',
 			json: { key : [], 'users' : [] },
 			detail: '',
-			idActive: ''
+			dispositionArray: ''
 		},
 		created: function () {
 			var _this = this;
@@ -46,8 +46,12 @@ function getDataIncomingMail(api, key) {
 				element.siblings('label').html('<i class="fa fa-circle-o-notch fa-spin fa-fw"></i> &nbsp;Proses').attr('disabled', 'disabled');
 				element.closest('form').submit();
 			},
-			checkUserDisposition: function (id) {
-				this.idActive = id;
+			idDispositionArray: function (data) {
+				var id = new Array();
+				for (var i = 0; i < data.length; i++) {
+					id.push(data[i]._id.$oid);
+				}
+				return this.dispositionArray = id;
 			}
 		},
 		computed: {
@@ -75,7 +79,8 @@ function getDataIncomingMailDetail(api, key) {
 		el: '#app',
 		data: {
 			search: '',
-			json: { key : [], 'users' : [] }
+			json: { key : [], 'users' : [] },
+			dispositionArray: ''
 		},
 		created: function () {
 			var _this = this;
@@ -102,6 +107,13 @@ function getDataIncomingMailDetail(api, key) {
 				element.find('.fa-bell').removeClass('animated infinite');
 				element.removeClass('new-notif');
 				element.find('.badge').remove();
+			},
+			idDispositionArray: function (data) {
+				var id = new Array();
+				for (var i = 0; i < data.length; i++) {
+					id.push(data[i]._id.$oid);
+				}
+				return this.dispositionArray = id;
 			}
 		},
 		filters: {
