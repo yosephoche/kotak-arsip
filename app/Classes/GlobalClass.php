@@ -50,7 +50,7 @@ class GlobalClass
 		// From
 		if ($key == 'from') {
 			$from = '';
-			$searchfrom = array("LEMBAGA", "KERUKUNAN", "PT");
+			$searchfrom = array("LEMBAGA", "KERUKUNAN", "PT", "CV", "PT.", "CV.", "PEMERINTAH");
 			$myfile = fopen($open, "r") or die("Unable to open file!");
 			while(!feof($myfile)) 
 			{
