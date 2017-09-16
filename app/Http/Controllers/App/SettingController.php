@@ -54,7 +54,9 @@ class SettingController extends Controller
 
     	$user->save();
 
-    	return redirect()->back();
+        $r->session()->flash('success', 'Berhasil menyimpan pembaruan');
+
+    	return redirect(route('setting', ['tab' => 'account']));
     }
 
     public function updatecompany(Request $r)
@@ -77,6 +79,8 @@ class SettingController extends Controller
     	}
     	$user->save();
 
-    	return redirect()->back();
+        $r->session()->flash('success', 'Berhasil menyimpan pembaruan data perusahaan');
+
+    	return redirect(route('setting', ['tab' => 'company']));
     }
 }

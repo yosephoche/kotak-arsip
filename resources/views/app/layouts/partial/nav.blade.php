@@ -4,7 +4,7 @@
 			<a href="#"><i class="fa fa-bars"></i></a>
 		</li>
 		<li class="brand">
-			<img src="{{ asset('assets/app/img/logo-white.svg') }}" class="logo" alt="Logo KotakArsip">
+			<a href="{{ route('incoming_mail') }}"><img src="{{ asset('assets/app/img/logo-white.svg') }}" class="logo" alt="Logo KotakArsip"></a>
 		</li>
 		<li class="search">
 			<form action="">
@@ -64,8 +64,8 @@
 				<span class="view-desktop-only">{{ Auth::user()->name }}</span> &nbsp;<i class="fa fa-caret-down"></i>
 			</a>
 			<ul class="dropdown-menu pull-right">
-				<li><a href="pengaturan-akun.html">Pengaturan Akun</a></li>
-				<li><a href="bantuan.html">Bantuan</a></li>
+				<li><a href="{{ route('setting', ['tab' => 'account']) }}">Pengaturan Akun</a></li>
+				<li><a href="#">Bantuan</a></li>
 				<li role="separator" class="divider"></li>
 				<li>
 					<a href="{{ route('logout') }}"

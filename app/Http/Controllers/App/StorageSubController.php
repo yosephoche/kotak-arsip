@@ -72,6 +72,8 @@ class StorageSubController extends Controller
         $sub->name = $r->name;
         $sub->save();
 
+        $r->session()->flash('success', 'Sub penyimpanan arsip berhasil diperbarui');
+
         return redirect()->back();
     }
 
@@ -85,6 +87,8 @@ class StorageSubController extends Controller
         $sub->name = $r->name;
         $sub->save();
 
+        $r->session()->flash('success', 'Berhasil menyimpan pembaruan');
+
         return redirect()->back();
     }
 
@@ -92,6 +96,8 @@ class StorageSubController extends Controller
     {
     	StorageSub::where('_id', $r->id)->delete();
         
+        $r->session()->flash('success', 'Sub penyimpanan arsip berhasil dihapus');
+
     	return redirect()->back();
     }
 }

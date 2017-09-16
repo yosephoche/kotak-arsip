@@ -3,6 +3,10 @@
 @section('title', 'Surat Masuk')
 
 @section('contents')
+	@if ( Session::has('success') ) 
+		<div class="alert-custom alert-custom-success"><i class="fa fa-check-circle"></i>{{ session('success') }}</div>
+	@endif
+
 	<div class="ka-main">
 		<div class="breadcrumbs">
 			<ul class="list-inline">
@@ -219,8 +223,7 @@
 	<script src="{{ asset('assets/app/vue/surat-masuk.js') }}"></script>
 	<script>
 		getDataIncomingMail('{{ route("api_incoming_mail") }}', 'incomingMail');
-	</script>
-	<script>
+
 		$('#disposisiModal').on('show.bs.modal', function (e) {
 			var id = $(e.relatedTarget).data('id');
 			$(this).find('input[name="id"]').val(id);
@@ -230,5 +233,8 @@
 			var id = $(e.relatedTarget).data('id');
 			$(this).find('input[name="id"]').val(id);
 		});
+
+		// 3 mean 3second
+		alertTimeout(3);
 	</script>
 @endsection

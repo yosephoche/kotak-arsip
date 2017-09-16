@@ -3,6 +3,10 @@
 @section('title', 'Setting')
 
 @section('contents')
+	@if ( Session::has('success') ) 
+		<div class="alert-custom alert-custom-success"><i class="fa fa-check-circle"></i>{{ session('success') }}</div>
+	@endif
+	
 	<div class="ka-main">
 		<div class="breadcrumbs">
 			<ul class="list-inline">
@@ -12,17 +16,17 @@
 
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs" role="tablist">
-			<li role="presentation" class="active"><a href="#tab-1" aria-controls="tab-1" role="tab" data-toggle="tab">Koneksi Server</a></li>
-			<li role="presentation"><a href="#tab-2" aria-controls="tab-2" role="tab" data-toggle="tab">Akun</a></li>
+			<li role="presentation" class="{{ @!$_GET['tab'] ? 'active' : '' }}"><a href="#tab-1" aria-controls="tab-1" role="tab" data-toggle="tab">Koneksi Server</a></li>
+			<li role="presentation" class="{{ @$_GET['tab'] == 'account' ? 'active' : '' }}"><a href="#tab-2" aria-controls="tab-2" role="tab" data-toggle="tab">Akun</a></li>
 			<li role="presentation"><a href="#tab-3" aria-controls="tab-3" role="tab" data-toggle="tab">Keamanan</a></li>
 			@if (Auth::user()->status == 'admin')
-				<li role="presentation"><a href="#tab-4" aria-controls="tab-4" role="tab" data-toggle="tab">Perusahaan</a></li>
+				<li role="presentation" class="{{ @$_GET['tab'] == 'company' ? 'active' : '' }}"><a href="#tab-4" aria-controls="tab-4" role="tab" data-toggle="tab">Perusahaan</a></li>
 			@endif
 		</ul>
 
 		<!-- Tab panes -->
 		<div class="tab-content">
-			<div role="tabpanel" class="tab-pane active" id="tab-1">
+			<div role="tabpanel" class="tab-pane {{ @!$_GET['tab'] ? 'active' : '' }}" id="tab-1">
 				<?php 
 					//Check IP Server
 					$serverIP = getHostByName(getHostName());
@@ -30,7 +34,7 @@
 				<p>Untuk mengakses kotakarsip di komputer lainnya dalam satu jaringan adalah sebagai berikut:</p>
 				<blockquote><b>{{ $serverIP }}</b></blockquote>
 			</div>
-			<div role="tabpanel" class="tab-pane tab-account-setting" id="tab-2">
+			<div role="tabpanel" class="tab-pane tab-account-setting {{ @$_GET['tab'] == 'account' ? 'active' : '' }}" id="tab-2">
 				<h3>Informasi Akun Anda</h3>
 				<table class="table">
 					<tr>
@@ -76,8 +80,12 @@
 					</tr>
 				</table>
 			</div>
+<<<<<<< HEAD
 
 			<div role="tabpanel" class="tab-pane tab-account-setting" id="tab-4">
+=======
+			<div role="tabpanel" class="tab-pane tab-account-setting {{ @$_GET['tab'] == 'company' ? 'active' : '' }}" id="tab-4">
+>>>>>>> 0edf252e715fc3f21cd0aab868f05b5cfca98bfc
 				<h3>Perusahaan</h3>
 				<table class="table">
 					<tr>
@@ -192,5 +200,8 @@
 			$(this).find('#inputcompany').val(val);
 			$(this).find('#editLabelModal').text(label);
 		});
+
+		// 3 mean 3second
+		alertTimeout(3);
 	</script>
 @endsection

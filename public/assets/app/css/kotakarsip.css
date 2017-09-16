@@ -11258,7 +11258,7 @@ button.close {
 }
 
 * {
-  letter-spacing: .4px;
+  letter-spacing: .2px;
 }
 
 html, body {
@@ -11871,6 +11871,27 @@ a:hover, a:focus, a:active, a:visited {
   background-color: #eee !important;
   background-repeat: no-repeat;
   box-shadow: inset 0px 0px 0px 2px #fff;
+}
+
+.alert-custom {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  font-size: 16px;
+  border: 1px solid #eee;
+  text-align: center;
+  border-radius: 3px;
+  z-index: 9;
+}
+.alert-custom.alert-custom-success i.fa {
+  color: #2ecc71;
+}
+.alert-custom i.fa {
+  margin-right: 15px;
+  font-size: 30px;
+  vertical-align: middle;
 }
 
 @media only screen and (min-width: 960px) {
