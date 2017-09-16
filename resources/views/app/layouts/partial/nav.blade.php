@@ -4,7 +4,7 @@
 			<a href="#"><i class="fa fa-bars"></i></a>
 		</li>
 		<li class="brand">
-			<img src="{{ asset('assets/app/img/logo-white.svg') }}" class="logo" alt="Logo KotakArsip">
+			<a href="{{ route('incoming_mail') }}"><img src="{{ asset('assets/app/img/logo-white.svg') }}" class="logo" alt="Logo KotakArsip"></a>
 		</li>
 		<li class="search">
 			<form action="">
