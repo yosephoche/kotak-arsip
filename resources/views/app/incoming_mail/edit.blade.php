@@ -73,18 +73,26 @@
 							{{ csrf_field() }}
 							<div class="item">
 								<label>Asal Surat</label>
-								<div class="value"><input type="text" class="form-control" name="from" value="{{ $archieve->from }}"></div>
+								<div class="value"><input type="text" class="form-control" name="from" value="{{ $archieve->from }}" required></div>
 							</div>
 							<div class="item">
 								<label>Nomor Surat</label>
-								<div class="value"><input type="text" class="form-control" name="reference_number" value="{{ $archieve->reference_number }}"></div>
+								<div class="value"><input type="text" class="form-control" name="reference_number" value="{{ $archieve->reference_number }}" required></div>
 							</div>
 							<div class="item">
 								<label>Perihal</label>
-								<div class="value"><input type="text" class="form-control" name="subject" value="{{ $archieve->subject }}"></div>
+								<div class="value"><input type="text" class="form-control" name="subject" value="{{ $archieve->subject }}" required></div>
 							</div>
 							<div class="item">
-								<label>Penyimpanan Arsip</label>
+								<?php 
+									$format = substr($archieve->date, 0, -3);
+									$date =  Carbon\Carbon::createFromTimestamp($format)->format('d/m/Y');
+								 ?>
+								<label>Tanggal Masuk</label>
+								<div class="value"><input type="text" class="form-control" name="date" value="{{ $date }}" id="datepicker" required></div>
+							</div>
+							<div class="item">
+								<label>Penyimpanan Arsip <i>(opsional)</i></label>
 								<div class="value">
 									<select name="storage" id="storage" class="form-control">
 										@foreach ($storage as $s)
@@ -104,15 +112,7 @@
 								</div>
 							</div>
 							<div class="item">
-								<?php 
-									$format = substr($archieve->date, 0, -3);
-									$date =  Carbon\Carbon::createFromTimestamp($format)->format('d/m/Y');
-								 ?>
-								<label>Tanggal Masuk</label>
-								<div class="value"><input type="text" class="form-control" name="date" value="{{ $date }}" id="datepicker"></div>
-							</div>
-							<div class="item">
-								<label>Keterangan</label>
+								<label>Keterangan <i>(opsional)</i></label>
 								<div class="value"><input type="text" class="form-control" name="note" value="{{ $archieve->note }}"></div>
 							</div>
 							<div class="item">

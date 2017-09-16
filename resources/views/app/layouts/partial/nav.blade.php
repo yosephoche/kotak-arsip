@@ -64,8 +64,8 @@
 				<span class="view-desktop-only">{{ Auth::user()->name }}</span> &nbsp;<i class="fa fa-caret-down"></i>
 			</a>
 			<ul class="dropdown-menu pull-right">
-				<li><a href="pengaturan-akun.html">Pengaturan Akun</a></li>
-				<li><a href="bantuan.html">Bantuan</a></li>
+				<li><a href="{{ route('setting', ['tab' => 'account']) }}">Pengaturan Akun</a></li>
+				<li><a href="#">Bantuan</a></li>
 				<li role="separator" class="divider"></li>
 				<li>
 					<a href="{{ route('logout') }}"

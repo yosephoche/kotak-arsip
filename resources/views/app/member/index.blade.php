@@ -3,6 +3,10 @@
 @section('title', 'Anggota')
 
 @section('contents')
+	@if ( Session::has('success') ) 
+		<div class="alert-custom alert-custom-success"><i class="fa fa-check-circle"></i>{{ session('success') }}</div>
+	@endif
+	
 	<div class="ka-main">
 		<div class="breadcrumbs">
 			<ul class="list-inline">
@@ -122,5 +126,8 @@
 			var id = $(e.relatedTarget).data('id');
 			$(this).find('input[name="id"]').val(id);
 		});
+
+		// 3 mean 3second
+		alertTimeout(3);
 	</script>
 @endsection

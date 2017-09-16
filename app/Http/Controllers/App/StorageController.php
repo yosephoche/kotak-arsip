@@ -49,6 +49,8 @@ class StorageController extends Controller
         $storage->id_company = Auth::user()->id_company;
         $storage->save();
 
+        $r->session()->flash('success', 'Penyimpanan arsip baru berhasil didisposisi');
+
         return redirect()->back();
     }
 
@@ -73,12 +75,16 @@ class StorageController extends Controller
         $storage->id_company = Auth::user()->id_company;
         $storage->save();
 
+        $r->session()->flash('success', 'Berhasil menyimpan pembaruan');
+
         return redirect()->back();
     }
 
     public function delete(Request $r)
     {
         Storage::where('_id', $r->id)->delete();
+
+        $r->session()->flash('success', 'Penyimpanan arsip berhasil dihapus');
 
         return redirect()->back();
     }

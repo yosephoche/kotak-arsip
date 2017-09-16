@@ -346,7 +346,8 @@ class IncomingMailController extends Controller
 		$surat->files = $files;
 		$surat->save();
 
-		Session::flash('message', "Berhasil menambahkan surat masuk baru");
+		$r->session()->flash('success', 'Surat masuk baru berhasil ditambahkan');
+
 		return redirect()->route('incoming_mail');
 	}
 
@@ -483,7 +484,8 @@ class IncomingMailController extends Controller
 		$surat->files = $files;
 		$surat->save();
 
-		Session::flash('message', "Berhasil menyimpan pembaruan");
+		$r->session()->flash('success', 'Berhasil menyimpan pembaruan');
+
 		return redirect()->route('incoming_mail');
 	}
 
@@ -497,13 +499,16 @@ class IncomingMailController extends Controller
 		}
 		$surat->save();
 
-		Session::flash('message', "Berhasil");
+		$r->session()->flash('success', 'Surat masuk berhasil didisposisi');
+
 		return redirect()->route('incoming_mail');
 	}
 
 	public function delete(Request $r)
 	{
 		$archieve = Archieve::where('_id', $r->id)->delete();
+
+		$r->session()->flash('success', 'Surat masuk berhasil dihapus');
 
 		return redirect()->route('incoming_mail');
 	}

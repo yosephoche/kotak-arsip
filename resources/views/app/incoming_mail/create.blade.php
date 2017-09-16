@@ -73,18 +73,22 @@
 							{{ csrf_field() }}
 							<div class="item">
 								<label>Asal Surat</label>
-								<div class="value"><input type="text" class="form-control" name="from" value="{{ @ltrim($from) }}"></div>
+								<div class="value"><input type="text" class="form-control" name="from" value="{{ @ltrim($from) }}" required></div>
 							</div>
 							<div class="item">
 								<label>Nomor Surat</label>
-								<div class="value"><input type="text" class="form-control" name="reference_number" value="{{ @ltrim($reference_number) }}"></div>
+								<div class="value"><input type="text" class="form-control" name="reference_number" value="{{ @ltrim($reference_number) }}" required></div>
 							</div>
 							<div class="item">
 								<label>Perihal</label>
-								<div class="value"><input type="text" class="form-control" name="subject" value="{{ @ltrim($subject) }}"></div>
+								<div class="value"><input type="text" class="form-control" name="subject" value="{{ @ltrim($subject) }}" required></div>
 							</div>
 							<div class="item">
-								<label>Penyimpanan Arsip</label>
+								<label>Tanggal Masuk</label>
+								<div class="value"><input type="text" class="form-control" name="date" value="{{ date('d/m/Y') }}" id="datepicker"></div>
+							</div>
+							<div class="item">
+								<label>Penyimpanan Arsip <i>(opsional)</i></label>
 								<div class="value">
 									<select name="storage" id="storage" class="form-control">
 										<option value="">Pilih Penyimpanan</option>
@@ -102,11 +106,7 @@
 								</div>
 							</div>
 							<div class="item">
-								<label>Tanggal Masuk</label>
-								<div class="value"><input type="text" class="form-control" name="date" value="{{ date('d/m/Y') }}" id="datepicker"></div>
-							</div>
-							<div class="item">
-								<label>Keterangan</label>
+								<label>Keterangan <i>(opsional)</i></label>
 								<div class="value"><input type="text" class="form-control" name="note"></div>
 								<input type="hidden" name="fulltext" value="{{ $fulltext }}">
 							</div>
