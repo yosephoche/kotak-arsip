@@ -80,12 +80,8 @@
 					</tr>
 				</table>
 			</div>
-<<<<<<< HEAD
-
-			<div role="tabpanel" class="tab-pane tab-account-setting" id="tab-4">
-=======
+			
 			<div role="tabpanel" class="tab-pane tab-account-setting {{ @$_GET['tab'] == 'company' ? 'active' : '' }}" id="tab-4">
->>>>>>> 0edf252e715fc3f21cd0aab868f05b5cfca98bfc
 				<h3>Perusahaan</h3>
 				<table class="table">
 					<tr>
