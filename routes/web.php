@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Middleware\MemberPermissions;
+use App\Http\Middleware\StoragePermissions;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -58,7 +61,7 @@ Route::group(['namespace' => 'App'], function () {
 	});
 
 	//Storage
-	Route::group(['prefix' => 'storage'], function(){
+	Route::group(['prefix' => 'storage', 'middleware' => StoragePermissions::class], function(){
 		Route::get('/', 'StorageController@index')->name('storage');
 		Route::get('/register', 'StorageController@register')->name('storage_register');
 		Route::get('/success', 'StorageController@success')->name('storage_register_success');
@@ -68,7 +71,7 @@ Route::group(['namespace' => 'App'], function () {
 	});
 
 	//Storage-Sub
-	Route::group(['prefix' => 'storage/sub'], function(){
+	Route::group(['prefix' => 'storage/sub', 'middleware' => StoragePermissions::class], function(){
 		Route::get('/register', 'StorageSubController@register')->name('storage_sub_register');
 		Route::post('/register/store', 'StorageSubController@registerstore')->name('storage_sub_register_store');
 		Route::get('/{id?}', 'StorageSubController@index')->name('storage_sub');
@@ -103,7 +106,7 @@ Route::group(['namespace' => 'App'], function () {
 	});
 
 	//Member
-	Route::group(['prefix' => 'member'], function(){
+	Route::group(['prefix' => 'member', 'middleware' => MemberPermissions::class], function(){
 		Route::get('/', 'MemberController@index')->name('member');
 		Route::get('/create', 'MemberController@create')->name('member_create');
 		Route::post('/store', 'MemberController@store')->name('member_store');

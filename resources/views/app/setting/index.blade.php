@@ -19,7 +19,9 @@
 			<li role="presentation" class="{{ @!$_GET['tab'] ? 'active' : '' }}"><a href="#tab-1" aria-controls="tab-1" role="tab" data-toggle="tab">Koneksi Server</a></li>
 			<li role="presentation" class="{{ @$_GET['tab'] == 'account' ? 'active' : '' }}"><a href="#tab-2" aria-controls="tab-2" role="tab" data-toggle="tab">Akun</a></li>
 			<li role="presentation"><a href="#tab-3" aria-controls="tab-3" role="tab" data-toggle="tab">Keamanan</a></li>
-			<li role="presentation" class="{{ @$_GET['tab'] == 'company' ? 'active' : '' }}"><a href="#tab-4" aria-controls="tab-4" role="tab" data-toggle="tab">Perusahaan</a></li>
+			@if (Auth::user()->status == 'admin')
+				<li role="presentation" class="{{ @$_GET['tab'] == 'company' ? 'active' : '' }}"><a href="#tab-4" aria-controls="tab-4" role="tab" data-toggle="tab">Perusahaan</a></li>
+			@endif
 		</ul>
 
 		<!-- Tab panes -->
@@ -38,7 +40,14 @@
 					<tr>
 						<td>Foto Profil</td>
 						<td align="right"><div class="img-profile-setting" style="background-image: url({{ asset('assets/app/img/users').'/'.$user->photo }})"></div></td>
-						<td width="100px" align="right"><a href="" data-toggle="modal" data-target="#updateImage" data-id="{{ $user->_id }}" data-name="photo">Sunting</a></td>
+						<td width="100px" align="right">
+							<form action="{{ route('update_user') }}" method="POST" enctype="multipart/form-data">
+								{{ csrf_field() }}
+								<input type="hidden" name="id" value="{{ $user->_id }}">
+								<input onchange="this.closest('form').submit()" type="file" id="files" name="photo[]" class="hide" accept=".jpg, .png, .jpeg, .pdf">
+								<label for="files">Sunting</label>
+							</form>
+						</td>
 					</tr>
 					<tr>
 						<td>Nama Lengkap</td>
@@ -71,6 +80,7 @@
 					</tr>
 				</table>
 			</div>
+			
 			<div role="tabpanel" class="tab-pane tab-account-setting {{ @$_GET['tab'] == 'company' ? 'active' : '' }}" id="tab-4">
 				<h3>Perusahaan</h3>
 				<table class="table">
@@ -110,31 +120,6 @@
 @endsection
 
 @section('modal')
-	<!-- Modal Update Photo -->
-	<div class="modal fade" id="updateImage" tabindex="-1" role="dialog" aria-labelledby="editLabelModal">
-		<div class="modal-dialog modal-sm" role="document">
-			<div class="modal-content">
-				<form action="{{ route('update_user') }}" method="POST" enctype="multipart/form-data">
-					{{ csrf_field() }}
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="editLabelModal">Sunting Gambar Pengguna</h4>
-					</div>
-					<div class="modal-body">
-						<input type="hidden" name="id">
-						<div class="form-group">
-							<input type="file" name="photo[]" class="form-control" accept=".jpg, .png, .jpeg">
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-						<button class="btn btn-primary">Simpan</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-
 	<!-- Update User -->
 	<div class="modal fade" id="usereditModal" tabindex="-1" role="dialog" aria-labelledby="editLabelModal">
 		<div class="modal-dialog modal-sm" role="document">
@@ -188,12 +173,6 @@
 
 @section('registerscript')
 	<script>
-		//Modal User Photo
-		$('#updateImage').on('show.bs.modal', function (e) {
-			var id = $(e.relatedTarget).data('id');
-			$(this).find('input[name="id"]').val(id);
-		});
-
 		// Edit Modal User
 		$('#usereditModal').on('show.bs.modal', function (e) {
 			var id = $(e.relatedTarget).data('id');
