@@ -22,7 +22,23 @@ class IncomingMailController extends Controller
 
 	public function getData()
 	{
+
 		$archieve = Archieve::raw(function($collection){
+			
+			// Sort By
+			$sortKey = 'created_at';
+			if (@$_GET['sort'] == 'from') {
+				$sortKey = 'from';
+			} else if (@$_GET['sort'] == 'subject') {
+				$sortKey = 'subject';
+			}
+
+			// Ascending or Descending
+			$asc = -1;
+			if (@$_GET['asc'] == 'true') {
+				$asc = 1;
+			}
+
 			return $collection->aggregate(array(
 				array(
 					'$lookup' => array(
@@ -72,7 +88,7 @@ class IncomingMailController extends Controller
 				),
 				array(
 					'$sort' => array(
-						'created_at' => -1
+						$sortKey => $asc
 					)
 				)
 			));

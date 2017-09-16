@@ -32,9 +32,6 @@ function getDataIncomingMail(api, key) {
 					this.detail = '';
 				}
 			},
-			moment: function () {
-				return moment();
-			},
 			notification: function (e) {
 				var element = $(e.target).closest('.new-notif');
 				element.find('.fa-bell').removeClass('animated infinite');
@@ -65,7 +62,7 @@ function getDataIncomingMail(api, key) {
 		filters: {
 			moment: function (date) {
 				var day = moment(date, "x").date();
-				var month = moment(date, "x").month();
+				var month = moment(date, "x").month() + 1;
 				var year = moment(date, "x").year();
 				return day + "/" + month + "/" + year;
 			}
@@ -119,7 +116,7 @@ function getDataIncomingMailDetail(api, key) {
 		filters: {
 			moment: function (date) {
 				var day = moment(date, "x").date();
-				var month = moment(date, "x").month();
+				var month = moment(date, "x").month() + 1;
 				var year = moment(date, "x").year();
 				return day + "/" + month + "/" + year;
 			}
