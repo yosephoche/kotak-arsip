@@ -21,7 +21,7 @@
 			</ul>
 		</div>
 
-		<table class="table table-hover">
+		<table class="table table-hover" v-if="json.incomingMail != ''">
 			<tr>
 				<th class="{{ @$_GET['sort'] == 'from' ? 'sort' : '' }}">
 					<a href="{{ route('incoming_mail', ['sort' => 'from', 'asc' => $ascLink]) }}">Asal Surat</a>
@@ -81,18 +81,16 @@
 					</ul>
 				</td>
 			</tr>
-
-			<tr v-if="!json.incomingMail">
-				<td colspan="5" class="text-center">
-					<br>
-					<br>
-					<img src="{{ url('assets/app/img/icons') }}/no_file.svg" alt="" width="400px">
-					<br>
-					<br>
-					Belum ada data
-				</td>
-			</tr>
 		</table>
+
+		<div class="text-center" v-if="!json.incomingMail || json.incomingMail == ''">
+			<hr>
+			<img src="{{ url('assets/app/img/icons') }}/no_file.svg" alt="" width="400px">
+			<br>
+			<br>
+			<br>
+			Belum ada data surat masuk
+		</div>
 	</div>
 
 	<aside class="ka-sidebar-detail">
