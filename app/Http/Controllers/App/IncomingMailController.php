@@ -76,7 +76,7 @@ class IncomingMailController extends Controller
 					)
 				)
 			));
-		})->where('type', 'incoming_mail')->where('id_company', Auth::user()->id_company)->where('deleted_at', '');
+		})->where('type', 'incoming_mail')->where('id_company', Auth::user()->id_company)->where('id_user', Auth::user()->_id)->where('deleted_at', '');
 
 		$users = User::where('id_company', Auth::user()->id_company)->get();
 
