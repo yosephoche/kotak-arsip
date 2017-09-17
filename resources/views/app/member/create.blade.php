@@ -20,32 +20,32 @@
 					<div class="col-md-12">
 						<div class="form-group form-line">
 							<label for="">Nama Lengkap</label>
-							<input type="text" name="name" class="form-control" v-model="userName">
+							<input type="text" name="name" class="form-control" value="{!! old('name') !!}" required>
 						</div>
 					
 						<div class="form-group form-line">
 							<label for="">Email</label>
-							<input type="email" name="email" class="form-control" v-model="userEmail">
+							<input type="email" name="email" class="form-control" value="{!! old('email') !!}" required>
 						</div>
 					</div>
 				</div>
 
 				<div class="row">
-					<div class="col-md-4">
+					<div class="col-md-6">
 						<div class="form-group form-line">
 							<label for="">No. Telpon/HP</label>
-							<input type="text" name="phone" class="form-control" v-model="userHp">
+							<input type="text" name="phone" class="form-control" value="{!! old('phone') !!}" required>
 						</div>
 					</div>
 					
-					<div class="col-md-4">
+					<div class="col-md-6">
 						<div class="form-group form-line">
 							<label for="">Jabatan</label>
-							<input type="text" name="position" class="form-control" v-model="userPosition">
+							<input type="text" name="position" class="form-control" value="{!! old('position') !!}" required>
 						</div>
 					</div>
 
-					<div class="col-md-4">
+					<!-- <div class="col-md-4">
 						<div class="form-group form-line">
 							<label for="">Status</label>
 							<select class="form-control" name="status">
@@ -56,7 +56,7 @@
 								<option value="admin">Admin</option>
 							</select>
 						</div>
-					</div>
+					</div> -->
 				</div>
 
 				<div class="row">
@@ -106,26 +106,22 @@
 
 				<div class="item">
 					<label>Nama</label>
-					<div class="value" v-if="userName != ''" v-html="userName"></div>
-					<div class="value" v-else>...</div>
+					<div class="value" id="username">{!! old('name') != '' ? old('name') : '...' !!}</div>
 				</div>
 
 				<div class="item">
 					<label>Email</label>
-					<div class="value" v-if="userEmail != ''" v-html="userEmail"></div>
-					<div class="value" v-else>...</div>
+					<div class="value" id="useremail">{!! old('email') != '' ? old('email') : '...' !!}</div>
 				</div>
 
 				<div class="item">
 					<label>No. Telpon/HP</label>
-					<div class="value" v-if="userHp != ''" v-html="userHp"></div>
-					<div class="value" v-else>...</div>
+					<div class="value" id="userphone">{!! old('phone') != '' ? old('phone') : '...' !!}</div>
 				</div>
 
 				<div class="item">
 					<label>Jabatan</label>
-					<div class="value" v-if="userPosition != ''" v-html="userPosition"></div>
-					<div class="value" v-else>...</div>
+					<div class="value" id="userposition">{!! old('position') != '' ? old('position') : '...' !!}</div>
 				</div>
 			</div>
 		</div>
@@ -136,5 +132,20 @@
 	<script src="{{ asset('assets/app/vue/pengguna.js') }}"></script>
 	<script>
 		getDataUsers('#', 'users');
+
+		function vmodel(name) {
+			$('input[name="' + name + '"]').on('change keyup', function() {
+				var val = $(this).val();
+				if (val == '') {
+					val = '...';
+				}
+				$('#user' + name).html(val);
+			});
+		}
+
+		vmodel('name');
+		vmodel('email');
+		vmodel('phone');
+		vmodel('position');
 	</script>
 @endsection
