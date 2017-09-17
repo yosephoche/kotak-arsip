@@ -8,6 +8,11 @@ use Auth, GlobalClass;
 
 class SettingController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
     	$data['user'] = User::where('_id', Auth::user()->_id)->first();

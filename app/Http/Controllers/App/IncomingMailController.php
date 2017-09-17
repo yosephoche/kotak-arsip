@@ -74,7 +74,7 @@ class IncomingMailController extends Controller
 					'$sort' => array(
 						'created_at' => -1
 					)
-				)
+				)	
 			));
 		})->where('type', 'incoming_mail')->where('id_company', Auth::user()->id_company)->where('id_user', Auth::user()->_id)->where('deleted_at', '');
 

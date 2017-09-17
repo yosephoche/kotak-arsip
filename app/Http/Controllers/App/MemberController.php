@@ -8,6 +8,11 @@ use Auth, Session, GlobalClass;
 
 class MemberController extends Controller
 {
+	public function __construct()
+	{
+		$this->middleware('auth');
+	}
+	
 	public function index()
 	{
 		return view('app.member.index');
