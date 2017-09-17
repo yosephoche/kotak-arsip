@@ -260,6 +260,40 @@ class IncomingMailController extends Controller
 		}
 	}
 
+	public function replaceAjax(Request $r)
+	{
+		$file = $r->file('file');
+
+		// Find First Image
+		$dir = public_path('assets/tesseract'.'/'.Auth::user()->_id);
+		$files = scandir($dir);
+
+		//Delete First Image
+		unlink(public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.$files[2]));
+
+		// Image Upload Process
+		$ext = $file->getClientOriginalExtension();
+		$nm_file = "0.".$ext;
+		$destination = public_path('assets/tesseract'.'/'.Auth::user()->_id);
+		$upload = $file->move($destination, $nm_file);
+
+		$check = substr($files[2], -3);
+
+		if ($check != 'pdf') {
+			$image = public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.$files[2]);
+			$result = public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.'out');
+
+			// OCR Execution By Tesseract
+			// For Windows
+			$output = exec('tesseract "'.$image.'" "'.$result.'" -l ind+eng');
+
+			// For Mac
+			$output = exec('/usr/local/bin/tesseract "'.$image.'" "'.$result.'" -l ind+eng');
+		}
+		
+		return redirect()->back();
+	}
+
 	public function removeAjax(Request $r)
 	{
 		unlink(public_path('assets/tesseract').'/'.Auth::user()->_id.'/'.$r->image);

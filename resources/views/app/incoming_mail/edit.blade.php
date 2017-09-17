@@ -14,6 +14,10 @@
 
 
 <body>
+	<div class="page-loader">
+		<img src="{{ asset('assets/app/img/load.gif') }}" alt="Loading...">
+	</div>
+	
 	<div id="app">
 		<nav class="ka-nav ka-nav-detail">
 			<ul class="left-side">

@@ -76,7 +76,7 @@
 				<table class="table">
 					<tr>
 						<td><b>Kata Sandi</b><br>Tetapkan kata sandi unik untuk melindungi akun KotakArsip Anda.</td>
-						<td align="right"><a href="#" class="btn btn-default">Ganti Kata Sandi</a></td>
+						<td align="right"><a href="#" class="btn btn-default" data-toggle="modal" data-target="#passwordeditModal" data-id="{{ $user->_id }}" data-label="Sunting Kata Sandi">Ganti Kata Sandi</a></td>
 					</tr>
 				</table>
 			</div>
@@ -145,6 +145,40 @@
 		</div>
 	</div>
 
+	<!-- Update Password -->
+	<div class="modal fade" id="passwordeditModal" tabindex="-1" role="dialog" aria-labelledby="editLabelModal">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<form action="{{ route('update_user') }}" method="POST">
+					{{ csrf_field() }}
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="editLabelModal">Sunting Akun</h4>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" name="id">
+						<div class="form-group">
+							<label for="oldpassword">Kata Sandi Lama</label>
+							<input type="password" name="old_password" class="form-control" id="oldpassword">
+						</div>
+						<div class="form-group">
+							<label for="newpassword">Kata Sandi Baru</label>
+							<input type="password" name="password" class="form-control" id="newpassword">
+						</div>
+						<div class="form-group">
+							<label for="retypepassword">Ulangi Kata Sandi</label>
+							<input type="password" name="password_confirmation" class="form-control" id="retypepassword">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+						<button class="btn btn-primary">Simpan</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 	<!-- Update Company -->
 	<div class="modal fade" id="companyeditModal" tabindex="-1" role="dialog" aria-labelledby="editLabelModal">
 		<div class="modal-dialog modal-sm" role="document">
@@ -182,6 +216,14 @@
 			$(this).find('input[name="id"]').val(id);
 			$(this).find('#inputuser').attr('name', name);
 			$(this).find('#inputuser').val(val);
+			$(this).find('#editLabelModal').text(label);
+		});
+
+		// Edit Modal Password
+		$('#passwordeditModal').on('show.bs.modal', function (e) {
+			var id = $(e.relatedTarget).data('id');
+			var label = $(e.relatedTarget).data('label');
+			$(this).find('input[name="id"]').val(id);
 			$(this).find('#editLabelModal').text(label);
 		});
 

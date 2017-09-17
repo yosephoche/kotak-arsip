@@ -87,6 +87,7 @@ Route::group(['namespace' => 'App'], function () {
 			Route::get('/', 'IncomingMailController@index')->name('incoming_mail');
 			Route::post('/upload', 'IncomingMailController@upload')->name('incoming_mail_upload');
 			Route::post('/upload/ajax', 'IncomingMailController@uploadAjax')->name('incoming_mail_upload_ajax');
+			Route::post('/replace/ajax', 'IncomingMailController@replaceAjax')->name('incoming_mail_replace_ajax');
 			Route::post('/delete/ajax', 'IncomingMailController@removeAjax')->name('incoming_mail_delete_ajax');
 			Route::get('/dropdown', 'IncomingMailController@dropdownAjax')->name('incoming_mail_substorage');
 			Route::get('/create', 'IncomingMailController@create')->name('incoming_mail_create');

@@ -6,7 +6,7 @@
 
 	@include('app.layouts.partial.meta')
 
-	<title>Kotakarsip</title>
+	<title>Tambah Surat Masuk</title>
 
 	@include('app.layouts.partial.style')
 
@@ -14,6 +14,10 @@
 
 
 <body>
+	<div class="page-loader">
+		<img src="{{ asset('assets/app/img/load.gif') }}" alt="Loading...">
+	</div>
+
 	<div id="app">
 		<nav class="ka-nav ka-nav-detail">
 			<ul class="left-side">
@@ -30,16 +34,22 @@
 				</form>
 				<hr>
 				<div class="images" id="images">
-					@foreach ($image as $img)
+					@foreach ($image as $key => $img)
 						<?php 
 							$check = substr($img, -3);
 							$rand = rand(111111,999999);
 						?>
 						<div class="pos-r">
+							@if ($key == 0)
+								<form action="{{ route('incoming_mail_replace_ajax') }}" method="post" id="replaceImage" enctype="multipart/form-data">
+									<input type="hidden" name="_token" id="delete_token" value="{{ csrf_token() }}">
+									<input type="file" class="hide" name="file" id="replace" accept=".jpg, .png, .jpeg, .pdf" onchange="$('.page-loader').fadeIn();$('#replaceImage').submit()" multiple>
+									<label for="replace" class="change-img" title="Ganti gambar utama"><i class="fa fa-repeat"></i></label>
+								</form>
+							@endif
 							<form action="a" id="formdelete">
 								<input type="hidden" name="_token" id="delete_token" value="{{ csrf_token() }}">
 								<button type="button" id="delete" class="delete-img" data-image="{{ $img }}" title="Hapus">×</button>
-								<button type="button" id="delete" class="change-img" data-image="{{ $img }}" title="Ganti gambar utama"><i class="fa fa-repeat"></i></button>
 							</form>
 							@if ($check == 'pdf')
 								<img src="{{ asset('assets/app/img/icons/pdf.svg') }}" alt="">
@@ -68,7 +78,7 @@
 			</div>
 
 			<aside class="ka-sidebar-detail">
-				<div class="detail-info">
+				<div class="detail-info" id="detail">
 					<div class="select">
 						<form action="{{ route('incoming_mail_store') }}" method="post" enctype="multipart/form-data">
 							{{ csrf_field() }}
@@ -170,7 +180,7 @@
 		});
 
 		//Upload Multiple Image
-		$('#files').change(function(e) {
+		$('#files').on('change', function(e) {
 		  e.preventDefault();
 
 		  var files = $('#files')[0].files;
@@ -180,7 +190,7 @@
 
 		  form.append('_token', token);
 		  for (var i = 0; i < files.length; i++) {
-		  	form.append('file[]', files[i]);
+			form.append('file[]', files[i]);
 		  }
 
 		  $.ajax({
@@ -194,10 +204,11 @@
 					$('#images').append('<div class="progress" style="border-radius: 3px;"><div class="progress-bar progress-bar-striped progress-bar-success active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; margin-left: 0; border-left: 0">Sedang mengunggah...</div></div>');
 				},
 				success: function(data){
+					$('#form')[0].reset();
 					$('#images').load(' #images');
 					$('#main').load(' #main');
 				},error:function(){ 
-					alert("Masukkan File Terlebih Dahulu");
+					alert("Gagal upload, ukuran file terlalu besar");
 				} 
 			 });
 		});
