@@ -60,7 +60,11 @@
 		</li>
 		<li class="profile dropdown">
 			<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-				<div class="img-profile" style="background: url({{ asset('assets/app/img/users').'/'.Auth::user()->photo }})"></div>
+				@if (Auth::user()->photo != '')
+					<div class="img-profile" style="background: url({{ asset('assets/app/img/users').'/'.Auth::user()->photo }})"></div>
+				@else
+					<div class="img-profile" style="background: url({{ asset('assets/app/img/icons/user-white.svg') }})"></div>
+				@endif
 				<span class="view-desktop-only">{{ Auth::user()->name }}</span> &nbsp;<i class="fa fa-caret-down"></i>
 			</a>
 			<ul class="dropdown-menu pull-right">

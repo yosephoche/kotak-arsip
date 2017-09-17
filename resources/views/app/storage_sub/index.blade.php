@@ -20,7 +20,7 @@
 				<th colspan="2" class="sort" @click="sortBy('name', $event)">Nama/Kode map, folder, guide atau ordner <i class="fa fa-angle-down i-sort"></i></th>
 			</tr>
 			<tr class="item" v-for="val in orderedStorage" @click="detailSidebar(val, $event)">
-				<td><a href="penyimpanan-arsip-sub.html" v-html="val.name"></a></td>
+				<td><a href="#" v-html="val.name"></a></td>
 				<td class="text-right dropdown">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
 					<ul class="dropdown-menu pull-right">
@@ -31,7 +31,7 @@
 			</tr>
 		</table>
 		
-		<div class="text-center">
+		<div class="text-center" v-else>
 			<hr>
 			<img src="{{ url('assets/app/img/icons') }}/no_file.svg" alt="" width="400px">
 			<br>

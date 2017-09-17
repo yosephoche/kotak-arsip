@@ -14,26 +14,17 @@
 
 
 <body>
-	<div class="page-loader">
-		<img src="{{ asset('assets/app/img/load.gif') }}" alt="Loading...">
-	</div>
-	
 	<div id="app">
 		<nav class="ka-nav ka-nav-detail">
 			<ul class="left-side">
-				<li class="back"><a href="{{ route('incoming_mail') }}"><i class="fa fa-angle-left"></i> &nbsp;&nbsp;Surat Masuk</a></li>
+				<li class="back"><a href="{{ route('shared_incoming_mail') }}"><i class="fa fa-angle-left"></i> &nbsp;&nbsp;Berbagi</a></li>
 			</ul>
 			<ul class="right-side">
 				<li v-for="val in json.incomingMail">
-					<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#disposisiModal" v-bind:data-id="val._id" v-on:click="idDispositionArray(val.share)">Disposisi</a>
-					&nbsp;&nbsp;
-					<a href="#" class="btn btn-default" id="favorite" @click="favorite"><i class="fa fa-star-o"></i></a>
-				</li>
 				<li class="dropdown" v-for="val in json.incomingMail">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
 					<ul class="dropdown-menu pull-right">
-						<li><a v-bind:href="'{{ route('incoming_mail_move') }}/' + val._id">Sunting</a></li>
-						<li><a type="button" data-toggle="modal" data-target="#deleteModal" v-bind:data-id="val._id" class="text-danger">Hapus</a></li>
+						<li><a type="button" data-toggle="modal" data-target="#deleteModal" v-bind:data-id="val._id" class="text-danger">Hapus Akses Saya</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -168,12 +159,7 @@
 	@include('app.layouts.partial.script')
 	<script src="{{ asset('assets/app/vue/surat-masuk.js') }}"></script>
 	<script>
-		getDataIncomingMailDetail('{{ route('api_incoming_mail_detail', ['id' => $archieve->_id]) }}', 'incomingMail');
-		
-		$('#disposisiModal').on('show.bs.modal', function (e) {
-			var id = $(e.relatedTarget).data('id');
-			$(this).find('input[name="id"]').val(id);
-		});
+		getDataIncomingMailDetail('{{ route('api_shared_incoming_mail_detail', ['id' => $archieve->_id]) }}', 'incomingMail');
 
 		//Delete Modal
 		$('#deleteModal').on('show.bs.modal', function (e) {

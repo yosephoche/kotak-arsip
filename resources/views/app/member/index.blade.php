@@ -23,8 +23,9 @@
 			<tr class="item va-mid" v-for="val in orderedUsers" @click="detailSidebar(val, $event)">
 				<td>
 					<a class="disposisi">
-						<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users')}}/'+ val.photo +')' }"></div>&nbsp;&nbsp;&nbsp;
-						<span v-html="val.name"></span>
+						<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users')}}/'+ val.photo +')' }" v-if="val.photo != ''"></div>
+						<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+						&nbsp;&nbsp;&nbsp;<span v-html="val.name"></span>
 					</a>
 				</td>
 				<td v-html="val.position"></td>
