@@ -7,6 +7,13 @@
 		<div class="alert-custom alert-custom-success"><i class="fa fa-check-circle"></i>{{ session('success') }}</div>
 	@endif
 
+	<?php
+		$ascLink = 'true';
+		if (@$_GET['asc'] == 'true') {
+			$ascLink = 'false';
+		}
+	?>
+
 	<div class="ka-main">
 		<div class="breadcrumbs">
 			<ul class="list-inline">
@@ -14,10 +21,28 @@
 			</ul>
 		</div>
 
-		<table class="table table-hover">
+		<table class="table table-hover" v-if="json.incomingMail != ''">
 			<tr>
-				<th>Asal Surat</th>
-				<th>Perihal</th>
+				<th class="{{ @$_GET['sort'] == 'from' ? 'sort' : '' }}">
+					<a href="{{ route('incoming_mail', ['sort' => 'from', 'asc' => $ascLink]) }}">Asal Surat</a>
+					@if (@$_GET['sort'] == 'from')
+						@if (@$_GET['asc'] == 'true')
+							<i class="fa fa-angle-down i-sort"></i>
+						@elseif (@$_GET['asc'] == 'false')
+							<i class="fa fa-angle-up i-sort"></i>
+						@endif
+					@endif
+				</th>
+				<th class="{{ @$_GET['sort'] == 'subject' ? 'sort' : '' }}">
+					<a href="{{ route('incoming_mail', ['sort' => 'subject', 'asc' => $ascLink]) }}">Perihal</a>
+					@if (@$_GET['sort'] == 'subject')
+						@if (@$_GET['asc'] == 'true')
+							<i class="fa fa-angle-down i-sort"></i>
+						@elseif (@$_GET['asc'] == 'false')
+							<i class="fa fa-angle-up i-sort"></i>
+						@endif
+					@endif
+				</th>
 				<th class="view-tablet-only">Disposisi</th>
 				<th class="view-tablet-only" width="120px">Tanggal Masuk</th>
 				<th class="text-right dropdown">
@@ -56,18 +81,16 @@
 					</ul>
 				</td>
 			</tr>
-
-			<tr v-if="!json.incomingMail">
-				<td colspan="5" class="text-center">
-					<br>
-					<br>
-					<img src="{{ url('assets/app/img/icons') }}/no_file.svg" alt="" width="400px">
-					<br>
-					<br>
-					Belum ada data
-				</td>
-			</tr>
 		</table>
+
+		<div class="text-center" v-if="!json.incomingMail || json.incomingMail == ''">
+			<hr>
+			<img src="{{ url('assets/app/img/icons') }}/no_file.svg" alt="" width="400px">
+			<br>
+			<br>
+			<br>
+			Belum ada data surat masuk
+		</div>
 	</div>
 
 	<aside class="ka-sidebar-detail">
@@ -222,7 +245,22 @@
 @section('registerscript')
 	<script src="{{ asset('assets/app/vue/surat-masuk.js') }}"></script>
 	<script>
-		getDataIncomingMail('{{ route("api_incoming_mail") }}', 'incomingMail');
+		<?php
+			// Sort By
+			$sortKey = 'created_at';
+			if (@$_GET['sort'] == 'from') {
+				$sortKey = 'from';
+			} else if (@$_GET['sort'] == 'subject') {
+				$sortKey = 'subject';
+			}
+
+			// Ascending or Descending
+			$asc = 'false';
+			if (@$_GET['asc'] == 'true') {
+				$asc = 'true';
+			}
+		?>
+		getDataIncomingMail('{{ route("api_incoming_mail", ["sort" => $sortKey]) }}&asc={{ $asc }}', 'incomingMail');
 
 		$('#disposisiModal').on('show.bs.modal', function (e) {
 			var id = $(e.relatedTarget).data('id');

@@ -11588,6 +11588,12 @@ a:hover, a:focus, a:active, a:visited {
 .ka-body .ka-main .table tr th.sort {
   color: #333;
 }
+.ka-body .ka-main .table tr th.sort a {
+  color: #333;
+}
+.ka-body .ka-main .table tr th a {
+  color: #999999;
+}
 .ka-body .ka-main .table tr td {
   border-top: 1px solid #eee;
 }

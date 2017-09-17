@@ -15,7 +15,7 @@
 			</ul>
 		</div>
 
-		<table class="table table-hover">
+		<table class="table table-hover" v-if="orderedStorage != ''">
 			<tr>
 				<th colspan="2" class="sort" @click="sortBy('name', $event)">Nama/Kode map, folder, guide atau ordner <i class="fa fa-angle-down i-sort"></i></th>
 			</tr>
@@ -29,18 +29,16 @@
 					</ul>
 				</td>
 			</tr>
-
-			<tr v-if="orderedStorage == ''">
-				<td colspan="2" class="text-center">
-					<br>
-					<br>
-					<img src="{{ url('assets/app/img/icons') }}/no_file.svg" alt="" width="400px">
-					<br>
-					<br>
-					Belum ada data sub penyimpanan
-				</td>
-			</tr>
 		</table>
+		
+		<div class="text-center">
+			<hr>
+			<img src="{{ url('assets/app/img/icons') }}/no_file.svg" alt="" width="400px">
+			<br>
+			<br>
+			<br>
+			Belum ada data sub penyimpanan
+		</div>
 	</div>
 
 	<aside class="ka-sidebar-detail">

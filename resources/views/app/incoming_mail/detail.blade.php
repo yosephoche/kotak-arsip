@@ -80,7 +80,7 @@
 								</ul>
 							</div>
 						</div>
-						<div class="item" v-if="val.share">
+						<div class="item" v-if="val.share != ''">
 							<label>Disposisi</label>
 							<div class="value">
 								<ul class="list-unstyled">
