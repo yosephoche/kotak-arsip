@@ -30,11 +30,6 @@ class GlobalClass
 	    return new \MongoDB\BSON\ObjectID($string);
 	}
 
-	function generateIsoDate($date)
-	{
-		return new \MongoDB\BSON\UTCDateTime(new DateTime($date));
-	}
-
 	function arrayObjectId($string)
 	{
 		$share = [];
@@ -43,6 +38,21 @@ class GlobalClass
 			$share[] = new \MongoDB\BSON\ObjectID($s);
 		}
 		return $share;
+	}
+
+	function generateIsoDate($date)
+	{
+		return new \MongoDB\BSON\UTCDateTime(new DateTime($date));
+	}
+
+	function arrayIsoDate($string)
+	{
+		$date = [];
+
+		foreach ($string as $s) {
+			$date[] = new \MongoDB\BSON\UTCDateTime(new DateTime($s));
+		}
+		return $date;
 	}
 
 	function OCRKey($image, $result, $open, $key)

@@ -89,9 +89,6 @@ class IncomingMailController extends Controller
 					'$sort' => array(
 						$sortKey => $asc
 					)
-<<<<<<< HEAD
-				)	
-=======
 				),
 				array(
 					'$match' => array(
@@ -112,7 +109,6 @@ class IncomingMailController extends Controller
 				array(
 					'$limit' => 10
 				)
->>>>>>> 7fee29b40c729506c122698e8e1abc6ce3e62fb2
 			));
 		});
 
@@ -530,10 +526,19 @@ class IncomingMailController extends Controller
 	public function disposition(Request $r)
 	{
 		$surat = Archieve::find($r->id);
+
+		$date = [];
+		for ($i=0; $i < count($r->date); $i++) { 
+			$date[$i] = Carbon::createFromFormat('d/m/Y', $r->date[$i]);
+		}
+		var_dump($date);
+
 		if ($r->share != null) {
 			$surat->share = GlobalClass::arrayObjectId($r->share);
+			$surat->share_date = GlobalClass::arrayIsoDate($date);
 		} else {
 			$surat->share = '';
+			$surat->share_date = '';
 		}
 		$surat->save();
 
