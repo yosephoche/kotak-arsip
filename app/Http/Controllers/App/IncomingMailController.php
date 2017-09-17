@@ -22,7 +22,6 @@ class IncomingMailController extends Controller
 
 	public function getData()
 	{
-
 		$archieve = Archieve::raw(function($collection){
 			
 			// Sort By
@@ -75,8 +74,8 @@ class IncomingMailController extends Controller
 						'storagesub.created_at' => 0,
 						'storagesub.updated_at' => 0,
 						'storagesub.id_storage' => 0,
+						'share.position' => 0,
 						'share.phone' => 0,
-						'share.email' => 0,
 						'share.email_status' => 0,
 						'share.status' => 0,
 						'share.id_company' => 0,
@@ -90,9 +89,28 @@ class IncomingMailController extends Controller
 					'$sort' => array(
 						$sortKey => $asc
 					)
+				),
+				array(
+					'$match' => array(
+						'type' => 'incoming_mail',
+						'id_user' => Auth::user()->_id,
+						'id_company' => Auth::user()->id_company,
+						'deleted_at' => null,
+						// 'share' => array(
+						// 	'$elemMatch' => array(
+						// 		'email' => Auth::user()->email
+						// 	)
+						// )
+					)
+				),
+				array(
+					'$skip' => 0
+				),
+				array(
+					'$limit' => 10
 				)
 			));
-		})->where('type', 'incoming_mail')->where('id_company', Auth::user()->id_company)->where('id_user', Auth::user()->_id)->where('deleted_at', '');
+		});
 
 		$users = User::where('id_company', Auth::user()->id_company)->get();
 
