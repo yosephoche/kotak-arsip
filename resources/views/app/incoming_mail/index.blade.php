@@ -8,9 +8,14 @@
 	@endif
 
 	<?php
-		$ascLink = 'true';
-		if (@$_GET['asc'] == 'true') {
-			$ascLink = 'false';
+		$ascFrom = 'true';
+		if (@$_GET['sort'] == 'from' AND @$_GET['asc'] == 'true') {
+			$ascFrom = 'false';
+		}
+
+		$ascSubject = 'true';
+		if (@$_GET['sort'] == 'subject' AND @$_GET['asc'] == 'true') {
+			$ascSubject = 'false';
 		}
 	?>
 
@@ -24,7 +29,7 @@
 		<table class="table table-hover" v-if="json.incomingMail != ''">
 			<tr>
 				<th class="{{ @$_GET['sort'] == 'from' ? 'sort' : '' }}">
-					<a href="{{ route('incoming_mail', ['sort' => 'from', 'asc' => $ascLink]) }}">Asal Surat</a>
+					<a href="{{ route('incoming_mail', ['sort' => 'from', 'asc' => $ascFrom]) }}">Asal Surat</a>
 					@if (@$_GET['sort'] == 'from')
 						@if (@$_GET['asc'] == 'true')
 							<i class="fa fa-angle-down i-sort"></i>
@@ -34,7 +39,7 @@
 					@endif
 				</th>
 				<th class="{{ @$_GET['sort'] == 'subject' ? 'sort' : '' }}">
-					<a href="{{ route('incoming_mail', ['sort' => 'subject', 'asc' => $ascLink]) }}">Perihal</a>
+					<a href="{{ route('incoming_mail', ['sort' => 'subject', 'asc' => $ascSubject]) }}">Perihal</a>
 					@if (@$_GET['sort'] == 'subject')
 						@if (@$_GET['asc'] == 'true')
 							<i class="fa fa-angle-down i-sort"></i>

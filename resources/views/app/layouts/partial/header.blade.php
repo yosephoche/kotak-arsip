@@ -4,6 +4,8 @@
 		<li class="label-menus">Arsip</li>
 		<li {{ Request::is('surat/masuk*') ? 'class=active' : '' }}><a href="{{ route('incoming_mail') }}">Surat Masuk</a></li>
 		<li {{ Request::is('surat/keluar*') ? 'class=active' : '' }}><a href="{{ route('outgoing_mail') }}">Surat Keluar</a></li>
+		<li><a href="">Folder</a></li>
+		<li><a href="">Berbagi</a></li>
 		<li><button type="button" class="new-type">+ Jenis Arsip</button></li>
 	</ul>
 
