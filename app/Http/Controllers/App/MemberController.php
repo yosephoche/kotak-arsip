@@ -35,6 +35,7 @@ class MemberController extends Controller
 		$this->validate($r, [
 			'name'      => 'required',
 			'email'     => 'required|email|max:255|unique:users',
+			'phone'     => 'required',
 			'position'  => 'required',
 			'password'  => 'required|min:5|confirmed',
 		]);
@@ -46,7 +47,7 @@ class MemberController extends Controller
 		$member->email = $r->email;
 		$member->email_status = 'pending';
 		$member->position = $r->position;
-		$member->status = $r->status;
+		$member->status = 'anggota';
 		$member->remember_token = $r->_token;
 		$member->password = bcrypt($r->password);
 

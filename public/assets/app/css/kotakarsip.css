@@ -11714,7 +11714,7 @@ a:hover, a:focus, a:active, a:visited {
   margin-top: -20px;
   border-top: 0;
 }
-.ka-body.ka-body-form .ka-menus .delete-img {
+.ka-body.ka-body-form .ka-menus .images .delete-img, .ka-body.ka-body-form .ka-menus .images .change-img {
   position: absolute;
   right: -5px;
   top: -5px;
@@ -11730,17 +11730,31 @@ a:hover, a:focus, a:active, a:visited {
   color: #999;
   display: none;
 }
-.ka-body.ka-body-form .ka-menus .delete-img:hover {
+.ka-body.ka-body-form .ka-menus .images .delete-img:hover, .ka-body.ka-body-form .ka-menus .images .change-img:hover {
   background-color: #e74c3c;
   color: #fff;
 }
-.ka-body.ka-body-form .ka-menus img {
+.ka-body.ka-body-form .ka-menus .images .change-img {
+  line-height: 20px;
+  font-size: 12px;
+}
+.ka-body.ka-body-form .ka-menus .images .change-img:hover {
+  background-color: #0070ff;
+  color: #fff;
+}
+.ka-body.ka-body-form .ka-menus .images img {
   width: 100%;
   margin-bottom: 20px;
   border-radius: 3px;
   box-shadow: 0px 7px 12px #eee;
 }
-.ka-body.ka-body-form .ka-menus .pos-r:hover .delete-img {
+.ka-body.ka-body-form .ka-menus .images .pos-r:hover .delete-img {
+  display: block;
+}
+.ka-body.ka-body-form .ka-menus .images .pos-r:first-child .delete-img {
+  display: none;
+}
+.ka-body.ka-body-form .ka-menus .images .pos-r:first-child:hover .change-img {
   display: block;
 }
 .ka-body.ka-body-form .ka-main {
@@ -11748,9 +11762,6 @@ a:hover, a:focus, a:active, a:visited {
 }
 .ka-body.ka-body-form .ka-sidebar-detail {
   width: 325px;
-}
-.ka-body.ka-body-form .images .pos-r:first-child .delete-img {
-  display: none;
 }
 .ka-body.ka-body-single .ka-main {
   width: calc(100% - 225px);

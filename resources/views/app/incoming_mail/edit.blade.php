@@ -39,6 +39,7 @@
 							<form action="a" id="formdelete">
 								<input type="hidden" name="_token" id="delete_token" value="{{ csrf_token() }}">
 								<button type="button" id="delete" class="delete-img" data-image="{{ $img }}" title="Hapus">×</button>
+								<button type="button" id="delete" class="change-img" data-image="{{ $img }}" title="Ganti gambar utama"><i class="fa fa-repeat"></i></button>
 							</form>
 							@if ($check == 'pdf')
 								<img src="{{ asset('assets/app/img/icons/pdf.svg') }}" alt="">
