@@ -22,14 +22,24 @@
 	<div class="ka-main">
 		<div class="breadcrumbs">
 			<ul class="list-inline">
-				<li><a href="{{ route('incoming_mail') }}">Surat Masuk</a></li>
+				<li><a href="{{ route('shared_incoming_mail') }}">Berbagi</a></li>
 			</ul>
 		</div>
+
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" {{ Request::is('berbagi/surat/masuk*') ? 'class=active' : '' }}><a href="{{ route('shared_incoming_mail') }}">Surat Masuk</a></li>
+			<li role="presentation"><a href="#tab-2">Surat Keluar</a></li>
+		</ul>
+
+		<p>Saat seseorang berbagi arsip dengan Anda, Anda hanya diberi akses melihat arsip tersebut.</p>
+
+		<hr>
 
 		<table class="table table-hover" v-if="json.incomingMail != ''">
 			<tr>
 				<th class="{{ @$_GET['sort'] == 'from' ? 'sort' : '' }}">
-					<a href="{{ route('incoming_mail', ['sort' => 'from', 'asc' => $ascFrom]) }}">Asal Surat</a>
+					<a href="{{ route('shared_incoming_mail', ['sort' => 'from', 'asc' => $ascFrom]) }}">Asal Surat</a>
 					@if (@$_GET['sort'] == 'from')
 						@if (@$_GET['asc'] == 'true')
 							<i class="fa fa-angle-down i-sort"></i>
@@ -39,7 +49,7 @@
 					@endif
 				</th>
 				<th class="{{ @$_GET['sort'] == 'subject' ? 'sort' : '' }}">
-					<a href="{{ route('incoming_mail', ['sort' => 'subject', 'asc' => $ascSubject]) }}">Perihal</a>
+					<a href="{{ route('shared_incoming_mail', ['sort' => 'subject', 'asc' => $ascSubject]) }}">Perihal</a>
 					@if (@$_GET['sort'] == 'subject')
 						@if (@$_GET['asc'] == 'true')
 							<i class="fa fa-angle-down i-sort"></i>
@@ -60,7 +70,7 @@
 				</th>
 			</tr>
 			<tr class="item" v-for="val in json.incomingMail" v-on:click="detailSidebar(val, $event)">
-				<td><a v-bind:href="'{{ route('incoming_mail_detail') }}/' + val._id" v-html="val.from"></a></td>
+				<td><a v-bind:href="'{{ route('shared_incoming_mail_detail') }}/' + val._id" v-html="val.from"></a></td>
 				<td v-html="val.subject"></td>
 				<td class="view-tablet-only" v-if="val.share != ''" width="150px">
 					<ul class="list-unstyled disposisi">
@@ -80,10 +90,8 @@
 				<td class="text-right dropdown">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
 					<ul class="dropdown-menu pull-right">
-						<li><a v-bind:href="'{{ route('incoming_mail_detail') }}/' + val._id">Lihat Detail</a></li>
-						<li><a href="#" data-toggle="modal" data-target="#disposisiModal" v-bind:data-id="val._id" v-on:click="idDispositionArray(val.share)">Disposisi</a></li>
-						<li><a v-bind:href="'{{ route('incoming_mail_move') }}/' + val._id">Sunting</a></li>
-						<li><a type="button" data-toggle="modal" data-target="#deleteModal" v-bind:data-id="val._id" class="text-danger">Hapus</a></li>
+						<li><a v-bind:href="'{{ route('shared_incoming_mail_detail') }}/' + val._id">Lihat Detail</a></li>
+						<li><a type="button" data-toggle="modal" data-target="#deleteModal" v-bind:data-id="val._id" class="text-danger">Hapus Akses Saya</a></li>
 					</ul>
 				</td>
 			</tr>
@@ -100,14 +108,6 @@
 	</div>
 
 	<aside class="ka-sidebar-detail">
-		<form action="{{ route('incoming_mail_upload') }}" method="post" enctype="multipart/form-data">
-			{{ csrf_field() }}
-			<input type="file" v-on:change="inputFileSubmit" id="inputFileSubmit" name="image" class="hide" accept=".jpg, .png, .jpeg, .pdf">
-			<label for="inputFileSubmit" class="btn btn-primary btn-block">Tambah</label>
-		</form>
-
-
-		<br>
 
 		<div class="detail-info">
 
@@ -124,50 +124,10 @@
 
 @section('modal')
 	<!-- Modals -->
-	<div class="modal fade modal-disposisi" id="disposisiModal" tabindex="-1" role="dialog" aria-labelledby="disposisiLabelModal">
-		<div class="modal-dialog modal-sm" role="document">
-			<div class="modal-content">
-				<form action="{{ route('incoming_mail_disposition') }}" method="post">
-					{{ csrf_field() }}
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="disposisiLabelModal">Disposisi</h4>
-					</div>
-					<div class="modal-body">
-						<input type="hidden" name="id">
-						<table class="table">
-							<tr>
-								<td class="search" colspan="4"><input type="text" class="form-control" placeholder="Cari" v-model="search"></td>
-							</tr>
-							<tr v-for="val in filteredUsers" v-if="val._id != '{{ Auth::user()->_id }}'">
-								<td class="text-center">
-									<input type="checkbox" name="share[]" :value="val._id" v-if="dispositionArray.indexOf(val._id) != -1" checked>
-									<input type="checkbox" name="share[]" :value="val._id" v-else>
-								</td>
-								<td>
-									<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + val.photo + ')' }" v-if="val.photo != ''"></div>
-									<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
-								</td>
-								<td>
-									<span class="name" v-html="val.name"></span><br>
-									<span class="position" v-html="val.position"></span>
-								</td>
-							</tr>
-						</table>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-						<button class="btn btn-primary">Disposisi</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-
 	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabelModal">
 		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
-				<form action="{{ route('incoming_mail_delete') }}" method="post">
+				<form action="{{ route('shared_incoming_mail_delete') }}" method="post">
 					{{ csrf_field() }}
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -200,7 +160,10 @@
 	<!-- Detail after select data in table -->
 	<template id="sidebar-detail">
 		<div>
-			<div class="select">
+			<div class="select no-border" style="height: calc(100vh - 160px); padding-top: 0">
+				<h5 class="no-margin">Pratinjau</h5>
+				<hr>
+
 				<div class="item" v-if="detail.from">
 					<label>Asal Surat</label>
 					<div class="value" v-html="detail.from"></div>
@@ -245,7 +208,7 @@
 
 			<div class="attachment">
 				<span v-html="detail.files.length + ' file terlampir'"></span>
-				<a v-bind:href="'{{ route('incoming_mail_detail') }}/' + detail._id" class="btn btn-default btn-block">Lihat Detail</a>
+				<a v-bind:href="'{{ route('shared_incoming_mail_detail') }}/' + detail._id" class="btn btn-default btn-block">Lihat Detail</a>
 			</div>
 		</div>
 	</template>
@@ -269,7 +232,7 @@
 				$asc = 'true';
 			}
 		?>
-		getDataIncomingMail('{{ route("api_incoming_mail", ["sort" => $sortKey]) }}&asc={{ $asc }}', 'incomingMail');
+		getDataIncomingMail('{{ route("api_shared_incoming_mail", ["sort" => $sortKey]) }}&asc={{ $asc }}', 'incomingMail');
 
 		$('#disposisiModal').on('show.bs.modal', function (e) {
 			var id = $(e.relatedTarget).data('id');

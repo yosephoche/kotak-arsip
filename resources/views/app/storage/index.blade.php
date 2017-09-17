@@ -10,7 +10,7 @@
 	<div class="ka-main">
 		<div class="breadcrumbs">
 			<ul class="list-inline">
-				<li><a href="penyimpanan-arsip.html">Penyimpanan Arsip</a></li>
+				<li><a href="{{ route('storage') }}">Penyimpanan Arsip</a></li>
 			</ul>
 		</div>
 

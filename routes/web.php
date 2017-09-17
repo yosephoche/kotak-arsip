@@ -31,24 +31,30 @@ Route::group(['namespace' => 'App'], function () {
 			Route::get('/detail/{id?}', 'IncomingMailController@getDetail')->name('api_incoming_mail_detail');
 		});
 
+		//API-Shared
+		Route::group(['prefix' => 'berbagi/surat/masuk'], function(){
+			Route::get('/', 'SharedController@getData')->name('api_shared_incoming_mail');
+			Route::get('/detail/{id?}', 'SharedController@getDetail')->name('api_shared_incoming_mail_detail');
+		});
+
 		//API-Storage
-		Route::group(['prefix' => 'storage'], function(){
+		Route::group(['prefix' => 'penyimpanan-arsip'], function(){
 			Route::get('/', 'StorageController@getData')->name('api_storage');
 		});
 
 		//API-Storage-Sub
-		Route::group(['prefix' => 'storage/sub'], function(){
+		Route::group(['prefix' => 'penyimpanan-arsip/sub'], function(){
 			Route::get('/{id?}', 'StorageSubController@getData')->name('api_storage_sub');
 		});
 
 		//API-Member
-		Route::group(['prefix' => 'member'], function(){
+		Route::group(['prefix' => 'anggota'], function(){
 			Route::get('/', 'MemberController@getData')->name('api_member');
 		});
 	});
 
 	//Company
-	Route::group(['prefix' => 'company'], function(){
+	Route::group(['prefix' => 'perusahaan'], function(){
 		Route::get('/register', 'CompanyController@register')->name('company_register');
 		Route::post('/store', 'CompanyController@store')->name('company_store');
 		Route::get('/register/success', 'CompanyController@registerSuccess')->name('company_register_success');
@@ -61,7 +67,7 @@ Route::group(['namespace' => 'App'], function () {
 	});
 
 	//Storage
-	Route::group(['prefix' => 'storage', 'middleware' => StoragePermissions::class], function(){
+	Route::group(['prefix' => 'penyimpanan-arsip', 'middleware' => StoragePermissions::class], function(){
 		Route::get('/', 'StorageController@index')->name('storage');
 		Route::get('/register', 'StorageController@register')->name('storage_register');
 		Route::get('/success', 'StorageController@success')->name('storage_register_success');
@@ -71,7 +77,7 @@ Route::group(['namespace' => 'App'], function () {
 	});
 
 	//Storage-Sub
-	Route::group(['prefix' => 'storage/sub', 'middleware' => StoragePermissions::class], function(){
+	Route::group(['prefix' => 'penyimpanan-arsip/sub', 'middleware' => StoragePermissions::class], function(){
 		Route::get('/register', 'StorageSubController@register')->name('storage_sub_register');
 		Route::post('/register/store', 'StorageSubController@registerstore')->name('storage_sub_register_store');
 		Route::get('/{id?}', 'StorageSubController@index')->name('storage_sub');
@@ -96,7 +102,7 @@ Route::group(['namespace' => 'App'], function () {
 			Route::get('/edit/{id?}', 'IncomingMailController@edit')->name('incoming_mail_edit');
 			Route::post('/update/{id?}', 'IncomingMailController@update')->name('incoming_mail_update');
 			Route::post('/delete', 'IncomingMailController@delete')->name('incoming_mail_delete');
-			Route::post('/dispotion', 'IncomingMailController@disposition')->name('incoming_mail_disposition');
+			Route::post('/disposition', 'IncomingMailController@disposition')->name('incoming_mail_disposition');
 		});
 
 		//Outgoing Mail
@@ -105,8 +111,18 @@ Route::group(['namespace' => 'App'], function () {
 		});
 	});
 
+	//Share
+	Route::group(['prefix' => 'berbagi'], function(){
+		//Incoming Mail
+		Route::group(['prefix' => 'surat/masuk'], function(){
+			Route::get('/', 'SharedController@index')->name('shared_incoming_mail');
+			Route::get('/detail/{id?}', 'SharedController@detail')->name('shared_incoming_mail_detail');
+			Route::post('/delete', 'SharedController@delete')->name('shared_incoming_mail_delete');
+		});
+	});
+
 	//Member
-	Route::group(['prefix' => 'member', 'middleware' => MemberPermissions::class], function(){
+	Route::group(['prefix' => 'anggota', 'middleware' => MemberPermissions::class], function(){
 		Route::get('/', 'MemberController@index')->name('member');
 		Route::get('/create', 'MemberController@create')->name('member_create');
 		Route::post('/store', 'MemberController@store')->name('member_store');
@@ -116,7 +132,7 @@ Route::group(['namespace' => 'App'], function () {
 	});
 
 	//Setting
-	Route::group(['prefix' => 'setting'], function(){
+	Route::group(['prefix' => 'pengaturan'], function(){
 		Route::get('/', 'SettingController@index')->name('setting');
 		Route::post('/update/user', 'SettingController@updateuser')->name('update_user');
 		Route::post('/update/company', 'SettingController@updatecompany')->name('update_company');

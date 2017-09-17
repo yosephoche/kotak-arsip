@@ -39,13 +39,19 @@
 				<table class="table">
 					<tr>
 						<td>Foto Profil</td>
-						<td align="right"><div class="img-profile-setting" style="background-image: url({{ asset('assets/app/img/users').'/'.$user->photo }})"></div></td>
+						<td align="right">
+							@if ($user->photo != '')
+								<div class="img-profile-setting" style="background-image: url({{ asset('assets/app/img/users').'/'.$user->photo }})"></div>
+							@else
+								<div class="img-profile-setting" style="background-image: url({{ asset('assets/app/img/icons') }}/user-white.svg)"></div>
+							@endif
+						</td>
 						<td width="100px" align="right">
 							<form action="{{ route('update_user') }}" method="POST" enctype="multipart/form-data">
 								{{ csrf_field() }}
 								<input type="hidden" name="id" value="{{ $user->_id }}">
 								<input onchange="this.closest('form').submit()" type="file" id="files" name="photo[]" class="hide" accept=".jpg, .png, .jpeg, .pdf">
-								<label for="files">Sunting</label>
+								<label for="files"><a style="font-weight: normal;cursor: pointer;">Sunting</a></label>
 							</form>
 						</td>
 					</tr>
