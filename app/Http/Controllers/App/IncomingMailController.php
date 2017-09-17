@@ -294,6 +294,19 @@ class IncomingMailController extends Controller
 		return redirect()->back();
 	}
 
+	public function replaceEdit(Request $r)
+	{
+		$file = $r->file('file');
+
+		// Image Upload Process
+		$ext = $file->getClientOriginalExtension();
+		$nm_file = "0.".$ext;
+		$destination = public_path('assets/tesseract'.'/'.Auth::user()->_id);
+		$upload = $file->move($destination, $nm_file);
+
+		return redirect()->back();
+	}
+
 	public function removeAjax(Request $r)
 	{
 		unlink(public_path('assets/tesseract').'/'.Auth::user()->_id.'/'.$r->image);

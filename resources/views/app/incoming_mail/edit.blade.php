@@ -34,16 +34,22 @@
 				</form>
 				<hr>
 				<div class="images" id="images">
-					@foreach ($image as $img)
+					@foreach ($image as $key => $img)
 						<?php 
 							$check = substr($img, -3);
 							$rand = rand(111111,999999);
 						?>
 						<div class="pos-r">
+							@if ($key == 0)
+								<form action="{{ route('incoming_mail_replace_edit') }}" method="post" id="replaceImage" enctype="multipart/form-data">
+									<input type="hidden" name="_token" id="delete_token" value="{{ csrf_token() }}">
+									<input type="file" class="hide" name="file" id="replace" accept=".jpg, .png, .jpeg, .pdf" onchange="$('.page-loader').fadeIn();$('#replaceImage').submit()" multiple>
+									<label for="replace" class="change-img" title="Ganti gambar utama"><i class="fa fa-repeat"></i></label>
+								</form>
+							@endif
 							<form action="a" id="formdelete">
 								<input type="hidden" name="_token" id="delete_token" value="{{ csrf_token() }}">
 								<button type="button" id="delete" class="delete-img" data-image="{{ $img }}" title="Hapus">×</button>
-								<button type="button" id="delete" class="change-img" data-image="{{ $img }}" title="Ganti gambar utama"><i class="fa fa-repeat"></i></button>
 							</form>
 							@if ($check == 'pdf')
 								<img src="{{ asset('assets/app/img/icons/pdf.svg') }}" alt="">
@@ -202,7 +208,7 @@
 		});
 
 		//Upload Multiple Image
-		$('#files').change(function(e) {
+		$('#files').on('change', function(e) {
 		  e.preventDefault();
 
 		  var files = $('#files')[0].files;
@@ -226,10 +232,11 @@
 					$('#images').append('<div class="progress" style="border-radius: 3px;"><div class="progress-bar progress-bar-striped progress-bar-success active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; margin-left: 0; border-left: 0">Sedang mengunggah...</div></div>');
 				},
 				success: function(data){
+					$('#form')[0].reset();
 					$('#images').load(' #images');
 					$('#main').load(' #main');
 				},error:function(){ 
-					alert("Masukkan File Terlebih Dahulu");
+					alert("Gagal upload, ukuran file terlalu besar");
 				} 
 			 });
 		});
