@@ -474,6 +474,17 @@ class IncomingMailController extends Controller
 	{	
 		//Incoming Mail
 		$archieve = Archieve::find($id);
+
+		//Check Id Archieve
+		if ($archieve == false) {
+			return redirect()->route('incoming_mail');
+		}
+
+		//Search For id_user Equation With id login
+		if ($archieve->id_user != Auth::user()->_id ) {
+			return redirect()->route('incoming_mail');
+		}
+
 		$data['archieve'] = $archieve;
 
 		// Image
