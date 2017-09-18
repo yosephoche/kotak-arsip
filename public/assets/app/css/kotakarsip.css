@@ -11275,6 +11275,10 @@ textarea {
   max-width: 100%;
 }
 
+.ka-menus, .ka-main, .detail-info .select {
+  cursor: default !important;
+}
+
 .pos-r {
   position: relative;
 }
