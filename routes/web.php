@@ -137,6 +137,7 @@ Route::group(['namespace' => 'App'], function () {
 	Route::group(['prefix' => 'pengaturan'], function(){
 		Route::get('/', 'SettingController@index')->name('setting');
 		Route::post('/update/user', 'SettingController@updateuser')->name('update_user');
+		Route::post('/update/password', 'SettingController@updatepassword')->name('update_password');
 		Route::post('/update/company', 'SettingController@updatecompany')->name('update_company');
 	});
 });

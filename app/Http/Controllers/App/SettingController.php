@@ -4,88 +4,111 @@ namespace App\Http\Controllers\App;
 use App\User, App\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Auth, GlobalClass;
+use Auth, GlobalClass, Hash;
 
 class SettingController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    
-    public function index()
-    {
-    	$data['user'] = User::where('_id', Auth::user()->_id)->first();
-    	$data['company'] = Company::where('_id', Auth::user()->id_company)->first();
+	public function __construct()
+	{
+		$this->middleware('auth');
+	}
+	
+	public function index()
+	{
+		$data['user'] = User::where('_id', Auth::user()->_id)->first();
+		$data['company'] = Company::where('_id', Auth::user()->id_company)->first();
 
-    	return view('app.setting.index', $data);
-    }
+		return view('app.setting.index', $data);
+	}
 
-    public function updateuser(Request $r)
-    {	
-    	$user = User::find($r->id);
-    	if ($r->name != '') {
-    		$user->name = $r->name;
-    	}
+	public function updateuser(Request $r)
+	{	
+		$user = User::find($r->id);
+		if ($r->name != '') {
+			$user->name = $r->name;
+		}
 
-    	if ($r->email != '') {
-            $this->validate($r, ['email' => 'required|email|unique:users,email,'.$user->_id.',_id']);
-    		$user->email = $r->email;
-    	}
+		if ($r->email != '') {
+			$this->validate($r, ['email' => 'required|email|unique:users,email,'.$user->_id.',_id']);
+			$user->email = $r->email;
+		}
 
-    	if ($r->phone != '') {
-    		$user->phone = $r->phone;
-    	}
+		if ($r->phone != '') {
+			$user->phone = $r->phone;
+		}
 
-    	if ($r->position != '') {
-    		$user->position = $r->position;
-    	}
+		if ($r->position != '') {
+			$user->position = $r->position;
+		}
 
-    	// Upload Image
-        if ($r->hasFile('photo')) 
-        {
-            // Remove Old photo
-            $old = User::where('_id', $r->id)->first();
-            @unlink(public_path('assets/app/img/users').'/'.$old->photo);
+		// Upload Image
+		if ($r->hasFile('photo')) 
+		{
+			// Remove Old photo
+			$old = User::where('_id', $r->id)->first();
+			@unlink(public_path('assets/app/img/users').'/'.$old->photo);
 
-            // Upload Image
-            $destination = public_path('assets/app/img/users');
-            $photo_arr = GlobalClass::Upload($r->file('photo'), $destination, 200);
-            $photo = implode(',',$photo_arr);
-            
-            // Save to DB
-            $user->photo = $photo;
-        }
+			// Upload Image
+			$destination = public_path('assets/app/img/users');
+			$photo_arr = GlobalClass::Upload($r->file('photo'), $destination, 200);
+			$photo = implode(',',$photo_arr);
+			
+			// Save to DB
+			$user->photo = $photo;
+		}
 
-    	$user->save();
+		$user->save();
 
-        $r->session()->flash('success', 'Berhasil menyimpan pembaruan');
+		$r->session()->flash('success', 'Berhasil menyimpan pembaruan');
 
-    	return redirect(route('setting', ['tab' => 'account']));
-    }
+		return redirect(route('setting', ['tab' => 'account']));
+	}
 
-    public function updatecompany(Request $r)
-    {
-    	$user = Company::find($r->id);
-    	if ($r->name != '') {
-    		$user->name = $r->name;
-    	}
+	public function updatepassword(Request $r)
+	{
+		$this->validate($r, [
+			'old_password'     => 'required',
+			'new_password'     => 'required|min:5',
+			'confirm_password' => 'required|same:new_password',
+		]);
 
-    	if ($r->address != '') {
-    		$user->address = $r->address;
-    	}
+		$data = $r->all();
 
-    	if ($r->phone != '') {
-    		$user->phone = $r->phone;
-    	}
+		$user = User::find($r->id);
+		if(!Hash::check($data['old_password'], $user->password)){
+			$r->session()->flash('success', 'Kata sandi lama anda tidak sesuai');
+			return redirect()->route('setting', ['tab' => 'security']);
+		}else{
+			$user->password = bcrypt($r->new_password);
+			$user->save();
 
-    	if ($r->email != '') {
-    		$user->email = $r->email;
-    	}
-    	$user->save();
+			$r->session()->flash('success', 'Berhasil menyimpan pembaruan');
+			return redirect()->route('setting', ['tab' => 'security']);
+		}
+	}
 
-        $r->session()->flash('success', 'Berhasil menyimpan pembaruan data perusahaan');
+	public function updatecompany(Request $r)
+	{
+		$user = Company::find($r->id);
+		if ($r->name != '') {
+			$user->name = $r->name;
+		}
 
-    	return redirect(route('setting', ['tab' => 'company']));
-    }
+		if ($r->address != '') {
+			$user->address = $r->address;
+		}
+
+		if ($r->phone != '') {
+			$user->phone = $r->phone;
+		}
+
+		if ($r->email != '') {
+			$user->email = $r->email;
+		}
+		$user->save();
+
+		$r->session()->flash('success', 'Berhasil menyimpan pembaruan data perusahaan');
+
+		return redirect(route('setting', ['tab' => 'company']));
+	}
 }

@@ -18,7 +18,7 @@
 		<ul class="nav nav-tabs" role="tablist">
 			<li role="presentation" class="{{ @!$_GET['tab'] ? 'active' : '' }}"><a href="#tab-1" aria-controls="tab-1" role="tab" data-toggle="tab">Koneksi Server</a></li>
 			<li role="presentation" class="{{ @$_GET['tab'] == 'account' ? 'active' : '' }}"><a href="#tab-2" aria-controls="tab-2" role="tab" data-toggle="tab">Akun</a></li>
-			<li role="presentation"><a href="#tab-3" aria-controls="tab-3" role="tab" data-toggle="tab">Keamanan</a></li>
+			<li role="presentation" class="{{ @$_GET['tab'] == 'security' ? 'active' : '' }}"><a href="#tab-3" aria-controls="tab-3" role="tab" data-toggle="tab">Keamanan</a></li>
 			@if (Auth::user()->status == 'admin')
 				<li role="presentation" class="{{ @$_GET['tab'] == 'company' ? 'active' : '' }}"><a href="#tab-4" aria-controls="tab-4" role="tab" data-toggle="tab">Perusahaan</a></li>
 			@endif
@@ -77,7 +77,7 @@
 					</tr>
 				</table>
 			</div>
-			<div role="tabpanel" class="tab-pane tab-account-setting" id="tab-3">
+			<div role="tabpanel" class="tab-pane tab-account-setting {{ @$_GET['tab'] == 'security' ? 'active' : '' }}" id="tab-3">
 				<h3>Keamanan</h3>
 				<table class="table">
 					<tr>
@@ -155,7 +155,7 @@
 	<div class="modal fade" id="passwordeditModal" tabindex="-1" role="dialog" aria-labelledby="editLabelModal">
 		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
-				<form action="{{ route('update_user') }}" method="POST">
+				<form action="{{ route('update_password') }}" method="POST">
 					{{ csrf_field() }}
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -169,11 +169,11 @@
 						</div>
 						<div class="form-group">
 							<label for="newpassword">Kata Sandi Baru</label>
-							<input type="password" name="password" class="form-control" id="newpassword">
+							<input type="password" name="new_password" class="form-control" id="newpassword">
 						</div>
 						<div class="form-group">
 							<label for="retypepassword">Ulangi Kata Sandi</label>
-							<input type="password" name="password_confirmation" class="form-control" id="retypepassword">
+							<input type="password" name="confirm_password" class="form-control" id="retypepassword">
 						</div>
 					</div>
 					<div class="modal-footer">
