@@ -37,7 +37,8 @@ class MemberController extends Controller
 			'email'     => 'required|email|max:255|unique:users',
 			'phone'     => 'required',
 			'position'  => 'required',
-			'password'  => 'required|min:5|confirmed',
+			'password'  => 'required|min:5',
+			'password_confirmation'  => 'required|same:password',
 		]);
 
 		$member = new User;
@@ -89,6 +90,10 @@ class MemberController extends Controller
 		$member->position = $r->position;
 		$member->status = $r->status;
 		if ($r->password != "") {
+			$this->validate($r, [
+				'password'  => 'required|min:5',
+				'password_confirmation'  => 'required|same:password',
+			]);
 			$member->password = bcrypt($r->password);
 		}
 
