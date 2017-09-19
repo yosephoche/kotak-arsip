@@ -385,7 +385,7 @@ class IncomingMailController extends Controller
 		$date = Carbon::createFromFormat('d/m/Y', $r->date);
 
 		$surat = new Archieve;
-		$surat->id_user = Auth::user()->_id;
+		$surat->id_user = GlobalClass::generateMongoObjectId(Auth::user()->_id);
 		$surat->id_company = Auth::user()->id_company;
 		$surat->type = "incoming_mail";
 		$surat->from = $r->from;
@@ -529,7 +529,7 @@ class IncomingMailController extends Controller
 		$date = Carbon::createFromFormat('d/m/Y', $r->date);
 
 		$surat = Archieve::find($id);
-		$surat->id_user = Auth::user()->_id;
+		$surat->id_user = GlobalClass::generateMongoObjectId(Auth::user()->_id);
 		$surat->id_company = Auth::user()->id_company;
 		$surat->type = "incoming_mail";
 		$surat->from = $r->from;
