@@ -170,7 +170,7 @@
 				</div>
 				<div class="item" v-if="detail.id_user">
 					<label>Disposisi dari</label>
-					<div class="value" v-html="detail.id_user"></div>
+					<div class="value" v-html="detail.user[0].name"></div>
 				</div>
 				<div class="item" v-if="detail.from">
 					<label>Asal Surat</label>

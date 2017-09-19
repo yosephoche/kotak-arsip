@@ -90,9 +90,18 @@
 
 		</table>
 
+		<div class="text-center" v-else>
+			<hr>
+			<img src="{{ url('assets/app/img/icons') }}/no_file.svg" alt="" width="400px">
+			<br>
+			<br>
+			<br>
+			Belum ada data surat masuk
+		</div>
+
+		@if ($archieve->lastPage() > 1)
 		<div class="text-center">
 			<hr class="m-t-0">
-			@if ($archieve->lastPage() > 1)
 			<ul class="pagination-custom">
 				<li class="{{ ($archieve->currentPage() == 1) ? ' hide' : '' }}">
 					<a href="{{ $archieve->url($archieve->currentPage()-1) }}">Sebelumnya</a>
@@ -106,17 +115,8 @@
 					<a href="{{ $archieve->url($archieve->currentPage()+1) }}" >Selanjutnya</a>
 				</li>
 			</ul>
-			@endif
 		</div>
-
-		<div class="text-center" v-else>
-			<hr>
-			<img src="{{ url('assets/app/img/icons') }}/no_file.svg" alt="" width="400px">
-			<br>
-			<br>
-			<br>
-			Belum ada data surat masuk
-		</div>
+		@endif
 	</div>
 
 	<aside class="ka-sidebar-detail">
@@ -157,7 +157,7 @@
 						<input type="hidden" name="id">
 						<div class="col-md-6">
 							<br>
-							<textarea name="message" rows="14" placeholder="Tambahkan pesan (opsional)" class="form-control no-border no-padding no-resize"></textarea>
+							<textarea name="" rows="14" placeholder="Tambahkan pesan (opsional)" class="form-control no-border no-padding no-resize"></textarea>
 						</div>
 						<div class="col-md-6 no-padding" style="border-left: 1px solid #ddd; min-height: 299px">
 							<table class="table">

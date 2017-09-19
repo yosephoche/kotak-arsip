@@ -42,6 +42,14 @@ class SharedController extends Controller
 				array(
 					'$lookup' => array(
 						'from'=>'users',
+						'localField'=>'id_user',
+						'foreignField'=>'_id',
+						'as'=>'user'
+					)
+				),
+				array(
+					'$lookup' => array(
+						'from'=>'users',
 						'localField'=>'share',
 						'foreignField'=>'_id',
 						'as'=>'share'
