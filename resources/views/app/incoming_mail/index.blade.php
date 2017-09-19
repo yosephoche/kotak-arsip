@@ -62,11 +62,11 @@
 			<tr class="item" v-for="val in json.incomingMail" v-on:click="detailSidebar(val, $event)">
 				<td><a v-bind:href="'{{ route('incoming_mail_detail') }}/' + val._id" v-html="val.from"></a></td>
 				<td v-html="val.subject"></td>
-				<td class="view-tablet-only" v-if="val.share != ''" width="150px">
+				<td class="view-tablet-only" v-if="val.share[0].user != ''" width="150px">
 					<ul class="list-unstyled disposisi">
-						<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index < 3">
-							<b-tooltip v-bind:content="disposisi.name" placement="bottom">
-								<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + disposisi.photo + ')' }" v-if="disposisi.photo != ''"></div>
+						<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index < 3 && disposisi.user[0] != null">
+							<b-tooltip v-bind:content="disposisi.user[0].name" placement="bottom">
+								<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + disposisi.user[0].photo + ')' }" v-if="disposisi.user[0].photo != ''"></div>
 								<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
 							</b-tooltip>
 						</li>
@@ -157,17 +157,27 @@
 						<input type="hidden" name="id">
 						<div class="col-md-6">
 							<br>
-							<textarea name="" rows="14" placeholder="Tambahkan pesan (opsional)" class="form-control no-border no-padding no-resize"></textarea>
+							<textarea name="message" rows="14" placeholder="Tambahkan pesan (opsional)" class="form-control no-border no-padding no-resize" onchange="$('.message-fill').val($(this).val())"></textarea>
 						</div>
-						<div class="col-md-6 no-padding" style="border-left: 1px solid #ddd; min-height: 299px">
+						<div class="col-md-6 no-padding" style="border-left: 1px solid #ddd; height: 299px; overflow-y: auto">
 							<table class="table">
 								<tr>
 									<td class="search" colspan="4"><input type="text" class="form-control" placeholder="Cari" v-model="search"></td>
 								</tr>
-								<tr v-for="val in filteredUsers" v-if="val._id != '{{ Auth::user()->_id }}'">
+								<tr v-for="(val, index) in filteredUsers" v-if="val._id != '{{ Auth::user()->_id }}'">
 									<td class="text-center">
-										<input type="checkbox" name="share[]" :value="val._id" v-if="dispositionArray.indexOf(val._id) != -1" checked>
-										<input type="checkbox" name="share[]" :value="val._id" v-else>
+										<div v-if="dispositionArray.indexOf(val._id) != -1">
+											<input type="checkbox" :name="'share['+index+']'" :value="val._id" checked onchange="$(this).parent().find('input').val('-')">
+											<div v-for="info in dispositionInfo" v-if="info != null && info.user[0]._id.$oid == val._id">
+												<input type="text" :name="'date['+index+']'" :value="$options.filters.moment(info.date.$date.$numberLong)" class="hide">
+												<input type="text" :name="'message['+index+']'" :value="info.message" class="hide">
+											</div>
+										</div>
+										<div v-else>
+											<input type="checkbox" :name="'share['+index+']'" :value="val._id">
+											<input type="text" :name="'date['+index+']'" value="{{ date('d/m/Y') }}" class="hide">
+											<input type="text" :name="'message['+index+']'" class="message-fill hide" value="">
+										</div>
 									</td>
 									<td>
 										<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + val.photo + ')' }" v-if="val.photo != ''"></div>
@@ -255,11 +265,11 @@
 						</ul>
 					</div>
 				</div>
-				<div class="item" v-if="detail.share != ''">
+				<div class="item" v-if="detail.share[0].user != ''">
 					<label>Disposisi</label>
 					<div class="value">
 						<ul class="list-unstyled">
-							<li v-for="disposisi in detail.share"><a href="" v-html="disposisi.name"></a></li>
+							<li v-for="disposisi in detail.share"><a :href="'{{ route('incoming_mail_disposition_history') }}/' + detail._id" v-html="disposisi.user[0].name"></a></li>
 						</ul>
 					</div>
 				</div>

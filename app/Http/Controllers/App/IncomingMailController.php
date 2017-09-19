@@ -45,11 +45,17 @@ class IncomingMailController extends Controller
 
 			return $collection->aggregate(array(
 				array(
+					'$unwind' => array(
+						'path' => '$share',
+						'preserveNullAndEmptyArrays' => true
+					)
+				),
+				array(
 					'$lookup' => array(
 						'from'=>'users',
-						'localField'=>'share',
+						'localField'=>'share._id',
 						'foreignField'=>'_id',
-						'as'=>'share'
+						'as'=>'share.user'
 					)
 				),
 				array(
@@ -69,25 +75,51 @@ class IncomingMailController extends Controller
 					)
 				),
 				array(
-					'$project' => array(
-						'fulltext' => 0,
-						'updated_at' => 0,
-						'storage.created_at' => 0,
-						'storage.updated_at' => 0,
-						'storage.type' => 0,
-						'storage.id_company' => 0,
-						'storagesub.created_at' => 0,
-						'storagesub.updated_at' => 0,
-						'storagesub.id_storage' => 0,
-						'share.position' => 0,
-						'share.phone' => 0,
-						'share.email_status' => 0,
-						'share.status' => 0,
-						'share.id_company' => 0,
-						'share.remember_token' => 0,
-						'share.password' => 0,
-						'share.created_at' => 0,
-						'share.updated_at' => 0
+					'$group' => array(
+						'_id' => '$_id',
+						'id_user' => array(
+							'$first' => '$id_user'
+						),
+						'id_company' => array(
+							'$first' => '$id_company'
+						),
+						'type' => array(
+							'$first' => '$type'
+						),
+						'from' => array(
+							'$first' => '$from'
+						),
+						'subject' => array(
+							'$first' => '$subject'
+						),
+						'reference_number' => array(
+							'$first' => '$reference_number'
+						),
+						'date' => array(
+							'$first' => '$date'
+						),
+						'reference_number' => array(
+							'$first' => '$reference_number'
+						),
+						'storagesub' => array(
+							'$first' => '$storagesub'
+						),
+						'storage' => array(
+							'$first' => '$storage'
+						),
+						'files' => array(
+							'$first' => '$files'
+						),
+						'deleted_at' => array(
+							'$first' => '$deleted_at'
+						),
+						'share' => array(
+							'$push' => array(
+								'user' => '$share.user',
+								'date' => '$share.date',
+								'message' => '$share.message'
+							)
+						)
 					)
 				),
 				array(
@@ -100,12 +132,7 @@ class IncomingMailController extends Controller
 						'type' => 'incoming_mail',
 						'id_user' => GlobalClass::generateMongoObjectId(Auth::user()->_id),
 						'id_company' => Auth::user()->id_company,
-						'deleted_at' => null,
-						// 'share' => array(
-						// 	'$elemMatch' => array(
-						// 		'email' => Auth::user()->email
-						// 	)
-						// )
+						'deleted_at' => null
 					)
 				),
 				array(
@@ -117,7 +144,7 @@ class IncomingMailController extends Controller
 			));
 		});
 
-		$users = User::where('id_company', Auth::user()->id_company)->get();
+		$users = User::select('name', 'position', 'photo')->where('id_company', Auth::user()->id_company)->get();
 
 		return response()->json([
 			'incomingMail'  =>  $archieve,
@@ -137,7 +164,10 @@ class IncomingMailController extends Controller
 		$archieve = Archieve::raw(function($collection){
 			return $collection->aggregate(array(
 				array(
-					'$unwind' => '$share'
+					'$unwind' => array(
+						'path' => '$share',
+						'preserveNullAndEmptyArrays' => true
+					)
 				),
 				array(
 					'$lookup' => array(
@@ -183,6 +213,9 @@ class IncomingMailController extends Controller
 						'from' => array(
 							'$first' => '$from'
 						),
+						'subject' => array(
+							'$first' => '$subject'
+						),
 						'reference_number' => array(
 							'$first' => '$reference_number'
 						),
@@ -213,7 +246,7 @@ class IncomingMailController extends Controller
 			));
 		})->where('_id', $id);
 
-		$users = User::where('id_company', Auth::user()->id_company)->get();
+		$users = User::select('name', 'position', 'photo')->where('id_company', Auth::user()->id_company)->get();
 
 		return response()->json([
 			'incomingMail'  =>  $archieve,
@@ -626,19 +659,17 @@ class IncomingMailController extends Controller
 	{
 		$surat = Archieve::find($r->id);
 
-		// $date = [];
-		// for ($i=0; $i < count($r->date); $i++) { 
-		// 	$date[$i] = Carbon::createFromFormat('d/m/Y', $r->date[$i]);
-		// }
-
 		$share = [];
-		for ($i=0; $i < count($r->share) ; $i++) { 
+		@$key = array_keys($r->share);
+		for ($i=0; $i < count($r->share) ; $i++) {
+			$date = Carbon::createFromFormat('d/m/Y', $r->date[$key[$i]]);
 			$share[] = [
-				'_id' => GlobalClass::generateMongoObjectId($r->share[$i]),
-				'message' => $r->message,
-				'date' => '12345678'
+				'_id' => GlobalClass::generateMongoObjectId($r->share[$key[$i]]),
+				'date' => GlobalClass::generateIsoDate($date),
+				'message' => $r->message[$key[$i]]
 			];
 		}
+
 
 		if ($r->share != null) {
 			$surat->share = $share;
@@ -650,6 +681,13 @@ class IncomingMailController extends Controller
 		$r->session()->flash('success', 'Surat masuk berhasil didisposisi');
 
 		return redirect()->route('incoming_mail');
+	}
+
+	public function dispositionHistory($id)
+	{
+		$data['archieve'] = Archieve::find($id);
+
+		return view('app.incoming_mail.disposition', $data);
 	}
 
 	public function delete(Request $r)

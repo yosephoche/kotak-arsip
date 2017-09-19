@@ -84,7 +84,7 @@
 								</ul>
 							</div>
 						</div>
-						<div class="item" v-if="val.share != ''">
+						<div class="item" v-if="val.share[0].user != ''">
 							<label>Disposisi</label>
 							<div class="value">
 								<ul class="list-unstyled">
@@ -102,7 +102,7 @@
 		</section>
 
 		
-		<!-- Modal -->
+		<!-- Modals -->
 		<div class="modal fade modal-disposisi" id="disposisiModal" tabindex="-1" role="dialog" aria-labelledby="disposisiLabelModal">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -116,17 +116,27 @@
 							<input type="hidden" name="id">
 							<div class="col-md-6">
 								<br>
-								<textarea name="" rows="14" placeholder="Tambahkan pesan (opsional)" class="form-control no-border no-padding no-resize"></textarea>
+								<textarea name="message" rows="14" placeholder="Tambahkan pesan (opsional)" class="form-control no-border no-padding no-resize" onchange="$('.message-fill').val($(this).val())"></textarea>
 							</div>
-							<div class="col-md-6 no-padding" style="border-left: 1px solid #ddd; min-height: 299px">
+							<div class="col-md-6 no-padding" style="border-left: 1px solid #ddd; height: 299px; overflow-y: auto">
 								<table class="table">
 									<tr>
 										<td class="search" colspan="4"><input type="text" class="form-control" placeholder="Cari" v-model="search"></td>
 									</tr>
-									<tr v-for="val in filteredUsers" v-if="val._id != '{{ Auth::user()->_id }}'">
+									<tr v-for="(val, index) in filteredUsers" v-if="val._id != '{{ Auth::user()->_id }}'">
 										<td class="text-center">
-											<input type="checkbox" name="share[]" :value="val._id" v-if="dispositionArray.indexOf(val._id) != -1" checked>
-											<input type="checkbox" name="share[]" :value="val._id" v-else>
+											<div v-if="dispositionArray.indexOf(val._id) != -1">
+												<input type="checkbox" :name="'share['+index+']'" :value="val._id" checked onchange="$(this).parent().find('input').val('-')">
+												<div v-for="info in dispositionInfo" v-if="info != null && info.user[0]._id.$oid == val._id">
+													<input type="text" :name="'date['+index+']'" :value="$options.filters.moment(info.date.$date.$numberLong)" class="hide">
+													<input type="text" :name="'message['+index+']'" :value="info.message" class="hide">
+												</div>
+											</div>
+											<div v-else>
+												<input type="checkbox" :name="'share['+index+']'" :value="val._id">
+												<input type="text" :name="'date['+index+']'" value="{{ date('d/m/Y') }}" class="hide">
+												<input type="text" :name="'message['+index+']'" class="message-fill hide" value="">
+											</div>
 										</td>
 										<td>
 											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + val.photo + ')' }" v-if="val.photo != ''"></div>

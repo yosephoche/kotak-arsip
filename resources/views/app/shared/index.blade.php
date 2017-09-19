@@ -74,9 +74,9 @@
 				<td v-html="val.subject"></td>
 				<td class="view-tablet-only" v-if="val.share != ''" width="150px">
 					<ul class="list-unstyled disposisi">
-						<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index < 3">
-							<b-tooltip v-bind:content="disposisi.name" placement="bottom">
-								<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + disposisi.photo + ')' }" v-if="disposisi.photo != ''"></div>
+						<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index < 3 && disposisi.user[0] != null">
+							<b-tooltip v-bind:content="disposisi.user[0].name" placement="bottom">
+								<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + disposisi.user[0].photo + ')' }" v-if="disposisi.user[0].photo != ''"></div>
 								<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
 							</b-tooltip>
 						</li>
@@ -98,7 +98,6 @@
 		</table>
 
 		<div class="text-center" v-else>
-			<hr>
 			<img src="{{ url('assets/app/img/icons') }}/no_file.svg" alt="" width="400px">
 			<br>
 			<br>
@@ -164,13 +163,15 @@
 				<h5 class="no-margin">Pratinjau</h5>
 				<hr>
 
-				<div class="item item-highlight" v-if="detail.from">
-					<label>Pesan Disposisi</label>
-					<div class="value" v-html="detail.from"></div>
+				<div v-for="message in detail.share" v-if="message.user[0]._id.$oid == '{{ Auth::user()->id }}'">
+					<div class="item item-highlight" v-if="message.message != null">
+						<label>Pesan Disposisi</label>
+						<div class="value" v-html="message.message"></div>
+					</div>
 				</div>
 				<div class="item" v-if="detail.id_user">
 					<label>Disposisi dari</label>
-					<div class="value" v-html="detail.user[0].name"></div>
+					<div class="value" v-html="detail.userDetail[0]"></div>
 				</div>
 				<div class="item" v-if="detail.from">
 					<label>Asal Surat</label>
@@ -200,11 +201,11 @@
 						</ul>
 					</div>
 				</div>
-				<div class="item" v-if="detail.share != ''">
+				<div class="item" v-if="detail.share[0].user != ''">
 					<label>Disposisi</label>
 					<div class="value">
 						<ul class="list-unstyled">
-							<li v-for="disposisi in detail.share"><a href="" v-html="disposisi.name"></a></li>
+							<li v-for="disposisi in detail.share"><a :href="'{{ route('shared_incoming_mail_disposition_history') }}/' + detail._id" v-html="disposisi.user[0].name"></a></li>
 						</ul>
 					</div>
 				</div>

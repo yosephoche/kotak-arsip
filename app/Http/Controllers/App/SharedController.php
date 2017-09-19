@@ -38,21 +38,31 @@ class SharedController extends Controller
 				$asc = 1;
 			}
 
+			$page  = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+			$limit = 25; // change in index too
+			$skip  = ($page - 1) * $limit;
+
 			return $collection->aggregate(array(
 				array(
-					'$lookup' => array(
-						'from'=>'users',
-						'localField'=>'id_user',
-						'foreignField'=>'_id',
-						'as'=>'user'
+					'$unwind' => array(
+						'path' => '$share',
+						'preserveNullAndEmptyArrays' => true
 					)
 				),
 				array(
 					'$lookup' => array(
 						'from'=>'users',
-						'localField'=>'share',
+						'localField'=>'id_user',
 						'foreignField'=>'_id',
-						'as'=>'share'
+						'as'=>'userDetail'
+					)
+				),
+				array(
+					'$lookup' => array(
+						'from'=>'users',
+						'localField'=>'share._id',
+						'foreignField'=>'_id',
+						'as'=>'share.user'
 					)
 				),
 				array(
@@ -72,25 +82,54 @@ class SharedController extends Controller
 					)
 				),
 				array(
-					'$project' => array(
-						'fulltext' => 0,
-						'updated_at' => 0,
-						'storage.created_at' => 0,
-						'storage.updated_at' => 0,
-						'storage.type' => 0,
-						'storage.id_company' => 0,
-						'storagesub.created_at' => 0,
-						'storagesub.updated_at' => 0,
-						'storagesub.id_storage' => 0,
-						'share.position' => 0,
-						'share.phone' => 0,
-						'share.email_status' => 0,
-						'share.status' => 0,
-						'share.id_company' => 0,
-						'share.remember_token' => 0,
-						'share.password' => 0,
-						'share.created_at' => 0,
-						'share.updated_at' => 0
+					'$group' => array(
+						'_id' => '$_id',
+						'userDetail' => array(
+							'$first' => '$userDetail.name'
+						),
+						'id_user' => array(
+							'$first' => '$id_user'
+						),
+						'id_company' => array(
+							'$first' => '$id_company'
+						),
+						'type' => array(
+							'$first' => '$type'
+						),
+						'from' => array(
+							'$first' => '$from'
+						),
+						'subject' => array(
+							'$first' => '$subject'
+						),
+						'reference_number' => array(
+							'$first' => '$reference_number'
+						),
+						'date' => array(
+							'$first' => '$date'
+						),
+						'reference_number' => array(
+							'$first' => '$reference_number'
+						),
+						'storagesub' => array(
+							'$first' => '$storagesub'
+						),
+						'storage' => array(
+							'$first' => '$storage'
+						),
+						'files' => array(
+							'$first' => '$files'
+						),
+						'deleted_at' => array(
+							'$first' => '$deleted_at'
+						),
+						'share' => array(
+							'$push' => array(
+								'user' => '$share.user',
+								'date' => '$share.date',
+								'message' => '$share.message'
+							)
+						)
 					)
 				),
 				array(
@@ -103,7 +142,7 @@ class SharedController extends Controller
 						'type' => 'incoming_mail',
 						'id_company' => Auth::user()->id_company,
 						'deleted_at' => null,
-						'share' => array(
+						'share.user' => array(
 							'$elemMatch' => array(
 								'email' => Auth::user()->email
 							)
@@ -111,15 +150,15 @@ class SharedController extends Controller
 					)
 				),
 				array(
-					'$skip' => 0
+					'$skip' => $skip
 				),
 				array(
-					'$limit' => 10
+					'$limit' => $limit
 				)
 			));
 		});
 
-		$users = User::where('id_company', Auth::user()->id_company)->get();
+		$users = User::select('name', 'position', 'photo')->where('id_company', Auth::user()->id_company)->get();
 
 		return response()->json([
 			'incomingMail'  =>  $archieve,
@@ -139,11 +178,17 @@ class SharedController extends Controller
 		$archieve = Archieve::raw(function($collection){
 			return $collection->aggregate(array(
 				array(
+					'$unwind' => array(
+						'path' => '$share',
+						'preserveNullAndEmptyArrays' => true
+					)
+				),
+				array(
 					'$lookup' => array(
 						'from'=>'users',
-						'localField'=>'share',
+						'localField'=>'share._id',
 						'foreignField'=>'_id',
-						'as'=>'share'
+						'as'=>'share.user'
 					)
 				),
 				array(
@@ -175,11 +220,47 @@ class SharedController extends Controller
 						'storage.name' => 1,
 						'files' => 1,
 					)
+				),
+				array(
+					'$group' => array(
+						'_id' => '$_id',
+						'from' => array(
+							'$first' => '$from'
+						),
+						'subject' => array(
+							'$first' => '$subject'
+						),
+						'reference_number' => array(
+							'$first' => '$reference_number'
+						),
+						'date' => array(
+							'$first' => '$date'
+						),
+						'reference_number' => array(
+							'$first' => '$reference_number'
+						),
+						'storagesub' => array(
+							'$first' => '$storagesub'
+						),
+						'storage' => array(
+							'$first' => '$storage'
+						),
+						'files' => array(
+							'$first' => '$files'
+						),
+						'share' => array(
+							'$push' => array(
+								'user' => '$share.user',
+								'date' => '$share.date',
+								'message' => '$share.message'
+							)
+						)
+					)
 				)
 			));
 		})->where('_id', $id);
 
-		$users = User::where('id_company', Auth::user()->id_company)->get();
+		$users = User::select('name', 'position', 'photo')->where('id_company', Auth::user()->id_company)->get();
 
 		return response()->json([
 			'incomingMail'  =>  $archieve,

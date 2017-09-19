@@ -5,9 +5,9 @@ Vue.component('detail', {
 	},
 	filters: {
 		moment: function (date) {
-			var day = moment(date, "x").date();
-			var month = moment(date, "x").month() + 1;
-			var year = moment(date, "x").year();
+			var day = moment(date, "x").format("DD");
+			var month = moment(date, "x").format("MM");
+			var year = moment(date, "x").format("YYYY");
 			return day + "/" + month + "/" + year;
 		}
 	}

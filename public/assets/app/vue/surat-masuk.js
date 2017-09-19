@@ -6,7 +6,8 @@ function getDataIncomingMail(api, key) {
 			search: '',
 			json: { key : [], 'users' : [] },
 			detail: '',
-			dispositionArray: ''
+			dispositionArray: '',
+			dispositionInfo: ''
 		},
 		created: function () {
 			var _this = this;
@@ -45,10 +46,16 @@ function getDataIncomingMail(api, key) {
 			},
 			idDispositionArray: function (data) {
 				var id = new Array();
+				var info = new Array();
 				for (var i = 0; i < data.length; i++) {
-					id.push(data[i]._id.$oid);
+					if (data[i].user[0] != null) {
+						id.push(data[i].user[0]._id.$oid);
+					}
 				}
-				return this.dispositionArray = id;
+				for (var i = 0; i < data.length; i++) {
+					info.push(data[i]);
+				}
+				return this.dispositionArray = id, this.dispositionInfo = info;
 			}
 		},
 		computed: {
@@ -61,9 +68,9 @@ function getDataIncomingMail(api, key) {
 		},
 		filters: {
 			moment: function (date) {
-				var day = moment(date, "x").date();
-				var month = moment(date, "x").month() + 1;
-				var year = moment(date, "x").year();
+				var day = moment(date, "x").format("DD");
+				var month = moment(date, "x").format("MM");
+				var year = moment(date, "x").format("YYYY");
 				return day + "/" + month + "/" + year;
 			}
 		}
@@ -107,17 +114,23 @@ function getDataIncomingMailDetail(api, key) {
 			},
 			idDispositionArray: function (data) {
 				var id = new Array();
+				var info = new Array();
 				for (var i = 0; i < data.length; i++) {
-					id.push(data[i]._id.$oid);
+					if (data[i].user[0] != null) {
+						id.push(data[i].user[0]._id.$oid);
+					}
 				}
-				return this.dispositionArray = id;
+				for (var i = 0; i < data.length; i++) {
+					info.push(data[i]);
+				}
+				return this.dispositionArray = id, this.dispositionInfo = info;
 			}
 		},
 		filters: {
 			moment: function (date) {
-				var day = moment(date, "x").date();
-				var month = moment(date, "x").month() + 1;
-				var year = moment(date, "x").year();
+				var day = moment(date, "x").format("DD");
+				var month = moment(date, "x").format("MM");
+				var year = moment(date, "x").format("YYYY");
 				return day + "/" + month + "/" + year;
 			}
 		}

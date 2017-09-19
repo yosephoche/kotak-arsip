@@ -110,6 +110,7 @@ Route::group(['namespace' => 'App'], function () {
 			Route::post('/update/{id?}', 'IncomingMailController@update')->name('incoming_mail_update');
 			Route::post('/delete', 'IncomingMailController@delete')->name('incoming_mail_delete');
 			Route::post('/disposition', 'IncomingMailController@disposition')->name('incoming_mail_disposition');
+			Route::get('/disposition/history/{id?}', 'IncomingMailController@dispositionHistory')->name('incoming_mail_disposition_history');
 		});
 
 		//Outgoing Mail
@@ -125,6 +126,7 @@ Route::group(['namespace' => 'App'], function () {
 			Route::get('/', 'SharedController@index')->name('shared_incoming_mail');
 			Route::get('/detail/{id?}', 'SharedController@detail')->name('shared_incoming_mail_detail');
 			Route::post('/delete', 'SharedController@delete')->name('shared_incoming_mail_delete');
+			Route::get('/disposition/history/{id?}', 'IncomingMailController@dispositionHistory')->name('shared_incoming_mail_disposition_history');
 		});
 	});
 
