@@ -176,6 +176,39 @@ class IncomingMailController extends Controller
 						'storage.name' => 1,
 						'files' => 1,
 					)
+				),
+				array(
+					'$group' => array(
+						'_id' => '$_id',
+						'from' => array(
+							'$first' => '$from'
+						),
+						'reference_number' => array(
+							'$first' => '$reference_number'
+						),
+						'date' => array(
+							'$first' => '$date'
+						),
+						'reference_number' => array(
+							'$first' => '$reference_number'
+						),
+						'storagesub' => array(
+							'$first' => '$storagesub'
+						),
+						'storage' => array(
+							'$first' => '$storage'
+						),
+						'files' => array(
+							'$first' => '$files'
+						),
+						'share' => array(
+							'$push' => array(
+								'user' => '$share.user',
+								'date' => '$share.date',
+								'message' => '$share.message'
+							)
+						)
+					)
 				)
 			));
 		})->where('_id', $id);

@@ -88,7 +88,7 @@
 							<label>Disposisi</label>
 							<div class="value">
 								<ul class="list-unstyled">
-									<li v-for="disposisi in val.share"><a href="" v-html="disposisi.name"></a></li>
+									<li v-for="disposisi in val.share"><a href="" v-html="disposisi.user[0].name"></a></li>
 								</ul>
 							</div>
 						</div>
