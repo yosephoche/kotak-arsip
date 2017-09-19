@@ -137,11 +137,14 @@ class IncomingMailController extends Controller
 		$archieve = Archieve::raw(function($collection){
 			return $collection->aggregate(array(
 				array(
+					'$unwind' => '$share'
+				),
+				array(
 					'$lookup' => array(
 						'from'=>'users',
-						'localField'=>'share',
+						'localField'=>'share._id',
 						'foreignField'=>'_id',
-						'as'=>'share'
+						'as'=>'share.user'
 					)
 				),
 				array(
@@ -486,7 +489,7 @@ class IncomingMailController extends Controller
 		}
 
 		//Search For id_user Equation With id login
-		if ($archieve->id_user != Auth::user()->_id ) {
+		if ($archieve->id_user != GlobalClass::generateMongoObjectId(Auth::user()->_id)) {
 			return redirect()->route('incoming_mail');
 		}
 
