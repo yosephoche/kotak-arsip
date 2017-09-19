@@ -18,6 +18,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//Refresh CSRF-Token
+Route::get('refresh-csrf', function(){
+    return csrf_token();
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
