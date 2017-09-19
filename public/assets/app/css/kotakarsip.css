@@ -11687,6 +11687,11 @@ a:hover, a:focus, a:active, a:visited {
   border-radius: 3px;
   box-shadow: 0 0 0 1px #eee;
 }
+.ka-body .ka-sidebar-detail .detail-info .select .item.item-highlight {
+  background: #f5f5dc;
+  padding: 10px;
+  font-size: 12px;
+}
 .ka-body .ka-sidebar-detail .detail-info .attachment {
   border-top: 1px solid #eee;
   margin-left: -20px;

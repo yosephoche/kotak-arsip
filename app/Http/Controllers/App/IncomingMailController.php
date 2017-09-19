@@ -594,7 +594,6 @@ class IncomingMailController extends Controller
 		for ($i=0; $i < count($r->date); $i++) { 
 			$date[$i] = Carbon::createFromFormat('d/m/Y', $r->date[$i]);
 		}
-		var_dump($date);
 
 		if ($r->share != null) {
 			$surat->share = GlobalClass::arrayObjectId($r->share);

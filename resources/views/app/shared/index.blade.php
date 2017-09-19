@@ -164,6 +164,14 @@
 				<h5 class="no-margin">Pratinjau</h5>
 				<hr>
 
+				<div class="item item-highlight" v-if="detail.from">
+					<label>Pesan Disposisi</label>
+					<div class="value" v-html="detail.from"></div>
+				</div>
+				<div class="item" v-if="detail.id_user">
+					<label>Disposisi dari</label>
+					<div class="value" v-html="detail.id_user"></div>
+				</div>
 				<div class="item" v-if="detail.from">
 					<label>Asal Surat</label>
 					<div class="value" v-html="detail.from"></div>
