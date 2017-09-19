@@ -269,6 +269,10 @@ textarea {
   border: 0 !important;
 }
 
+.no-resize {
+  resize: none;
+}
+
 a {
   outline: none !important;
 }

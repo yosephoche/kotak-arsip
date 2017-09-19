@@ -101,10 +101,10 @@
 			</aside>
 		</section>
 
-
-		<!-- Modals -->
+		
+		<!-- Modal -->
 		<div class="modal fade modal-disposisi" id="disposisiModal" tabindex="-1" role="dialog" aria-labelledby="disposisiLabelModal">
-			<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<form action="{{ route('incoming_mail_disposition') }}" method="post">
 						{{ csrf_field() }}
@@ -112,24 +112,33 @@
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 							<h4 class="modal-title" id="disposisiLabelModal">Disposisi</h4>
 						</div>
-						<div class="modal-body">
+						<div class="modal-body" style="border-top: 1px solid #ddd">
 							<input type="hidden" name="id">
-							<table class="table">
-								<tr>
-									<td class="search" colspan="4"><input type="text" class="form-control" placeholder="Cari" v-model="search"></td>
-								</tr>
-								<tr v-for="val in filteredUsers" v-if="val._id != '{{ Auth::user()->_id }}'">
-									<td class="text-center">
-										<input type="checkbox" name="share[]" :value="val._id" v-if="dispositionArray.indexOf(val._id) != -1" checked>
-										<input type="checkbox" name="share[]" :value="val._id" v-else>
-									</td>
-									<td><div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + val.photo + ')' }"></div></td>
-									<td>
-										<span class="name" v-html="val.name"></span><br>
-										<span class="position" v-html="val.position"></span>
-									</td>
-								</tr>
-							</table>
+							<div class="col-md-6">
+								<br>
+								<textarea name="" rows="14" placeholder="Tambahkan pesan (opsional)" class="form-control no-border no-padding no-resize"></textarea>
+							</div>
+							<div class="col-md-6 no-padding" style="border-left: 1px solid #ddd; min-height: 299px">
+								<table class="table">
+									<tr>
+										<td class="search" colspan="4"><input type="text" class="form-control" placeholder="Cari" v-model="search"></td>
+									</tr>
+									<tr v-for="val in filteredUsers" v-if="val._id != '{{ Auth::user()->_id }}'">
+										<td class="text-center">
+											<input type="checkbox" name="share[]" :value="val._id" v-if="dispositionArray.indexOf(val._id) != -1" checked>
+											<input type="checkbox" name="share[]" :value="val._id" v-else>
+										</td>
+										<td>
+											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + val.photo + ')' }" v-if="val.photo != ''"></div>
+											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+										</td>
+										<td>
+											<span class="name" v-html="val.name"></span><br>
+											<span class="position" v-html="val.position"></span>
+										</td>
+									</tr>
+								</table>
+							</div>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
