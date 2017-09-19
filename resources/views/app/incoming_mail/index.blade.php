@@ -87,7 +87,14 @@
 					</ul>
 				</td>
 			</tr>
+
 		</table>
+
+		<div class="text-center m-t-lg m-b-lg">
+			<ul class="pagination pagination-md">
+				{{ $archieve->render() }}
+			</ul>
+		</div>
 
 		<div class="text-center" v-else>
 			<hr>
@@ -268,8 +275,15 @@
 			if (@$_GET['asc'] == 'true') {
 				$asc = 'true';
 			}
+
+			// Pagination
+			$page = 1;
+			if (@$_GET['page']) {
+				$page = $_GET['page'];
+			}
+
 		?>
-		getDataIncomingMail('{{ route("api_incoming_mail", ["sort" => $sortKey]) }}&asc={{ $asc }}', 'incomingMail');
+		getDataIncomingMail('{{ route("api_incoming_mail", ["sort" => $sortKey]) }}&asc={{ $asc }}&page={{ $page }}', 'incomingMail');
 
 		$('#disposisiModal').on('show.bs.modal', function (e) {
 			var id = $(e.relatedTarget).data('id');

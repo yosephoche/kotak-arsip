@@ -17,7 +17,8 @@ class IncomingMailController extends Controller
 
 	public function index()
 	{
-		return view('app.incoming_mail.index');
+		$data['archieve'] = Archieve::where('type', 'incoming_mail')->where('id_user', Auth::user()->_id)->whereNull('deleted_at')->paginate(10);
+		return view('app.incoming_mail.index', $data);
 	}
 
 	public function getData()
@@ -37,6 +38,10 @@ class IncomingMailController extends Controller
 			if (@$_GET['asc'] == 'true') {
 				$asc = 1;
 			}
+
+			$page  = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+			$limit = 10;
+			$skip  = ($page - 1) * $limit;
 
 			return $collection->aggregate(array(
 				array(
@@ -104,10 +109,10 @@ class IncomingMailController extends Controller
 					)
 				),
 				array(
-					'$skip' => 0
+					'$skip' => $skip
 				),
 				array(
-					'$limit' => 10
+					'$limit' => $limit
 				)
 			));
 		});
