@@ -157,7 +157,7 @@
 						<input type="hidden" name="id">
 						<div class="col-md-6">
 							<br>
-							<textarea name="" rows="14" placeholder="Tambahkan pesan (opsional)" class="form-control no-border no-padding no-resize"></textarea>
+							<textarea name="message" rows="14" placeholder="Tambahkan pesan (opsional)" class="form-control no-border no-padding no-resize"></textarea>
 						</div>
 						<div class="col-md-6 no-padding" style="border-left: 1px solid #ddd; min-height: 299px">
 							<table class="table">

@@ -590,17 +590,24 @@ class IncomingMailController extends Controller
 	{
 		$surat = Archieve::find($r->id);
 
-		$date = [];
-		for ($i=0; $i < count($r->date); $i++) { 
-			$date[$i] = Carbon::createFromFormat('d/m/Y', $r->date[$i]);
+		// $date = [];
+		// for ($i=0; $i < count($r->date); $i++) { 
+		// 	$date[$i] = Carbon::createFromFormat('d/m/Y', $r->date[$i]);
+		// }
+
+		$share = [];
+		for ($i=0; $i < count($r->share) ; $i++) { 
+			$share[] = [
+				'_id' => GlobalClass::generateMongoObjectId($r->share[$i]),
+				'message' => $r->message,
+				'date' => '12345678'
+			];
 		}
 
 		if ($r->share != null) {
-			$surat->share = GlobalClass::arrayObjectId($r->share);
-			$surat->share_date = GlobalClass::arrayIsoDate($date);
+			$surat->share = $share;
 		} else {
 			$surat->share = '';
-			$surat->share_date = '';
 		}
 		$surat->save();
 
