@@ -90,10 +90,23 @@
 
 		</table>
 
-		<div class="text-center m-t-lg m-b-lg">
-			<ul class="pagination pagination-md">
-				{{ $archieve->render() }}
+		<div class="text-center">
+			<hr class="m-t-0">
+			@if ($archieve->lastPage() > 1)
+			<ul class="pagination-custom">
+				<li class="{{ ($archieve->currentPage() == 1) ? ' hide' : '' }}">
+					<a href="{{ $archieve->url($archieve->currentPage()-1) }}">Sebelumnya</a>
+				</li>
+				@for ($i = 1; $i <= $archieve->lastPage(); $i++)
+					<li class="{{ ($archieve->currentPage() == $i) ? ' active' : '' }}">
+						<a href="{{ $archieve->url($i) }}">{{ $i }}</a>
+					</li>
+				@endfor
+				<li class="{{ ($archieve->currentPage() == $archieve->lastPage()) ? ' hide' : '' }}">
+					<a href="{{ $archieve->url($archieve->currentPage()+1) }}" >Selanjutnya</a>
+				</li>
 			</ul>
+			@endif
 		</div>
 
 		<div class="text-center" v-else>

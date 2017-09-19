@@ -325,6 +325,9 @@ a {
   color: #e74c3c;
 }
 
+.m-t-0 {
+  margin-top: 0px;
+}
 .m-t-10 {
   margin-top: 10px;
 }
@@ -11582,6 +11585,9 @@ a:hover, a:focus, a:active, a:visited {
 .ka-body .ka-main .breadcrumbs > ul > li:first-child:before {
   display: none;
 }
+.ka-body .ka-main .table {
+  margin-bottom: 0;
+}
 .ka-body .ka-main .table tr th {
   border-top: none;
   font-size: 12px;
@@ -11913,6 +11919,31 @@ a:hover, a:focus, a:active, a:visited {
   margin-right: 15px;
   font-size: 30px;
   vertical-align: middle;
+}
+
+.pagination-custom {
+  list-style: none;
+  padding: 0;
+}
+.pagination-custom li {
+  display: inline-block;
+}
+.pagination-custom li a {
+  display: block;
+  color: #333;
+  border-radius: 3px;
+  padding: 5px 11px;
+  font-size: 12px;
+}
+.pagination-custom li a:hover {
+  background: #eee;
+}
+.pagination-custom li.active a {
+  background-color: #0070ff;
+  color: #fff;
+}
+.pagination-custom li.active a:hover {
+  background: #0070ff;
 }
 
 @media only screen and (min-width: 960px) {
