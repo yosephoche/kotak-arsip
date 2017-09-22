@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use Auth, Session, GlobalClass;
 use Carbon\Carbon;
+use MongoDB\Collection;
 
 class SharedController extends Controller
 {
@@ -270,10 +271,12 @@ class SharedController extends Controller
 
 	public function delete(Request $r)
 	{
-		// $archieve = Archieve::where('_id', $r->id)->delete();
+		// $archieve = Archieve::where('_id', $r->id)->pull('share', array('_id' => GlobalClass::generateMongoObjectId(Auth::user()->_id)));
 
+		Archieve::where('_id', $r->id)->where('share', 'elemMatch', array('_id' => GlobalClass::generateMongoObjectId(Auth::user()->_id)))->push('share.$.deleted_at', 1);
+		
 		$r->session()->flash('success', 'Akses berhasil dihapus');
-
-		return redirect()->route('shared_incoming_mail');
+		
+		return redirect()->back();
 	}
 }

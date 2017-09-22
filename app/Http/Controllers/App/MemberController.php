@@ -122,6 +122,12 @@ class MemberController extends Controller
 
 	public function delete(Request $r)
 	{
+		//add a delete mark on the back of the email
+		$users = User::find($r->id);
+		$users->email = $users->email.'.removed';
+		$users->save();
+
+		//Deleted_at
 		User::where('_id', $r->id)->delete();
 
 		$r->session()->flash('success', 'Anggota berhasil dihapus');
