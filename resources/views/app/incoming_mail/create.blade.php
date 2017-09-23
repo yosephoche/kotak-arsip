@@ -137,39 +137,6 @@
 				</div>
 			</aside>
 		</section>
-
-		<!-- Modals -->
-		<div class="modal fade modal-disposisi" id="disposisiModal" tabindex="-1" role="dialog" aria-labelledby="disposisiLabelModal">
-			<div class="modal-dialog modal-sm" role="document">
-				<div class="modal-content">
-					<form action="">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title" id="disposisiLabelModal">Disposisi</h4>
-						</div>
-						<div class="modal-body">
-							<table class="table">
-								<tr>
-									<td class="search" colspan="4"><input type="text" class="form-control" placeholder="Cari" v-model="search"></td>
-								</tr>
-								<tr v-for="val in filteredUsers">
-									<td class="text-center"><input type="checkbox"></td>
-									<td><div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + val.photo + ')' }"></div></td>
-									<td>
-										<span class="name" v-html="val.name"></span><br>
-										<span class="position" v-html="val.position"></span>
-									</td>
-								</tr>
-							</table>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-							<button class="btn btn-primary">Disposisi</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
 	</div>
 
 	<script src="{{ asset('assets/app/js/kotakarsip.js') }}"></script>

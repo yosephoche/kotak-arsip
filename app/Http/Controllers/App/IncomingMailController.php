@@ -388,10 +388,10 @@ class IncomingMailController extends Controller
 
 	public function dropdownAjax()
 	{
-    	$storage_id = Input::get('storage_id');
+		$storage_id = Input::get('storage_id');
 
-    	$kabupaten = StorageSub::where('id_storage', '=', GlobalClass::generateMongoObjectId($storage_id))->orderBy('name')->get();
-        return response()->json($kabupaten);
+		$storage = StorageSub::where('id_storage', '=', GlobalClass::generateMongoObjectId($storage_id))->orderBy('name')->get();
+		return response()->json($storage);
 	}
 
 	public function create()

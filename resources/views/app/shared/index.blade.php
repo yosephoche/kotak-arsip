@@ -17,6 +17,21 @@
 		if (@$_GET['sort'] == 'subject' AND @$_GET['asc'] == 'true') {
 			$ascSubject = 'false';
 		}
+
+		$type = "";
+		$key = "";
+		$disposition = "";
+		if (Request::is('berbagi/surat/masuk*')) {
+			$type = "Masuk";
+			$key = "incoming";
+			$disposition = "Disposisi";
+			$key_disposition = "disposition";
+		} elseif (Request::is('berbagi/surat/keluar*')) {
+			$type = "Keluar";
+			$key = "outgoing";
+			$disposition = "Bagikan";
+			$key_disposition = "shared";
+		}
 	?>
 
 	<div class="ka-main">
@@ -29,14 +44,14 @@
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs" role="tablist">
 			<li role="presentation" {{ Request::is('berbagi/surat/masuk*') ? 'class=active' : '' }}><a href="{{ route('shared_incoming_mail') }}">Surat Masuk</a></li>
-			<li role="presentation"><a href="#tab-2">Surat Keluar</a></li>
+			<li role="presentation" {{ Request::is('berbagi/surat/keluar*') ? 'class=active' : '' }}><a href="{{ route('shared_outgoing_mail') }}">Surat Keluar</a></li>
 		</ul>
 
 		<p>Saat seseorang berbagi arsip dengan Anda, Anda hanya diberi akses melihat arsip tersebut.</p>
 
 		<hr>
 
-		<table class="table table-hover" v-if="json.incomingMail != ''">
+		<table class="table table-hover" v-if="json.{{ $key }}Mail != ''">
 			<tr>
 				<th class="{{ @$_GET['sort'] == 'from' ? 'sort' : '' }}">
 					<a href="{{ route('shared_incoming_mail', ['sort' => 'from', 'asc' => $ascFrom]) }}">Asal Surat</a>
@@ -69,32 +84,63 @@
 					</ul>
 				</th>
 			</tr>
-			<tr class="item" v-for="val in json.incomingMail" v-on:click="detailSidebar(val, $event)">
-				<td><a v-bind:href="'{{ route('shared_incoming_mail_detail') }}/' + val._id" v-html="val.from"></a></td>
-				<td v-html="val.subject"></td>
-				<td class="view-tablet-only" v-if="val.share != ''" width="150px">
-					<ul class="list-unstyled disposisi">
-						<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index < 3 && disposisi.user[0] != null">
-							<b-tooltip v-bind:content="disposisi.user[0].name" placement="bottom">
-								<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + disposisi.user[0].photo + ')' }" v-if="disposisi.user[0].photo != ''"></div>
-								<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
-							</b-tooltip>
-						</li>
-						<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index == 0 && val.share.length > 3">
-							<div class="img-disposisi" v-html="'+' + (val.share.length - 3).toString()" style="background-color: #1079ff; color: #fff"></div>
-						</li>
-					</ul>
-				</td>
-				<td v-else>-</td>
-				<td class="view-tablet-only" v-html="$options.filters.moment(val.date.$date.$numberLong)"></td>
-				<td class="text-right dropdown">
-					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
-					<ul class="dropdown-menu pull-right">
-						<li><a v-bind:href="'{{ route('shared_incoming_mail_detail') }}/' + val._id">Lihat Detail</a></li>
-						<li><a type="button" data-toggle="modal" data-target="#deleteModal" v-bind:data-id="val._id" class="text-danger">Hapus Akses Saya</a></li>
-					</ul>
-				</td>
-			</tr>
+
+			@if (Request::is('berbagi/surat/masuk*'))
+				<tr class="item" v-for="val in json.incomingMail" v-on:click="detailSidebar(val, $event)">
+					<td><a v-bind:href="'{{ route('shared_incoming_mail_detail') }}/' + val._id" v-html="val.from"></a></td>
+					<td v-html="val.subject"></td>
+					<td class="view-tablet-only" v-if="val.share != ''" width="150px">
+						<ul class="list-unstyled disposisi">
+							<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index < 3 && disposisi.user[0] != null">
+								<b-tooltip v-bind:content="disposisi.user[0].name" placement="bottom">
+									<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + disposisi.user[0].photo + ')' }" v-if="disposisi.user[0].photo != ''"></div>
+									<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+								</b-tooltip>
+							</li>
+							<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index == 0 && val.share.length > 3">
+								<div class="img-disposisi" v-html="'+' + (val.share.length - 3).toString()" style="background-color: #1079ff; color: #fff"></div>
+							</li>
+						</ul>
+					</td>
+					<td v-else>-</td>
+					<td class="view-tablet-only" v-html="$options.filters.moment(val.date.$date.$numberLong)"></td>
+					<td class="text-right dropdown">
+						<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
+						<ul class="dropdown-menu pull-right">
+							<li><a v-bind:href="'{{ route('shared_incoming_mail_detail') }}/' + val._id">Lihat Detail</a></li>
+							<li><a type="button" data-toggle="modal" data-target="#deleteModal" v-bind:data-id="val._id" class="text-danger">Hapus Akses Saya</a></li>
+						</ul>
+					</td>
+				</tr>
+			@elseif (Request::is('berbagi/surat/keluar*'))
+				<tr class="item" v-for="val in json.outgoingMail" v-on:click="detailSidebar(val, $event)">
+					<td><a v-bind:href="'{{ route('shared_incoming_mail_detail') }}/' + val._id" v-html="val.to"></a></td>
+					<td v-html="val.subject"></td>
+					<td class="view-tablet-only" v-if="val.share != ''" width="150px">
+						<ul class="list-unstyled disposisi">
+							<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index < 3 && disposisi.user[0] != null">
+								<b-tooltip v-bind:content="disposisi.user[0].name" placement="bottom">
+									<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + disposisi.user[0].photo + ')' }" v-if="disposisi.user[0].photo != ''"></div>
+									<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+								</b-tooltip>
+							</li>
+							<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index == 0 && val.share.length > 3">
+								<div class="img-disposisi" v-html="'+' + (val.share.length - 3).toString()" style="background-color: #1079ff; color: #fff"></div>
+							</li>
+						</ul>
+					</td>
+					<td v-else>-</td>
+					<td class="view-tablet-only" v-html="$options.filters.moment(val.date.$date.$numberLong)"></td>
+					<td class="text-right dropdown">
+						<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
+						<ul class="dropdown-menu pull-right">
+							<li><a v-bind:href="'{{ route('shared_outgoing_mail_detail') }}/' + val._id">Lihat Detail</a></li>
+							<li><a type="button" data-toggle="modal" data-target="#deleteModal" v-bind:data-id="val._id" class="text-danger">Hapus Akses Saya</a></li>
+						</ul>
+					</td>
+				</tr>
+			@endif
+
 		</table>
 
 		<div class="text-center" v-else>
@@ -102,7 +148,7 @@
 			<br>
 			<br>
 			<br>
-			Belum ada data surat masuk
+			Belum ada data Surat {{ $type }}
 		</div>
 	</div>
 
@@ -126,16 +172,15 @@
 	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabelModal">
 		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
-				<form action="{{ route('shared_incoming_mail_delete') }}" method="post">
+				<form action="{{ route('shared_'.$key.'_mail_delete') }}" method="post">
 					{{ csrf_field() }}
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="deleteLabelModal">Hapus</h4>
+						<h4 class="modal-title" id="deleteLabelModal">Hapus Akses</h4>
 					</div>
 					<div class="modal-body">
-						<input type="text" class="hidden" id="delete-val" value="">
 						<input type="hidden" name="id">
-						Apakah Anda yakin ingin menghapus data ini?
+						Apakah Anda yakin ingin menghapus akses Anda ke data ini?
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
@@ -165,18 +210,25 @@
 
 				<div v-for="message in detail.share" v-if="message.user[0]._id.$oid == '{{ Auth::user()->id }}'">
 					<div class="item item-highlight" v-if="message.message != null">
-						<label>Pesan Disposisi</label>
+						<label>Pesan {{ $disposition }}</label>
 						<div class="value" v-html="message.message"></div>
 					</div>
 				</div>
 				<div class="item" v-if="detail.id_user">
-					<label>Disposisi dari</label>
+					<label>{{ $disposition }} dari</label>
 					<div class="value" v-html="detail.userDetail[0]"></div>
 				</div>
+				@if (Request::is('berbagi/surat/masuk*'))
 				<div class="item" v-if="detail.from">
 					<label>Asal Surat</label>
 					<div class="value" v-html="detail.from"></div>
 				</div>
+				@elseif (Request::is('berbagi/surat/keluar*'))
+				<div class="item" v-if="detail.to">
+					<label>Tujuan Surat</label>
+					<div class="value" v-html="detail.to"></div>
+				</div>
+				@endif
 				<div class="item" v-if="detail.reference_number">
 					<label>Nomor Surat</label>
 					<div class="value" v-html="detail.reference_number"></div>
@@ -202,29 +254,34 @@
 					</div>
 				</div>
 				<div class="item" v-if="detail.share[0].user != ''">
-					<label>Disposisi</label>
+					<label>{{ $disposition }}</label>
 					<div class="value">
 						<ul class="list-unstyled">
-							<li v-for="disposisi in detail.share"><a :href="'{{ route('shared_incoming_mail_disposition_history') }}/' + detail._id" v-html="disposisi.user[0].name"></a></li>
+							<li v-for="disposisi in detail.share"><a :href="'{{ route('shared_'.$key.'_mail_'.$key_disposition.'_history') }}/' + detail._id" v-html="disposisi.user[0].name"></a></li>
 						</ul>
 					</div>
 				</div>
 				<div class="item" v-if="detail.date">
-					<label>Tanggal Masuk</label>
+					<label>Tanggal {{ $type }}</label>
 					<div class="value" v-html="$options.filters.moment(detail.date.$date.$numberLong)"></div>
 				</div>
 			</div>
 
 			<div class="attachment">
 				<span v-html="detail.files.length + ' file terlampir'"></span>
-				<a v-bind:href="'{{ route('shared_incoming_mail_detail') }}/' + detail._id" class="btn btn-default btn-block">Lihat Detail</a>
+				<a v-bind:href="'{{ route('shared_'.$key.'_mail_detail') }}/' + detail._id" class="btn btn-default btn-block">Lihat Detail</a>
 			</div>
 		</div>
 	</template>
 @endsection
 
 @section('registerscript')
-	<script src="{{ asset('assets/app/vue/surat-masuk.js') }}"></script>
+	@if (Request::is('berbagi/surat/masuk*'))
+		<script src="{{ asset('assets/app/vue/surat-masuk.js') }}"></script>
+	@elseif (Request::is('berbagi/surat/keluar*'))
+		<script src="{{ asset('assets/app/vue/surat-keluar.js') }}"></script>
+	@endif
+		
 	<script>
 		<?php
 			// Sort By
@@ -241,7 +298,12 @@
 				$asc = 'true';
 			}
 		?>
-		getDataIncomingMail('{{ route("api_shared_incoming_mail", ["sort" => $sortKey]) }}&asc={{ $asc }}', 'incomingMail');
+
+		@if (Request::is('berbagi/surat/masuk*'))
+			getDataIncomingMail('{{ route("api_shared_incoming_mail", ["sort" => $sortKey]) }}&asc={{ $asc }}', 'incomingMail');
+		@elseif (Request::is('berbagi/surat/keluar*'))
+			getDataOutgoingMail('{{ route("api_shared_outgoing_mail", ["sort" => $sortKey]) }}&asc={{ $asc }}', 'outgoingMail');
+		@endif
 
 		$('#disposisiModal').on('show.bs.modal', function (e) {
 			var id = $(e.relatedTarget).data('id');

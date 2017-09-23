@@ -1,6 +1,6 @@
 @extends('app.layouts.main')
 
-@section('title', 'Riwayat Disposisi Surat Masuk')
+@section('title', 'Riwayat Begikan Surat Keluar')
 
 @section('contents')
 	<div class="ka-main">
@@ -9,8 +9,8 @@
 				<li class="dropdown">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">...</a>
 					<ul class="dropdown-menu">
-						<li><a href="{{ route('incoming_mail') }}">Surat Masuk</a></li>
-						<li><a href="{{ route('incoming_mail_detail', ['id' => $archieve->_id]) }}">{{ $archieve->from }}</a></li>
+						<li><a href="{{ route('outgoing_mail') }}">Surat Keluar</a></li>
+						<li><a href="{{ route('outgoing_mail_detail', ['id' => $archieve->_id]) }}">{{ $archieve->to }}</a></li>
 					</ul>
 				</li>
 				<li>Riwayat Disposisi</li>
@@ -18,7 +18,7 @@
 		</div>
 
 		<hr>
-		<div id="timeline" v-for="val in json.incomingMail">
+		<div id="timeline" v-for="val in json.outgoingMail">
 			<ul class="timeline">
 				<li class="tl-item" v-for="disposisi in val.share">
 					<div class="tl-wrap">
@@ -36,11 +36,11 @@
 @endsection
 
 @section('registerscript')
-	<script src="{{ asset('assets/app/vue/surat-masuk.js') }}"></script>
+	<script src="{{ asset('assets/app/vue/surat-keluar.js') }}"></script>
 	<link rel="stylesheet" href="{{ asset('assets/app/libs/timeline/jquery.timeline.css') }}">
 	<script src="{{ asset('assets/app/libs/timeline/jquery.timeline.js') }}"></script>
 	<script>
-		getDataIncomingMailDetail('{{ route('api_incoming_mail_detail', ['id' => $archieve->_id]) }}', 'incomingMail');
+		getDataOutgoingMailDetail('{{ route('api_outgoing_mail_detail', ['id' => $archieve->_id]) }}', 'outgoingMail');
 
 		$('.ka-body').addClass('ka-body-single');
 	</script>

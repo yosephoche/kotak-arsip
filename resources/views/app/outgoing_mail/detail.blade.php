@@ -21,18 +21,18 @@
 	<div id="app">
 		<nav class="ka-nav ka-nav-detail">
 			<ul class="left-side">
-				<li class="back"><a href="{{ route('incoming_mail') }}"><i class="fa fa-angle-left"></i> &nbsp;&nbsp;Surat Masuk</a></li>
+				<li class="back"><a href="{{ route('outgoing_mail') }}"><i class="fa fa-angle-left"></i> &nbsp;&nbsp;Surat Keluar</a></li>
 			</ul>
 			<ul class="right-side">
-				<li v-for="val in json.incomingMail">
-					<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#disposisiModal" v-bind:data-id="val._id" v-on:click="idDispositionArray(val.share)">Disposisi</a>
+				<li v-for="val in json.outgoingMail">
+					<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#disposisiModal" v-bind:data-id="val._id" v-on:click="idDispositionArray(val.share)">Bagikan</a>
 					&nbsp;&nbsp;
 					<a href="#" class="btn btn-default" id="favorite" @click="favorite"><i class="fa fa-star-o"></i></a>
 				</li>
-				<li class="dropdown" v-for="val in json.incomingMail">
+				<li class="dropdown" v-for="val in json.outgoingMail">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
 					<ul class="dropdown-menu pull-right">
-						<li><a v-bind:href="'{{ route('incoming_mail_move') }}/' + val._id">Sunting</a></li>
+						<li><a v-bind:href="'{{ route('outgoing_mail_move') }}/' + val._id">Sunting</a></li>
 						<li><a type="button" data-toggle="modal" data-target="#deleteModal" v-bind:data-id="val._id" class="text-danger">Hapus</a></li>
 					</ul>
 				</li>
@@ -41,13 +41,13 @@
 
 		<section class="ka-body ka-body-detail">
 			<div class="ka-main">
-				<div v-for="val in json.incomingMail">
+				<div v-for="val in json.outgoingMail">
 					<div v-for="image in val.files">
 						<div v-if="image.slice(-3) == 'pdf'">
-							<object :data="'{{ asset('assets/app/img/incoming_mail') }}/' + image" type="application/pdf"></object>
+							<object :data="'{{ asset('assets/app/img/outgoing_mail') }}/' + image" type="application/pdf"></object>
 						</div>
 						<div v-else>
-							<img :src="'{{ asset('assets/app/img/incoming_mail') }}/' + image" alt="">
+							<img :src="'{{ asset('assets/app/img/outgoing_mail') }}/' + image" alt="">
 						</div>
 					</div>
 				</div>
@@ -55,10 +55,10 @@
 
 			<aside class="ka-sidebar-detail">
 				<div class="detail-info">
-					<div class="select" v-for="val in json.incomingMail">
-						<div class="item" v-if="val.from">
-							<label>Asal Surat</label>
-							<div class="value" v-html="val.from"></div>
+					<div class="select" v-for="val in json.outgoingMail">
+						<div class="item" v-if="val.to">
+							<label>Tujuan Surat</label>
+							<div class="value" v-html="val.to"></div>
 						</div>
 						<div class="item" v-if="val.reference_number">
 							<label>Nomor Surat</label>
@@ -85,15 +85,15 @@
 							</div>
 						</div>
 						<div class="item" v-if="val.share[0].user != ''">
-							<label>Disposisi</label>
+							<label>Bagikan</label>
 							<div class="value">
 								<ul class="list-unstyled">
-									<li v-for="disposisi in val.share"><a :href="'{{ route('incoming_mail_disposition_history') }}/' + val._id" v-html="disposisi.user[0].name"></a></li>
+									<li v-for="bagikan in val.share"><a :href="'{{ route('outgoing_mail_shared_history') }}/' + val._id" v-html="bagikan.user[0].name"></a></li>
 								</ul>
 							</div>
 						</div>
 						<div class="item" v-if="val.date">
-							<label>Tanggal Masuk</label>
+							<label>Tanggal Keluar</label>
 							<div class="value" v-html="$options.filters.moment(val.date.$date.$numberLong)"></div>
 						</div>
 					</div>
@@ -106,11 +106,11 @@
 		<div class="modal fade modal-disposisi" id="disposisiModal" tabindex="-1" role="dialog" aria-labelledby="disposisiLabelModal">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
-					<form action="{{ route('incoming_mail_disposition') }}" method="post">
+					<form action="{{ route('outgoing_mail_shared') }}" method="post">
 						{{ csrf_field() }}
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title" id="disposisiLabelModal">Disposisi</h4>
+							<h4 class="modal-title" id="disposisiLabelModal">Bagikan</h4>
 						</div>
 						<div class="modal-body" style="border-top: 1px solid #ddd">
 							<input type="hidden" name="id">
@@ -152,7 +152,7 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-							<button class="btn btn-primary">Disposisi</button>
+							<button class="btn btn-primary">Bagikan</button>
 						</div>
 					</form>
 				</div>
@@ -162,7 +162,7 @@
 		<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabelModal">
 			<div class="modal-dialog modal-sm" role="document">
 				<div class="modal-content">
-					<form action="{{ route('incoming_mail_delete') }}" method="post">
+					<form action="{{ route('outgoing_mail_delete') }}" method="post">
 						{{ csrf_field() }}
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -185,9 +185,9 @@
 	</div>
 
 	@include('app.layouts.partial.script')
-	<script src="{{ asset('assets/app/vue/surat-masuk.js') }}"></script>
+	<script src="{{ asset('assets/app/vue/surat-keluar.js') }}"></script>
 	<script>
-		getDataIncomingMailDetail('{{ route('api_incoming_mail_detail', ['id' => $archieve->_id]) }}', 'incomingMail');
+		getDataOutgoingMailDetail('{{ route('api_outgoing_mail_detail', ['id' => $archieve->_id]) }}', 'outgoingMail');
 		
 		$('#disposisiModal').on('show.bs.modal', function (e) {
 			var id = $(e.relatedTarget).data('id');
