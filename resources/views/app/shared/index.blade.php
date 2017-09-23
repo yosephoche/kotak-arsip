@@ -114,7 +114,7 @@
 				</tr>
 			@elseif (Request::is('berbagi/surat/keluar*'))
 				<tr class="item" v-for="val in json.outgoingMail" v-on:click="detailSidebar(val, $event)">
-					<td><a v-bind:href="'{{ route('shared_incoming_mail_detail') }}/' + val._id" v-html="val.to"></a></td>
+					<td><a v-bind:href="'{{ route('shared_'.$key.'_mail_detail') }}/' + val._id" v-html="val.to"></a></td>
 					<td v-html="val.subject"></td>
 					<td class="view-tablet-only" v-if="val.share != ''" width="150px">
 						<ul class="list-unstyled disposisi">

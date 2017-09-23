@@ -121,7 +121,7 @@
 		<div class="modal fade modal-disposisi" id="disposisiModal" tabindex="-1" role="dialog" aria-labelledby="disposisiLabelModal">
 			<div class="modal-dialog modal-sm" role="document">
 				<div class="modal-content">
-					<form action="{{ route($key.'_mail_shared') }}" method="post">
+					<form action="{{ route($key.'_mail_'.$key_disposition) }}" method="post">
 						{{ csrf_field() }}
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>

@@ -83,6 +83,31 @@ class SharedController extends Controller
 					)
 				),
 				array(
+					'$project' => array(
+						'from' => 1,
+						'reference_number' => 1,
+						'date' => 1,
+						'subject' => 1,
+						'share.user._id' => 1,
+						'share.user.name' => 1,
+						'share.user.email' => 1,
+						'share.user.position' => 1,
+						'share.user.photo' => 1,
+						'share.date' => 1,
+						'share.message' => 1,
+						'share.deleted_at' => 1,
+						'storagesub._id' => 1,
+						'storagesub.name' => 1,
+						'storage._id' => 1,
+						'storage.name' => 1,
+						'files' => 1,
+						'type' => 1,
+						'id_user' => 1,
+						'id_company' => 1,
+						'deleted_at' => 1
+					)
+				),
+				array(
 					'$group' => array(
 						'_id' => '$_id',
 						'userDetail' => array(
@@ -149,9 +174,9 @@ class SharedController extends Controller
 								'email' => Auth::user()->email
 							)
 						),
-						'share.deleted_at' => array(
-							'$exists' => false
-						)
+						// 'share.deleted_at' => array(
+						// 	'$exists' => false
+						// )
 					)
 				),
 				array(
@@ -233,6 +258,31 @@ class SharedController extends Controller
 					)
 				),
 				array(
+					'$project' => array(
+						'to' => 1,
+						'reference_number' => 1,
+						'date' => 1,
+						'subject' => 1,
+						'share.user._id' => 1,
+						'share.user.name' => 1,
+						'share.user.email' => 1,
+						'share.user.position' => 1,
+						'share.user.photo' => 1,
+						'share.date' => 1,
+						'share.message' => 1,
+						'share.deleted_at' => 1,
+						'storagesub._id' => 1,
+						'storagesub.name' => 1,
+						'storage._id' => 1,
+						'storage.name' => 1,
+						'files' => 1,
+						'type' => 1,
+						'id_user' => 1,
+						'id_company' => 1,
+						'deleted_at' => 1
+					)
+				),
+				array(
 					'$group' => array(
 						'_id' => '$_id',
 						'userDetail' => array(
@@ -298,9 +348,6 @@ class SharedController extends Controller
 							'$elemMatch' => array(
 								'email' => Auth::user()->email
 							)
-						),
-						'share.deleted_at' => array(
-							'$exists' => false
 						)
 					)
 				),
@@ -368,12 +415,19 @@ class SharedController extends Controller
 						'reference_number' => 1,
 						'date' => 1,
 						'subject' => 1,
-						'share' => 1,
-						'storagesub._id' => 1,
+						'share.user._id' => 1,
+						'share.user.name' => 1,
+						'share.date' => 1,
+						'share.message' => 1,
+						'share.deleted_at' => 1,
 						'storagesub.name' => 1,
 						'storage._id' => 1,
 						'storage.name' => 1,
 						'files' => 1,
+						'type' => 1,
+						'id_user' => 1,
+						'id_company' => 1,
+						'deleted_at' => 1
 					)
 				),
 				array(
@@ -463,12 +517,19 @@ class SharedController extends Controller
 						'reference_number' => 1,
 						'date' => 1,
 						'subject' => 1,
-						'share' => 1,
+						'share.user.name' => 1,
+						'share.date' => 1,
+						'share.message' => 1,
+						'share.deleted_at' => 1,
 						'storagesub._id' => 1,
 						'storagesub.name' => 1,
 						'storage._id' => 1,
 						'storage.name' => 1,
 						'files' => 1,
+						'type' => 1,
+						'id_user' => 1,
+						'id_company' => 1,
+						'deleted_at' => 1
 					)
 				),
 				array(
