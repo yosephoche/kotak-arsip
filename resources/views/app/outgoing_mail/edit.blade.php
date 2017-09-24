@@ -6,7 +6,7 @@
 
 	@include('app.layouts.partial.meta')
 
-	<title>Sunting Surat Masuk</title>
+	<title>Sunting Surat Keluar</title>
 
 	@include('app.layouts.partial.style')
 
@@ -21,7 +21,7 @@
 	<div id="app">
 		<nav class="ka-nav ka-nav-detail">
 			<ul class="left-side">
-				<li class="back"><a href="{{ route('incoming_mail') }}"><i class="fa fa-angle-left"></i> &nbsp;&nbsp;Surat Masuk</a></li>
+				<li class="back"><a href="{{ route('outgoing_mail') }}"><i class="fa fa-angle-left"></i> &nbsp;&nbsp;Surat Keluar</a></li>
 			</ul>
 		</nav>
 
@@ -41,7 +41,7 @@
 						?>
 						<div class="pos-r">
 							@if ($key == 0)
-								<form action="{{ route('incoming_mail_replace_edit') }}" method="post" id="replaceImage" enctype="multipart/form-data">
+								<form action="{{ route('outgoing_mail_replace_edit') }}" method="post" id="replaceImage" enctype="multipart/form-data">
 									<input type="hidden" name="_token" id="delete_token" value="{{ csrf_token() }}">
 									<input type="file" class="hide" name="file" id="replace" accept=".jpg, .png, .jpeg, .pdf" onchange="$('.page-loader').fadeIn();$('#replaceImage').submit()" multiple>
 									<label for="replace" class="change-img" title="Ganti gambar utama"><i class="fa fa-repeat"></i></label>
@@ -80,11 +80,11 @@
 			<aside class="ka-sidebar-detail">
 				<div class="detail-info">
 					<div class="select">
-						<form action="{{ route('incoming_mail_update', ['id' => $archieve->_id]) }}" method="post" enctype="multipart/form-data">
+						<form action="{{ route('outgoing_mail_update', ['id' => $archieve->_id]) }}" method="post" enctype="multipart/form-data">
 							{{ csrf_field() }}
 							<div class="item">
-								<label>Asal Surat</label>
-								<div class="value"><input type="text" class="form-control" name="from" value="{{ $archieve->from }}" required></div>
+								<label>Tujuan Surat</label>
+								<div class="value"><input type="text" class="form-control" name="to" value="{{ $archieve->to }}" required></div>
 							</div>
 							<div class="item">
 								<label>Nomor Surat</label>
@@ -99,7 +99,7 @@
 									$format = substr($archieve->date, 0, -3);
 									$date =  Carbon\Carbon::createFromTimestamp($format)->format('d/m/Y');
 								 ?>
-								<label>Tanggal Masuk</label>
+								<label>Tanggal Keluar</label>
 								<div class="value"><input type="text" class="form-control" name="date" value="{{ $date }}" id="datepicker" required></div>
 							</div>
 							<div class="item">
@@ -130,7 +130,7 @@
 								<hr>
 								<div class="row">
 									<div class="col-md-6">
-										<a href="{{ route('incoming_mail') }}" class="btn btn-default btn-block">Batal</a>
+										<a href="{{ route('outgoing_mail') }}" class="btn btn-default btn-block">Batal</a>
 									</div>
 									<div class="col-md-6">
 										<button class="btn btn-primary btn-block">Simpan</button>
@@ -180,7 +180,7 @@
 	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabelModal">
 		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
-				<form action="{{ route('incoming_mail_delete') }}" method="post">
+				<form action="{{ route('outgoing_mail_delete') }}" method="post">
 					{{ csrf_field() }}
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -222,7 +222,7 @@
 		  }
 
 		  $.ajax({
-				url: '{{ route("incoming_mail_upload_ajax") }}',
+				url: '{{ route("outgoing_mail_upload_ajax") }}',
 				cache: false,
 				contentType: false,
 				processData: false,
@@ -256,7 +256,7 @@
 			$('#main img[data-image="'+image+'"]').slideUp('fast');
 
 			$.ajax({
-				url: '{{ route("incoming_mail_delete_ajax") }}',
+				url: '{{ route("outgoing_mail_delete_ajax") }}',
 				contentType: false,
 				processData: false,
 				method: 'POST',

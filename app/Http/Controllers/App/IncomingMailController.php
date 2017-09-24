@@ -75,6 +75,29 @@ class IncomingMailController extends Controller
 					)
 				),
 				array(
+					'$project' => array(
+						'from' => 1,
+						'reference_number' => 1,
+						'date' => 1,
+						'subject' => 1,
+						'share.user._id' => 1,
+						'share.user.name' => 1,
+						'share.user.position' => 1,
+						'share.user.photo' => 1,
+						'share.date' => 1,
+						'share.message' => 1,
+						'storagesub._id' => 1,
+						'storagesub.name' => 1,
+						'storage._id' => 1,
+						'storage.name' => 1,
+						'files' => 1,
+						'type' => 1,
+						'id_user' => 1,
+						'id_company' => 1,
+						'deleted_at' => 1
+					)
+				),
+				array(
 					'$group' => array(
 						'_id' => '$_id',
 						'id_user' => array(
@@ -199,7 +222,12 @@ class IncomingMailController extends Controller
 						'reference_number' => 1,
 						'date' => 1,
 						'subject' => 1,
-						'share' => 1,
+						'share.user._id' => 1,
+						'share.user.name' => 1,
+						'share.user.position' => 1,
+						'share.user.photo' => 1,
+						'share.date' => 1,
+						'share.message' => 1,
 						'storagesub._id' => 1,
 						'storagesub.name' => 1,
 						'storage._id' => 1,
@@ -388,10 +416,10 @@ class IncomingMailController extends Controller
 
 	public function dropdownAjax()
 	{
-    	$storage_id = Input::get('storage_id');
+		$storage_id = Input::get('storage_id');
 
-    	$kabupaten = StorageSub::where('id_storage', '=', GlobalClass::generateMongoObjectId($storage_id))->orderBy('name')->get();
-        return response()->json($kabupaten);
+		$storage = StorageSub::where('id_storage', '=', GlobalClass::generateMongoObjectId($storage_id))->orderBy('name')->get();
+		return response()->json($storage);
 	}
 
 	public function create()

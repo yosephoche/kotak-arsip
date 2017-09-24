@@ -36,10 +36,22 @@ Route::group(['namespace' => 'App'], function () {
 			Route::get('/detail/{id?}', 'IncomingMailController@getDetail')->name('api_incoming_mail_detail');
 		});
 
-		//API-Shared
+		//API-Outgoing_Mail
+		Route::group(['prefix' => 'surat/keluar'], function(){
+			Route::get('/', 'OutgoingMailController@getData')->name('api_outgoing_mail');
+			Route::get('/detail/{id?}', 'OutgoingMailController@getDetail')->name('api_outgoing_mail_detail');
+		});
+
+		//API-Shared Incoming Mail
 		Route::group(['prefix' => 'berbagi/surat/masuk'], function(){
-			Route::get('/', 'SharedController@getData')->name('api_shared_incoming_mail');
-			Route::get('/detail/{id?}', 'SharedController@getDetail')->name('api_shared_incoming_mail_detail');
+			Route::get('/', 'SharedController@getDataIncomingMail')->name('api_shared_incoming_mail');
+			Route::get('/detail/{id?}', 'SharedController@getDetailIncomingMail')->name('api_shared_incoming_mail_detail');
+		});
+
+		//API-Shared Outgoing Mail
+		Route::group(['prefix' => 'berbagi/surat/keluar'], function(){
+			Route::get('/', 'SharedController@getDataOutgoingMail')->name('api_shared_outgoing_mail');
+			Route::get('/detail/{id?}', 'SharedController@getDetailOutgoingMail')->name('api_shared_outgoing_mail_detail');
 		});
 
 		//API-Storage
@@ -115,13 +127,28 @@ Route::group(['namespace' => 'App'], function () {
 			Route::get('/edit/{id?}', 'IncomingMailController@edit')->name('incoming_mail_edit');
 			Route::post('/update/{id?}', 'IncomingMailController@update')->name('incoming_mail_update');
 			Route::post('/delete', 'IncomingMailController@delete')->name('incoming_mail_delete');
-			Route::post('/disposition', 'IncomingMailController@disposition')->name('incoming_mail_disposition');
-			Route::get('/disposition/history/{id?}', 'IncomingMailController@dispositionHistory')->name('incoming_mail_disposition_history');
+			Route::post('/disposisi', 'IncomingMailController@disposition')->name('incoming_mail_disposition');
+			Route::get('/riwayat-disposisi/{id?}', 'IncomingMailController@dispositionHistory')->name('incoming_mail_disposition_history');
 		});
 
 		//Outgoing Mail
 		Route::group(['prefix' => 'keluar'], function(){
 			Route::get('/', 'OutgoingMailController@index')->name('outgoing_mail');
+			Route::post('/upload', 'OutgoingMailController@upload')->name('outgoing_mail_upload');
+			Route::post('/upload/ajax', 'OutgoingMailController@uploadAjax')->name('outgoing_mail_upload_ajax');
+			Route::post('/replace/ajax', 'OutgoingMailController@replaceAjax')->name('outgoing_mail_replace_ajax');
+			Route::post('/replace/edit', 'OutgoingMailController@replaceEdit')->name('outgoing_mail_replace_edit');
+			Route::post('/delete/ajax', 'OutgoingMailController@removeAjax')->name('outgoing_mail_delete_ajax');
+			Route::get('/dropdown', 'OutgoingMailController@dropdownAjax')->name('outgoing_mail_substorage');
+			Route::get('/create', 'OutgoingMailController@create')->name('outgoing_mail_create');
+			Route::post('/store', 'OutgoingMailController@store')->name('outgoing_mail_store');
+			Route::get('/detail/{id?}', 'OutgoingMailController@detail')->name('outgoing_mail_detail');
+			Route::get('/move/{id?}', 'OutgoingMailController@move')->name('outgoing_mail_move');
+			Route::get('/edit/{id?}', 'OutgoingMailController@edit')->name('outgoing_mail_edit');
+			Route::post('/update/{id?}', 'OutgoingMailController@update')->name('outgoing_mail_update');
+			Route::post('/delete', 'OutgoingMailController@delete')->name('outgoing_mail_delete');
+			Route::post('/bagikan', 'OutgoingMailController@shared')->name('outgoing_mail_shared');
+			Route::get('/riwayat-bagikan/{id?}', 'OutgoingMailController@sharedHistory')->name('outgoing_mail_shared_history');
 		});
 	});
 
@@ -133,6 +160,14 @@ Route::group(['namespace' => 'App'], function () {
 			Route::get('/detail/{id?}', 'SharedController@detail')->name('shared_incoming_mail_detail');
 			Route::post('/delete', 'SharedController@delete')->name('shared_incoming_mail_delete');
 			Route::get('/disposition/history/{id?}', 'IncomingMailController@dispositionHistory')->name('shared_incoming_mail_disposition_history');
+		});
+
+		//Outgoing Mail
+		Route::group(['prefix' => 'surat/keluar'], function(){
+			Route::get('/', 'SharedController@index')->name('shared_outgoing_mail');
+			Route::get('/detail/{id?}', 'SharedController@detail')->name('shared_outgoing_mail_detail');
+			Route::post('/delete', 'SharedController@delete')->name('shared_outgoing_mail_delete');
+			Route::get('/shared/history/{id?}', 'IncomingMailController@dispositionHistory')->name('shared_outgoing_mail_shared_history');
 		});
 	});
 

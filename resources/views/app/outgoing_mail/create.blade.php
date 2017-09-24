@@ -6,7 +6,7 @@
 
 	@include('app.layouts.partial.meta')
 
-	<title>Sunting Surat Masuk</title>
+	<title>Tambah Surat Keluar</title>
 
 	@include('app.layouts.partial.style')
 
@@ -17,11 +17,11 @@
 	<div class="page-loader">
 		<img src="{{ asset('assets/app/img/load.gif') }}" alt="Loading...">
 	</div>
-	
+
 	<div id="app">
 		<nav class="ka-nav ka-nav-detail">
 			<ul class="left-side">
-				<li class="back"><a href="{{ route('incoming_mail') }}"><i class="fa fa-angle-left"></i> &nbsp;&nbsp;Surat Masuk</a></li>
+				<li class="back"><a href="{{ route('outgoing_mail') }}"><i class="fa fa-angle-left"></i> &nbsp;&nbsp;Surat Keluar</a></li>
 			</ul>
 		</nav>
 
@@ -41,7 +41,7 @@
 						?>
 						<div class="pos-r">
 							@if ($key == 0)
-								<form action="{{ route('incoming_mail_replace_edit') }}" method="post" id="replaceImage" enctype="multipart/form-data">
+								<form action="{{ route('outgoing_mail_replace_ajax') }}" method="post" id="replaceImage" enctype="multipart/form-data">
 									<input type="hidden" name="_token" id="delete_token" value="{{ csrf_token() }}">
 									<input type="file" class="hide" name="file" id="replace" accept=".jpg, .png, .jpeg, .pdf" onchange="$('.page-loader').fadeIn();$('#replaceImage').submit()" multiple>
 									<label for="replace" class="change-img" title="Ganti gambar utama"><i class="fa fa-repeat"></i></label>
@@ -54,7 +54,7 @@
 							@if ($check == 'pdf')
 								<img src="{{ asset('assets/app/img/icons/pdf.svg') }}" alt="">
 							@else
-								<img src="{{ asset('assets/tesseract/').'/'.Auth::user()->_id.'/'.$img.'?'.$rand }}" alt="">
+								<img src="{{ asset('assets/tesseract/').'/'.Auth::user()->_id.'/'.$img.'?'.$rand}}" alt="">
 							@endif
 						</div>
 					@endforeach
@@ -78,36 +78,33 @@
 			</div>
 
 			<aside class="ka-sidebar-detail">
-				<div class="detail-info">
+				<div class="detail-info" id="detail">
 					<div class="select">
-						<form action="{{ route('incoming_mail_update', ['id' => $archieve->_id]) }}" method="post" enctype="multipart/form-data">
+						<form action="{{ route('outgoing_mail_store') }}" method="post" enctype="multipart/form-data">
 							{{ csrf_field() }}
 							<div class="item">
-								<label>Asal Surat</label>
-								<div class="value"><input type="text" class="form-control" name="from" value="{{ $archieve->from }}" required></div>
+								<label>Tujuan Surat</label>
+								<div class="value"><input type="text" class="form-control" name="to" value="{{ @ltrim($to) }}" required></div>
 							</div>
 							<div class="item">
 								<label>Nomor Surat</label>
-								<div class="value"><input type="text" class="form-control" name="reference_number" value="{{ $archieve->reference_number }}" required></div>
+								<div class="value"><input type="text" class="form-control" name="reference_number" value="{{ @ltrim($reference_number) }}" required></div>
 							</div>
 							<div class="item">
 								<label>Perihal</label>
-								<div class="value"><input type="text" class="form-control" name="subject" value="{{ $archieve->subject }}" required></div>
+								<div class="value"><input type="text" class="form-control" name="subject" value="{{ @ltrim($subject) }}" required></div>
 							</div>
 							<div class="item">
-								<?php 
-									$format = substr($archieve->date, 0, -3);
-									$date =  Carbon\Carbon::createFromTimestamp($format)->format('d/m/Y');
-								 ?>
-								<label>Tanggal Masuk</label>
-								<div class="value"><input type="text" class="form-control" name="date" value="{{ $date }}" id="datepicker" required></div>
+								<label>Tanggal Keluar</label>
+								<div class="value"><input type="text" class="form-control" name="date" value="{{ date('d/m/Y') }}" id="datepicker"></div>
 							</div>
 							<div class="item">
 								<label>Penyimpanan Arsip <i>(opsional)</i></label>
 								<div class="value">
 									<select name="storage" id="storage" class="form-control">
+										<option value="">Pilih Penyimpanan</option>
 										@foreach ($storage as $s)
-											<option value="{{ $s->_id }}" {{ $s->_id == $archieve->storage ? 'selected' : '' }}>{{ $s->name }}</option>
+											<option value="{{ $s->_id }}">{{ $s->name }}</option>
 										@endforeach
 									</select>
 								</div>
@@ -116,21 +113,19 @@
 								<label>Sub Penyimpanan Arsip</label>
 								<div class="value">
 									<select name="storagesub" id="substorage" class="form-control">
-										@foreach (@$storagesub->where('id_storage', $archieve->storage) as $s)
-											<option value="{{ $s->_id }}" {{ $s->_id == $archieve->storagesub ? 'selected' : '' }}>{{ $s->name }}</option>
-										@endforeach
 									</select>
 								</div>
 							</div>
 							<div class="item">
 								<label>Keterangan <i>(opsional)</i></label>
-								<div class="value"><input type="text" class="form-control" name="note" value="{{ $archieve->note }}"></div>
+								<div class="value"><input type="text" class="form-control" name="note"></div>
+								<input type="hidden" name="fulltext" value="{{ $fulltext }}">
 							</div>
 							<div class="item">
 								<hr>
 								<div class="row">
 									<div class="col-md-6">
-										<a href="{{ route('incoming_mail') }}" class="btn btn-default btn-block">Batal</a>
+										<a href="{{ route('outgoing_mail') }}" class="btn btn-default btn-block">Batal</a>
 									</div>
 									<div class="col-md-6">
 										<button class="btn btn-primary btn-block">Simpan</button>
@@ -142,62 +137,6 @@
 				</div>
 			</aside>
 		</section>
-
-		<!-- Modals -->
-		<div class="modal fade modal-disposisi" id="disposisiModal" tabindex="-1" role="dialog" aria-labelledby="disposisiLabelModal">
-			<div class="modal-dialog modal-sm" role="document">
-				<div class="modal-content">
-					<form action="">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title" id="disposisiLabelModal">Disposisi</h4>
-						</div>
-						<div class="modal-body">
-							<table class="table">
-								<tr>
-									<td class="search" colspan="4"><input type="text" class="form-control" placeholder="Cari" v-model="search"></td>
-								</tr>
-								<tr v-for="val in filteredUsers">
-									<td class="text-center"><input type="checkbox"></td>
-									<td><div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + val.photo + ')' }"></div></td>
-									<td>
-										<span class="name" v-html="val.name"></span><br>
-										<span class="position" v-html="val.position"></span>
-									</td>
-								</tr>
-							</table>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-							<button class="btn btn-primary">Disposisi</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabelModal">
-		<div class="modal-dialog modal-sm" role="document">
-			<div class="modal-content">
-				<form action="{{ route('incoming_mail_delete') }}" method="post">
-					{{ csrf_field() }}
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="deleteLabelModal">Hapus</h4>
-					</div>
-					<div class="modal-body">
-						<input type="text" class="hidden" id="delete-val" value="">
-						<input type="hidden" name="id">
-						Apakah Anda yakin ingin menghapus data ini?
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-						<button type="submit" class="btn btn-danger">Ya, hapus</button>
-					</div>
-				</form>
-			</div>
-		</div>
 	</div>
 
 	<script src="{{ asset('assets/app/js/kotakarsip.js') }}"></script>
@@ -218,11 +157,11 @@
 
 		  form.append('_token', token);
 		  for (var i = 0; i < files.length; i++) {
-		  	form.append('file[]', files[i]);
+			form.append('file[]', files[i]);
 		  }
 
 		  $.ajax({
-				url: '{{ route("incoming_mail_upload_ajax") }}',
+				url: '{{ route("outgoing_mail_upload_ajax") }}',
 				cache: false,
 				contentType: false,
 				processData: false,
@@ -256,7 +195,7 @@
 			$('#main img[data-image="'+image+'"]').slideUp('fast');
 
 			$.ajax({
-				url: '{{ route("incoming_mail_delete_ajax") }}',
+				url: '{{ route("outgoing_mail_delete_ajax") }}',
 				contentType: false,
 				processData: false,
 				method: 'POST',
@@ -271,18 +210,15 @@
 			});
 		});
 
-		//Hide Sub Storage
-		@if ($archieve->storagesub == '')
-			$('#subshow').hide();
-		@endif
-
 		//Ajax Dropdown
+		//Hide Sub Storage
+		$('#subshow').hide();
+
 		$('#storage').on('change', function(e){
 			var storage_id = e.target.value;
 			//ajax
-			$.get('../dropdown?storage_id=' + storage_id, function(data){
+			$.get('dropdown?storage_id=' + storage_id, function(data){
 				if (data == 0) {
-					console.log(data);
 					$('#subshow').hide();
 					$('#subshow').find('select').empty();
 				} else {
@@ -294,6 +230,7 @@
 				}
 			});
 		});
+
 	</script>
 </body>
 

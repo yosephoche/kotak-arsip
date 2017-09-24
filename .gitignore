@@ -13,3 +13,4 @@ yarn-error.log
 .env
 public/assets/app/img/users/
 public/assets/tesseract
+.DS_Store

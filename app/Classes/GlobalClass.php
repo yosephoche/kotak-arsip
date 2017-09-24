@@ -78,10 +78,31 @@ class GlobalClass
 			return $from;
 		}
 
+		// To
+		if ($key == 'to') {
+			$to = '';
+			$searchto = array("LEMBAGA", "KERUKUNAN", "PT", "CV", "PT.", "CV.", "PEMERINTAH");
+			$myfile = fopen($open, "r") or die("Unable to open file!");
+			while(!feof($myfile)) 
+			{
+				$buffer =  fgets($myfile);
+				for ($i=0; $i < count($searchto) ; $i++) { 
+					if(strpos($buffer, $searchto[$i]) !== FALSE) {
+						if ($to != '') {
+							break;
+						}
+						$to = $buffer;
+					}
+				}
+			}
+			fclose($myfile);
+			return $to;
+		}
+
 		// Refrence_Number
 		if ($key == 'reference_number') {
 			$reference_number = '';
-			$searchnumber = array("Nomor :", "No. Surat", "No Surat");
+			$searchnumber = array("Nomor :", "Nomor:", "No. Surat", "No Surat");
 			$myfile = fopen($open, "r") or die("Unable to open file!");
 			while(!feof($myfile)) 
 			{
