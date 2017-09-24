@@ -56,6 +56,12 @@ Route::group(['namespace' => 'App'], function () {
 		Route::group(['prefix' => 'anggota'], function(){
 			Route::get('/', 'MemberController@getData')->name('api_member');
 		});
+
+
+		//API-Search
+		Route::group(['prefix' => 'pencarian'], function(){
+			Route::get('/', 'SearchController@getData')->name('api_search');
+		});
 	});
 
 	//Company
@@ -146,6 +152,11 @@ Route::group(['namespace' => 'App'], function () {
 		Route::post('/update/user', 'SettingController@updateuser')->name('update_user');
 		Route::post('/update/password', 'SettingController@updatepassword')->name('update_password');
 		Route::post('/update/company', 'SettingController@updatecompany')->name('update_company');
+	});
+
+	//Search
+	Route::group(['prefix' => 'pencarian'], function(){
+		Route::get('/', 'SearchController@index')->name('search');
 	});
 });
 
