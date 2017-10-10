@@ -140,7 +140,7 @@ class SearchController extends Controller
 						'from' => array(
 							'$regex' => $q,
 							'$options' => 'i'
-						),
+						)
 					)
 				)
 			));
