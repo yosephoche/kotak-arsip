@@ -52,7 +52,7 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-md-6">
-                                    <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> &nbsp;Tetap masuk
+                                    <input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}> &nbsp;<label for="remember">Tetap masuk</label>
                                 </div>
                                 <div class="col-md-6">
                                     <button class="btn btn-primary btn-block">Masuk</button>
