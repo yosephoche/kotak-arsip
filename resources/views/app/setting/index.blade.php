@@ -6,6 +6,10 @@
 	@if ( Session::has('success') ) 
 		<div class="alert-custom alert-custom-success"><i class="fa fa-check-circle"></i>{{ session('success') }}</div>
 	@endif
+
+	@if ( Session::has('error') ) 
+		<div class="alert-custom alert-custom-danger"><i class="fa fa-times-circle"></i>{{ session('error') }}</div>
+	@endif
 	
 	<div class="ka-main">
 		<div class="breadcrumbs">

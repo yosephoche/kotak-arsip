@@ -15,6 +15,10 @@ class SettingController extends Controller
 	
 	public function index()
 	{
+		if (Auth::user()->id_company == null) {
+			return redirect()->route('company_register');
+		}
+
 		$data['user'] = User::where('_id', Auth::user()->_id)->first();
 		$data['company'] = Company::where('_id', Auth::user()->id_company)->first();
 
@@ -76,7 +80,7 @@ class SettingController extends Controller
 
 		$user = User::find($r->id);
 		if(!Hash::check($data['old_password'], $user->password)){
-			$r->session()->flash('success', 'Kata sandi lama anda tidak sesuai');
+			$r->session()->flash('error', 'Kata sandi lama anda tidak sesuai');
 			return redirect()->route('setting', ['tab' => 'security']);
 		}else{
 			$user->password = bcrypt($r->new_password);
