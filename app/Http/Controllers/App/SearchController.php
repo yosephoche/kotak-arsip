@@ -17,12 +17,17 @@ class SearchController extends Controller
 		return view('app.search.index');
 	}
 
-	public function getData(Request $r)
+	public function getData()
 	{
-
 		$archieve = Archieve::raw(function($collection){
 
-			$tes = @$_GET['q'];
+			$q = @$_GET['q'];
+			$full = @$_GET['fulltext'];
+			$type = @$_GET['type'];
+			$start = @$_GET['start'];
+			$end = @$_GET['end'];
+			$storage = @$_GET['storage'];
+			$substorage = @$_GET['substorage'];
 
 			return $collection->aggregate(array(
 				array(
@@ -58,6 +63,7 @@ class SearchController extends Controller
 				array(
 					'$project' => array(
 						'from' => 1,
+						'to' => 1,
 						'reference_number' => 1,
 						'date' => 1,
 						'subject' => 1,
@@ -92,6 +98,9 @@ class SearchController extends Controller
 						),
 						'from' => array(
 							'$first' => '$from'
+						),
+						'to' => array(
+							'$first' => '$to'
 						),
 						'subject' => array(
 							'$first' => '$subject'
@@ -129,14 +138,14 @@ class SearchController extends Controller
 				array(
 					'$match' => array(
 						'from' => array(
-							'$regex' => $tes,
+							'$regex' => $q,
 							'$options' => 'i'
-						)
+						),
 					)
 				)
 			));
 		});
-		
+
 		return response()->json($archieve);
 	}
 }
