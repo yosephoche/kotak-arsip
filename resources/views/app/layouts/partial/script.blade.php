@@ -9,4 +9,6 @@
 	}
 
 	setInterval(refreshToken, 300000); // every 5 min
+
+	autocompleteSearch('{{ route("api_search") }}?{{ rand(11111,99999) }}&q=');
 </script>

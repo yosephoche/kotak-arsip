@@ -4,6 +4,7 @@ namespace App\Http\Controllers\App;
 use App\Archieve;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use GlobalClass;
 
 class SearchController extends Controller
 {
@@ -19,15 +20,16 @@ class SearchController extends Controller
 
 	public function getData()
 	{
+		$fulltext = @$_GET['fulltext'];
+		$type = @$_GET['type'];
+		$start = @$_GET['start'];
+		$end = @$_GET['end'];
+		$storage = @$_GET['storage'];
+		$substorage = @$_GET['substorage'];
+		
 		$archieve = Archieve::raw(function($collection){
 
 			$q = @$_GET['q'];
-			$full = @$_GET['fulltext'];
-			$type = @$_GET['type'];
-			$start = @$_GET['start'];
-			$end = @$_GET['end'];
-			$storage = @$_GET['storage'];
-			$substorage = @$_GET['substorage'];
 
 			return $collection->aggregate(array(
 				array(
@@ -81,6 +83,7 @@ class SearchController extends Controller
 						'type' => 1,
 						'id_user' => 1,
 						'id_company' => 1,
+						'fulltext' => 1,
 						'deleted_at' => 1
 					)
 				),
@@ -126,6 +129,9 @@ class SearchController extends Controller
 						'deleted_at' => array(
 							'$first' => '$deleted_at'
 						),
+						'fulltext' => array(
+							'$first' => '$fulltext'
+						),
 						'share' => array(
 							'$push' => array(
 								'user' => '$share.user',
@@ -137,14 +143,46 @@ class SearchController extends Controller
 				),
 				array(
 					'$match' => array(
-						'from' => array(
-							'$regex' => $q,
-							'$options' => 'i'
-						),
+						'$nor' => array(
+							array(
+								'from' => array(
+									'$regex' => $q,
+									'$options' => 'i'
+								),
+								'to' => array(
+									'$regex' => $q,
+									'$options' => 'i'
+								),
+							)
+						)
 					)
 				)
 			));
 		});
+
+		if ($fulltext != null) {
+			$archieve = $archieve->where('fulltext', $fulltext);
+		}
+
+		if ($type != null) {
+			$archieve = $archieve->where('type', $type);
+		}
+
+		if ($start != null) {
+			$archieve = $archieve->where('start', $start);
+		}
+
+		if ($end != null) {
+			$archieve = $archieve->where('end', $end);
+		}
+
+		if ($storage != null) {
+			$archieve = $archieve->where('storage', $storage);
+		}
+
+		if ($substorage != null) {
+			$archieve = $archieve->where('substorage', $substorage);
+		}
 
 		return response()->json($archieve);
 	}
