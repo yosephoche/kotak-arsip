@@ -4,7 +4,7 @@ namespace App\Http\Controllers\App;
 use App\Archieve;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use GlobalClass;
+use GlobalClass, Auth;
 
 class SearchController extends Controller
 {
@@ -15,7 +15,8 @@ class SearchController extends Controller
 
 	public function index()
 	{
-		return view('app.search.index');
+		$data['archieve'] = Archieve::where('type', 'incoming_mail')->where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->whereNull('deleted_at')->paginate(25);
+		return view('app.search.index', $data);
 	}
 
 	public function getData()
@@ -64,6 +65,7 @@ class SearchController extends Controller
 				),
 				array(
 					'$project' => array(
+						'search' => 1,
 						'from' => 1,
 						'to' => 1,
 						'reference_number' => 1,
@@ -98,6 +100,9 @@ class SearchController extends Controller
 						),
 						'type' => array(
 							'$first' => '$type'
+						),
+						'search' => array(
+							'$first' => '$search'
 						),
 						'from' => array(
 							'$first' => '$from'
@@ -143,18 +148,13 @@ class SearchController extends Controller
 				),
 				array(
 					'$match' => array(
-						'$nor' => array(
-							array(
-								'from' => array(
-									'$regex' => $q,
-									'$options' => 'i'
-								),
-								'to' => array(
-									'$regex' => $q,
-									'$options' => 'i'
-								),
-							)
-						)
+						'search' => array(
+							'$regex' => $q,
+							'$options' => 'i'
+						),
+						'id_user' => GlobalClass::generateMongoObjectId(Auth::user()->_id),
+						'id_company' => Auth::user()->id_company,
+						'deleted_at' => null
 					)
 				)
 			));
@@ -183,6 +183,49 @@ class SearchController extends Controller
 		if ($substorage != null) {
 			$archieve = $archieve->where('substorage', $substorage);
 		}
+
+		return response()->json([
+			'search'  =>  $archieve,
+		]);
+	}
+
+	public function getDataAutocomplete()
+	{		
+		$archieve = Archieve::raw(function($collection){
+
+			return $collection->aggregate(array(
+				array(
+					'$unwind' => array(
+						'path' => '$share',
+						'preserveNullAndEmptyArrays' => true
+					)
+				),
+				array(
+					'$group' => array(
+						'_id' => '$_id',
+						'id_user' => array(
+							'$first' => '$id_user'
+						),
+						'id_company' => array(
+							'$first' => '$id_company'
+						),
+						'search' => array(
+							'$first' => '$search'
+						),
+						'deleted_at' => array(
+							'$first' => '$deleted_at'
+						),
+					)
+				),
+				array(
+					'$match' => array(
+						'id_user' => GlobalClass::generateMongoObjectId(Auth::user()->_id),
+						'id_company' => Auth::user()->id_company,
+						'deleted_at' => null
+					)
+				)
+			));
+		});
 
 		return response()->json($archieve);
 	}

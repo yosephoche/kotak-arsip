@@ -55597,9 +55597,9 @@ $('a').click(function() {
 // Autocomplete Search
 function autocompleteSearch(data) {
 	var search = new Bloodhound({
-		datumTokenizer: Bloodhound.tokenizers.obj.whitespace('subject'),
+		datumTokenizer: Bloodhound.tokenizers.obj.whitespace('search'),
 		queryTokenizer: Bloodhound.tokenizers.whitespace,
-		identify: function(obj) { return obj.subject; },
+		identify: function(obj) { return obj.search; },
 		prefetch: data
 	});
 
@@ -55613,7 +55613,11 @@ function autocompleteSearch(data) {
 	},
 	{
 		name: 'search',
-		display: 'subject',
+		display: 'search',
 		source: searchWithDefaults
-	});
+	}).on('keyup', this, function (event) {
+		if (event.keyCode == 13) {
+			$('#typeahead').submit();
+		}
+	});;
 }

@@ -7,8 +7,8 @@
 			<a href="{{ route('incoming_mail') }}"><img src="{{ asset('assets/app/img/logo-white.svg') }}" class="logo" alt="Logo KotakArsip"></a>
 		</li>
 		<li class="search">
-			<form action="">
-				<input type="text" placeholder="Pencarian">
+			<form action="{{ route('search') }}" id="typeahead">
+				<input class="typeahead" name="q" type="text" placeholder="Pencarian">
 			</form>
 		</li>
 	</ul>

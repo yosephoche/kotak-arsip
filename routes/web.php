@@ -74,6 +74,7 @@ Route::group(['namespace' => 'App'], function () {
 		//API-Search
 		Route::group(['prefix' => 'pencarian'], function(){
 			Route::get('/', 'SearchController@getData')->name('api_search');
+			Route::get('/autocomplete', 'SearchController@getDataAutocomplete')->name('api_search_autocomplete');
 		});
 	});
 

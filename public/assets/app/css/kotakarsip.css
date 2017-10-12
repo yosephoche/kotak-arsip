@@ -11934,6 +11934,9 @@ a:hover, a:focus, a:active, a:visited {
 .alert-custom.alert-custom-success i.fa {
   color: #2ecc71;
 }
+.alert-custom.alert-custom-danger i.fa {
+  color: #e74c3c;
+}
 .alert-custom i.fa {
   margin-right: 15px;
   font-size: 30px;
@@ -12018,6 +12021,12 @@ a:hover, a:focus, a:active, a:visited {
 .current-filter li a {
   color: rgba(255, 255, 255, 0.7);
   margin-left: 5px;
+}
+
+.tt-suggestion.tt-selectable {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media only screen and (min-width: 960px) {

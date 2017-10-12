@@ -486,6 +486,7 @@ class OutgoingMailController extends Controller
 		$surat->id_company = Auth::user()->id_company;
 		$surat->type = "outgoing_mail";
 		$surat->to = $r->to;
+		$surat->search = $r->to;
 		$surat->reference_number = $r->reference_number;
 		$surat->subject = $r->subject;
 		$surat->date = GlobalClass::generateIsoDate($date);
@@ -630,6 +631,7 @@ class OutgoingMailController extends Controller
 		$surat->id_company = Auth::user()->id_company;
 		$surat->type = "outgoing_mail";
 		$surat->to = $r->to;
+		$surat->search = $r->to;
 		$surat->reference_number = $r->reference_number;
 		$surat->subject = $r->subject;
 		$surat->date = GlobalClass::generateIsoDate($date);

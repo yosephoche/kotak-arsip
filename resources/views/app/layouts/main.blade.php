@@ -43,6 +43,18 @@
 	
 	@yield('registerscript')
 
+	<script>
+		function refreshToken(){
+			$.get('refresh-csrf').done(function(data){
+				$('input[name="_token"]').val(data); // the new token
+			});
+		}
+
+		setInterval(refreshToken, 300000); // every 5 min
+
+		autocompleteSearch('{{ route("api_search_autocomplete") }}?{{ rand(11111,99999) }}&q=');
+	</script>
+
 </body>
 
 </html>
