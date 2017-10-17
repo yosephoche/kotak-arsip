@@ -35,6 +35,7 @@ Route::group(['namespace' => 'App'], function () {
 		Route::group(['prefix' => 'surat/masuk'], function(){
 			Route::get('/', 'IncomingMailController@getData')->name('api_incoming_mail');
 			Route::get('/detail/{id?}', 'IncomingMailController@getDetail')->name('api_incoming_mail_detail');
+			Route::get('/riwayat-disposisi/{id?}', 'IncomingMailController@getDetailDisposition')->name('api_incoming_mail_detail_disposition');
 		});
 
 		//API-Outgoing_Mail

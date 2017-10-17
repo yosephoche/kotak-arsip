@@ -720,6 +720,62 @@ class IncomingMailController extends Controller
 		return view('app.incoming_mail.disposition', $data);
 	}
 
+	public function getDetailDisposition($id)
+	{
+		$archieve = Archieve::raw(function($collection) use($id){
+
+			return $collection->aggregate(array(
+				array(
+					'$match' => array(
+						'_id' => GlobalClass::generateMongoObjectId($id),
+					)
+				),
+				array(
+					'$unwind' => '$share'
+				),
+				array(
+					'$sort' => array(
+						'share.date' => -1
+					)
+				),
+				array(
+					'$lookup' => array(
+						'from'=>'users',
+						'localField'=>'share._id',
+						'foreignField'=>'_id',
+						'as'=>'share.user'
+					)
+				),
+				array(
+					'$project' => array(
+						'share.user._id' => 1,
+						'share.user.name' => 1,
+						'share.user.position' => 1,
+						'share.user.photo' => 1,
+						'share.date' => 1,
+						'share.message' => 1,
+					)
+				),
+				array(
+					'$group' => array(
+						'_id' => '$_id',
+						'share' => array(
+							'$push' => array(
+								'user' => '$share.user',
+								'date' => '$share.date',
+								'message' => '$share.message'
+							)
+						)
+					)
+				),
+			));
+		});
+
+		return response()->json([
+			'incomingMail'  =>  $archieve
+		]);
+	}
+
 	public function delete(Request $r)
 	{
 		$archieve = Archieve::where('_id', $r->id)->delete();

@@ -130,7 +130,8 @@
 	<div class="modal fade modal-filter" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="shareLabelModal">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<form action="">
+				<form action="{{ route('api_search') }}" method="get">
+					<input type="hidden" name="q" value="{{ $_GET['q'] }}">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						<h4 class="modal-title" id="shareLabelModal">Filter Pencarian</h4>
@@ -141,12 +142,13 @@
 							<input name="fulltext" class="form-control">
 						</div>
 
+
 						<div class="form-group">
 							<label for="">Jenis Arsip</label>
 							<select name="type" id="" class="form-control">
 								<option value="">Semua Jenis Arsip</option>
-								<option value="">Surat Masuk</option>
-								<option value="">Surat Keluar</option>
+								<option value="incoming_mail">Surat Masuk</option>
+								<option value="outgoing_mail">Surat Keluar</option>
 							</select>
 						</div>
 
