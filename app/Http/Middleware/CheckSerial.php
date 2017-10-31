@@ -16,16 +16,16 @@ class CheckSerial
 	 */
 	public function handle($request, Closure $next)
 	{
+        // For Mac
+        ob_start();
+        system("ifconfig en1 | awk '/ether/{print $2}'");
+        $mac = substr(ob_get_contents(), 0, 17);
+        ob_clean();
+
 		// For Windows
 		$string = exec('getmac');
 		$mac = substr($string, 0, 17);
-
-		// For Mac
-		ob_start();
-		system("ifconfig en1 | awk '/ether/{print $2}'");
-		$mac = substr(ob_get_contents(), 0, 17);
-		ob_clean();
-
+        
 		//Check amount data
 		$check = Activation::all();
 		if (count($check) == 0) {
