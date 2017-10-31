@@ -25,6 +25,6 @@
 	<br>
 
 	<ul class="list-unstyled">
-		<li><a href="#"><i class="fa fa-trash-o"></i> &nbsp;Sampah</a></li>
+		<li {{ Request::is('sampah*') ? 'class=active' : '' }}><a href="{{ route('trash') }}"><i class="fa fa-trash-o"></i> &nbsp;Sampah</a></li>
 	</ul>
 </header>

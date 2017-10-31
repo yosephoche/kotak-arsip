@@ -17,7 +17,8 @@ class IncomingMailController extends Controller
 
 	public function index()
 	{
-		$data['archieve'] = Archieve::where('type', 'incoming_mail')->where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->whereNull('deleted_at')->paginate(25);
+		$limit = 25; // change in index too
+		$data['archieve'] = Archieve::where('type', 'incoming_mail')->where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->whereNull('deleted_at')->paginate($limit);
 		return view('app.incoming_mail.index', $data);
 	}
 
@@ -267,7 +268,7 @@ class IncomingMailController extends Controller
 								'user' => '$share.user',
 								'date' => '$share.date',
 								'message' => '$share.message'
-							)
+							),
 						)
 					)
 				)

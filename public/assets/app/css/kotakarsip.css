@@ -11677,6 +11677,9 @@ a:hover, a:focus, a:active, a:visited {
   height: calc(100vh - 210px);
   overflow-y: auto;
 }
+.ka-body .ka-sidebar-detail .detail-info .select.select-full {
+  height: calc(100vh - 120px) !important;
+}
 .ka-body .ka-sidebar-detail .detail-info .select .item {
   margin-bottom: 15px;
 }

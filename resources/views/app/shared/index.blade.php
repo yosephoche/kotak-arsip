@@ -144,6 +144,8 @@
 		</table>
 
 		<div class="text-center" v-else>
+			<br>
+			<br>
 			<img src="{{ url('assets/app/img/icons') }}/no_file.svg" alt="" width="400px">
 			<br>
 			<br>

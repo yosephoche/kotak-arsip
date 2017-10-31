@@ -17,7 +17,8 @@ class OutgoingMailController extends Controller
 	
 	public function index()
 	{
-		$data['archieve'] = Archieve::where('type', 'outgoing_mail')->where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->whereNull('deleted_at')->paginate(25);
+		$limit = 25; // change in index too
+		$data['archieve'] = Archieve::where('type', 'outgoing_mail')->where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->whereNull('deleted_at')->paginate($limit);
 		return view('app.outgoing_mail.index', $data);
 	}
 
