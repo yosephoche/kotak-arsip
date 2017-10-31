@@ -84,6 +84,7 @@ class SharedController extends Controller
 				),
 				array(
 					'$project' => array(
+						'userDetail' => 1,
 						'from' => 1,
 						'reference_number' => 1,
 						'date' => 1,
@@ -259,6 +260,7 @@ class SharedController extends Controller
 				),
 				array(
 					'$project' => array(
+						'userDetail' => 1,
 						'to' => 1,
 						'reference_number' => 1,
 						'date' => 1,

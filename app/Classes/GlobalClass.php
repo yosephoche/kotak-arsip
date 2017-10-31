@@ -2,7 +2,7 @@
 
 namespace App\Classes;
 use App\Posts;
-use DB, Session, Response, Image, Auth, DateTime;
+use DB, Session, Response, Image, Auth, DateTime, Request;
 
 
 class GlobalClass
@@ -60,7 +60,7 @@ class GlobalClass
 		// From
 		if ($key == 'from') {
 			$from = '';
-			$searchfrom = array("LEMBAGA", "KERUKUNAN", "PT", "CV", "PT.", "CV.", "PEMERINTAH");
+			$searchfrom = array("LEMBAGA", "KERUKUNAN", "PT", "CV", "PT.", "CV.", "PEMERINTAH", "ORGANISASI");
 			$myfile = fopen($open, "r") or die("Unable to open file!");
 			while(!feof($myfile)) 
 			{
@@ -81,7 +81,7 @@ class GlobalClass
 		// To
 		if ($key == 'to') {
 			$to = '';
-			$searchto = array("LEMBAGA", "KERUKUNAN", "PT", "CV", "PT.", "CV.", "PEMERINTAH");
+			$searchto = array("LEMBAGA", "KERUKUNAN", "PT", "CV", "PT.", "CV.", "PEMERINTAH", "ORGANISASI");
 			$myfile = fopen($open, "r") or die("Unable to open file!");
 			while(!feof($myfile)) 
 			{
@@ -102,7 +102,7 @@ class GlobalClass
 		// Refrence_Number
 		if ($key == 'reference_number') {
 			$reference_number = '';
-			$searchnumber = array("Nomor :", "Nomor:", "No. Surat", "No Surat");
+			$searchnumber = array("Nomor :", "Nomor:", "Nomer :", "Nomer:", "No. Surat :", "No Surat :", "No. Surat:", "No Surat:");
 			$myfile = fopen($open, "r") or die("Unable to open file!");
 			while(!feof($myfile)) 
 			{
@@ -124,7 +124,7 @@ class GlobalClass
 		// Subject
 		if ($key == 'subject') {
 			$subject = '';
-			$searchsubject = array("Perihal :", "Hal :");
+			$searchsubject = array("Perihal :", "Hal :", "Perihal:", "Hal:");
 			$myfile = fopen($open, "r") or die("Unable to open file!");
 			while(!feof($myfile)) 
 			{
@@ -147,6 +147,23 @@ class GlobalClass
 		if ($key == 'fulltext') {
 			return file_get_contents($open);
 		}
+	}
+
+	public function removeGetParam($param)
+	{
+		$x = Request::fullUrl();
+
+		$parsed = parse_url($x);
+		@$query = $parsed['query'];
+
+		parse_str($query, $params);
+
+		unset($params[$param]);
+		$string = http_build_query($params);
+
+		$link = Request::url().'?'.$string;
+
+		return $link;
 	}
 
 }

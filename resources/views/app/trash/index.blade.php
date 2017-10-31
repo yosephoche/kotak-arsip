@@ -1,6 +1,6 @@
 @extends('app.layouts.main')
 
-@section('title', 'Pencarian')
+@section('title', 'Sampah')
 
 @section('contents')
 
@@ -23,33 +23,14 @@
 	<div class="ka-main">
 		<div class="breadcrumbs">
 			<ul class="list-inline">
-				@if (@$_GET['q'] != '')
-					<li>Hasil pencarian dari "<b>{{ $_GET['q'] }}</b>"</li>
-				@else
-					<li>Hasil pencarian</li>
-				@endif
-				<li class="pull-right"><a href="#" data-toggle="modal" data-target="#filterModal"><i class="fa fa-sliders"></i> &nbsp;Filter</a></li>
+				<li><a href="{{ route('trash') }}">Sampah</a></li>
 			</ul>
 		</div>
-
-		<ul class="current-filter">
-			@if (isset($_GET['fulltext']))
-				<li>Mohon Perlindungan Hukum <a href="">&times;</a></li>
-			@endif
-
-			@if (isset($_GET['type']))
-				<li>Jenis Arsip: Surat Masuk <a href="">&times;</a></li>
-			@endif
-
-			@if (isset($_GET['start']))
-				<li>Tanggal 2/10/2017 - 9/10/2017 <a href="">&times;</a></li>
-			@endif
-		</ul>
 
 		<table class="table table-hover" v-if="json.search != ''">
 			<tr>
 				<th class="{{ @$_GET['sort'] == 'search' ? 'sort' : '' }}">
-					<a href="{{ route('search', ['q' => @$_GET['q'] ,'sort' => 'search', 'asc' => $ascSearch]) }}">Judul Arsip</a>
+					<a href="{{ route('trash', ['q' => '' ,'sort' => 'search', 'asc' => $ascSearch]) }}">Judul Arsip</a>
 					@if (@$_GET['sort'] == 'search')
 						@if (@$_GET['asc'] == 'true')
 							<i class="fa fa-angle-down i-sort"></i>
@@ -59,7 +40,7 @@
 					@endif
 				</th>
 				<th class="view-tablet-only {{ @$_GET['sort'] == 'subject' ? 'sort' : '' }}">
-					<a href="{{ route('search', ['q' => @$_GET['q'] ,'sort' => 'subject', 'asc' => $ascSubject]) }}">Keterangan</a>
+					<a href="{{ route('trash', ['q' => '' ,'sort' => 'subject', 'asc' => $ascSubject]) }}">Keterangan</a>
 					@if (@$_GET['sort'] == 'subject')
 						@if (@$_GET['asc'] == 'true')
 							<i class="fa fa-angle-down i-sort"></i>
@@ -81,10 +62,10 @@
 			<tr class="item" v-for="val in json.search" @click="detailSidebar(val, $event)">
 				<td>
 					<div v-if="val.type == 'incoming_mail'">
-						<a v-bind:href="'{{ route('incoming_mail_detail') }}/' + val._id" v-html="val.search"></a>
+						<a v-html="val.search"></a>
 					</div>
 					<div v-if="val.type == 'outgoing_mail'">
-						<a v-bind:href="'{{ route('outgoing_mail_detail') }}/' + val._id" v-html="val.search"></a>
+						<a v-html="val.search"></a>
 					</div>
 				</td>
 				<td class="view-tablet-only" v-html="val.subject"></td>
@@ -99,21 +80,8 @@
 				<td class="text-right dropdown">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
 					<ul class="dropdown-menu pull-right">
-						<li v-if="val.type == 'incoming_mail'">
-							<a v-bind:href="'{{ route('incoming_mail_detail') }}/' + val._id">Lihat Detail</a>
-						</li>
-						<li v-if="val.type == 'outgoing_mail'">
-							<a v-bind:href="'{{ route('outgoing_mail_detail') }}/' + val._id">Lihat Detail</a>
-						</li>
-
-						<li v-if="val.type == 'incoming_mail'">
-							<a v-bind:href="'{{ route('incoming_mail_move') }}/' + val._id">Sunting</a>
-						</li>
-						<li v-if="val.type == 'outgoing_mail'">
-							<a v-bind:href="'{{ route('outgoing_mail_move') }}/' + val._id">Sunting</a>
-						</li>
-
-						<li><a href="#" data-toggle="modal" data-target="#deleteModal" class="text-danger" v-bind:data-id="val._id">Hapus</a></li>
+						<li><a v-bind:href="'{{ route('trash_restore') }}/' + val._id">Pulihkan</a></li>
+						<li><a href="#" data-toggle="modal" data-target="#deleteModal" class="text-danger" v-bind:data-id="val._id">Hapus Permanen</a></li>
 					</ul>
 				</td>
 			</tr>
@@ -130,7 +98,7 @@
 			<br>
 			<br>
 			<br>
-			Data tidak ditemukan
+			Sampah kosong
 		</div>
 
 		<?php
@@ -173,89 +141,22 @@
 
 @section('modal')
 	<!-- Modals -->
-	<div class="modal fade modal-filter" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="shareLabelModal">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<form action="">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="shareLabelModal">Filter Pencarian</h4>
-					</div>
-					<div class="modal-body" style="border-top: 1px solid #ddd">
-						<div class="form-group">
-							<label for="">Full text (<i>Fitur OCR memungkinkan Anda mencari teks dalam gambar hasil scan</i>)</label>
-							<input name="fulltext" class="form-control">
-						</div>
-
-						<div class="form-group">
-							<label for="">Jenis Arsip</label>
-							<select name="type" id="" class="form-control">
-								<option value="">Semua Jenis Arsip</option>
-								<option value="">Surat Masuk</option>
-								<option value="">Surat Keluar</option>
-							</select>
-						</div>
-
-						<div class="form-group">
-							<label for="">Rentang waktu diarsipkan</label>
-							<div class="input-daterange input-group" id="datepicker">
-								<input type="text" class="form-control" name="start" />
-								<span class="input-group-addon" style="border-left: 0; border-right: 0">sampai</span>
-								<input type="text" class="form-control" name="end" />
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="">Penyimpanan Arsip</label>
-									<select name="storage" id="" class="form-control">
-										<option value="">Semua Penyimpanan</option>
-										<option value="">Filling Cabinet 1</option>
-										<option value="">Filling Cabinet 2</option>
-									</select>
-								</div>
-							</div>
-							
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="">Sub Penyimpanan Arsip</label>
-									<select name="substorage" id="" class="form-control">
-										<option value="">Semua Sub Penyimpanan</option>
-										<option value="">Ordner 1</option>
-										<option value="">Ordner 2</option>
-									</select>
-								</div>
-							</div>
-						</div>
-
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-						<button class="btn btn-primary">Filter</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-
 	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabelModal">
 		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
-				<form action="{{ route('search_delete') }}" method="post">
+				<form action="{{ route('trash_delete') }}" method="post">
 					{{ csrf_field() }}
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						<h4 class="modal-title" id="deleteLabelModal">Hapus</h4>
 					</div>
 					<div class="modal-body">
-						<input type="text" class="hidden" id="delete-val" value="">
 						<input type="hidden" name="id">
-						Apakah Anda yakin ingin menghapus data ini?
+						Apakah Anda yakin ingin menghapus data ini secara permanen?
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-						<button type="submit" class="btn btn-danger">Ya, hapus</button>
+						<button class="btn btn-danger">Ya, hapus</button>
 					</div>
 				</form>
 			</div>
@@ -276,7 +177,7 @@
 	<!-- Detail after select data in table -->
 	<template id="sidebar-detail">
 		<div>
-			<div class="select no-border" style="height: calc(100vh - 160px)">
+			<div class="select no-border select-full" style="height: calc(100vh - 160px)">
 				<div class="item" v-if="detail.search">
 					<label>Asal Surat</label>
 					<div class="value" v-html="detail.search"></div>
@@ -323,16 +224,6 @@
 					<div class="value" v-html="$options.filters.moment(detail.date.$date.$numberLong)"></div>
 				</div>
 			</div>
-
-			<div class="attachment">
-				<span v-html="detail.files.length + ' file terlampir'"></span>
-				<div v-if="detail.type == 'incoming_mail'">
-					<a v-bind:href="'{{ route('incoming_mail_detail') }}/' + detail._id" class="btn btn-default btn-block">Lihat Detail</a>
-				</div>
-				<div v-if="detail.type == 'outgoing_mail'">
-					<a v-bind:href="'{{ route('outgoing_mail_detail') }}/' + detail._id" class="btn btn-default btn-block">Lihat Detail</a>
-				</div>
-			</div>
 		</div>
 	</template>
 @endsection
@@ -362,20 +253,11 @@
 			}
 
 		?>
-		getDataSearch('{{ route("api_search", ["q" => @$_GET["q"]]) }}&sort={{ $sortKey }}&asc={{ $asc }}&page={{ $page }}', 'search');
+		getDataSearch('{{ route("api_trash", ["q" => ""]) }}&sort={{ $sortKey }}&asc={{ $asc }}&page={{ $page }}', 'search');
 
 		$('#deleteModal').on('show.bs.modal', function (e) {
 			var id = $(e.relatedTarget).data('id');
 			$(this).find('input[name="id"]').val(id);
 		});
-
-		// Date Picker
-		$('#datepicker').datepicker({
-			format: 'dd/mm/yyyy'
-		});
-
-		@if (@$_GET['q'] != '')
-			$('input[name="q"]').val("{!! @$_GET["q"] !!}");
-		@endif
 	</script>
 @endsection

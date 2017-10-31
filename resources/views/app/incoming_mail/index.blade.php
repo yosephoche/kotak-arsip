@@ -92,6 +92,10 @@
 
 		<div class="text-center" v-else>
 			<hr>
+			<br>
+			<br>
+			<br>
+			<br>
 			<img src="{{ url('assets/app/img/icons') }}/no_file.svg" alt="" width="400px">
 			<br>
 			<br>
@@ -99,20 +103,24 @@
 			Belum ada data surat masuk
 		</div>
 
+		<?php
+			$link = GlobalClass::removeGetParam('page');
+		?>
+
 		@if ($archieve->lastPage() > 1)
 		<div class="text-center">
 			<hr class="m-t-0">
 			<ul class="pagination-custom">
 				<li class="{{ ($archieve->currentPage() == 1) ? ' hide' : '' }}">
-					<a href="{{ $archieve->url($archieve->currentPage()-1) }}">Sebelumnya</a>
+					<a href="{{ $link.'&page='.($archieve->currentPage() - 1) }}">Sebelumnya</a>
 				</li>
 				@for ($i = 1; $i <= $archieve->lastPage(); $i++)
 					<li class="{{ ($archieve->currentPage() == $i) ? ' active' : '' }}">
-						<a href="{{ $archieve->url($i) }}">{{ $i }}</a>
+						<a href="{{ $link.'&page='.$i }}">{{ $i }}</a>
 					</li>
 				@endfor
 				<li class="{{ ($archieve->currentPage() == $archieve->lastPage()) ? ' hide' : '' }}">
-					<a href="{{ $archieve->url($archieve->currentPage()+1) }}" >Selanjutnya</a>
+					<a href="{{ $link.'&page='.($archieve->currentPage() + 1) }}" >Selanjutnya</a>
 				</li>
 			</ul>
 		</div>

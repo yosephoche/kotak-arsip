@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\App;
 use App\Archieve;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
-use GlobalClass, Auth;
+use Auth, Session, GlobalClass;
 
-class SearchController extends Controller
+class TrashController extends Controller
 {
 	public function __construct()
 	{
@@ -15,12 +16,9 @@ class SearchController extends Controller
 
 	public function index()
 	{
-		if (!isset($_GET['q'])) {
-			return redirect()->back();
-		}
 		$limit = 25; // change in index too
-		$data['archieve'] = Archieve::where('type', 'incoming_mail')->where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->whereNull('deleted_at')->paginate($limit);
-		return view('app.search.index', $data);
+		$data['archieve'] = Archieve::onlyTrashed()->where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->paginate($limit);
+		return view('app.trash.index', $data);
 	}
 
 	public function getData()
@@ -181,7 +179,9 @@ class SearchController extends Controller
 						),
 						'id_user' => GlobalClass::generateMongoObjectId(Auth::user()->_id),
 						'id_company' => Auth::user()->id_company,
-						'deleted_at' => null
+						'deleted_at' => array(
+							'$ne' => null
+						)
 					)
 				),
 				array(
@@ -222,50 +222,26 @@ class SearchController extends Controller
 		]);
 	}
 
-	public function getDataAutocomplete()
-	{		
-		$archieve = Archieve::raw(function($collection){
+	public function restore(Request $r)
+	{
+		$archieve = Archieve::where('_id', $r->id)->restore();
 
-			return $collection->aggregate(array(
-				array(
-					'$unwind' => array(
-						'path' => '$share',
-						'preserveNullAndEmptyArrays' => true
-					)
-				),
-				array(
-					'$group' => array(
-						'_id' => '$_id',
-						'id_user' => array(
-							'$first' => '$id_user'
-						),
-						'id_company' => array(
-							'$first' => '$id_company'
-						),
-						'search' => array(
-							'$first' => '$search'
-						),
-						'deleted_at' => array(
-							'$first' => '$deleted_at'
-						),
-					)
-				),
-				array(
-					'$match' => array(
-						'id_user' => GlobalClass::generateMongoObjectId(Auth::user()->_id),
-						'id_company' => Auth::user()->id_company,
-						'deleted_at' => null
-					)
-				)
-			));
-		});
+		$r->session()->flash('success', 'Arsip berhasil dipulihkan');
 
-		return response()->json($archieve);
+		return redirect()->back();
 	}
 
 	public function delete(Request $r)
 	{
-		$archieve = Archieve::where('_id', $r->id)->delete();
+		$old_files = Archieve::withTrashed()->find($r->id);
+
+		//Delete Old File
+		$old = $old_files->files;
+		for ($i=0; $i < count($old) ; $i++) {
+			unlink(public_path('assets/app/img/'.$old_files->type).'/'.$old[$i]);
+		}
+
+		$archieve = Archieve::where('_id', $r->id)->forceDelete();
 
 		$r->session()->flash('success', 'Arsip berhasil dihapus');
 

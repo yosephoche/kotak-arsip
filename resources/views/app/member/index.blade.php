@@ -98,7 +98,7 @@
 
 	<!-- Detail after select data in table -->
 	<template id="sidebar-detail">
-		<div class="select no-border">
+		<div class="select no-border select-full">
 			<div class="item" v-if="detail.photo">
 				<label>Foto Anggota</label>
 				<div class="value">

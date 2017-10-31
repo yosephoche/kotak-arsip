@@ -76,6 +76,12 @@ Route::group(['namespace' => 'App'], function () {
 			Route::get('/', 'SearchController@getData')->name('api_search');
 			Route::get('/autocomplete', 'SearchController@getDataAutocomplete')->name('api_search_autocomplete');
 		});
+
+
+		//API-Trash
+		Route::group(['prefix' => 'trash'], function(){
+			Route::get('/', 'TrashController@getData')->name('api_trash');
+		});
 	});
 
 	//Company
@@ -191,9 +197,17 @@ Route::group(['namespace' => 'App'], function () {
 		Route::post('/update/company', 'SettingController@updatecompany')->name('update_company');
 	});
 
+	//Trash
+	Route::group(['prefix' => 'sampah'], function(){
+		Route::get('/', 'TrashController@index')->name('trash');
+		Route::get('/restore/{id?}', 'TrashController@restore')->name('trash_restore');
+		Route::post('/delete', 'TrashController@delete')->name('trash_delete');
+	});
+
 	//Search
 	Route::group(['prefix' => 'pencarian'], function(){
 		Route::get('/', 'SearchController@index')->name('search');
+		Route::post('/delete', 'SearchController@delete')->name('search_delete');
 	});
 });
 
