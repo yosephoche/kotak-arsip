@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\MemberPermissions;
 use App\Http\Middleware\StoragePermissions;
+use App\Http\Middleware\CheckSerial;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,17 +25,22 @@ Route::get('refresh-csrf', function(){
     return csrf_token();
 });
 
+//Activation
+Route::get('/activation', 'ActivationController@index')->name('activation');
+Route::post('/activation/store', 'ActivationController@store')->name('activation_store');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['namespace' => 'App'], function () {
+Route::group(['namespace' => 'App', 'middleware' => CheckSerial::class], function () {
 	//API
 	Route::group(['prefix' => 'api'], function(){
 		//API-Incoming_Mail
 		Route::group(['prefix' => 'surat/masuk'], function(){
 			Route::get('/', 'IncomingMailController@getData')->name('api_incoming_mail');
 			Route::get('/detail/{id?}', 'IncomingMailController@getDetail')->name('api_incoming_mail_detail');
+			Route::get('/riwayat-disposisi/{id?}', 'IncomingMailController@getDetailDisposition')->name('api_incoming_mail_detail_disposition');
 		});
 
 		//API-Outgoing_Mail

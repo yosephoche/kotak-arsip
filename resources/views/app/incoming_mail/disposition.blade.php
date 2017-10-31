@@ -40,7 +40,7 @@
 	<link rel="stylesheet" href="{{ asset('assets/app/libs/timeline/jquery.timeline.css') }}">
 	<script src="{{ asset('assets/app/libs/timeline/jquery.timeline.js') }}"></script>
 	<script>
-		getDataIncomingMailDetail('{{ route('api_incoming_mail_detail', ['id' => $archieve->_id]) }}', 'incomingMail');
+		getDataIncomingMailDetail('{{ route('api_incoming_mail_detail_disposition', ['id' => $archieve->_id]) }}', 'incomingMail');
 
 		$('.ka-body').addClass('ka-body-single');
 	</script>
