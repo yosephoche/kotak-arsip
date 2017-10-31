@@ -468,6 +468,9 @@ class OutgoingMailController extends Controller
 		//Storage
 		$data['storage'] = Storage::where('id_company', Auth::user()->id_company)->orderBy('name')->get();
 
+		//Folder
+		$data['folder'] = Archieve::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->select('folder')->groupBy('folder')->orderBy('folder')->get();
+
 		return view('app.outgoing_mail.create', $data);
 	}
 
@@ -496,6 +499,7 @@ class OutgoingMailController extends Controller
 			$surat->storagesub = GlobalClass::generateMongoObjectId($r->storagesub);
 		}
 		$surat->note = $r->note;
+		$surat->folder = $r->folder;
 		$surat->fulltext = $r->fulltext;
 
 		//Check Image From Tesseract
@@ -612,6 +616,9 @@ class OutgoingMailController extends Controller
 		//Sub Storage
 		$data['storagesub'] = StorageSub::orderBy('name')->get();
 
+		//Folder
+		$data['folder'] = Archieve::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->select('folder')->groupBy('folder')->orderBy('folder')->get();
+
 		return view('app.outgoing_mail.edit', $data);
 	}
 
@@ -640,6 +647,7 @@ class OutgoingMailController extends Controller
 		if ($r->storagesub != '') {
 			$surat->storagesub = GlobalClass::generateMongoObjectId($r->storagesub);
 		}
+		$surat->folder = $r->folder;
 		$surat->note = $r->note;
 
 		//Delete Old File

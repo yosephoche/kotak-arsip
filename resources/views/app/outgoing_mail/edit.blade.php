@@ -123,6 +123,15 @@
 								</div>
 							</div>
 							<div class="item">
+								<label>Salin ke <a data-toggle="tooltip" data-placement="top" title="Kelompokkan arsip Anda berdasarkan kategori atau kegiatan yang berkaitan dengan arsip ini">Folder</a> <i>(opsional)</i></label>
+								<div class="value"><input type="text" class="form-control" name="folder" list="folder" autocomplete="off" value="{{ $archieve->folder }}"></div>
+								<datalist id="folder">
+									@foreach ($folder as $val)
+										<option value="{{ $val->folder }}">
+									@endforeach
+								</datalist>
+							</div>
+							<div class="item">
 								<label>Keterangan <i>(opsional)</i></label>
 								<div class="value"><input type="text" class="form-control" name="note" value="{{ $archieve->note }}"></div>
 							</div>

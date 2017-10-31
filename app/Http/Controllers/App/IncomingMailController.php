@@ -93,6 +93,7 @@ class IncomingMailController extends Controller
 						'storage.name' => 1,
 						'files' => 1,
 						'type' => 1,
+						'folder' => 1,
 						'id_user' => 1,
 						'id_company' => 1,
 						'deleted_at' => 1
@@ -130,6 +131,9 @@ class IncomingMailController extends Controller
 						),
 						'storage' => array(
 							'$first' => '$storage'
+						),
+						'folder' => array(
+							'$first' => '$folder'
 						),
 						'files' => array(
 							'$first' => '$files'
@@ -468,6 +472,9 @@ class IncomingMailController extends Controller
 		//Storage
 		$data['storage'] = Storage::where('id_company', Auth::user()->id_company)->orderBy('name')->get();
 
+		//Folder
+		$data['folder'] = Archieve::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->select('folder')->groupBy('folder')->orderBy('folder')->get();
+
 		return view('app.incoming_mail.create', $data);
 	}
 
@@ -492,6 +499,7 @@ class IncomingMailController extends Controller
 		$surat->subject = $r->subject;
 		$surat->date = GlobalClass::generateIsoDate($date);
 		$surat->storage = GlobalClass::generateMongoObjectId($r->storage);
+		$surat->folder = $r->folder;
 		if ($r->storagesub != '') {
 			$surat->storagesub = GlobalClass::generateMongoObjectId($r->storagesub);
 		}
@@ -612,6 +620,9 @@ class IncomingMailController extends Controller
 		//Sub Storage
 		$data['storagesub'] = StorageSub::orderBy('name')->get();
 
+		//Folder
+		$data['folder'] = Archieve::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->select('folder')->groupBy('folder')->orderBy('folder')->get();
+
 		return view('app.incoming_mail.edit', $data);
 	}
 
@@ -640,6 +651,7 @@ class IncomingMailController extends Controller
 		if ($r->storagesub != '') {
 			$surat->storagesub = GlobalClass::generateMongoObjectId($r->storagesub);
 		}
+		$surat->folder = $r->folder;
 		$surat->note = $r->note;
 
 		//Delete Old File

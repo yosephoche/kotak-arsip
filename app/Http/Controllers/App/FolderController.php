@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\App;
 use App\Archieve;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
-use GlobalClass, Auth;
+use Auth, Session, GlobalClass;
 
-class SearchController extends Controller
+class FolderController extends Controller
 {
 	public function __construct()
 	{
@@ -15,26 +16,71 @@ class SearchController extends Controller
 
 	public function index()
 	{
-		if (!isset($_GET['q'])) {
-			return redirect()->back();
-		}
 		$limit = 25; // change in index too
-		$data['archieve'] = Archieve::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->whereNull('deleted_at')->paginate($limit);
-		return view('app.search.index', $data);
+		$data['archieve'] = Archieve::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->select('folder')->groupBy('folder')->paginate($limit);
+		return view('app.folder.index', $data);
 	}
 
 	public function getData()
 	{
-		$fulltext = @$_GET['fulltext'];
-		$type = @$_GET['type'];
-		$start = @$_GET['start'];
-		$end = @$_GET['end'];
-		$storage = @$_GET['storage'];
-		$substorage = @$_GET['substorage'];
-		
 		$archieve = Archieve::raw(function($collection){
 
-			$q = @$_GET['q'];
+			return $collection->aggregate(array(
+				array(
+					'$project' => array(
+						'folder' => 1,
+						'id_user' => 1,
+						'id_company' => 1,
+						'deleted_at' => 1
+					)
+				),
+				array(
+					'$group' => array(
+						'_id' => '$folder',
+						'id_user' => array(
+							'$first' => '$id_user'
+						),
+						'id_company' => array(
+							'$first' => '$id_company'
+						),
+						'folder' => array(
+							'$first' => '$folder'
+						),
+						'deleted_at' => array(
+							'$first' => '$deleted_at'
+						),
+						'count' => array(
+							'$sum' => 1
+						)
+					)
+				),
+				array(
+					'$sort' => array(
+						'folder' => 1
+					)
+				),
+				array(
+					'$match' => array(
+						'id_user' => GlobalClass::generateMongoObjectId(Auth::user()->_id),
+						'id_company' => Auth::user()->id_company,
+						'deleted_at' => null,
+						'folder' => array(
+							'$ne' => null
+						)
+					)
+				)
+			));
+		});
+
+		return response()->json([
+			'folder'  =>  $archieve,
+		]);
+	}
+
+	public function getDataDetail($folder)
+	{
+		$archieve = Archieve::raw(function($collection) use($folder) {
+			$q = str_replace('_', ' ', $folder);
 
 			// Sort By
 			$sortKey = 'created_at';
@@ -108,6 +154,7 @@ class SearchController extends Controller
 						'id_user' => 1,
 						'id_company' => 1,
 						'fulltext' => 1,
+						'folder' => 1,
 						'deleted_at' => 1
 					)
 				),
@@ -159,6 +206,9 @@ class SearchController extends Controller
 						'fulltext' => array(
 							'$first' => '$fulltext'
 						),
+						'folder' => array(
+							'$first' => '$folder'
+						),
 						'share' => array(
 							'$push' => array(
 								'user' => '$share.user',
@@ -175,10 +225,7 @@ class SearchController extends Controller
 				),
 				array(
 					'$match' => array(
-						'search' => array(
-							'$regex' => $q,
-							'$options' => 'i'
-						),
+						'folder' => $q,
 						'id_user' => GlobalClass::generateMongoObjectId(Auth::user()->_id),
 						'id_company' => Auth::user()->id_company,
 						'deleted_at' => null
@@ -193,82 +240,16 @@ class SearchController extends Controller
 			));
 		});
 
-		if ($fulltext != null) {
-			$archieve = $archieve->where('fulltext', $fulltext);
-		}
-
-		if ($type != null) {
-			$archieve = $archieve->where('type', $type);
-		}
-
-		if ($start != null) {
-			$archieve = $archieve->where('start', $start);
-		}
-
-		if ($end != null) {
-			$archieve = $archieve->where('end', $end);
-		}
-
-		if ($storage != null) {
-			$archieve = $archieve->where('storage', $storage);
-		}
-
-		if ($substorage != null) {
-			$archieve = $archieve->where('substorage', $substorage);
-		}
-
 		return response()->json([
-			'search'  =>  $archieve,
+			'folder'  =>  $archieve,
 		]);
 	}
 
-	public function getDataAutocomplete()
-	{		
-		$archieve = Archieve::raw(function($collection){
-
-			return $collection->aggregate(array(
-				array(
-					'$unwind' => array(
-						'path' => '$share',
-						'preserveNullAndEmptyArrays' => true
-					)
-				),
-				array(
-					'$group' => array(
-						'_id' => '$_id',
-						'id_user' => array(
-							'$first' => '$id_user'
-						),
-						'id_company' => array(
-							'$first' => '$id_company'
-						),
-						'search' => array(
-							'$first' => '$search'
-						),
-						'deleted_at' => array(
-							'$first' => '$deleted_at'
-						),
-					)
-				),
-				array(
-					'$match' => array(
-						'id_user' => GlobalClass::generateMongoObjectId(Auth::user()->_id),
-						'id_company' => Auth::user()->id_company,
-						'deleted_at' => null
-					)
-				)
-			));
-		});
-
-		return response()->json($archieve);
-	}
-
-	public function delete(Request $r)
+	public function detail($folder)
 	{
-		$archieve = Archieve::where('_id', $r->id)->delete();
-
-		$r->session()->flash('success', 'Arsip berhasil dihapus');
-
-		return redirect()->back();
+		$limit = 25; // change in index too
+		$data['archieve'] = Archieve::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->whereNull('deleted_at')->paginate($limit);
+		$data['folder'] = $folder;
+		return view('app.folder.detail', $data);
 	}
 }

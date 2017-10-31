@@ -82,6 +82,13 @@ Route::group(['namespace' => 'App'], function () {
 		Route::group(['prefix' => 'trash'], function(){
 			Route::get('/', 'TrashController@getData')->name('api_trash');
 		});
+
+
+		//API-Folder
+		Route::group(['prefix' => 'folder'], function(){
+			Route::get('/', 'FolderController@getData')->name('api_folder');
+			Route::get('/detail/{folder?}', 'FolderController@getDataDetail')->name('api_folder_detail');
+		});
 	});
 
 	//Company
@@ -158,6 +165,12 @@ Route::group(['namespace' => 'App'], function () {
 			Route::post('/bagikan', 'OutgoingMailController@shared')->name('outgoing_mail_shared');
 			Route::get('/riwayat-bagikan/{id?}', 'OutgoingMailController@sharedHistory')->name('outgoing_mail_shared_history');
 		});
+	});
+
+	//Folder
+	Route::group(['prefix' => 'folder'], function(){
+		Route::get('/', 'FolderController@index')->name('folder');
+		Route::get('/{folder?}', 'FolderController@detail')->name('folder_detail');
 	});
 
 	//Share
