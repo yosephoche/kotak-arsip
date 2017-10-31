@@ -23,8 +23,8 @@ class CheckSerial
         ob_clean();
 
 		// For Windows
-		$string = exec('getmac');
-		$mac = substr($string, 0, 17);
+		// $string = exec('getmac');
+		// $mac = substr($string, 0, 17);
         
 		//Check amount data
 		$check = Activation::all();
