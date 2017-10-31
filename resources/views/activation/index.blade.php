@@ -6,9 +6,17 @@
 </head>
 <body>
 	<?php 
-		$string=exec('getmac');
-        $mac=substr($string, 0, 17);
-        echo $mac;
+		// For Windows
+		$string = exec('getmac');
+		$mac = substr($string, 0, 17);
+
+		// For Mac
+		ob_start();
+		system("ifconfig en1 | awk '/ether/{print $2}'");
+		$mac = substr(ob_get_contents(), 0, 17);
+		ob_clean();
+
+		echo $mac;
 	 ?>
 	<form action="{{ route('activation_store') }}" method="post">
 		{{ csrf_field() }}
