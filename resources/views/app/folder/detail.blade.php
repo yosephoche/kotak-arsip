@@ -1,6 +1,6 @@
 @extends('app.layouts.main')
 
-@section('title', 'Pencarian')
+@section('title', 'Folder '.str_replace('_', ' ', $folder))
 
 @section('contents')
 

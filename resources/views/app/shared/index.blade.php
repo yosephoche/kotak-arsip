@@ -1,6 +1,6 @@
 @extends('app.layouts.main')
 
-@section('title', 'Surat Masuk')
+@section('title', 'Berbagi')
 
 @section('contents')
 	@if ( Session::has('success') ) 

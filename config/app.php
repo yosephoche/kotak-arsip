@@ -178,7 +178,9 @@ return [
         App\Providers\RouteServiceProvider::class,
         Jenssegers\Mongodb\MongodbServiceProvider::class,
         Jenssegers\Mongodb\MongodbQueueServiceProvider::class,
+        Jenssegers\Mongodb\Auth\PasswordResetServiceProvider::class,
         App\Providers\GlobalClassServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
 
     ],
 
@@ -230,6 +232,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'GlobalClass' => App\Facades\GlobalClass::class,
         'Moloquent' => Jenssegers\Mongodb\Eloquent\Model::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
     ],
 
 ];
