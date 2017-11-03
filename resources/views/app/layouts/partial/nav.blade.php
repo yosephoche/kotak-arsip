@@ -42,7 +42,7 @@
 					
 				@endforelse
 				
-				<li class="text-center"><a href="notifikasi.html">Lihat semua pemberitahuan</a></li>
+				<li class="text-center"><a href="{{ route('notifications') }}">Lihat semua pemberitahuan</a></li>
 			</ul>
 		</li>
 		<li class="profile dropdown">
