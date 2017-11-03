@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\App;
-use App\Archieve, App\StorageSub, App\User, App\Storage;
+use App\Archieve, App\StorageSub, App\User, App\Storage, App\Notifications;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
@@ -373,6 +373,12 @@ class SharedController extends Controller
 	public function detail($id)
 	{
 		$data['archieve'] = Archieve::find($id);
+
+		if (isset($_GET['read'])) {
+			$notifications = Notifications::find($_GET['read']);
+			$notifications->read = 1;
+			$notifications->save();
+		}
 
 		return view('app.shared.detail', $data);
 	}

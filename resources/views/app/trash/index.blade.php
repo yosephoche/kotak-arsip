@@ -50,14 +50,6 @@
 					@endif
 				</th>
 				<th width="150px">Jenis Arsip</th>
-				<th class="text-right dropdown">
-					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list-ul"></i></a>
-					<ul class="dropdown-menu pull-right">
-						<li class="label-dropdown">Mode Tampilan</li>
-						<li><a href="detail.html">List <i class="fa fa-list-ul pull-right"></i></a></li>
-						<li><a href="#">Grid <i class="fa fa-th-large pull-right"></i></a></li>
-					</ul>
-				</th>
 			</tr>
 			<tr class="item" v-for="val in json.search" @click="detailSidebar(val, $event)">
 				<td>

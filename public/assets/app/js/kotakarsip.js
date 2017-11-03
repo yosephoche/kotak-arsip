@@ -55507,10 +55507,10 @@ function navClose() {
 
 // function callback
 $(".nav-toggle").clicktoggle(navShow, navClose);
-$('.new-notif').click(function() {
-	$(this).find('.fa-bell').removeClass('animated infinite');
-	$(this).removeClass('new-notif');
-});
+// $('.new-notif').click(function() {
+// 	$(this).find('.fa-bell').removeClass('animated infinite');
+// 	$(this).removeClass('new-notif');
+// });
 function seePassword(e) {
 	$(e).click(function() {
 		var name = $(this).data('name');
@@ -55531,7 +55531,7 @@ seePassword('.see-password');
 // NiceScroll
 $(document).ready(function() {
 	if($(window).width() > 992) {
-		$('.ka-menus, .ka-main, .detail-info .select').niceScroll({
+		$('.ka-menus, .ka-main, .detail-info .select, .notif .dropdown-menu').niceScroll({
 			cursorcolor: "rgba(0,0,0,.3)"
 		});
 	}

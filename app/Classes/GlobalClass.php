@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Classes;
-use App\Posts;
+use App\Notifications, App\Users;
 use DB, Session, Response, Image, Auth, DateTime, Request;
 
 
@@ -164,6 +164,17 @@ class GlobalClass
 		$link = Request::url().'?'.$string;
 
 		return $link;
+	}
+
+	public function notif($user, $message, $link)
+	{
+		$notif = new Notifications;
+		$notif->from = new \MongoDB\BSON\ObjectID(Auth::user()->_id);
+		$notif->id_user = $user;
+		$notif->message = $message;
+		$notif->link = $link;
+		$notif->read = 0;
+		$notif->save();
 	}
 
 }

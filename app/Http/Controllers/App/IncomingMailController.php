@@ -711,6 +711,13 @@ class IncomingMailController extends Controller
 				'date' => GlobalClass::generateIsoDate($date),
 				'message' => $r->message[$key[$i]]
 			];
+			
+			// Notification
+			GlobalClass::notif(
+				GlobalClass::generateMongoObjectId($r->share[$key[$i]]),
+				Auth::user()->name.' mendisposisi surat masuk dari <b>'.$surat->from.'</b> kepada Anda',
+				route('shared_incoming_mail_detail', ['_id' => $surat->_id])
+			);
 		}
 
 

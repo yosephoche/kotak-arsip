@@ -11465,6 +11465,8 @@ a:hover, a:focus, a:active, a:visited {
 .ka-nav .notif .dropdown-menu.pull-right {
   right: -22px;
   width: 380px;
+  overflow-y: auto;
+  max-height: 400px;
 }
 .ka-nav .notif .dropdown-menu.pull-right .notif-title h3 {
   font-size: 16px;
@@ -11481,7 +11483,6 @@ a:hover, a:focus, a:active, a:visited {
   background-color: transparent;
   padding: 0;
   margin-top: 2px;
-  margin-right: 15px;
 }
 .ka-nav .notif .dropdown-menu.pull-right .notif-title a:hover, .ka-nav .notif .dropdown-menu.pull-right .notif-title a:focus {
   background-color: transparent;
@@ -11507,7 +11508,8 @@ a:hover, a:focus, a:active, a:visited {
   display: block;
 }
 .ka-nav .notif .dropdown-menu.pull-right li a span .btn {
-  margin-top: 15px;
+  margin-top: 8px;
+  margin-bottom: 5px;
 }
 .ka-nav .notif .dropdown-menu.pull-right li.unread {
   background-color: #ecf5ff;
@@ -11632,6 +11634,7 @@ a:hover, a:focus, a:active, a:visited {
   margin-bottom: 0;
 }
 .ka-body .ka-main .table .item td .disposisi .img-disposisi {
+  position: relative;
   width: 25px;
   height: 25px;
   display: inline-block;

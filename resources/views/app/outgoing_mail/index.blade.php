@@ -50,14 +50,6 @@
 				</th>
 				<th class="view-tablet-only">Dibagikan</th>
 				<th class="view-tablet-only" width="120px">Tanggal Keluar</th>
-				<th class="text-right dropdown">
-					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list-ul"></i></a>
-					<ul class="dropdown-menu pull-right">
-						<li class="label-dropdown">Mode Tampilan</li>
-						<li><a href="detail.html">List <i class="fa fa-list-ul pull-right"></i></a></li>
-						<li><a href="#">Grid <i class="fa fa-th-large pull-right"></i></a></li>
-					</ul>
-				</th>
 			</tr>
 			<tr class="item" v-for="val in json.outgoingMail" v-on:click="detailSidebar(val, $event)">
 				<td><a v-bind:href="'{{ route('outgoing_mail_detail') }}/' + val._id" v-html="val.to"></a></td>

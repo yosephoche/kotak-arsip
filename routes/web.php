@@ -228,6 +228,12 @@ Route::group(['namespace' => 'App', 'middleware' => CheckSerial::class], functio
 		Route::get('/', 'SearchController@index')->name('search');
 		Route::post('/delete', 'SearchController@delete')->name('search_delete');
 	});
+
+	//Notifications
+	Route::group(['prefix' => 'notifications'], function(){
+		Route::get('/', 'NotificationsController@index')->name('notifications');
+		Route::get('/read-all', 'NotificationsController@readAll')->name('notifications_readall');
+	});
 });
 
 

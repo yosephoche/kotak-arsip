@@ -707,6 +707,13 @@ class OutgoingMailController extends Controller
 				'date' => GlobalClass::generateIsoDate($date),
 				'message' => $r->message[$key[$i]]
 			];
+			
+			// Notification
+			GlobalClass::notif(
+				GlobalClass::generateMongoObjectId($r->share[$key[$i]]),
+				Auth::user()->name.' membagikan surat keluar kepada <b>'.$surat->to.'</b> kepada Anda',
+				route('shared_outgoing_mail_detail', ['_id' => $surat->_id])
+			);
 		}
 
 
