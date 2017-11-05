@@ -14,5 +14,5 @@ npm-debug.log
 yarn-error.log
 .env
 public/assets/tesseract
-app/http/middleware/CheckSerial.php
+app/Http/Middleware/CheckSerial.php
 .DS_Store
