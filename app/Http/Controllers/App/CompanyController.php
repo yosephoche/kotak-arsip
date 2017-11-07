@@ -37,7 +37,7 @@ class CompanyController extends Controller
 				$user->status = 'member';
 				$user->save();
 
-				return redirect()->route('dashboard');
+				return redirect()->route('incoming_mail');
 			} else {
 				// Failed Message  
 				$r->session()->flash('failed', 'Company code not found');
