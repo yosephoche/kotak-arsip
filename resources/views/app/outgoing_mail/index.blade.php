@@ -171,7 +171,7 @@
 										<input type="text" :name="'message['+index+']'" class="message-fill hide" value="">
 									</td>
 									<td>
-										<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + val.photo + ')' }" v-if="val.photo != ''"></div>
+										<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
 										<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
 									</td>
 									<td>
@@ -188,7 +188,7 @@
 										</div>
 									</td>
 									<td>
-										<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + val.photo + ')' }" v-if="val.photo != ''"></div>
+										<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
 										<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
 									</td>
 									<td>

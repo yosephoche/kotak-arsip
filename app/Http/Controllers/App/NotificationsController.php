@@ -16,8 +16,8 @@ class NotificationsController extends Controller
 
 	public function index()
 	{
-		$data['notifications'] = Notifications::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->orderBy('created_at', 'desc')->take(25)->get();
-		
+		$data['notifications'] = Notifications::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->orderBy('_id', 'desc')->take(25)->get();
+
 		return view('app.notifications.index', $data);
 	}
 

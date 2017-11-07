@@ -14,7 +14,7 @@
 	</ul>
 	<ul class="right-side">
 		<?php
-			$notifications = App\Notifications::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->orderBy('created_at', 'desc')->take(5)->get();
+			$notifications = App\Notifications::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->orderBy('_id', 'desc')->take(5)->get();
 		?>
 		<li class="notif dropdown {{ count($notifications->where('read', 0)) > 0 ? 'new-notif' : '' }}">
 			<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bell {{ count($notifications->where('read', 0)) > 0 ? 'animated swing infinite' : '' }}"></i> {!! count($notifications->where('read', 0)) > 0 ? '<span class="badge">'.count($notifications->where('read', 0)).'</span>' : '' !!}</a>
