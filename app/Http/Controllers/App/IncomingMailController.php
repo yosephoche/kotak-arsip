@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use Auth, Session, GlobalClass;
-use Carbon\Carbon;
+use Carbon\Carbon, URL;
 
 class IncomingMailController extends Controller
 {
@@ -716,7 +716,7 @@ class IncomingMailController extends Controller
 			GlobalClass::notif(
 				GlobalClass::generateMongoObjectId($r->share[$key[$i]]),
 				Auth::user()->name.' mendisposisi surat masuk dari <b>'.$surat->from.'</b> kepada Anda',
-				route('shared_incoming_mail_detail', ['_id' => $surat->_id])
+				URL::route('shared_incoming_mail_detail', array('id' => $surat->_id), false)
 			);
 		}
 

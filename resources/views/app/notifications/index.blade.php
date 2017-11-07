@@ -19,11 +19,13 @@
 							<?php
 								$date_timestamp = strtotime($notif->created_at);
 								$date = date('d-M', $date_timestamp); 
+								$time = date('H:i', $date_timestamp); 
 							?>
 							<span class="tl-date">{{ $date }}</span>
 							<div class="tl-content panel padder b-a">
 								<span class="arrow left pull-up"></span>
 								<a href="{{ $notif->link }}" style="color: #333">{!! $notif->message !!}</a>
+								<span class="time">{{ $time }}</span>
 							</div>
 						</div>
 					</li>
