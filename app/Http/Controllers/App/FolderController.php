@@ -30,18 +30,18 @@ class FolderController extends Controller
 					'$project' => array(
 						'folder' => 1,
 						'id_user' => 1,
-						'id_company' => 1,
 						'deleted_at' => 1
 					)
 				),
 				array(
 					'$group' => array(
-						'_id' => '$folder',
+						'_id' => array(
+							'folder' => '$folder',
+							'id' => '$id_user',
+							'deleted_at' => '$deleted_at',
+						),
 						'id_user' => array(
 							'$first' => '$id_user'
-						),
-						'id_company' => array(
-							'$first' => '$id_company'
 						),
 						'folder' => array(
 							'$first' => '$folder'
@@ -62,7 +62,6 @@ class FolderController extends Controller
 				array(
 					'$match' => array(
 						'id_user' => GlobalClass::generateMongoObjectId(Auth::user()->_id),
-						'id_company' => Auth::user()->id_company,
 						'deleted_at' => null,
 						'folder' => array(
 							'$ne' => null
@@ -251,5 +250,36 @@ class FolderController extends Controller
 		$data['archieve'] = Archieve::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->whereNull('deleted_at')->paginate($limit);
 		$data['folder'] = $folder;
 		return view('app.folder.detail', $data);
+	}
+
+	public function update(Request $r)
+	{
+		$this->validate($r, [
+			'old_folder' => 'required',
+			'folder' => 'required',
+		]);
+
+		$folder = Archieve::where('folder', $r->old_folder)
+							->where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))
+							->update(['folder' => $r->folder]);
+
+		$r->session()->flash('success', 'Berhasil menyimpan pembaruan');
+
+		return redirect()->route('folder');
+	}
+
+	public function delete(Request $r)
+	{
+		$this->validate($r, [
+			'folder' => 'required',
+		]);
+
+		$archieve = Archieve::where('folder', $r->folder)
+								->where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))
+								->delete();
+
+		$r->session()->flash('success', 'Folder berhasil dihapus');
+
+		return redirect()->route('folder');
 	}
 }

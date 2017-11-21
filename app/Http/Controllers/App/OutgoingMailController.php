@@ -93,6 +93,7 @@ class OutgoingMailController extends Controller
 						'storage.name' => 1,
 						'files' => 1,
 						'type' => 1,
+						'folder' => 1,
 						'id_user' => 1,
 						'id_company' => 1,
 						'deleted_at' => 1
@@ -130,6 +131,9 @@ class OutgoingMailController extends Controller
 						),
 						'storage' => array(
 							'$first' => '$storage'
+						),
+						'folder' => array(
+							'$first' => '$folder'
 						),
 						'files' => array(
 							'$first' => '$files'
@@ -233,6 +237,7 @@ class OutgoingMailController extends Controller
 						'storagesub.name' => 1,
 						'storage._id' => 1,
 						'storage.name' => 1,
+						'folder' => 1,
 						'files' => 1,
 					)
 				),
@@ -259,6 +264,9 @@ class OutgoingMailController extends Controller
 						),
 						'storage' => array(
 							'$first' => '$storage'
+						),
+						'folder' => array(
+							'$first' => '$folder'
 						),
 						'files' => array(
 							'$first' => '$files'

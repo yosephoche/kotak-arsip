@@ -28,8 +28,8 @@
 				<td class="text-right dropdown">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
 					<ul class="dropdown-menu pull-right">
-						<li><a href="#" data-toggle="modal" data-target="#deleteModal" v-bind:data-id="val.folder">Sunting</a></li>
-						<li><a href="#" data-toggle="modal" data-target="#deleteModal" class="text-danger" v-bind:data-id="val.folder">Hapus Folder</a></li>
+						<li><a href="#" data-toggle="modal" data-target="#editModal" :data-folder="val.folder">Sunting</a></li>
+						<li><a href="#" data-toggle="modal" data-target="#deleteModal" class="text-danger" v-bind:data-folder="val.folder">Hapus Folder</a></li>
 					</ul>
 				</td>
 			</tr>
@@ -89,18 +89,42 @@
 
 @section('modal')
 	<!-- Modals -->
+	<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editLabelModal">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<form action="{{ route('folder_update') }}" method="POST">
+					{{ csrf_field() }}
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="editLabelModal">Sunting Folder</h4>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" name="old_folder">
+						<div class="form-group">
+							<input type="text" name="folder" class="form-control" placeholder="Nama Folder">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+						<button class="btn btn-primary">Simpan</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabelModal">
 		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
-				<form action="{{ route('trash_delete') }}" method="post">
+				<form action="{{ route('folder_delete') }}" method="post">
 					{{ csrf_field() }}
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						<h4 class="modal-title" id="deleteLabelModal">Hapus</h4>
 					</div>
 					<div class="modal-body">
-						<input type="hidden" name="id">
-						Apakah Anda yakin ingin menghapus data ini secara permanen?
+						<input type="hidden" name="folder">
+						Apakah Anda yakin ingin menghapus folder ini, semua isi folder ini juga akan ikut terhapus?
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
@@ -144,9 +168,17 @@
 	<script>
 		getDataFolder('{{ route("api_folder") }}', 'folder');
 
+		// Edit Modal
+		$('#editModal').on('show.bs.modal', function (e) {
+			var folder = $(e.relatedTarget).data('folder');
+			$(this).find('input[name="old_folder"]').val(folder);
+			$(this).find('input[name="folder"]').val(folder);
+		});
+
+		// Delete Modal
 		$('#deleteModal').on('show.bs.modal', function (e) {
-			var id = $(e.relatedTarget).data('id');
-			$(this).find('input[name="id"]').val(id);
+			var folder = $(e.relatedTarget).data('folder');
+			$(this).find('input[name="folder"]').val(folder);
 		});
 	</script>
 @endsection

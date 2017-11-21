@@ -224,7 +224,7 @@ class TrashController extends Controller
 
 	public function restore(Request $r)
 	{
-		$archieve = Archieve::where('_id', $r->id)->restore();
+		$archieve = Archieve::where('_id', $r->id)->unset('deleted_at');
 
 		$r->session()->flash('success', 'Arsip berhasil dipulihkan');
 

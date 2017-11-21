@@ -177,6 +177,8 @@ Route::group(['namespace' => 'App', 'middleware' => CheckSerial::class], functio
 	Route::group(['prefix' => 'folder'], function(){
 		Route::get('/', 'FolderController@index')->name('folder');
 		Route::get('/{folder?}', 'FolderController@detail')->name('folder_detail');
+		Route::post('/update', 'FolderController@update')->name('folder_update');
+		Route::post('/delete', 'FolderController@delete')->name('folder_delete');
 	});
 
 	//Share

@@ -237,6 +237,7 @@ class IncomingMailController extends Controller
 						'storagesub.name' => 1,
 						'storage._id' => 1,
 						'storage.name' => 1,
+						'folder' => 1,
 						'files' => 1,
 					)
 				),
@@ -263,6 +264,9 @@ class IncomingMailController extends Controller
 						),
 						'storage' => array(
 							'$first' => '$storage'
+						),
+						'folder' => array(
+							'$first' => '$folder'
 						),
 						'files' => array(
 							'$first' => '$files'
