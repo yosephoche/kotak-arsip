@@ -17,11 +17,16 @@
 		<table class="table table-hover">
 			<tr>
 				<th class="sort" @click="sortBy('name', $event)">Nama/Kode Penyimpanan Arsip <i class="fa fa-angle-down i-sort"></i></th>
-				<th colspan="2" @click="sortBy('type', $event)">Jenis</th>
+				<th @click="sortBy('type', $event)">Jenis</th>
+				<th colspan="2">Jumlah Arsip</th>
 			</tr>
 			<tr class="item" v-for="val in orderedStorage" @click="detailSidebar(val, $event)">
 				<td><a v-bind:href="'{{ route('storage_sub') }}/' + val._id" v-html="val.name"></a></td>
 				<td v-html="val.type.replace('_', ' ').replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();})"></td>
+				<td>
+					<span v-html="val.count + ' arsip'" v-if="val.count > 0"></span>
+					<span v-html="'-'" v-else></span>
+				</td>
 				<td class="text-right dropdown">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
 					<ul class="dropdown-menu pull-right">
