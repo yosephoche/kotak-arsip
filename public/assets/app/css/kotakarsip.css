@@ -11267,6 +11267,7 @@ html, body {
   margin: 0;
   padding: 0;
   color: #333;
+  overflow: hidden;
 }
 
 textarea {
@@ -11668,7 +11669,7 @@ a:hover, a:focus, a:active, a:visited {
   margin-left: -20px;
   margin-right: -20px;
   padding: 20px;
-  height: calc(100vh - 210px);
+  height: calc(100vh - 212px);
   overflow-y: auto;
 }
 .ka-body .ka-sidebar-detail .detail-info .select.select-full {
@@ -12025,6 +12026,11 @@ a:hover, a:focus, a:active, a:visited {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.tooltip {
+  transition: none;
+  margin-top: 5px;
 }
 
 @media only screen and (min-width: 960px) {

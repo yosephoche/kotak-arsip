@@ -15,7 +15,6 @@ function getDataIncomingMail(api, key) {
 			$.getJSON(api, function (json) {
 				_this.json = json;
 			});
-
 		},
 		methods: {
 			detailSidebar: function (val, e) {

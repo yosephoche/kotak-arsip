@@ -273,6 +273,10 @@
 						</ul>
 					</div>
 				</div>
+				<div class="item" v-if="detail.folder">
+					<label>Folder</label>
+					<div class="value"><a :href="'{{ route('folder') }}/' + detail.folder" v-html="detail.folder"></a></div>
+				</div>
 				<div class="item" v-if="detail.share[0].user != ''">
 					<label>Disposisi</label>
 					<div class="value">
