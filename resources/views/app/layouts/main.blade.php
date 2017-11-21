@@ -54,8 +54,15 @@
 
 		autocompleteSearch('{{ route("api_search_autocomplete") }}?{{ rand(11111,99999) }}&q=');
 
-		// 3 mean 3second
-		alertTimeout(3);
+		$("a").click(function(e){
+			e.preventDefault();
+			if($(this).is('a:not([href^="#"])')) {
+				$(".page-loader").show();
+				
+				var url = $(this).attr('href');
+				document.location.href = url;
+			}
+		});
 	</script>
 
 </body>

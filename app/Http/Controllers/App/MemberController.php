@@ -54,7 +54,7 @@ class MemberController extends Controller
 
 		// Upload Image
 		$destination = public_path('assets/app/img/users');
-		$photo_arr = GlobalClass::Upload($r->file('photo'), $destination);
+		$photo_arr = GlobalClass::Upload($r->file('photo'), $destination, 50);
 		$photo = implode(',', $photo_arr);
 		$member->photo = $photo;
 
@@ -106,7 +106,7 @@ class MemberController extends Controller
 
 			// Upload Image
 			$destination = public_path('assets/app/img/users');
-			$photo_arr = GlobalClass::Upload($r->file('photo'), $destination, 200);
+			$photo_arr = GlobalClass::Upload($r->file('photo'), $destination, 50);
 			$photo = implode(',',$photo_arr);
 			
 			// Save to DB

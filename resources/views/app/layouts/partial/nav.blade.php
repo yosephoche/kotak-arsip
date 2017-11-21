@@ -30,7 +30,7 @@
 					<li class="{{ $notif->read == 0 ? 'unread' : '' }}">
 						<a href="{{ $notif->link }}?read={{ $notif->_id }}">
 							<?php $user = App\User::where('_id', GlobalClass::generateMongoObjectId($notif->from))->select('photo')->first(); ?>
-							<div class="img-profile" style="background: url({{ asset('assets/app/img/users').'/'.$user->photo }})"></div>
+							<div class="img-profile" style="background: url({{ asset('assets/app/img/users').'/thumb-'.$user->photo }})"></div>
 							<span>
 								{!! $notif->message !!}<br>
 								<div class="btn btn-primary btn-sm">Buka File</div>
@@ -48,7 +48,7 @@
 		<li class="profile dropdown">
 			<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 				@if (Auth::user()->photo != '')
-					<div class="img-profile" style="background: url({{ asset('assets/app/img/users').'/'.Auth::user()->photo }})"></div>
+					<div class="img-profile" style="background: url({{ asset('assets/app/img/users').'/thumb-'.Auth::user()->photo }})"></div>
 				@else
 					<div class="img-profile" style="background: url({{ asset('assets/app/img/icons/user-white.svg') }})"></div>
 				@endif

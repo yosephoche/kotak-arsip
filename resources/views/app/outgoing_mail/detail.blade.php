@@ -120,7 +120,7 @@
 							<input type="hidden" name="id">
 							<div class="col-md-6">
 								<br>
-								<textarea name="message" rows="14" placeholder="Tambahkan pesan (opsional)" class="form-control no-border no-padding no-resize" onchange="$('.message-fill').val($(this).val())"></textarea>
+								<textarea name="message" rows="13" placeholder="Tambahkan pesan (opsional)" class="form-control no-border no-padding no-resize" onchange="$('.message-fill').val($(this).val())"></textarea>
 							</div>
 							<div class="col-md-6 no-padding" style="border-left: 1px solid #ddd; height: 299px; overflow-y: auto">
 								<table class="table">
@@ -134,7 +134,7 @@
 											<input type="text" :name="'message['+index+']'" class="message-fill hide" value="">
 										</td>
 										<td>
-											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
+											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
 											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
 										</td>
 										<td>
@@ -151,7 +151,7 @@
 											</div>
 										</td>
 										<td>
-											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
+											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
 											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
 										</td>
 										<td>

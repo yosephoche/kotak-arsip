@@ -181,6 +181,7 @@ return [
         Jenssegers\Mongodb\Auth\PasswordResetServiceProvider::class,
         App\Providers\GlobalClassServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        'Folklore\Image\ImageServiceProvider'
 
     ],
 
@@ -233,6 +234,7 @@ return [
         'GlobalClass' => App\Facades\GlobalClass::class,
         'Moloquent' => Jenssegers\Mongodb\Eloquent\Model::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Image' => 'Folklore\Image\Facades\Image'
     ],
 
 ];

@@ -138,7 +138,10 @@
 										<input type="checkbox" name="share[]" :value="val._id" v-if="dispositionArray.indexOf(val._id) != -1" checked>
 										<input type="checkbox" name="share[]" :value="val._id" v-else>
 									</td>
-									<td><div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + val.photo + ')' }"></div></td>
+									<td>
+										<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }"></div>
+										<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+									</td>
 									<td>
 										<span class="name" v-html="val.name"></span><br>
 										<span class="position" v-html="val.position"></span>
