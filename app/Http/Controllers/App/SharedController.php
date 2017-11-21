@@ -175,9 +175,9 @@ class SharedController extends Controller
 								'email' => Auth::user()->email
 							)
 						),
-						// 'share.deleted_at' => array(
-						// 	'$exists' => false
-						// )
+						'share.deleted_at' => array(
+							'$exists' => false
+						)
 					)
 				),
 				array(
@@ -350,6 +350,9 @@ class SharedController extends Controller
 							'$elemMatch' => array(
 								'email' => Auth::user()->email
 							)
+						),
+						'share.deleted_at' => array(
+							'$exists' => false
 						)
 					)
 				),
