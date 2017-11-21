@@ -59,16 +59,42 @@ class StorageSubController extends Controller
 
             return $collection->aggregate(array(
                 array(
-                    '$match' => array(
-                        'id_storage' => GlobalClass::generateMongoObjectId($id)
-                    )
-                ),
-                array(
                     '$lookup' => array(
                         'from'=>'archieve',
                         'localField'=>'_id',
                         'foreignField'=>'storagesub',
                         'as'=>'count'
+                    )
+                ),
+                array(
+                    '$unwind' => array(
+                        'path' => '$count',
+                        'preserveNullAndEmptyArrays' => true
+                    )
+                ),
+                array(
+                    '$match' => array(
+                        'id_storage' => GlobalClass::generateMongoObjectId($id),
+                        'count.deleted_at' => null
+                    )
+                ),
+                array(
+                    '$group' => array(
+                        '_id' => '$_id',
+                        'id_storage' => array(
+                            '$first' => '$id_storage'
+                        ),
+                        'name' => array(
+                            '$first' => '$name'
+                        ),
+                        'type' => array(
+                            '$first' => '$type'
+                        ),
+                        'count' => array(
+                            '$push' => array(
+                                '_id' => '$count._id',
+                            )
+                        )
                     )
                 ),
                 array(
@@ -80,8 +106,6 @@ class StorageSubController extends Controller
                         'count' => array(
                             '$size' => '$count._id'
                         ),
-                        'created_at' => 1,
-                        'updated_at' => 1
                     )
                 )
             ));
