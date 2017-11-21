@@ -43,6 +43,11 @@ class StorageController extends Controller
                     )
                 ),
                 array(
+                    '$match' => array(
+                        'count.deleted_at' => null
+                    )
+                ),
+                array(
                     '$group' => array(
                         '_id' => '$_id',
                         'name' => array(
