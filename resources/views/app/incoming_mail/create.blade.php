@@ -69,9 +69,9 @@
 							$rand = rand(111111,999999);
 						 ?>
 						 @if ($check == 'pdf')
-							<object data="{{ asset('assets/tesseract').'/'.Auth::user()->_id.'/'.$img }}" type="text/html"></object>
+							<div><object data="{{ asset('assets/tesseract').'/'.Auth::user()->_id.'/'.$img }}" type="text/html"></object></div>
 						 @else
-							<img src="{{ asset('assets/tesseract').'/'.Auth::user()->_id.'/'.$img.'?'.$rand }}" alt="" data-image="{{ $img }}">
+							<div><img src="{{ asset('assets/tesseract').'/'.Auth::user()->_id.'/'.$img.'?'.$rand }}" alt="" data-image="{{ $img }}"></div>
 						 @endif
 					@endforeach
 				</div>

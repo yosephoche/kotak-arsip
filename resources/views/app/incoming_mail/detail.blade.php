@@ -44,10 +44,10 @@
 				<div v-for="val in json.incomingMail">
 					<div v-for="image in val.files">
 						<div v-if="image.slice(-3) == 'pdf'">
-							<object :data="'{{ asset('assets/app/img/incoming_mail') }}/' + image" type="application/pdf"></object>
+							<div><object :data="'{{ asset('assets/app/img/incoming_mail') }}/' + image" type="application/pdf"></object></div>
 						</div>
 						<div v-else>
-							<img :src="'{{ asset('assets/app/img/incoming_mail') }}/' + image" alt="">
+							<div><img :src="'{{ asset('assets/app/img/incoming_mail') }}/' + image" alt=""></div>
 						</div>
 					</div>
 				</div>
