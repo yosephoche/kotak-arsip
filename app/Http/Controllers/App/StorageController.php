@@ -24,11 +24,6 @@ class StorageController extends Controller
 
             return $collection->aggregate(array(
                 array(
-                    '$match' => array(
-                        'id_company' => Auth::user()->id_company
-                    )
-                ),
-                array(
                     '$lookup' => array(
                         'from'=>'archieve',
                         'localField'=>'_id',
@@ -44,6 +39,7 @@ class StorageController extends Controller
                 ),
                 array(
                     '$match' => array(
+                        'id_company' => Auth::user()->id_company,
                         'count.deleted_at' => null
                     )
                 ),
