@@ -59,7 +59,6 @@ class StorageController extends Controller
 						)
 					)
 				),
-			   
 				array(
 					'$project' => array(
 						'_id' => 1,
