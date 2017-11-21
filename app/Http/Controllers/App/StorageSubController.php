@@ -55,7 +55,37 @@ class StorageSubController extends Controller
 
     public function getData($id)
     {
-        $sub = StorageSub::where('id_storage', GlobalClass::generateMongoObjectId($id))->get();
+        $sub = StorageSub::raw(function($collection) use ($id){
+
+            return $collection->aggregate(array(
+                array(
+                    '$match' => array(
+                        'id_storage' => GlobalClass::generateMongoObjectId($id)
+                    )
+                ),
+                array(
+                    '$lookup' => array(
+                        'from'=>'archieve',
+                        'localField'=>'_id',
+                        'foreignField'=>'storagesub',
+                        'as'=>'count'
+                    )
+                ),
+                array(
+                    '$project' => array(
+                        '_id' => 1,
+                        'id_storage' => 1,
+                        'name' => 1,
+                        'type' => 1,
+                        'count' => array(
+                            '$size' => '$count._id'
+                        ),
+                        'created_at' => 1,
+                        'updated_at' => 1
+                    )
+                )
+            ));
+        });
 
         return response()->json(['subStorage' => $sub]);
     }

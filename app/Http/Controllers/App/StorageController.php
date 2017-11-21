@@ -20,7 +20,36 @@ class StorageController extends Controller
 
     public function getData()
     {
-        $storage = Storage::where('id_company', Auth::user()->id_company)->get();
+        $storage = Storage::raw(function($collection){
+
+            return $collection->aggregate(array(
+                array(
+                    '$match' => array(
+                        'id_company' => Auth::user()->id_company,
+                    )
+                ),
+                array(
+                    '$lookup' => array(
+                        'from'=>'archieve',
+                        'localField'=>'_id',
+                        'foreignField'=>'storage',
+                        'as'=>'count'
+                    )
+                ),
+                array(
+                    '$project' => array(
+                        '_id' => 1,
+                        'name' => 1,
+                        'type' => 1,
+                        'count' => array(
+                            '$size' => '$count._id'
+                        ),
+                        'created_at' => 1,
+                        'updated_at' => 1
+                    )
+                )
+            ));
+        });
 
         return response()->json(['storage' => $storage]);
     }
