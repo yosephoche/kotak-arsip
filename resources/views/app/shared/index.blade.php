@@ -85,7 +85,7 @@
 						<ul class="list-unstyled disposisi">
 							<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index < 3 && disposisi.user[0] != null">
 								<b-tooltip v-bind:content="disposisi.user[0].name" placement="bottom">
-									<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + disposisi.user[0].photo + ')' }" v-if="disposisi.user[0].photo != ''"></div>
+									<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/' + disposisi.user[0].photo + ')' }" v-if="disposisi.user[0].photo != null"></div>
 									<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
 								</b-tooltip>
 							</li>

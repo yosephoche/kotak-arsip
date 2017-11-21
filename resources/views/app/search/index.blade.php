@@ -33,23 +33,27 @@
 		</div>
 
 		<ul class="current-filter">
-			@if (isset($_GET['fulltext']))
-				<li>Mohon Perlindungan Hukum <a href="">&times;</a></li>
+			@if (isset($_GET['fulltext']) && $_GET['fulltext'] != null)
+				<li>{{ $_GET['fulltext'] }} <a href="{{ route('search', ['q' => @$_GET['q'] ,'sort' => 'search', 'asc' => $ascSearch]) }}&fulltext=&type={{ @$_GET['type'] }}&start={{ @$_GET['start'] }}&end={{ @$_GET['end'] }}&storage={{ @$_GET['storage'] }}&storagesub={{ @$_GET['storagesub'] }}">&times;</a></li>
 			@endif
 
-			@if (isset($_GET['type']))
-				<li>Jenis Arsip: Surat Masuk <a href="">&times;</a></li>
+			@if (isset($_GET['type']) && $_GET['type'] != null)
+				<li>{{ $_GET['type'] == 'incoming_mail' ? 'Surat Masuk' : 'Surat Keluar' }} <a href="{{ route('search', ['q' => @$_GET['q'] ,'sort' => 'search', 'asc' => $ascSearch]) }}&fulltext={{ @$_GET['fulltext'] }}&type=&start={{ @$_GET['start'] }}&end={{ @$_GET['end'] }}&storage={{ @$_GET['storage'] }}&storagesub={{ @$_GET['storagesub'] }}">&times;</a></li>
 			@endif
 
-			@if (isset($_GET['start']))
-				<li>Tanggal 2/10/2017 - 9/10/2017 <a href="">&times;</a></li>
+			@if (isset($_GET['start']) && $_GET['start'] != null)
+				<li>Tanggal {{ $_GET['start'] }} - {{ $_GET['end'] }} <a href="{{ route('search', ['q' => @$_GET['q'] ,'sort' => 'search', 'asc' => $ascSearch]) }}&fulltext={{ @$_GET['fulltext'] }}&type={{ @$_GET['type'] }}&start=&end=&storage={{ @$_GET['storage'] }}&storagesub={{ @$_GET['storagesub'] }}">&times;</a></li>
+			@endif
+
+			@if (isset($_GET['storage']) && $_GET['storage'] != null)
+				<li>{{ @$storage_name->name }} <a href="{{ route('search', ['q' => @$_GET['q'] ,'sort' => 'search', 'asc' => $ascSearch]) }}&fulltext={{ @$_GET['fulltext'] }}&type={{ @$_GET['type'] }}&start={{ @$_GET['start'] }}&end={{ @$_GET['end'] }}&storage=&storagesub=">&times;</a></li>
 			@endif
 		</ul>
 
 		<table class="table table-hover" v-if="json.search != ''">
 			<tr>
 				<th class="{{ @$_GET['sort'] == 'search' ? 'sort' : '' }}">
-					<a href="{{ route('search', ['q' => @$_GET['q'] ,'sort' => 'search', 'asc' => $ascSearch]) }}">Judul Arsip</a>
+					<a href="{{ route('search', ['q' => @$_GET['q'] ,'sort' => 'search', 'asc' => $ascSearch]) }}&fulltext={{ @$_GET['fulltext'] }}&type={{ @$_GET['type'] }}&start={{ @$_GET['start'] }}&end={{ @$_GET['end'] }}&storage={{ @$_GET['storage'] }}&storagesub={{ @$_GET['storagesub'] }}">Judul Arsip</a>
 					@if (@$_GET['sort'] == 'search')
 						@if (@$_GET['asc'] == 'true')
 							<i class="fa fa-angle-down i-sort"></i>
@@ -59,7 +63,7 @@
 					@endif
 				</th>
 				<th class="view-tablet-only {{ @$_GET['sort'] == 'subject' ? 'sort' : '' }}">
-					<a href="{{ route('search', ['q' => @$_GET['q'] ,'sort' => 'subject', 'asc' => $ascSubject]) }}">Keterangan</a>
+					<a href="{{ route('search', ['q' => @$_GET['q'] ,'sort' => 'subject', 'asc' => $ascSubject]) }}&fulltext={{ @$_GET['fulltext'] }}&type={{ @$_GET['type'] }}&start={{ @$_GET['start'] }}&end={{ @$_GET['end'] }}&storage={{ @$_GET['storage'] }}&storagesub={{ @$_GET['storagesub'] }}">Keterangan</a>
 					@if (@$_GET['sort'] == 'subject')
 						@if (@$_GET['asc'] == 'true')
 							<i class="fa fa-angle-down i-sort"></i>
@@ -166,9 +170,9 @@
 @section('modal')
 	<!-- Modals -->
 	<div class="modal fade modal-filter" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="shareLabelModal">
-		<div class="modal-dialog" role="document">
+		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
-				<form action="{{ route('api_search') }}" method="get">
+				<form action="{{ route('search') }}" method="get">
 					<input type="hidden" name="q" value="{{ $_GET['q'] }}">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -177,7 +181,7 @@
 					<div class="modal-body" style="border-top: 1px solid #ddd">
 						<div class="form-group">
 							<label for="">Full text (<i>Fitur OCR memungkinkan Anda mencari teks dalam gambar hasil scan</i>)</label>
-							<input name="fulltext" class="form-control">
+							<input name="fulltext" class="form-control" value="{{ @$_GET['fulltext'] }}">
 						</div>
 
 
@@ -185,39 +189,37 @@
 							<label for="">Jenis Arsip</label>
 							<select name="type" id="" class="form-control">
 								<option value="">Semua Jenis Arsip</option>
-								<option value="incoming_mail">Surat Masuk</option>
-								<option value="outgoing_mail">Surat Keluar</option>
+								<option value="incoming_mail" {{ @$_GET['type'] == 'incoming_mail' ? 'selected' : '' }}>Surat Masuk</option>
+								<option value="outgoing_mail" {{ @$_GET['type'] == 'outgoing_mail' ? 'selected' : '' }}>Surat Keluar</option>
 							</select>
 						</div>
 
 						<div class="form-group">
 							<label for="">Rentang waktu diarsipkan</label>
 							<div class="input-daterange input-group" id="datepicker">
-								<input type="text" class="form-control" name="start" />
+								<input type="text" class="form-control" name="start" value="{{ @$_GET['start'] }}" />
 								<span class="input-group-addon" style="border-left: 0; border-right: 0">sampai</span>
-								<input type="text" class="form-control" name="end" />
+								<input type="text" class="form-control" name="end" value="{{ @$_GET['end'] }}" />
 							</div>
 						</div>
 
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-md-12">
 								<div class="form-group">
 									<label for="">Penyimpanan Arsip</label>
-									<select name="storage" id="" class="form-control">
+									<select name="storage" id="storage" class="form-control">
 										<option value="">Semua Penyimpanan</option>
-										<option value="">Filling Cabinet 1</option>
-										<option value="">Filling Cabinet 2</option>
+										@foreach ($storage as $s)
+											<option value="{{ $s->_id }}">{{ $s->name }}</option>
+										@endforeach
 									</select>
 								</div>
 							</div>
 							
-							<div class="col-md-6">
+							<div class="col-md-12" id="subshow">
 								<div class="form-group">
 									<label for="">Sub Penyimpanan Arsip</label>
-									<select name="substorage" id="" class="form-control">
-										<option value="">Semua Sub Penyimpanan</option>
-										<option value="">Ordner 1</option>
-										<option value="">Ordner 2</option>
+									<select name="storagesub" id="substorage" class="form-control">
 									</select>
 								</div>
 							</div>
@@ -356,7 +358,7 @@
 			}
 
 		?>
-		getDataSearch('{{ route("api_search", ["q" => @$_GET["q"]]) }}&sort={{ $sortKey }}&asc={{ $asc }}&page={{ $page }}', 'search');
+		getDataSearch('{{ route("api_search", ["q" => @$_GET["q"]]) }}&sort={{ $sortKey }}&asc={{ $asc }}&page={{ $page }}&fulltext={{ @$_GET["fulltext"] }}&type={{ @$_GET["type"] }}&start={{ @$_GET["start"] }}&end={{ @$_GET["end"] }}&storage={{ @$_GET["storage"] }}&storagesub={{ @$_GET["storagesub"] }}', 'search');
 
 		$('#deleteModal').on('show.bs.modal', function (e) {
 			var id = $(e.relatedTarget).data('id');
@@ -366,6 +368,26 @@
 		// Date Picker
 		$('#datepicker').datepicker({
 			format: 'dd/mm/yyyy'
+		});
+
+		// Storage
+		$('#subshow').hide();
+		$('#storage').on('change', function(e){
+			var storage_id = e.target.value;
+			//ajax
+			$.get('{{ route("search") }}/dropdown?storage_id=' + storage_id, function(data){
+				if (data == 0) {
+					$('#subshow').hide();
+					$('#subshow').find('select').empty();
+				} else {
+					$('#subshow').show();
+					$('#substorage').empty();
+					$('#substorage').append('<option value="">Semua Sub Penyimpanan</option>');
+					$.each(data, function(index, substorageObj){
+						$('#substorage').append('<option value="'+substorageObj._id+'">'+substorageObj.name+'</option>');
+					});
+				}
+			});
 		});
 
 		@if (@$_GET['q'] != '')

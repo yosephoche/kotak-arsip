@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\App;
-use App\Archieve;
+use App\Archieve, App\Storage, App\StorageSub;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use GlobalClass, Auth;
 
@@ -18,23 +19,61 @@ class SearchController extends Controller
 		if (!isset($_GET['q'])) {
 			return redirect()->back();
 		}
+
+		//Storage
+		$data['storage'] = Storage::where('id_company', Auth::user()->id_company)->orderBy('name')->get();
+
+		if (@$_GET['storage'] != null && @$_GET['storage'] != '') {
+			$data['storage_name'] = Storage::where('_id', GlobalClass::generateMongoObjectId($_GET['storage']))->select('name')->first();
+		}
+
+		// Archieve
 		$limit = 25; // change in index too
 		$data['archieve'] = Archieve::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->whereNull('deleted_at')->paginate($limit);
+
 		return view('app.search.index', $data);
+	}
+
+	public function dropdownAjax()
+	{
+		$storage_id = Input::get('storage_id');
+
+		$storage = StorageSub::where('id_storage', '=', GlobalClass::generateMongoObjectId($storage_id))->orderBy('name')->get();
+		return response()->json($storage);
 	}
 
 	public function getData()
 	{
-		$fulltext = @$_GET['fulltext'];
+		// Type Archieve
 		$type = @$_GET['type'];
-		$start = @$_GET['start'];
-		$end = @$_GET['end'];
-		$storage = @$_GET['storage'];
-		$substorage = @$_GET['substorage'];
 		
-		$archieve = Archieve::raw(function($collection){
+		// Range Date
+		$start_date = @$_GET['start'];
+		$start_date = str_replace('/', '-', $start_date);
+		$start = strval(strtotime($start_date) * 1000);
 
+		$end_date = @$_GET['end'];
+		$end_date = str_replace('/', '-', $end_date);
+		$end = strval(strtotime($end_date) * 1000);
+
+		$archieve = Archieve::raw(function($collection){
+		
 			$q = @$_GET['q'];
+
+			// Fulltext
+			$fulltext = '';
+			if (@$_GET['fulltext'] != '' OR @$_GET['fulltext'] != null) {
+				$fulltext = @$_GET['fulltext'];
+			}
+
+			// Storage
+			$storage = array(
+				'$ne' => '@'
+			);
+			if (@$_GET['storage'] != '' OR @$_GET['storage'] != null) {
+				$storage = GlobalClass::generateMongoObjectId(@$_GET['storage']);
+			}
+			$storagesub = @$_GET['storagesub'];
 
 			// Sort By
 			$sortKey = 'created_at';
@@ -179,9 +218,14 @@ class SearchController extends Controller
 							'$regex' => $q,
 							'$options' => 'i'
 						),
+						'fulltext' => array(
+							'$regex' => $fulltext,
+							'$options' => 'i'
+						),
 						'id_user' => GlobalClass::generateMongoObjectId(Auth::user()->_id),
 						'id_company' => Auth::user()->id_company,
-						'deleted_at' => null
+						'deleted_at' => null,
+						'storage._id' => $storage
 					)
 				),
 				array(
@@ -193,33 +237,18 @@ class SearchController extends Controller
 			));
 		});
 
-		if ($fulltext != null) {
-			$archieve = $archieve->where('fulltext', $fulltext);
-		}
-
 		if ($type != null) {
 			$archieve = $archieve->where('type', $type);
 		}
 
-		if ($start != null) {
-			$archieve = $archieve->where('start', $start);
-		}
-
-		if ($end != null) {
-			$archieve = $archieve->where('end', $end);
-		}
-
-		if ($storage != null) {
-			$archieve = $archieve->where('storage', $storage);
-		}
-
-		if ($substorage != null) {
-			$archieve = $archieve->where('substorage', $substorage);
+		if (@$_GET['start'] != null && @$_GET['end'] != null) {
+			$archieve = $archieve->where('date', '>=', $start)->where('date', '<=', $end);
 		}
 
 		return response()->json([
 			'search'  =>  $archieve,
 		]);
+
 	}
 
 	public function getDataAutocomplete()

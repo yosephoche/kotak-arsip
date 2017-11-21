@@ -226,6 +226,7 @@ Route::group(['namespace' => 'App', 'middleware' => CheckSerial::class], functio
 	//Search
 	Route::group(['prefix' => 'pencarian'], function(){
 		Route::get('/', 'SearchController@index')->name('search');
+		Route::get('/dropdown', 'SearchController@dropdownAjax')->name('search_substorage');
 		Route::post('/delete', 'SearchController@delete')->name('search_delete');
 	});
 
