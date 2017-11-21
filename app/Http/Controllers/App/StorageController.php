@@ -25,7 +25,7 @@ class StorageController extends Controller
             return $collection->aggregate(array(
                 array(
                     '$match' => array(
-                        'id_company' => Auth::user()->id_company,
+                        'id_company' => Auth::user()->id_company
                     )
                 ),
                 array(
@@ -36,6 +36,35 @@ class StorageController extends Controller
                         'as'=>'count'
                     )
                 ),
+                array(
+                    '$unwind' => array(
+                        'path' => '$count',
+                        'preserveNullAndEmptyArrays' => true
+                    )
+                ),
+                array(
+                    '$group' => array(
+                        '_id' => '$_id',
+                        'name' => array(
+                            '$first' => '$name'
+                        ),
+                        'type' => array(
+                            '$first' => '$type'
+                        ),
+                        'created_at' => array(
+                            '$first' => '$created_at'
+                        ),
+                        'updated_at' => array(
+                            '$first' => '$updated_at'
+                        ),
+                        'count' => array(
+                            '$push' => array(
+                                '_id' => '$count._id',
+                            )
+                        )
+                    )
+                ),
+               
                 array(
                     '$project' => array(
                         '_id' => 1,
