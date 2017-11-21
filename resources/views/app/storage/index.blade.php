@@ -31,7 +31,8 @@
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
 					<ul class="dropdown-menu pull-right">
 						<li><a href="#" data-toggle="modal" data-target="#editModal" :data-id="val._id" :data-name="val.name" :data-type="val.type">Sunting</a></li>
-						<li><a href="#" data-toggle="modal" data-target="#deleteModal" class="text-danger" v-bind:data-id="val._id">Hapus</a></li>
+						<li v-if="val.count > 0"><a href="#" data-toggle="modal" data-target="#deleteNotModal" class="text-danger">Hapus</a></li>
+						<li v-else><a href="#" data-toggle="modal" data-target="#deleteModal" class="text-danger" v-bind:data-id="val._id">Hapus</a></li>
 					</ul>
 				</td>
 			</tr>
@@ -188,13 +189,30 @@
 					</div>
 					<div class="modal-body">
 						<input type="hidden" name="id">
-						Apakah Anda yakin ingin menghapus data ini?
+						Apakah Anda yakin ingin menghapus penyimpanan ini?
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
 						<button class="btn btn-danger">Ya, hapus</button>
 					</div>
 				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="deleteNotModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabelModal">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="deleteLabelModal">Tidak Dapat Menghapus</h4>
+				</div>
+				<div class="modal-body">
+					Silahkan pindahkan arsip-arsip di dalamnya sebelum Anda menghapus penyimpanan ini!
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" data-dismiss="modal">Mengerti</button>
+				</div>
 			</div>
 		</div>
 	</div>

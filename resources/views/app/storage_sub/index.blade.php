@@ -17,15 +17,21 @@
 
 		<table class="table table-hover" v-if="orderedStorage != ''">
 			<tr>
-				<th colspan="2" class="sort" @click="sortBy('name', $event)">Nama/Kode map, folder, guide atau ordner <i class="fa fa-angle-down i-sort"></i></th>
+				<th class="sort" @click="sortBy('name', $event)">Nama/Kode map, folder, guide atau ordner <i class="fa fa-angle-down i-sort"></i></th>
+				<th colspan="2">Jumlah Arsip</th>
 			</tr>
 			<tr class="item" v-for="val in orderedStorage" @click="detailSidebar(val, $event)">
 				<td><a href="#" v-html="val.name"></a></td>
+				<td>
+					<span v-html="val.count + ' arsip'" v-if="val.count > 0"></span>
+					<span v-html="'-'" v-else></span>
+				</td>
 				<td class="text-right dropdown">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
 					<ul class="dropdown-menu pull-right">
 						<li><a href="#" data-toggle="modal" data-target="#editModal" :data-id="val._id" :data-name="val.name">Sunting</a></li>
-						<li><a href="#" data-toggle="modal" data-target="#deleteModal" class="text-danger" v-bind:data-id="val._id">Hapus</a></li>
+						<li v-if="val.count > 0"><a href="#" data-toggle="modal" data-target="#deleteNotModal" class="text-danger">Hapus</a></li>
+						<li v-else><a href="#" data-toggle="modal" data-target="#deleteModal" class="text-danger" v-bind:data-id="val._id">Hapus</a></li>
 					</ul>
 				</td>
 			</tr>
@@ -127,6 +133,23 @@
 						<button class="btn btn-danger">Ya, hapus</button>
 					</div>
 				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="deleteNotModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabelModal">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="deleteLabelModal">Tidak Dapat Menghapus</h4>
+				</div>
+				<div class="modal-body">
+					Silahkan pindahkan arsip-arsip di dalamnya sebelum Anda menghapus penyimpanan ini!
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" data-dismiss="modal">Mengerti</button>
+				</div>
 			</div>
 		</div>
 	</div>
