@@ -30,6 +30,7 @@ Route::get('/activation', 'ActivationController@index')->name('activation');
 Route::post('/activation/store', 'ActivationController@store')->name('activation_store');
 
 Auth::routes();
+Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
