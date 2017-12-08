@@ -33,6 +33,21 @@
 					<br>
 				</div>
 			</div>
+
+			<div class="row">
+				<div class="col-xs-6">
+					<a href="{{ route('help_ocr') }}" class="next-help pull-left">
+						<span>Sebelumnya</span>
+						<h4><i class="fa fa-arrow-left"></i>&nbsp; Teknologi OCR </h4>
+					</a>
+				</div>
+				<div class="col-xs-6">
+					<a href="{{ route('help_storage') }}" class="next-help">
+						<span>Selanjutnya</span>
+						<h4>Penyimpanan Arsip &nbsp;<i class="fa fa-arrow-right"></i></h4>
+					</a>
+				</div>
+			</div>
 		</div>
 	</div>
 

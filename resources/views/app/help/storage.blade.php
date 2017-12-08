@@ -52,7 +52,20 @@
 				</div>
 			</div>
 			<br>
-			<br>
+			<div class="row">
+				<div class="col-xs-6">
+					<a href="{{ route('help_server') }}" class="next-help pull-left">
+						<span>Sebelumnya</span>
+						<h4><i class="fa fa-arrow-left"></i>&nbsp; Koneksi Server </h4>
+					</a>
+				</div>
+				<div class="col-xs-6">
+					<a href="{{ route('help_incoming_mail') }}" class="next-help">
+						<span>Selanjutnya</span>
+						<h4>Surat Masuk &nbsp;<i class="fa fa-arrow-right"></i></h4>
+					</a>
+				</div>
+			</div>
 		</div>
 	</div>
 

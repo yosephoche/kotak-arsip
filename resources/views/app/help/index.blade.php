@@ -34,6 +34,16 @@
 					<p>KotakArsip akan mengurangi waktu Anda dalam memanajemen arsip</p>
 				</div>
 			</div>
+
+			<div class="row">
+				<div class="col-xs-6"></div>
+				<div class="col-xs-6">
+					<a href="{{ route('help_ocr') }}" class="next-help">
+						<span>Selanjutnya</span>
+						<h4>Teknologi OCR &nbsp;<i class="fa fa-arrow-right"></i></h4>
+					</a>
+				</div>
+			</div>
 		</div>
 	</div>
 
