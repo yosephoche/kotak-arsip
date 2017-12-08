@@ -67,7 +67,7 @@ class GlobalClass
 		if ($key == 'from') {
 			$from = '';
 			$searchfrom = array("LEMBAGA", "KERUKUNAN", "PT", "CV", "PT.", "CV.", "PEMERINTAH", "ORGANISASI");
-			$myfile = fopen($open, "r") or die("Unable to open file!");
+			@$myfile = fopen($open, "r") or die("Unable to open file!");
 			while(!feof($myfile)) 
 			{
 				$buffer =  fgets($myfile);
@@ -88,7 +88,7 @@ class GlobalClass
 		if ($key == 'to') {
 			$to = '';
 			$searchto = array("LEMBAGA", "KERUKUNAN", "PT", "CV", "PT.", "CV.", "PEMERINTAH", "ORGANISASI");
-			$myfile = fopen($open, "r") or die("Unable to open file!");
+			@$myfile = fopen($open, "r") or die("Unable to open file!");
 			while(!feof($myfile)) 
 			{
 				$buffer =  fgets($myfile);
@@ -109,7 +109,7 @@ class GlobalClass
 		if ($key == 'reference_number') {
 			$reference_number = '';
 			$searchnumber = array("Nomor :", "Nomor:", "Nomer :", "Nomer:", "No. Surat :", "No Surat :", "No. Surat:", "No Surat:");
-			$myfile = fopen($open, "r") or die("Unable to open file!");
+			@$myfile = fopen($open, "r") or die("Unable to open file!");
 			while(!feof($myfile)) 
 			{
 				$buffer =  fgets($myfile);
@@ -131,7 +131,7 @@ class GlobalClass
 		if ($key == 'subject') {
 			$subject = '';
 			$searchsubject = array("Perihal :", "Hal :", "Perihal:", "Hal:");
-			$myfile = fopen($open, "r") or die("Unable to open file!");
+			@$myfile = fopen($open, "r") or die("Unable to open file!");
 			while(!feof($myfile)) 
 			{
 				$buffer =  fgets($myfile);

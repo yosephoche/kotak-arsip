@@ -56,7 +56,7 @@
 			</a>
 			<ul class="dropdown-menu pull-right">
 				<li><a href="{{ route('setting', ['tab' => 'account']) }}">Pengaturan Akun</a></li>
-				<li><a href="#">Bantuan</a></li>
+				<li><a href="{{ route('help') }}">Bantuan</a></li>
 				<li role="separator" class="divider"></li>
 				<li>
 					<a href="{{ route('logout') }}"

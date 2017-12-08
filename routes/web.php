@@ -238,6 +238,26 @@ Route::group(['namespace' => 'App', 'middleware' => CheckSerial::class], functio
 		Route::get('/', 'NotificationsController@index')->name('notifications');
 		Route::get('/read-all', 'NotificationsController@readAll')->name('notifications_readall');
 	});
+
+	//Help
+	Route::group(['prefix' => 'bantuan'], function(){
+		Route::get('/', 'HelpController@index')->name('help');
+		Route::get('/teknologi-ocr', 'HelpController@ocr')->name('help_ocr');
+		Route::get('/koneksi-server', 'HelpController@server')->name('help_server');
+		Route::get('/penyimpanan-arsip', 'HelpController@storage')->name('help_storage');
+		Route::get('/surat-masuk', 'HelpController@incoming_mail')->name('help_incoming_mail');
+		Route::get('/surat-masuk/tambah-sunting', 'HelpController@incoming_mail_create')->name('help_incoming_mail_create');
+		Route::get('/surat-masuk/hapus', 'HelpController@incoming_mail_delete')->name('help_incoming_mail_delete');
+		Route::get('/surat-masuk/disposisi', 'HelpController@incoming_mail_disposition')->name('help_incoming_mail_disposition');
+		Route::get('/surat-keluar', 'HelpController@outgoing_mail')->name('help_outgoing_mail');
+		Route::get('/surat-keluar/tambah-sunting', 'HelpController@outgoing_mail_create')->name('help_outgoing_mail_create');
+		Route::get('/surat-keluar/hapus', 'HelpController@outgoing_mail_delete')->name('help_outgoing_mail_delete');
+		Route::get('/jenis-arsip', 'HelpController@archives')->name('help_archives');
+		Route::get('/pencarian', 'HelpController@search')->name('help_search');
+		Route::get('/bagikan', 'HelpController@share')->name('help_share');
+		Route::get('/folder', 'HelpController@folder')->name('help_folder');
+		Route::get('/berkas', 'HelpController@file')->name('help_file');
+	});
 });
 
 

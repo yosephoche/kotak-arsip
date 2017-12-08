@@ -12033,6 +12033,97 @@ a:hover, a:focus, a:active, a:visited {
   margin-top: 5px;
 }
 
+.link-help {
+  padding: 0;
+  margin: 0;
+}
+.link-help li {
+  list-style: none;
+}
+.link-help li a {
+  color: #999;
+  display: block;
+  margin-bottom: 10px;
+}
+.link-help li a:hover {
+  color: #0070ff;
+}
+.link-help li.active a {
+  color: #0070ff;
+  font-weight: bold;
+}
+.link-help li .sub {
+  padding-left: 25px;
+}
+
+.help-content h2 {
+  font-size: 24px;
+}
+.help-content h2:after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 3px;
+  background-color: #0070ff;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.help-content h3 {
+  font-size: 18px;
+}
+.help-content .featured img {
+  width: auto;
+  height: 120px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+.help-content p {
+  line-height: 22px;
+  font-size: 14px;
+}
+.help-content .img {
+  max-width: 100%;
+  width: 100%;
+  box-shadow: 0 25px 40px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border: 1px solid #eee;
+}
+.help-content .img-caption {
+  color: #999;
+}
+.help-content .header-browser {
+  background-color: #E2E9ED;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  width: 100%;
+  padding: 6px 12px;
+}
+.help-content .header-browser .red {
+  background-color: #F26152;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 5px;
+  display: inline-block;
+}
+.help-content .header-browser .yellow {
+  background-color: #FCBC6C;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 5px;
+  display: inline-block;
+}
+.help-content .header-browser .green {
+  background-color: #35CA7A;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
 @media only screen and (min-width: 960px) {
   .ka-body .ka-menus {
     margin-left: 0 !important;
