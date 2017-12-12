@@ -67,4 +67,29 @@ class HelpController extends Controller
 	{
 		return view('app.help.outgoing_mail_delete');
 	}
+
+	public function archives()
+	{
+		return view('app.help.archives');
+	}
+
+	public function search()
+	{
+		return view('app.help.search');
+	}
+
+	public function share()
+	{
+		return view('app.help.share');
+	}
+
+	public function folder()
+	{
+		return view('app.help.folder');
+	}
+
+	public function file()
+	{
+		return view('app.help.file');
+	}
 }

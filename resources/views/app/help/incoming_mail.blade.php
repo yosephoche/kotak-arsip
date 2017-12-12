@@ -19,7 +19,7 @@
 
 			<div class="row">
 				<div class="col-xs-6">
-					<a href="{{ route('storage') }}" class="next-help pull-left">
+					<a href="{{ route('help_storage') }}" class="next-help pull-left">
 						<span>Sebelumnya</span>
 						<h4><i class="fa fa-arrow-left"></i>&nbsp; Penyimpanan Arsip </h4>
 					</a>

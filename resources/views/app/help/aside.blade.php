@@ -17,8 +17,8 @@
 		</ul>
 	</li>
 	<li {{ Request::is('bantuan/jenis-arsip') ? 'class=active' : '' }}><a href="{{ route('help_archives') }}">Jenis Arsip Lainnya</a></li>
-	<li><a href="{{ route('help_search') }}">Pencarian</a></li>
-	<li><a href="{{ route('help_share') }}">Bagikan</a></li>
-	<li><a href="{{ route('help_folder') }}">Folder</a></li>
-	<li><a href="{{ route('help_file') }}">Berkas</a></li>
+	<li {{ Request::is('bantuan/pencarian') ? 'class=active' : '' }}><a href="{{ route('help_search') }}">Pencarian</a></li>
+	<li {{ Request::is('bantuan/bagikan') ? 'class=active' : '' }}><a href="{{ route('help_share') }}">Bagikan</a></li>
+	<li {{ Request::is('bantuan/folder') ? 'class=active' : '' }}><a href="{{ route('help_folder') }}">Folder</a></li>
+	<li {{ Request::is('bantuan/berkas') ? 'class=active' : '' }}><a href="{{ route('help_file') }}">Berkas</a></li>
 </ul>
