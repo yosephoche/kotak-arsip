@@ -10,13 +10,13 @@
 			<li {{ Request::is('bantuan/surat-masuk/disposisi') ? 'class=active' : '' }}><a href="{{ route('help_incoming_mail_disposition') }}">Disposisi</a></li>
 		</ul>
 	</li>
-	<li><a href="{{ route('help_outgoing_mail') }}">Surat Keluar</a>
+	<li {{ Request::is('bantuan/surat-keluar') ? 'class=active' : '' }}><a href="{{ route('help_outgoing_mail') }}">Surat Keluar</a>
 		<ul class="sub">
-			<li><a href="{{ route('help_outgoing_mail_create') }}">Tambah/sunting</a></li>
-			<li><a href="{{ route('help_outgoing_mail_delete') }}">Hapus</a></li>
+			<li {{ Request::is('bantuan/surat-keluar/tambah-sunting') ? 'class=active' : '' }}><a href="{{ route('help_outgoing_mail_create') }}">Tambah/sunting</a></li>
+			<li {{ Request::is('bantuan/surat-keluar/hapus') ? 'class=active' : '' }}><a href="{{ route('help_outgoing_mail_delete') }}">Hapus</a></li>
 		</ul>
 	</li>
-	<li><a href="{{ route('help_archives') }}">Jenis Arsip Lainnya</a></li>
+	<li {{ Request::is('bantuan/jenis-arsip') ? 'class=active' : '' }}><a href="{{ route('help_archives') }}">Jenis Arsip Lainnya</a></li>
 	<li><a href="{{ route('help_search') }}">Pencarian</a></li>
 	<li><a href="{{ route('help_share') }}">Bagikan</a></li>
 	<li><a href="{{ route('help_folder') }}">Folder</a></li>

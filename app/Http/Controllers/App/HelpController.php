@@ -32,4 +32,39 @@ class HelpController extends Controller
 	{
 		return view('app.help.storage');
 	}
+
+	public function incoming_mail()
+	{
+		return view('app.help.incoming_mail');
+	}
+
+	public function incoming_mail_create()
+	{
+		return view('app.help.incoming_mail_create');
+	}
+
+	public function incoming_mail_delete()
+	{
+		return view('app.help.incoming_mail_delete');
+	}
+
+	public function incoming_mail_disposition()
+	{
+		return view('app.help.incoming_mail_disposition');
+	}
+
+	public function outgoing_mail()
+	{
+		return view('app.help.outgoing_mail');
+	}
+
+	public function outgoing_mail_create()
+	{
+		return view('app.help.outgoing_mail_create');
+	}
+
+	public function outgoing_mail_delete()
+	{
+		return view('app.help.outgoing_mail_delete');
+	}
 }

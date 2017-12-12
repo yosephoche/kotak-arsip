@@ -62,22 +62,22 @@
 					<tr>
 						<td>Nama Lengkap</td>
 						<td align="right">{{ $user->name }}</td>
-						<td width="100px" align="right"><a href="" data-toggle="modal" data-target="#usereditModal" data-id="{{ $user->_id }}" data-name="name" data-val="{{ $user->name }}" data-label="Sunting Nama Pengguna">Sunting</a></td>
+						<td width="100px" align="right"><a href="#" data-toggle="modal" data-target="#usereditModal" data-id="{{ $user->_id }}" data-name="name" data-val="{{ $user->name }}" data-label="Sunting Nama Pengguna">Sunting</a></td>
 					</tr>
 					<tr>
 						<td>Alamat Email</td>
 						<td align="right">{{ $user->email }}</td>
-						<td width="100px" align="right"><a href="" data-toggle="modal" data-target="#usereditModal" data-id="{{ $user->_id }}" data-name="email" data-val="{{ $user->email }}" data-label="Sunting Email Pengguna">Sunting</a></td>
+						<td width="100px" align="right"><a href="#" data-toggle="modal" data-target="#usereditModal" data-id="{{ $user->_id }}" data-name="email" data-val="{{ $user->email }}" data-label="Sunting Email Pengguna">Sunting</a></td>
 					</tr>
 					<tr>
 						<td>No. Telpon/Hp</td>
 						<td align="right">{{ $user->phone }}</td>
-						<td width="100px" align="right"><a href="" data-toggle="modal" data-target="#usereditModal" data-id="{{ $user->_id }}" data-name="phone" data-val="{{ $user->phone }}" data-label="Sunting Telpon Pengguna">Sunting</a></td>
+						<td width="100px" align="right"><a href="#" data-toggle="modal" data-target="#usereditModal" data-id="{{ $user->_id }}" data-name="phone" data-val="{{ $user->phone }}" data-label="Sunting Telpon Pengguna">Sunting</a></td>
 					</tr>
 					<tr>
 						<td>Jabatan</td>
 						<td align="right">{{ $user->position }}</td>
-						<td width="100px" align="right"><a href="" data-toggle="modal" data-target="#usereditModal" data-id="{{ $user->_id }}" data-name="position" data-val="{{ $user->position }}" data-label="Sunting Posisi Pengguna">Sunting</a></td>
+						<td width="100px" align="right"><a href="#" data-toggle="modal" data-target="#usereditModal" data-id="{{ $user->_id }}" data-name="position" data-val="{{ $user->position }}" data-label="Sunting Posisi Pengguna">Sunting</a></td>
 					</tr>
 				</table>
 			</div>
@@ -97,7 +97,7 @@
 					<tr>
 						<td>Nama Perusahaan</td>
 						<td align="right">{{ $company->name }}</td>
-						<td width="100px" align="right"><a href="" data-toggle="modal" data-target="#companyeditModal" data-id="{{ $company->_id }}" data-name="name" data-val="{{ $company->name }}" data-label="Sunting Nama Perusahaan">Sunting</a></td>
+						<td width="100px" align="right"><a href="#" data-toggle="modal" data-target="#companyeditModal" data-id="{{ $company->_id }}" data-name="name" data-val="{{ $company->name }}" data-label="Sunting Nama Perusahaan">Sunting</a></td>
 					</tr>
 					<tr>
 						<td>Kode Perusahaan</td>
@@ -107,17 +107,17 @@
 					<tr>
 						<td>Alamat Perusahaan</td>
 						<td align="right">{{ $company->address }}</td>
-						<td width="100px" align="right"><a href="" data-toggle="modal" data-target="#companyeditModal" data-id="{{ $company->_id }}" data-name="address" data-val="{{ $company->address }}" data-label="Sunting Alamat Perusahaan">Sunting</a></td>
+						<td width="100px" align="right"><a href="#" data-toggle="modal" data-target="#companyeditModal" data-id="{{ $company->_id }}" data-name="address" data-val="{{ $company->address }}" data-label="Sunting Alamat Perusahaan">Sunting</a></td>
 					</tr>
 					<tr>
 						<td>No. Telpon/Hp</td>
 						<td align="right">{{ $company->phone }}</td>
-						<td width="100px" align="right"><a href="" data-toggle="modal" data-target="#companyeditModal" data-id="{{ $company->_id }}" data-name="phone" data-val="{{ $company->phone }}" data-label="Sunting Telpon Perusahaan">Sunting</a></td>
+						<td width="100px" align="right"><a href="#" data-toggle="modal" data-target="#companyeditModal" data-id="{{ $company->_id }}" data-name="phone" data-val="{{ $company->phone }}" data-label="Sunting Telpon Perusahaan">Sunting</a></td>
 					</tr>
 					<tr>
 						<td>Email Perusahaan</td>
 						<td align="right">{{ $company->email }}</td>
-						<td width="100px" align="right"><a href="" data-toggle="modal" data-target="#companyeditModal" data-id="{{ $company->_id }}" data-name="email" data-val="{{ $company->email }}" data-label="Sunting Email Perusahaan">Sunting</a></td>
+						<td width="100px" align="right"><a href="#" data-toggle="modal" data-target="#companyeditModal" data-id="{{ $company->_id }}" data-name="email" data-val="{{ $company->email }}" data-label="Sunting Email Perusahaan">Sunting</a></td>
 					</tr>
 				</table>
 			</div>
