@@ -151,7 +151,7 @@
 					{{ csrf_field() }}
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="disposisiLabelModal">Disposisi</h4>
+						<h4 class="modal-title" id="disposisiLabelModal">Bagikan</h4>
 					</div>
 					<div class="modal-body" style="border-top: 1px solid #ddd">
 						<input type="hidden" name="id">
@@ -201,7 +201,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-						<button class="btn btn-primary">Disposisi</button>
+						<button class="btn btn-primary">Bagikan</button>
 					</div>
 				</form>
 			</div>

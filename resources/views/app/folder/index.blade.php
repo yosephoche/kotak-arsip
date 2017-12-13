@@ -22,6 +22,7 @@
 			</tr>
 			<tr class="item" v-for="val in json.folder" @click="detailSidebar(val, $event)">
 				<td>
+					<img class="img" src="{{ url('assets/app/img/icons/folder.svg') }}" alt="" height="30px">
 					<a :href="'{{ route('folder_detail') }}/' + val.folder.replace(' ','_')" v-html="val.folder"></a>
 				</td>
 				<td class="view-tablet-only" v-html="val.count + ' arsip'"></td>
