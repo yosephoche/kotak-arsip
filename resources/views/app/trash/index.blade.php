@@ -59,14 +59,30 @@
 					<div v-if="val.type == 'outgoing_mail'">
 						<a v-html="val.search"></a>
 					</div>
+					<div v-if="val.type == 'file'">
+						<a v-html="val.search"></a>
+					</div>
 				</td>
-				<td class="view-tablet-only" v-html="val.subject"></td>
+				<td class="view-tablet-only">
+					<div v-if="val.type == 'incoming_mail'">
+						<a v-html="val.subject"></a>
+					</div>
+					<div v-if="val.type == 'outgoing_mail'">
+						<a v-html="val.subject"></a>
+					</div>
+					<div v-if="val.type == 'file'">
+						<a v-html="val.desc"></a>
+					</div>
+				</td>
 				<td>
 					<div v-if="val.type == 'incoming_mail'">
 						<span class="color-blue">Surat Masuk</span>
 					</div>
 					<div v-if="val.type == 'outgoing_mail'">
 						<span class="color-green">Surat Keluar</span>
+					</div>
+					<div v-if="val.type == 'file'">
+						<span class="color-gray">Berkas</span>
 					</div>
 				</td>
 				<td class="text-right dropdown">

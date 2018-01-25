@@ -4,6 +4,7 @@ app/Http/Middleware/CheckSerial.php
 /public/storage
 /public/assets/app/img/incoming_mail
 /public/assets/app/img/outgoing_mail
+/public/assets/app/img/files
 public/assets/app/img/users/
 /storage/*.key
 /vendor

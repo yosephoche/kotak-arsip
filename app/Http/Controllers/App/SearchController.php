@@ -132,6 +132,7 @@ class SearchController extends Controller
 						'reference_number' => 1,
 						'date' => 1,
 						'subject' => 1,
+						'desc' => 1,
 						'share.user._id' => 1,
 						'share.user.name' => 1,
 						'share.user.position' => 1,
@@ -173,6 +174,9 @@ class SearchController extends Controller
 						),
 						'subject' => array(
 							'$first' => '$subject'
+						),
+						'desc' => array(
+							'$first' => '$desc'
 						),
 						'reference_number' => array(
 							'$first' => '$reference_number'

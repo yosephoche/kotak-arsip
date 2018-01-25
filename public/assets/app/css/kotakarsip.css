@@ -11863,13 +11863,12 @@ a:hover, a:focus, a:active, a:visited {
 }
 
 .setup-storage-sub h1 input {
-  border: none;
+  border: 1px solid #ccc;
   outline: none;
   padding-left: 10px;
   padding-right: 10px;
   height: 55px;
   border-radius: 3px;
-  margin-left: -10px;
 }
 .setup-storage-sub h1 input::-webkit-input-placeholder {
   color: rgba(0, 0, 0, 0.3);

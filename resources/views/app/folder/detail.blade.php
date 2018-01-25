@@ -74,14 +74,24 @@
 					<div v-if="val.type == 'outgoing_mail'">
 						<a v-bind:href="'{{ route('outgoing_mail_detail') }}/' + val._id" v-html="val.search"></a>
 					</div>
+					<div v-if="val.type == 'file'">
+						<a v-bind:href="'{{ route('file_detail') }}/' + val._id" v-html="val.search"></a>
+					</div>
 				</td>
-				<td class="view-tablet-only" v-html="val.subject"></td>
+				<td class="view-tablet-only">
+					<div v-if="val.type == 'incoming_mail'" v-html="val.subject"></div>
+					<div v-if="val.type == 'outgoing_mail'" v-html="val.subject"></div>
+					<div v-if="val.type == 'file'" v-html="val.desc"></div>
+				</td>
 				<td>
 					<div v-if="val.type == 'incoming_mail'">
 						<span class="color-blue">Surat Masuk</span>
 					</div>
 					<div v-if="val.type == 'outgoing_mail'">
 						<span class="color-green">Surat Keluar</span>
+					</div>
+					<div v-if="val.type == 'file'">
+						<span class="color-gray">Berkas</span>
 					</div>
 				</td>
 				<td class="text-right dropdown">
@@ -200,12 +210,24 @@
 		<div>
 			<div class="select no-border" style="height: calc(100vh - 160px)">
 				<div class="item" v-if="detail.search">
-					<label>Asal Surat</label>
+					<div v-if="detail.type == 'incoming_mail'">
+						<label>Asal Surat</label>
+					</div>
+					<div v-if="detail.type == 'outgoing_mail'">
+						<label>Tujuan Surat</label>
+					</div>
+					<div v-if="detail.type == 'file'">
+						<label>Judul Berkas</label>
+					</div>
 					<div class="value" v-html="detail.search"></div>
 				</div>
 				<div class="item" v-if="detail.reference_number">
 					<label>Nomor Surat</label>
 					<div class="value" v-html="detail.reference_number"></div>
+				</div>
+				<div class="item" v-if="detail.desc">
+					<label>Deskripsi</label>
+					<div v-html="detail.desc"></div>
 				</div>
 				<div class="item" v-if="detail.subject">
 					<label>Perihal</label>
@@ -245,6 +267,9 @@
 					</div>
 					<div v-if="detail.type == 'outgoing_mail'">
 						<label>Tanggal Keluar</label>
+					</div>
+					<div v-if="detail.type == 'file'">
+						<label>Tanggal Unggah</label>
 					</div>
 					<div class="value" v-html="$options.filters.moment(detail.date.$date.$numberLong)"></div>
 				</div>

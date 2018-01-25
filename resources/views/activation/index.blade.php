@@ -44,10 +44,16 @@
 	</style>
 </head>
 <body>
-	<?php 
+	<?php
 		// For Mac
+		// ob_start();
+		// system("ifconfig en1 | awk '/ether/{print $2}'");
+		// $mac = substr(ob_get_contents(), 0, 17);
+		// ob_clean();
+
+		// For Ubuntu
 		ob_start();
-		system("ifconfig en1 | awk '/ether/{print $2}'");
+		system("ifconfig -a | grep -Po 'HWaddr \K.*$'");
 		$mac = substr(ob_get_contents(), 0, 17);
 		ob_clean();
 

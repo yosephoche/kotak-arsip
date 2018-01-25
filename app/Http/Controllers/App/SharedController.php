@@ -373,6 +373,153 @@ class SharedController extends Controller
 		]);
 	}
 
+	public function getDataFile()
+	{
+		$archieve = Archieve::raw(function($collection){
+			
+			// Sort By
+			$sortKey = 'created_at';
+			if (@$_GET['sort'] == 'name') {
+				$sortKey = 'name';
+			} else if (@$_GET['sort'] == 'date') {
+				$sortKey = 'date';
+			}
+
+			// Ascending or Descending
+			$asc = -1;
+			if (@$_GET['asc'] == 'true') {
+				$asc = 1;
+			}
+
+			$page  = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+			$limit = 25; // change in index too
+			$skip  = ($page - 1) * $limit;
+
+			return $collection->aggregate(array(
+				array(
+					'$unwind' => array(
+						'path' => '$share',
+						'preserveNullAndEmptyArrays' => true
+					)
+				),
+				array(
+					'$lookup' => array(
+						'from'=>'users',
+						'localField'=>'id_user',
+						'foreignField'=>'_id',
+						'as'=>'userDetail'
+					)
+				),
+				array(
+					'$lookup' => array(
+						'from'=>'users',
+						'localField'=>'share._id',
+						'foreignField'=>'_id',
+						'as'=>'share.user'
+					)
+				),
+				array(
+					'$project' => array(
+						'userDetail' => 1,
+						'name' => 1,
+						'date' => 1,
+						'desc' => 1,
+						'share.user._id' => 1,
+						'share.user.name' => 1,
+						'share.user.position' => 1,
+						'share.user.email' => 1,
+						'share.user.photo' => 1,
+						'share.date' => 1,
+						'share.message' => 1,
+						'share.deleted_at' => 1,
+						'files' => 1,
+						'type' => 1,
+						'folder' => 1,
+						'id_user' => 1,
+						'id_company' => 1,
+						'deleted_at' => 1
+					)
+				),
+				array(
+					'$group' => array(
+						'_id' => '$_id',
+						'userDetail' => array(
+							'$first' => '$userDetail.name'
+						),
+						'id_user' => array(
+							'$first' => '$id_user'
+						),
+						'id_company' => array(
+							'$first' => '$id_company'
+						),
+						'type' => array(
+							'$first' => '$type'
+						),
+						'name' => array(
+							'$first' => '$name'
+						),
+						'desc' => array(
+							'$first' => '$desc'
+						),
+						'date' => array(
+							'$first' => '$date'
+						),
+						'folder' => array(
+							'$first' => '$folder'
+						),
+						'files' => array(
+							'$first' => '$files'
+						),
+						'deleted_at' => array(
+							'$first' => '$deleted_at'
+						),
+						'share' => array(
+							'$push' => array(
+								'user' => '$share.user',
+								'date' => '$share.date',
+								'message' => '$share.message',
+								'deleted_at' => '$share.deleted_at'
+							)
+						)
+					)
+				),
+				array(
+					'$sort' => array(
+						$sortKey => $asc
+					)
+				),
+				array(
+					'$match' => array(
+						'type' => 'file',
+						'id_company' => Auth::user()->id_company,
+						'deleted_at' => null,
+						'share.user' => array(
+							'$elemMatch' => array(
+								'email' => Auth::user()->email
+							)
+						),
+						'share.deleted_at' => array(
+							'$exists' => false
+						)
+					)
+				),
+				array(
+					'$skip' => $skip
+				),
+				array(
+					'$limit' => $limit
+				)
+			));
+		});
+
+		$users = User::select('name', 'position', 'photo')->where('id_company', Auth::user()->id_company)->get();
+
+		return response()->json([
+			'files'  =>  $archieve,
+			'users' => $users
+		]);
+	}
+
 	public function detail($id)
 	{
 		$data['archieve'] = Archieve::find($id);
@@ -590,6 +737,93 @@ class SharedController extends Controller
 		]);
 	}
 
+	public function getDetailFile($id)
+	{
+		$archieve = Archieve::raw(function($collection){
+			return $collection->aggregate(array(
+				array(
+					'$unwind' => array(
+						'path' => '$share',
+						'preserveNullAndEmptyArrays' => true
+					)
+				),
+				array(
+					'$lookup' => array(
+						'from'=>'users',
+						'localField'=>'share._id',
+						'foreignField'=>'_id',
+						'as'=>'share.user'
+					)
+				),
+				array(
+					'$project' => array(
+						'name' => 1,
+						'date' => 1,
+						'desc' => 1,
+						'share.user._id' => 1,
+						'share.user.name' => 1,
+						'share.user.position' => 1,
+						'share.user.photo' => 1,
+						'share.date' => 1,
+						'share.message' => 1,
+						'files' => 1,
+						'type' => 1,
+						'folder' => 1,
+						'id_user' => 1,
+						'id_company' => 1,
+						'deleted_at' => 1
+					)
+				),
+				array(
+					'$group' => array(
+						'_id' => '$_id',
+						'id_user' => array(
+							'$first' => '$id_user'
+						),
+						'id_company' => array(
+							'$first' => '$id_company'
+						),
+						'type' => array(
+							'$first' => '$type'
+						),
+						'name' => array(
+							'$first' => '$name'
+						),
+						'desc' => array(
+							'$first' => '$desc'
+						),
+						'date' => array(
+							'$first' => '$date'
+						),
+						'folder' => array(
+							'$first' => '$folder'
+						),
+						'files' => array(
+							'$first' => '$files'
+						),
+						'deleted_at' => array(
+							'$first' => '$deleted_at'
+						),
+						'share' => array(
+							'$push' => array(
+								'user' => '$share.user',
+								'date' => '$share.date',
+								'message' => '$share.message'
+							)
+						)
+					)
+				)
+			));
+		})->where('_id', $id);
+
+		$users = User::select('name', 'position', 'photo')->where('id_company', Auth::user()->id_company)->get();
+
+		return response()->json([
+			'files'  =>  $archieve,
+			'users' => $users
+		]);
+	}
+
 	public function delete(Request $r)
 	{
 		// $archieve = Archieve::where('_id', $r->id)->pull('share', array('_id' => GlobalClass::generateMongoObjectId(Auth::user()->_id)));
@@ -599,5 +833,16 @@ class SharedController extends Controller
 		$r->session()->flash('success', 'Akses berhasil dihapus');
 		
 		return redirect()->back();
+	}
+
+	public function deleteDetail(Request $r)
+	{
+		// $archieve = Archieve::where('_id', $r->id)->pull('share', array('_id' => GlobalClass::generateMongoObjectId(Auth::user()->_id)));
+
+		Archieve::where('_id', $r->id)->where('share', 'elemMatch', array('_id' => GlobalClass::generateMongoObjectId(Auth::user()->_id)))->push('share.$.deleted_at', 1);
+		
+		$r->session()->flash('success', 'Akses berhasil dihapus');
+		
+		return redirect()->route('shared_incoming_mail');
 	}
 }

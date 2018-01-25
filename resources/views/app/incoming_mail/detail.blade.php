@@ -26,8 +26,6 @@
 			<ul class="right-side">
 				<li v-for="val in json.incomingMail">
 					<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#disposisiModal" v-bind:data-id="val._id" v-on:click="idDispositionArray(val.share)">Disposisi</a>
-					&nbsp;&nbsp;
-					<a href="#" class="btn btn-default" id="favorite" @click="favorite"><i class="fa fa-star-o"></i></a>
 				</li>
 				<li class="dropdown" v-for="val in json.incomingMail">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>

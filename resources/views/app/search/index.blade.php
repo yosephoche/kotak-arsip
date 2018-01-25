@@ -38,7 +38,16 @@
 			@endif
 
 			@if (isset($_GET['type']) && $_GET['type'] != null)
-				<li>{{ $_GET['type'] == 'incoming_mail' ? 'Surat Masuk' : 'Surat Keluar' }} <a href="{{ route('search', ['q' => @$_GET['q'] ,'sort' => 'search', 'asc' => $ascSearch]) }}&fulltext={{ @$_GET['fulltext'] }}&type=&start={{ @$_GET['start'] }}&end={{ @$_GET['end'] }}&storage={{ @$_GET['storage'] }}&storagesub={{ @$_GET['storagesub'] }}">&times;</a></li>
+				<li>
+					@if ($_GET['type'] == 'incoming_mail')
+						Surat Masuk
+					@elseif ($_GET['type'] == 'outgoing_mail')
+						Surat Keluar
+					@elseif ($_GET['type'] == 'file')
+						Berkas
+					@endif
+					&nbsp;<a href="{{ route('search', ['q' => @$_GET['q'] ,'sort' => 'search', 'asc' => $ascSearch]) }}&fulltext={{ @$_GET['fulltext'] }}&type=&start={{ @$_GET['start'] }}&end={{ @$_GET['end'] }}&storage={{ @$_GET['storage'] }}&storagesub={{ @$_GET['storagesub'] }}">&times;</a>
+				</li>
 			@endif
 
 			@if (isset($_GET['start']) && $_GET['start'] != null)
@@ -82,14 +91,30 @@
 					<div v-if="val.type == 'outgoing_mail'">
 						<a v-bind:href="'{{ route('outgoing_mail_detail') }}/' + val._id" v-html="val.search"></a>
 					</div>
+					<div v-if="val.type == 'file'">
+						<a v-bind:href="'{{ route('file_detail') }}/' + val._id" v-html="val.search"></a>
+					</div>
 				</td>
-				<td class="view-tablet-only" v-html="val.subject"></td>
+				<td class="view-tablet-only">
+					<div v-if="val.type == 'incoming_mail'">
+						<span v-html="val.subject"></span>
+					</div>
+					<div v-if="val.type == 'outgoing_mail'">
+						<span v-html="val.subject"></span>
+					</div>
+					<div v-if="val.type == 'file'">
+						<span v-html="val.desc">Berkas</span>
+					</div>
+				</td>
 				<td>
 					<div v-if="val.type == 'incoming_mail'">
 						<span class="color-blue">Surat Masuk</span>
 					</div>
 					<div v-if="val.type == 'outgoing_mail'">
 						<span class="color-green">Surat Keluar</span>
+					</div>
+					<div v-if="val.type == 'file'">
+						<span class="color-gray">Berkas</span>
 					</div>
 				</td>
 				<td class="text-right dropdown">
@@ -191,6 +216,7 @@
 								<option value="">Semua Jenis Arsip</option>
 								<option value="incoming_mail" {{ @$_GET['type'] == 'incoming_mail' ? 'selected' : '' }}>Surat Masuk</option>
 								<option value="outgoing_mail" {{ @$_GET['type'] == 'outgoing_mail' ? 'selected' : '' }}>Surat Keluar</option>
+								<option value="file" {{ @$_GET['type'] == 'file' ? 'selected' : '' }}>Berkas</option>
 							</select>
 						</div>
 
@@ -274,8 +300,22 @@
 		<div>
 			<div class="select no-border" style="height: calc(100vh - 160px)">
 				<div class="item" v-if="detail.search">
-					<label>Asal Surat</label>
-					<div class="value" v-html="detail.search"></div>
+					<div v-if="detail.type == 'incoming_mail'">
+						<label>Asal Surat</label>
+						<div class="value" v-html="detail.search"></div>
+					</div>
+					<div v-if="detail.type == 'outgoing_mail'">
+						<label>Tujuan Surat</label>
+						<div class="value" v-html="detail.search"></div>
+					</div>
+					<div v-if="detail.type == 'file'">
+						<label>Judul Berkas</label>
+						<div class="value" v-html="detail.search"></div>
+					</div>
+				</div>
+				<div class="item" v-if="detail.desc">
+					<label>Keterangan</label>
+					<div v-html="detail.desc"></div>
 				</div>
 				<div class="item" v-if="detail.reference_number">
 					<label>Nomor Surat</label>
@@ -315,6 +355,9 @@
 					</div>
 					<div v-if="detail.type == 'outgoing_mail'">
 						<label>Tanggal Keluar</label>
+					</div>
+					<div v-if="detail.type == 'file'">
+						<label>Tanggal Unggah</label>
 					</div>
 					<div class="value" v-html="$options.filters.moment(detail.date.$date.$numberLong)"></div>
 				</div>
