@@ -21,7 +21,7 @@
 	<div id="app">
 		<nav class="ka-nav ka-nav-detail">
 			<ul class="left-side">
-				<li class="back"><a href="{{ route('outgoing_mail') }}"><i class="fa fa-angle-left"></i> &nbsp;&nbsp;Surat Keluar</a></li>
+				<li class="back"><a href="{{ URL::previous() }}"><i class="fa fa-angle-left"></i> &nbsp;&nbsp;Kembali</a></li>
 			</ul>
 		</nav>
 

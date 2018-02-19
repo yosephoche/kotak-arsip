@@ -18,15 +18,16 @@
 		</div>
 
 		<hr>
-		<div id="timeline" v-for="val in json.incomingMail">
+		<div id="timeline">
 			<ul class="timeline">
-				<li class="tl-item" v-for="disposisi in val.share">
+				<li class="tl-item" v-for="val in json.incomingMail">
 					<div class="tl-wrap">
-						<span class="tl-date" v-html="$options.filters.moment(disposisi.date.$date.$numberLong)"></span>
+						<span class="tl-date" v-html="$options.filters.fromnow(val.date.date)"></span>
 						<div class="tl-content panel padder b-a">
 							<span class="arrow left pull-up"></span>
-							<div v-html="disposisi.user[0].name"></div>
-							<span class="time" v-html="disposisi.message"></span>
+							<div v-html="val.user[0].name"></div>
+							<span class="time" v-html="val.message"></span>
+							<a :href="'{{ route('incoming_mail_disposition_delete') }}/' + val._id + '/' + val.user[0]._id.$oid + '/' + val.id_archieve"><span class="close" title="Hapus Akses">&times;</span></a>
 						</div>
 					</div>
 				</li>

@@ -1,25 +1,25 @@
 <?php
 
 namespace App\Http\Controllers\App;
-use App\Archieve, App\StorageSub, App\User, App\Storage, App\Share, App\Notifications;
+use App\Archieve, App\StorageSub, App\User, App\Storage, App\Share;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use Auth, Session, GlobalClass;
-use Carbon\Carbon;
+use Carbon\Carbon, URL;
 
-class OutgoingMailController extends Controller
+class IncomingMailController extends Controller
 {
 	public function __construct()
 	{
 		$this->middleware('auth');
 	}
-	
+
 	public function index()
 	{
 		$limit = 25; // change in index too
-		$data['archieve'] = Archieve::where('type', 'outgoing_mail')->where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->whereNull('deleted_at')->paginate($limit);
-		return view('app.outgoing_mail.index', $data);
+		$data['archieve'] = Archieve::where('type', 'incoming_mail')->where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->whereNull('deleted_at')->paginate($limit);
+		return view('app.incoming_mail.index', $data);
 	}
 
 	public function getData()
@@ -28,8 +28,8 @@ class OutgoingMailController extends Controller
 			
 			// Sort By
 			$sortKey = '_id';
-			if (@$_GET['sort'] == 'to') {
-				$sortKey = 'to';
+			if (@$_GET['sort'] == 'from') {
+				$sortKey = 'from';
 			} else if (@$_GET['sort'] == 'subject') {
 				$sortKey = 'subject';
 			}
@@ -77,8 +77,9 @@ class OutgoingMailController extends Controller
 				),
 				array(
 					'$project' => array(
-						'to' => 1,
+						'from' => 1,
 						'reference_number' => 1,
+						'id_original' => 1,
 						'date' => 1,
 						'subject' => 1,
 						'share.user._id' => 1,
@@ -108,11 +109,14 @@ class OutgoingMailController extends Controller
 						'id_company' => array(
 							'$first' => '$id_company'
 						),
+						'id_original' => array(
+							'$first' => '$id_original'
+						),
 						'type' => array(
 							'$first' => '$type'
 						),
-						'to' => array(
-							'$first' => '$to'
+						'from' => array(
+							'$first' => '$from'
 						),
 						'subject' => array(
 							'$first' => '$subject'
@@ -157,7 +161,7 @@ class OutgoingMailController extends Controller
 				),
 				array(
 					'$match' => array(
-						'type' => 'outgoing_mail',
+						'type' => 'incoming_mail',
 						'id_user' => GlobalClass::generateMongoObjectId(Auth::user()->_id),
 						'id_company' => Auth::user()->id_company,
 						'deleted_at' => null
@@ -175,7 +179,7 @@ class OutgoingMailController extends Controller
 		$users = User::select('name', 'position', 'photo')->where('id_company', Auth::user()->id_company)->get();
 
 		return response()->json([
-			'outgoingMail'  =>  $archieve,
+			'incomingMail'  =>  $archieve,
 			'users' => $users
 		]);
 	}
@@ -183,14 +187,8 @@ class OutgoingMailController extends Controller
 	public function detail($id)
 	{
 		$data['archieve'] = Archieve::find($id);
-		
-		if (isset($_GET['read'])) {
-			$notifications = Notifications::find($_GET['read']);
-			$notifications->read = 1;
-			$notifications->save();
-		}
 
-		return view('app.outgoing_mail.detail', $data);
+		return view('app.incoming_mail.detail', $data);
 	}
 
 	public function getDetail($id)
@@ -229,7 +227,7 @@ class OutgoingMailController extends Controller
 				),
 				array(
 					'$project' => array(
-						'to' => 1,
+						'from' => 1,
 						'reference_number' => 1,
 						'date' => 1,
 						'subject' => 1,
@@ -250,8 +248,8 @@ class OutgoingMailController extends Controller
 				array(
 					'$group' => array(
 						'_id' => '$_id',
-						'to' => array(
-							'$first' => '$to'
+						'from' => array(
+							'$first' => '$from'
 						),
 						'subject' => array(
 							'$first' => '$subject'
@@ -282,7 +280,7 @@ class OutgoingMailController extends Controller
 								'user' => '$share.user',
 								'date' => '$share.date',
 								'message' => '$share.message'
-							)
+							),
 						)
 					)
 				)
@@ -292,7 +290,7 @@ class OutgoingMailController extends Controller
 		$users = User::select('name', 'position', 'photo')->where('id_company', Auth::user()->id_company)->get();
 
 		return response()->json([
-			'outgoingMail'  =>  $archieve,
+			'incomingMail'  =>  $archieve,
 			'users' => $users
 		]);
 	}
@@ -317,7 +315,7 @@ class OutgoingMailController extends Controller
 
 		$check = substr($files[2], -3);
 		if ($check == 'pdf') {
-			return redirect()->route('outgoing_mail_create');
+			return redirect()->route('incoming_mail_create');
 		} else {
 			$images = [];
 			for ($i=0; $i < count($files); $i++) { 
@@ -340,7 +338,7 @@ class OutgoingMailController extends Controller
 			// For Mac
 			$output = exec('/usr/local/bin/tesseract "'.$image.'" "'.$result.'" -l ind+eng');
 
-			return redirect()->route('outgoing_mail_create');
+			return redirect()->route('incoming_mail_create');
 		}
 	}
 
@@ -363,7 +361,7 @@ class OutgoingMailController extends Controller
 		//Make Name File
 		$filename = [];
 		for ($i= $strtoint; $i < $strtoint + $countfiles ; $i++) { 
-			$nm_file = $i;
+			$nm_file = $i + 1;
 			$filename[] = $nm_file;
 		}
 
@@ -415,6 +413,13 @@ class OutgoingMailController extends Controller
 	{
 		$file = $r->file('file');
 
+		// Find First Image
+		$dir = public_path('assets/tesseract'.'/'.Auth::user()->_id);
+		$files = scandir($dir);
+
+		//Delete First Image
+		unlink(public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.$files[2]));
+
 		// Image Upload Process
 		$ext = $file->getClientOriginalExtension();
 		$nm_file = "0.".$ext;
@@ -462,8 +467,8 @@ class OutgoingMailController extends Controller
 			$result = public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.'out');
 			$open = public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.'out.txt');
 
-			// OCR To
-			$data['to'] = GlobalClass::OCRKey($image, $result, $open, 'to');
+			// OCR From
+			$data['from'] = GlobalClass::OCRKey($image, $result, $open, 'from');
 
 			// OCR Refrence_Number
 			$data['reference_number'] = GlobalClass::OCRKey($image, $result, $open, 'reference_number');
@@ -485,13 +490,13 @@ class OutgoingMailController extends Controller
 		//Folder
 		$data['folder'] = Archieve::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->select('folder')->groupBy('folder')->orderBy('folder')->get();
 
-		return view('app.outgoing_mail.create', $data);
+		return view('app.incoming_mail.create', $data);
 	}
 
 	public function store(Request $r)
 	{
 		$this->validate($r, [
-			'to'				=> 'required',
+			'from'				=> 'required',
 			'reference_number'	=> 'required',
 			'subject'			=> 'required',
 			'date'				=> 'required'
@@ -505,18 +510,18 @@ class OutgoingMailController extends Controller
 		$surat = new Archieve;
 		$surat->id_user = GlobalClass::generateMongoObjectId(Auth::user()->_id);
 		$surat->id_company = Auth::user()->id_company;
-		$surat->type = "outgoing_mail";
-		$surat->to = $r->to;
-		$surat->search = $r->to;
+		$surat->type = "incoming_mail";
+		$surat->from = $r->from;
+		$surat->search = $r->from;
 		$surat->reference_number = $r->reference_number;
 		$surat->subject = $r->subject;
 		$surat->date = GlobalClass::generateIsoDate($date);
 		$surat->storage = GlobalClass::generateMongoObjectId($r->storage);
+		$surat->folder = $r->folder;
 		if ($r->storagesub != '') {
 			$surat->storagesub = GlobalClass::generateMongoObjectId($r->storagesub);
 		}
 		$surat->note = $r->note;
-		$surat->folder = $r->folder;
 		$surat->fulltext = $r->fulltext;
 
 		//Check Image From Tesseract
@@ -531,7 +536,7 @@ class OutgoingMailController extends Controller
 			}
 		}
 
-		//Move Images from tesseract to outgoing mail
+		//Move Images from tesseract to incoming mail
 		$files = [];
 		foreach ($images as $img) {
 			$rand = rand(111111,999999);
@@ -545,21 +550,21 @@ class OutgoingMailController extends Controller
 			} else {
 				$nm_file = $rand.'.'.'jpeg';
 			}
-			rename(public_path('assets/tesseract').'/'.Auth::user()->_id.'/'.$img, public_path('files').'/'.$id_company.'/outgoing_mail/'.$nm_file);
+			rename(public_path('assets/tesseract').'/'.Auth::user()->_id.'/'.$img, public_path('files').'/'.$id_company.'/incoming_mail/'.$nm_file);
 			$files[] = $nm_file;
 		}
 
 		$surat->files = $files;
 		$surat->save();
 
-		$r->session()->flash('success', 'Surat keluar baru berhasil ditambahkan');
+		$r->session()->flash('success', 'Surat masuk baru berhasil ditambahkan');
 
-		return redirect()->route('outgoing_mail');
+		return redirect()->route('incoming_mail');
 	}
 
 	public function move($id)
 	{
-		//Outgoing Mail
+		//Incoming Mail
 		$archieve = Archieve::find($id);
 		$data['archieve'] = $archieve;
 
@@ -590,25 +595,25 @@ class OutgoingMailController extends Controller
 		//Copy File to tesseract
 		$id_company = Auth::user()->id_company;
 		for ($i=0; $i < count($files) ; $i++) { 
-			copy(public_path('files').'/'.$id_company.'/outgoing_mail/'.$files[$i], public_path('assets/tesseract').'/'.Auth::user()->_id.'/'.$filename[$i].'.'.$ext[$i]);
+			copy(public_path('files').'/'.$id_company.'/incoming_mail/'.$files[$i], public_path('assets/tesseract').'/'.Auth::user()->_id.'/'.$filename[$i].'.'.$ext[$i]);
 		}
 
-		return redirect()->route('outgoing_mail_edit', ['id' => $id]);
+		return redirect()->route('incoming_mail_edit', ['id' => $id]);
 	}
 
 	public function edit($id)
 	{	
-		//Outgoing Mail
+		//Incoming Mail
 		$archieve = Archieve::find($id);
 
 		//Check Id Archieve
 		if ($archieve == false) {
-			return redirect()->route('outgoing_mail');
+			return redirect()->route('incoming_mail');
 		}
 
 		//Search For id_user Equation With id login
 		if ($archieve->id_user != GlobalClass::generateMongoObjectId(Auth::user()->_id)) {
-			return redirect()->route('outgoing_mail');
+			return redirect()->route('incoming_mail');
 		}
 
 		$data['archieve'] = $archieve;
@@ -637,13 +642,13 @@ class OutgoingMailController extends Controller
 		//Folder
 		$data['folder'] = Archieve::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->select('folder')->groupBy('folder')->orderBy('folder')->get();
 
-		return view('app.outgoing_mail.edit', $data);
+		return view('app.incoming_mail.edit', $data);
 	}
 
 	public function update($id, Request $r)
 	{
 		$this->validate($r, [
-			'to'				=> 'required',
+			'from'				=> 'required',
 			'reference_number'	=> 'required',
 			'subject'			=> 'required',
 			'date'				=> 'required',
@@ -658,9 +663,9 @@ class OutgoingMailController extends Controller
 		$surat = Archieve::find($id);
 		$surat->id_user = GlobalClass::generateMongoObjectId(Auth::user()->_id);
 		$surat->id_company = Auth::user()->id_company;
-		$surat->type = "outgoing_mail";
-		$surat->to = $r->to;
-		$surat->search = $r->to;
+		$surat->type = "incoming_mail";
+		$surat->from = $r->from;
+		$surat->search = $r->from;
 		$surat->reference_number = $r->reference_number;
 		$surat->subject = $r->subject;
 		$surat->date = GlobalClass::generateIsoDate($date);
@@ -672,10 +677,10 @@ class OutgoingMailController extends Controller
 		$surat->note = $r->note;
 
 		//Delete Old File
-		$old = $surat->files;
-		for ($i=0; $i < count($old) ; $i++) { 
-			unlink(public_path('files').'/'.$id_company.'/outgoing_mail/'.$old[$i]);
-		}
+		// $old = $surat->files;
+		// for ($i=0; $i < count($old) ; $i++) { 
+		// 	unlink(public_path('files').'/'.$id_company.'/incoming_mail/'.$old[$i]);
+		// }
 
 		//Check Image From Tesseract
 		$dir = public_path('assets/tesseract'.'/'.Auth::user()->_id);
@@ -689,7 +694,7 @@ class OutgoingMailController extends Controller
 			}
 		}
 
-		//Move Images from tesseract to outgoing mail
+		//Move Images from tesseract to incoming mail
 		$files = [];
 		foreach ($images as $img) {
 			$rand = rand(111111,999999);
@@ -703,7 +708,7 @@ class OutgoingMailController extends Controller
 			} else {
 				$nm_file = $rand.'.'.'jpeg';
 			}
-			rename(public_path('assets/tesseract').'/'.Auth::user()->_id.'/'.$img, public_path('files').'/'.$id_company.'/outgoing_mail/'.$nm_file);
+			rename(public_path('assets/tesseract').'/'.Auth::user()->_id.'/'.$img, public_path('files').'/'.$id_company.'/incoming_mail/'.$nm_file);
 			$files[] = $nm_file;
 		}
 
@@ -712,57 +717,150 @@ class OutgoingMailController extends Controller
 
 		$r->session()->flash('success', 'Berhasil menyimpan pembaruan');
 
-		return redirect()->route('outgoing_mail');
+		return redirect()->route('incoming_mail');
 	}
 
-	public function shared(Request $r)
+	public function disposition(Request $r)
 	{
-		$surat = Archieve::find($r->id);
+		$disposition = Archieve::find($r->id);
 
 		$share = [];
 		@$key = array_keys($r->share);
 		for ($i=0; $i < count($r->share) ; $i++) {
 			$date = Carbon::createFromFormat('d/m/Y', $r->date[$key[$i]]);
+			
 			$share[] = [
 				'_id' => GlobalClass::generateMongoObjectId($r->share[$key[$i]]),
 				'date' => GlobalClass::generateIsoDate($date),
 				'message' => $r->message[$key[$i]]
 			];
 			
+			$surat = new Archieve;
+			$surat->id_user = GlobalClass::generateMongoObjectId($r->share[$key[$i]]);
+			$surat->id_original = GlobalClass::generateMongoObjectId($disposition->_id);
+			$surat->share_from = $disposition->id_user;
+			$surat->id_company = Auth::user()->id_company;
+			$surat->type = "incoming_mail";
+			$surat->from = $disposition->from;
+			$surat->search = $disposition->from;
+			$surat->reference_number = $disposition->reference_number;
+			$surat->subject = $disposition->subject;
+			$surat->date = $disposition->date;
+			$surat->storage = $disposition->storage;
+			$surat->folder = $disposition->folder;
+			if ($disposition->storagesub != '') {
+				$surat->storagesub = $disposition->storagesub;
+			}
+			$surat->note = $disposition->note;
+			$surat->fulltext = $disposition->fulltext;
+			$surat->files = $disposition->files;
+			$surat->save();
+			
+			$shared = new Share;
+			$shared->id_archieve = GlobalClass::generateMongoObjectId($disposition->_id);
+			$shared->share_from = $disposition->id_user;
+			$shared->share_to = GlobalClass::generateMongoObjectId($r->share[$key[$i]]);
+			$shared->date = $date;
+			$shared->message = $r->message[$key[$i]];
+			$shared->save();
+			
 			// Notification
 			GlobalClass::notif(
 				GlobalClass::generateMongoObjectId($r->share[$key[$i]]),
-				Auth::user()->name.' membagikan surat keluar kepada <b>'.$surat->to.'</b> kepada Anda',
-				route('shared_outgoing_mail_detail', ['_id' => $surat->_id])
+				Auth::user()->name.' mendisposisi surat masuk dari <b>'.$disposition->from.'</b> kepada Anda',
+				URL::route('incoming_mail_detail', array('id' => $surat->getKey()), false)
 			);
 		}
 
 
 		if ($r->share != null) {
-			$surat->share = $share;
+			$disposition->share = $share;
 		} else {
-			$surat->share = '';
+			$disposition->share = '';
 		}
-		$surat->save();
+		$disposition->save();
 
-		$r->session()->flash('success', 'Surat keluar berhasil dibagikan');
+		$r->session()->flash('success', 'Surat masuk berhasil didisposisi');
 
-		return redirect()->route('outgoing_mail');
+		return redirect()->route('incoming_mail');
 	}
 
-	public function sharedHistory($id)
+	public function dispositionHistory($id)
 	{
 		$data['archieve'] = Archieve::find($id);
 
-		return view('app.outgoing_mail.shared', $data);
+		return view('app.incoming_mail.disposition', $data);
+	}
+
+	public function dispositionDelete($id)
+	{
+		Share::find($id)->delete();
+
+		return view('app.incoming_mail.disposition', $data);
+	}
+
+	public function getDetailDisposition($id)
+	{
+		$archieve = Archieve::raw(function($collection) use($id){
+
+			return $collection->aggregate(array(
+				array(
+					'$match' => array(
+						'_id' => GlobalClass::generateMongoObjectId($id),
+					)
+				),
+				array(
+					'$unwind' => '$share'
+				),
+				array(
+					'$sort' => array(
+						'share.date' => -1
+					)
+				),
+				array(
+					'$lookup' => array(
+						'from'=>'users',
+						'localField'=>'share._id',
+						'foreignField'=>'_id',
+						'as'=>'share.user'
+					)
+				),
+				array(
+					'$project' => array(
+						'share.user._id' => 1,
+						'share.user.name' => 1,
+						'share.user.position' => 1,
+						'share.user.photo' => 1,
+						'share.date' => 1,
+						'share.message' => 1,
+					)
+				),
+				array(
+					'$group' => array(
+						'_id' => '$_id',
+						'share' => array(
+							'$push' => array(
+								'user' => '$share.user',
+								'date' => '$share.date',
+								'message' => '$share.message'
+							)
+						)
+					)
+				),
+			));
+		});
+
+		return response()->json([
+			'incomingMail'  =>  $archieve
+		]);
 	}
 
 	public function delete(Request $r)
 	{
-		Archieve::where('_id', $r->id)->delete();
+		$archieve = Archieve::where('_id', $r->id)->delete();
 
-		$r->session()->flash('success', 'Surat keluar berhasil dihapus');
+		$r->session()->flash('success', 'Surat masuk berhasil dihapus');
 
-		return redirect()->route('outgoing_mail');
+		return redirect()->route('incoming_mail');
 	}
 }

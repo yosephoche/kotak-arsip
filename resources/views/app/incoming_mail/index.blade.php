@@ -27,58 +27,101 @@
 		</div>
 		
 		<table class="table table-hover" v-if="json.incomingMail != ''">
-			<tr>
-				<th class="{{ @$_GET['sort'] == 'from' ? 'sort' : '' }}">
-					<a href="{{ route('incoming_mail', ['sort' => 'from', 'asc' => $ascFrom]) }}">Asal Surat</a>
-					@if (@$_GET['sort'] == 'from')
-						@if (@$_GET['asc'] == 'true')
-							<i class="fa fa-angle-down i-sort"></i>
-						@elseif (@$_GET['asc'] == 'false')
-							<i class="fa fa-angle-up i-sort"></i>
+			<thead>	
+				<tr>
+					<th class="{{ @$_GET['sort'] == 'from' ? 'sort' : '' }} no-border">
+						<a href="{{ route('incoming_mail', ['sort' => 'from', 'asc' => $ascFrom]) }}">Asal Surat</a>
+						@if (@$_GET['sort'] == 'from')
+							@if (@$_GET['asc'] == 'true')
+								<i class="fa fa-angle-down i-sort"></i>
+							@elseif (@$_GET['asc'] == 'false')
+								<i class="fa fa-angle-up i-sort"></i>
+							@endif
 						@endif
-					@endif
-				</th>
-				<th class="{{ @$_GET['sort'] == 'subject' ? 'sort' : '' }}">
-					<a href="{{ route('incoming_mail', ['sort' => 'subject', 'asc' => $ascSubject]) }}">Perihal</a>
-					@if (@$_GET['sort'] == 'subject')
-						@if (@$_GET['asc'] == 'true')
-							<i class="fa fa-angle-down i-sort"></i>
-						@elseif (@$_GET['asc'] == 'false')
-							<i class="fa fa-angle-up i-sort"></i>
+					</th>
+					<th class="{{ @$_GET['sort'] == 'subject' ? 'sort' : '' }} no-border">
+						<a href="{{ route('incoming_mail', ['sort' => 'subject', 'asc' => $ascSubject]) }}">Perihal</a>
+						@if (@$_GET['sort'] == 'subject')
+							@if (@$_GET['asc'] == 'true')
+								<i class="fa fa-angle-down i-sort"></i>
+							@elseif (@$_GET['asc'] == 'false')
+								<i class="fa fa-angle-up i-sort"></i>
+							@endif
 						@endif
-					@endif
-				</th>
-				<th class="view-tablet-only">Disposisi</th>
-				<th class="view-tablet-only" width="120px">Tanggal Masuk</th>
-			</tr>
-			<tr class="item" v-for="val in json.incomingMail" v-on:click="detailSidebar(val, $event)">
-				<td><a v-bind:href="'{{ route('incoming_mail_detail') }}/' + val._id" v-html="val.from"></a></td>
-				<td v-html="val.subject"></td>
-				<td class="view-tablet-only" v-if="val.share[0].user != ''" width="150px">
-					<ul class="list-unstyled disposisi">
-						<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index < 3 && disposisi.user[0] != null">
-							<b-tooltip v-bind:content="disposisi.user[0].name" placement="bottom">
-								<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + disposisi.user[0].photo + ')' }" v-if="disposisi.user[0].photo != '' && disposisi.user[0].photo != null"></div>
-								<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
-							</b-tooltip>
-						</li>
-						<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index == 0 && val.share.length > 3">
-							<div class="img-disposisi" v-html="'+' + (val.share.length - 3).toString()" style="background-color: #1079ff; color: #fff"></div>
-						</li>
-					</ul>
-				</td>
-				<td v-else>-</td>
-				<td class="view-tablet-only" v-html="$options.filters.moment(val.date.$date.$numberLong)"></td>
-				<td class="text-right dropdown">
-					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
-					<ul class="dropdown-menu pull-right">
-						<li><a v-bind:href="'{{ route('incoming_mail_detail') }}/' + val._id">Lihat Detail</a></li>
-						<li><a href="#" data-toggle="modal" data-target="#disposisiModal" v-bind:data-id="val._id" v-on:click="idDispositionArray(val.share)">Disposisi</a></li>
-						<li><a v-bind:href="'{{ route('incoming_mail_move') }}/' + val._id">Sunting</a></li>
-						<li><a type="button" data-toggle="modal" data-target="#deleteModal" v-bind:data-id="val._id" class="text-danger">Hapus</a></li>
-					</ul>
-				</td>
-			</tr>
+					</th>
+					<th class="view-tablet-only no-border">Disposisi</th>
+					<th class="view-tablet-only no-border" colspan="2">Tanggal Masuk</th>
+				</tr>
+			</thead>
+			<tbody class="item no-border" v-for="val in json.incomingMail" v-on:click="detailSidebar(val, $event)">
+
+				<!-- Original File -->
+				<tr v-if="val.id_original === null">
+					<td><a :href="'{{ route('incoming_mail_detail') }}/' + val._id" v-html="val.from"></a></td>
+					<td v-html="val.subject"></td>
+					<td class="view-tablet-only" v-if="val.share != ''" width="150px">
+						<ul class="list-unstyled disposisi">
+							<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index < 3 && disposisi != null">
+								<b-tooltip :content="disposisi.name" placement="bottom">
+									<div class="img-disposisi" :style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + disposisi.photo + ')' }" v-if="disposisi.photo != '' && disposisi.photo != null"></div>
+									<div class="img-disposisi" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+								</b-tooltip>
+							</li>
+							<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index == 0 && val.share.length > 3">
+								<div class="img-disposisi" v-html="'+' + (val.share.length - 3).toString()" style="background-color: #1079ff; color: #fff"></div>
+							</li>
+						</ul>
+					</td>
+					<td v-else>-</td>
+					<td class="view-tablet-only" v-html="$options.filters.moment(val.date.$date.$numberLong)"></td>
+					<td class="text-right dropdown">
+						<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
+						<ul class="dropdown-menu pull-right">
+							<li><a :href="'{{ route('incoming_mail_detail') }}/' + val._id">Lihat Detail</a></li>
+							<li><a href="#" data-toggle="modal" data-target="#disposisiModal" :data-id="val._id" v-on:click="idDispositionArray(val.share)">Disposisi</a></li>
+							<li v-if="val.id_original === null"><a :href="'{{ route('incoming_mail_move') }}/' + val._id">Sunting</a></li>
+							<li><a type="button" data-toggle="modal" data-target="#deleteModal" :data-id="val._id" class="text-danger">Hapus</a></li>
+						</ul>
+					</td>
+				</tr>
+
+				<!-- Shared File -->
+				<tr v-else>
+					<td>
+						<span v-if="val.share_info_shared[0].read == 0">
+							<i class="fa fa-circle color-primary"></i> &nbsp;<b><a :href="'{{ route('incoming_mail_detail') }}/' + val._id + '?read_direct=true'" v-html="val.from"></a></b>
+						</span>
+						<span v-else>
+							<a :href="'{{ route('incoming_mail_detail') }}/' + val._id" v-html="val.from"></a>
+						</span>
+					</td>
+					<td v-html="val.subject"></td>
+					<td class="view-tablet-only" v-if="val.shared != ''" width="150px">
+						<ul class="list-unstyled disposisi">
+							<li v-for="(disposisi, index) in val.shared" class="img-disposisi" v-if="index < 3 && disposisi != null">
+								<b-tooltip :content="disposisi.name" placement="bottom">
+									<div class="img-disposisi" :style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + disposisi.photo + ')' }" v-if="disposisi.photo != '' && disposisi.photo != null"></div>
+									<div class="img-disposisi" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+								</b-tooltip>
+							</li>
+							<li v-for="(disposisi, index) in val.shared" class="img-disposisi" v-if="index == 0 && val.shared.length > 3">
+								<div class="img-disposisi" v-html="'+' + (val.shared.length - 3).toString()" style="background-color: #1079ff; color: #fff"></div>
+							</li>
+						</ul>
+					</td>
+					<td v-else>-</td>
+					<td class="view-tablet-only" v-html="$options.filters.moment(val.date.$date.$numberLong)"></td>
+					<td class="text-right dropdown">
+						<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
+						<ul class="dropdown-menu pull-right">
+							<li><a :href="'{{ route('incoming_mail_detail') }}/' + val._id">Lihat Detail</a></li>
+							<li><a href="#" data-toggle="modal" data-target="#disposisiModal" :data-id="val._id" :data-owner="val.id_owner" v-on:click="idDispositionArray(val.shared)">Disposisi</a></li>
+							<li><a type="button" data-toggle="modal" data-target="#deleteModal" :data-id="val._id" class="text-danger">Hapus</a></li>
+						</ul>
+					</td>
+				</tr>
+
+			</tbody>
 
 		</table>
 
@@ -171,31 +214,31 @@
 										<input type="text" :name="'message['+index+']'" class="message-fill hide" value="">
 									</td>
 									<td>
-										<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
-										<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+										<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
+										<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
 									</td>
 									<td>
 										<span class="name" v-html="val.name"></span><br>
 										<span class="position" v-html="val.position"></span>
 									</td>
 								</tr>
-								<tr v-for="(val, index) in filteredUsers" v-if="val._id != '{{ Auth::user()->_id }}' && dispositionArray.indexOf(val._id) != -1">
+								<!-- <tr v-for="(val, index) in filteredUsers" v-if="val._id != '{{ Auth::user()->_id }}' && dispositionArray.indexOf(val._id) != -1">
 									<td class="text-center">
-										<input type="checkbox" :name="'share['+index+']'" :value="val._id" checked onchange="$(this).parent().find('input').val('-')">
-										<div v-for="info in dispositionInfo" v-if="info != null && info.user[0]._id.$oid == val._id">
-											<input type="text" :name="'date['+index+']'" :value="$options.filters.moment(info.date.$date.$numberLong)" class="hide">
-											<input type="text" :name="'message['+index+']'" :value="info.message" class="hide">
+										<input type="checkbox" class="val-check" :name="'share['+index+']'" :value="val._id" :data-id="val._id" data-date="" checked>
+										<div v-for="info in dispositionInfo" v-if="info != null && info._id.$oid == val._id">
+											<input type="text" :name="'date['+index+']'" :value="$options.filters.moment(info.date.$date.$numberLong)" class="val-date hide">
+											<input type="text" :name="'message['+index+']'" :value="info.message" class="val-message hide">
 										</div>
 									</td>
 									<td>
-										<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
-										<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+										<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
+										<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
 									</td>
 									<td>
 										<span class="name" v-html="val.name"></span><br>
 										<span class="position" v-html="val.position"></span>
 									</td>
-								</tr>
+								</tr> -->
 							</table>
 						</div>
 					</div>
@@ -277,11 +320,11 @@
 					<label>Folder</label>
 					<div class="value"><a :href="'{{ route('folder') }}/' + detail.folder" v-html="detail.folder"></a></div>
 				</div>
-				<div class="item" v-if="detail.share[0].user != ''">
+				<div class="item" v-if="detail.share != ''">
 					<label>Disposisi</label>
 					<div class="value">
 						<ul class="list-unstyled">
-							<li v-for="disposisi in detail.share"><a :href="'{{ route('incoming_mail_disposition_history') }}/' + detail._id" v-html="disposisi.user[0].name"></a></li>
+							<li v-for="disposisi in detail.share"><a :href="'{{ route('incoming_mail_disposition_history') }}/' + detail._id" v-html="disposisi.name"></a></li>
 						</ul>
 					</div>
 				</div>
@@ -293,7 +336,7 @@
 
 			<div class="attachment">
 				<span v-html="detail.files.length + ' file terlampir'"></span>
-				<a v-bind:href="'{{ route('incoming_mail_detail') }}/' + detail._id" class="btn btn-default btn-block">Lihat Detail</a>
+				<a :href="'{{ route('incoming_mail_detail') }}/' + detail._id" class="btn btn-default btn-block">Lihat Detail</a>
 			</div>
 		</div>
 	</template>
@@ -304,7 +347,7 @@
 	<script>
 		<?php
 			// Sort By
-			$sortKey = 'created_at';
+			$sortKey = '_id';
 			if (@$_GET['sort'] == 'from') {
 				$sortKey = 'from';
 			} else if (@$_GET['sort'] == 'subject') {
@@ -327,8 +370,40 @@
 		getDataIncomingMail('{{ route("api_incoming_mail", ["sort" => $sortKey]) }}&asc={{ $asc }}&page={{ $page }}', 'incomingMail');
 
 		$('#disposisiModal').on('show.bs.modal', function (e) {
+			// Get ID
 			var id = $(e.relatedTarget).data('id');
 			$(this).find('input[name="id"]').val(id);
+
+			// Remove owner mail from disposition
+			var id_owner = $(e.relatedTarget).data('owner');
+			if (typeof id_owner !== "undefined") {
+				console.log('a');
+				$(this).find('input[value="' + id_owner + '"]').closest('tr').addClass('hide');
+			} else {
+				console.log('b');
+				$(this).find('tr').removeClass('hide');
+			}
+
+			$('#link_history').attr('href', '{{ route('incoming_mail_disposition_history') }}/' + id);
+			
+			// Fill val date
+			var now = moment().format('DD/MM/YYYY');
+			var status = true;
+			$('.val-check').attr('data-date', now);
+			$('.val-check').change(function() {
+				if (status == true) {
+					status = false;
+				} else {
+					status = true;
+				}
+				var id = $(this).data('id');
+				var date = $(this).data('date');
+
+				$(this).parent().find('input.val-check').val(status == false ? '-' : id);
+				$(this).parent().find('input.val-date').val(status == false ? '-' : date);
+				$(this).parent().find('input.val-message').val('');
+				// $(this).val(id);
+			});
 		});
 
 		$('#deleteModal').on('show.bs.modal', function (e) {

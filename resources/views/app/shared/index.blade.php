@@ -65,15 +65,11 @@
 		</div>
 
 		<!-- Nav tabs -->
-		<ul class="nav nav-tabs" role="tablist">
+		<ul class="nav nav-tabs" role="tablist" style="margin-bottom: 0 !important">
 			<li role="presentation" {{ Request::is('berbagi/surat/masuk*') ? 'class=active' : '' }}><a href="{{ route('shared_incoming_mail') }}">Surat Masuk</a></li>
 			<li role="presentation" {{ Request::is('berbagi/surat/keluar*') ? 'class=active' : '' }}><a href="{{ route('shared_outgoing_mail') }}">Surat Keluar</a></li>
 			<li role="presentation" {{ Request::is('berbagi/berkas*') ? 'class=active' : '' }}><a href="{{ route('shared_file') }}">Berkas</a></li>
 		</ul>
-
-		<p>Saat seseorang berbagi arsip dengan Anda, Anda hanya diberi akses melihat arsip tersebut.</p>
-
-		<hr>
 
 		<table class="table table-hover" v-if="json.{{ $key_json }} != ''">
 			<tr>
@@ -335,7 +331,7 @@
 	<script>
 		<?php
 			// Sort By
-			$sortKey = 'created_at';
+			$sortKey = '_id';
 			if (@$_GET['sort'] == 'from') {
 				$sortKey = 'from';
 			} else if (@$_GET['sort'] == 'to') {

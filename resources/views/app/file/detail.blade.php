@@ -28,7 +28,7 @@
 					<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#disposisiModal" v-bind:data-id="val._id" v-on:click="idDispositionArray(val.share)">Disposisi</a>
 				</li>
 				<li v-for="val in json.files">
-					<a :href="'{{ asset('assets/app/img/files') }}/' + val.files" title="Unduh Berkas" download><i class="fa fa-download"></i></a>
+					<a :href="'{{ url('files') }}/{{ Auth::user()->id_company }}/files/' + val.files" title="Unduh Berkas" download><i class="fa fa-download"></i></a>
 				</li>
 				<li class="dropdown" v-for="val in json.files">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
@@ -44,12 +44,12 @@
 			<div class="ka-main">
 				<div v-for="val in json.files">
 					<div v-if="val.files.slice(-3) == 'pdf'">
-						<div><object :data="'{{ asset('assets/app/img/files') }}/' + val.files" type="application/pdf"></object></div>
+						<div><object :data="'{{ url('files') }}/{{ Auth::user()->id_company }}/files/' + val.files" type="application/pdf"></object></div>
 					</div>
 					<div v-if="val.files.slice(-3) == 'png' || val.files.slice(-3) == 'jpg' || val.files.slice(-4) == 'jpeg'">
-						<div><img :src="'{{ asset('assets/app/img/files') }}/' + val.files" alt=""></div>
+						<div><img :src="'{{ url('files') }}/{{ Auth::user()->id_company }}/files/' + val.files" alt=""></div>
 					</div>
-					<div v-if="val.files.slice(-3) == 'docx' || val.files.slice(-3) == 'doc' || val.files.slice(-3) == 'ppt' || val.files.slice(-3) == 'pptx' || val.files.slice(-3) == 'xls' || val.files.slice(-3) == 'xlsx'">
+					<div v-if="val.files.slice(-4) == 'docx' || val.files.slice(-3) == 'doc' || val.files.slice(-3) == 'ppt' || val.files.slice(-4) == 'pptx' || val.files.slice(-3) == 'xls' || val.files.slice(-4) == 'xlsx'">
 						<div>
 							<br>
 							<br>
@@ -57,8 +57,8 @@
 							<br>
 							<br>
 							<br>
-							<!-- <img src="" alt="Pratinjau belum mendukung format berkas"> -->
-							<p>Pratinjau belum mendukung format berkas, silahkan <a :href="'{{ asset('assets/app/img/files') }}/' + val.files" title="Unduh Berkas" download>unduh berkas</a>.</p>
+							<img src="{{ asset('assets/app/img/icons') }}/cannot-preview.svg" alt="Pratinjau belum mendukung format berkas" width="100px"><br><br>
+							<p>Pratinjau belum mendukung format berkas, silahkan <a :href="'{{ url('files') }}/{{ Auth::user()->id_company }}/files/' + val.files" title="Unduh Berkas" download>unduh berkas</a>.</p>
 						</div>
 					</div>
 				</div>

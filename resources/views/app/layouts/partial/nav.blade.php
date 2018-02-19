@@ -14,7 +14,7 @@
 	</ul>
 	<ul class="right-side">
 		<?php
-			$notifications = App\Notifications::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->orderBy('_id', 'desc')->take(10)->get();
+			$notifications = App\Notifications::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->orderBy('_id', 'desc')->where('read', 0)->take(10)->get();
 		?>
 		<li class="notif dropdown {{ count($notifications->where('read', 0)) > 0 ? 'new-notif' : '' }}">
 			<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bell {{ count($notifications->where('read', 0)) > 0 ? 'animated swing infinite' : '' }}"></i> {!! count($notifications->where('read', 0)) > 0 ? '<span class="badge">'.count($notifications->where('read', 0)).'</span>' : '' !!}</a>
@@ -39,7 +39,11 @@
 					</li>
 					<li role="separator" class="divider"></li>
 				@empty
-					
+					<li class="text-center">
+						<br>
+						<img src="{{ asset('assets/app/img/icons') }}/cannot-preview.svg" alt="Pratinjau belum mendukung format berkas" width="100px"><br><br>
+					</li>
+					<li role="separator" class="divider"></li>
 				@endforelse
 				
 				<li class="text-center"><a href="{{ route('notifications') }}">Lihat semua pemberitahuan</a></li>

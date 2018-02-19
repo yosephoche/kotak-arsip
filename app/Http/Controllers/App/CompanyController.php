@@ -23,7 +23,6 @@ class CompanyController extends Controller
 
 	public function store(Request $r)
 	{
-
 		if ($r->company_code != '') {
 
 			$this->validate($r, [
@@ -64,7 +63,7 @@ class CompanyController extends Controller
 			$user->id_company = $id_company->_id;
 			$user->save();
 
-			//Company Srvice
+			//Company Service
 			$service = new CompanyService;
 			$service->id_company = $id_company->_id;
 			$service->service = 'free';
@@ -72,6 +71,12 @@ class CompanyController extends Controller
 			$service->size_used = 0;
 			$service->registered = date('Y-m-d');
 			$service->save();
+
+			// Create folder file
+			mkdir(public_path('files').'/'.$id_company->_id, 0777, true);
+			mkdir(public_path('files').'/'.$id_company->_id.'/incoming_mail', 0777, true);
+			mkdir(public_path('files').'/'.$id_company->_id.'/outgoing_mail', 0777, true);
+			mkdir(public_path('files').'/'.$id_company->_id.'/files', 0777, true);
 
 			return redirect()->route('company_register_success');
 		}

@@ -15,7 +15,7 @@
 			<ul class="timeline">
 				@foreach ($notifications as $notif)
 					<li class="tl-item">
-						<div class="tl-wrap">
+						<div class="tl-wrap" style="margin-left: 5em">
 							<?php
 								$date_timestamp = strtotime($notif->created_at);
 								$date = date('d-M', $date_timestamp); 

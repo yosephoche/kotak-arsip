@@ -26,7 +26,7 @@ class SharedController extends Controller
 		$archieve = Archieve::raw(function($collection){
 			
 			// Sort By
-			$sortKey = 'created_at';
+			$sortKey = '_id';
 			if (@$_GET['sort'] == 'from') {
 				$sortKey = 'from';
 			} else if (@$_GET['sort'] == 'subject') {
@@ -202,7 +202,7 @@ class SharedController extends Controller
 		$archieve = Archieve::raw(function($collection){
 			
 			// Sort By
-			$sortKey = 'created_at';
+			$sortKey = '_id';
 			if (@$_GET['sort'] == 'to') {
 				$sortKey = 'to';
 			} else if (@$_GET['sort'] == 'subject') {
@@ -378,7 +378,7 @@ class SharedController extends Controller
 		$archieve = Archieve::raw(function($collection){
 			
 			// Sort By
-			$sortKey = 'created_at';
+			$sortKey = '_id';
 			if (@$_GET['sort'] == 'name') {
 				$sortKey = 'name';
 			} else if (@$_GET['sort'] == 'date') {

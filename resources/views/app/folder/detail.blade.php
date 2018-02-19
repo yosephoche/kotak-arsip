@@ -103,6 +103,9 @@
 						<li v-if="val.type == 'outgoing_mail'">
 							<a v-bind:href="'{{ route('outgoing_mail_detail') }}/' + val._id">Lihat Detail</a>
 						</li>
+						<li v-if="val.type == 'file'">
+							<a v-bind:href="'{{ route('file_detail') }}/' + val._id">Lihat Detail</a>
+						</li>
 
 						<li v-if="val.type == 'incoming_mail'">
 							<a v-bind:href="'{{ route('incoming_mail_move') }}/' + val._id">Sunting</a>
@@ -293,7 +296,7 @@
 	<script>
 		<?php
 			// Sort By
-			$sortKey = 'created_at';
+			$sortKey = '_id';
 			if (@$_GET['sort'] == 'search') {
 				$sortKey = 'search';
 			} else if (@$_GET['sort'] == 'subject') {

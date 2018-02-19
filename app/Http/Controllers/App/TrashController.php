@@ -35,7 +35,7 @@ class TrashController extends Controller
 			$q = @$_GET['q'];
 
 			// Sort By
-			$sortKey = 'created_at';
+			$sortKey = '_id';
 			if (@$_GET['sort'] == 'search') {
 				$sortKey = 'search';
 			} else if (@$_GET['sort'] == 'subject') {
@@ -86,6 +86,7 @@ class TrashController extends Controller
 				array(
 					'$project' => array(
 						'search' => 1,
+						'id_original' => 1,
 						'from' => 1,
 						'to' => 1,
 						'reference_number' => 1,
@@ -118,6 +119,9 @@ class TrashController extends Controller
 						),
 						'id_company' => array(
 							'$first' => '$id_company'
+						),
+						'id_original' => array(
+							'$first' => '$id_original'
 						),
 						'type' => array(
 							'$first' => '$type'
@@ -236,13 +240,26 @@ class TrashController extends Controller
 	{
 		$old_files = Archieve::withTrashed()->find($r->id);
 
+		// Get id Company
+		$id_company = Auth::user()->id_company;
+
 		//Delete Old File
 		$old = $old_files->files;
 		for ($i=0; $i < count($old) ; $i++) {
-			unlink(public_path('assets/app/img/'.$old_files->type).'/'.$old[$i]);
+			unlink(public_path('files').'/'.$id_company.'/'.$old_files->type.'/'.$old[$i]);
 		}
 
-		$archieve = Archieve::where('_id', $r->id)->forceDelete();
+		Archieve::where('_id', $r->id)->forceDelete();
+		Archieve::where('id_original', GlobalClass::generateMongoObjectId($r->id))->delete();
+
+		$r->session()->flash('success', 'Arsip berhasil dihapus');
+
+		return redirect()->back();
+	}
+
+	public function deleteKeepFiles(Request $r)
+	{
+		Archieve::where('_id', $r->id)->forceDelete();
 
 		$r->session()->flash('success', 'Arsip berhasil dihapus');
 

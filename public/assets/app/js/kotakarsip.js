@@ -55619,5 +55619,5 @@ function autocompleteSearch(data) {
 		if (event.keyCode == 13) {
 			$('#typeahead').submit();
 		}
-	});;
+	});
 }

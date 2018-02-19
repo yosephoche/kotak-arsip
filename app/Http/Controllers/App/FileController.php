@@ -31,7 +31,7 @@ class FileController extends Controller
 		$archieve = Archieve::raw(function($collection){
 			
 			// Sort By
-			$sortKey = 'created_at';
+			$sortKey = '_id';
 			if (@$_GET['sort'] == 'name') {
 				$sortKey = 'name';
 			} else if (@$_GET['sort'] == 'date') {
@@ -255,6 +255,9 @@ class FileController extends Controller
 			'file'				=> 'required'
 		]);
 
+		// Get id Company
+		$id_company = Auth::user()->id_company;
+
 		$date = Carbon::now();
 
 		$file = new Archieve;
@@ -269,7 +272,7 @@ class FileController extends Controller
 		$file->folder = $r->folder;
 
 		// Upload Image
-		$destination = public_path('assets/app/img/files');
+		$destination = public_path('files/'.$id_company.'/files');
 		$file_arr = GlobalClass::UploadFile($r->file('file'), $destination);
 		$files = implode(',',$file_arr);
 

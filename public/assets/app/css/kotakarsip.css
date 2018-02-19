@@ -11619,7 +11619,6 @@ a:hover, a:focus, a:active, a:visited {
   padding-bottom: 15px;
 }
 .ka-body .ka-main .table .item td:first-child a {
-  font-weight: bold;
   color: #333;
 }
 .ka-body .ka-main .table .item td .disposisi {
@@ -11640,6 +11639,9 @@ a:hover, a:focus, a:active, a:visited {
   text-align: center;
   font-size: 10px;
   font-weight: bold;
+}
+.ka-body .ka-main .table .item.active tr td {
+  background-color: #f5f5f5;
 }
 .ka-body .ka-main .table .dropdown-menu {
   top: 40px;
@@ -11855,11 +11857,24 @@ a:hover, a:focus, a:active, a:visited {
   box-shadow: 0 0px 10px rgba(0, 112, 255, 0.2);
 }
 
+.timeline .tl-wrap {
+  margin-left: 10em;
+}
+.timeline .tl-date {
+  margin-left: -12.5em;
+  width: 8.5em;
+}
 .timeline .time {
   color: #999;
   font-size: 12px;
   margin-top: 5px;
   display: block;
+}
+.timeline .close {
+  position: absolute;
+  right: -30px;
+  top: -3px;
+  transform: translateY(50%);
 }
 
 .setup-storage-sub h1 input {

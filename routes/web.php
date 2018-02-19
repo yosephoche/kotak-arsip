@@ -163,6 +163,7 @@ Route::group(['namespace' => 'App'], function () {
 			Route::post('/update/{id?}', 'IncomingMailController@update')->name('incoming_mail_update');
 			Route::post('/delete', 'IncomingMailController@delete')->name('incoming_mail_delete');
 			Route::post('/disposisi', 'IncomingMailController@disposition')->name('incoming_mail_disposition');
+			Route::get('/disposisi/delete/{id?}/{id_user?}/{id_archieve?}', 'IncomingMailController@dispositionDelete')->name('incoming_mail_disposition_delete');
 			Route::get('/riwayat-disposisi/{id?}', 'IncomingMailController@dispositionHistory')->name('incoming_mail_disposition_history');
 		});
 
@@ -260,6 +261,7 @@ Route::group(['namespace' => 'App'], function () {
 		Route::get('/', 'TrashController@index')->name('trash');
 		Route::get('/restore/{id?}', 'TrashController@restore')->name('trash_restore');
 		Route::post('/delete', 'TrashController@delete')->name('trash_delete');
+		Route::post('/deletekeepfiles', 'TrashController@deleteKeepFiles')->name('trash_delete_keep_files');
 	});
 
 	//Search

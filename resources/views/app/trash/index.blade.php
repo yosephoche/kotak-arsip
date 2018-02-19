@@ -65,13 +65,13 @@
 				</td>
 				<td class="view-tablet-only">
 					<div v-if="val.type == 'incoming_mail'">
-						<a v-html="val.subject"></a>
+						<span v-html="val.subject"></span>
 					</div>
 					<div v-if="val.type == 'outgoing_mail'">
-						<a v-html="val.subject"></a>
+						<span v-html="val.subject"></span>
 					</div>
 					<div v-if="val.type == 'file'">
-						<a v-html="val.desc"></a>
+						<span v-html="val.desc"></span>
 					</div>
 				</td>
 				<td>
@@ -89,7 +89,8 @@
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
 					<ul class="dropdown-menu pull-right">
 						<li><a v-bind:href="'{{ route('trash_restore') }}/' + val._id">Pulihkan</a></li>
-						<li><a href="#" data-toggle="modal" data-target="#deleteModal" class="text-danger" v-bind:data-id="val._id">Hapus Permanen</a></li>
+						<li v-if="val.id_original === null"><a href="#" data-toggle="modal" data-target="#deleteModal" class="text-danger" v-bind:data-id="val._id">Hapus Permanen</a></li>
+						<li v-if="val.id_original !== null"><a href="#" data-toggle="modal" data-target="#deleteModalKeepFiles" class="text-danger" v-bind:data-id="val._id">Hapus Permanen</a></li>
 					</ul>
 				</td>
 			</tr>
@@ -153,6 +154,28 @@
 		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
 				<form action="{{ route('trash_delete') }}" method="post">
+					{{ csrf_field() }}
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="deleteLabelModal">Hapus</h4>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" name="id">
+						Apakah Anda yakin ingin menghapus data ini secara permanen?
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+						<button class="btn btn-danger">Ya, hapus</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="deleteModalKeepFiles" tabindex="-1" role="dialog" aria-labelledby="deleteLabelModal">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<form action="{{ route('trash_delete_keep_files') }}" method="post">
 					{{ csrf_field() }}
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -241,7 +264,7 @@
 	<script>
 		<?php
 			// Sort By
-			$sortKey = 'created_at';
+			$sortKey = '_id';
 			if (@$_GET['sort'] == 'search') {
 				$sortKey = 'search';
 			} else if (@$_GET['sort'] == 'subject') {
@@ -264,6 +287,11 @@
 		getDataSearch('{{ route("api_trash", ["q" => ""]) }}&sort={{ $sortKey }}&asc={{ $asc }}&page={{ $page }}', 'search');
 
 		$('#deleteModal').on('show.bs.modal', function (e) {
+			var id = $(e.relatedTarget).data('id');
+			$(this).find('input[name="id"]').val(id);
+		});
+
+		$('#deleteModalKeepFiles').on('show.bs.modal', function (e) {
 			var id = $(e.relatedTarget).data('id');
 			$(this).find('input[name="id"]').val(id);
 		});

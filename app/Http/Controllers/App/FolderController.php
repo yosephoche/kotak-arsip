@@ -82,7 +82,7 @@ class FolderController extends Controller
 			$q = str_replace('_', ' ', $folder);
 
 			// Sort By
-			$sortKey = 'created_at';
+			$sortKey = '_id';
 			if (@$_GET['sort'] == 'search') {
 				$sortKey = 'search';
 			} else if (@$_GET['sort'] == 'subject') {

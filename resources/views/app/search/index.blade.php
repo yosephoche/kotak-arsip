@@ -381,7 +381,7 @@
 	<script>
 		<?php
 			// Sort By
-			$sortKey = 'created_at';
+			$sortKey = '_id';
 			if (@$_GET['sort'] == 'search') {
 				$sortKey = 'search';
 			} else if (@$_GET['sort'] == 'subject') {

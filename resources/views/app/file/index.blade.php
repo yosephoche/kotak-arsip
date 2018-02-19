@@ -38,7 +38,6 @@
 						@endif
 					@endif
 				</th>
-				<th>Ekstensi</th>
 				<th class="view-tablet-only">Dibagikan</th>
 				<th class="view-tablet-only {{ @$_GET['sort'] == 'date' ? 'sort' : '' }}">
 					<a href="{{ route('file', ['sort' => 'date', 'asc' => $ascdate]) }}">Tanggal Unggah</a>
@@ -52,8 +51,19 @@
 				</th>
 			</tr>
 			<tr class="item" v-for="val in json.files" v-on:click="detailSidebar(val, $event)">
-				<td><a v-bind:href="'{{ route('file_detail') }}/' + val._id" v-html="val.name"></a></td>
-				<td v-html="val.files.substr((val.files.lastIndexOf('.') +1))"></td>
+				<td>
+					<img class="img" v-if="val.files.substr((val.files.lastIndexOf('.') +1)) === 'doc'" src="{{ url('assets/app/img/icons/word.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
+					<img class="img" v-if="val.files.substr((val.files.lastIndexOf('.') +1)) === 'docx'" src="{{ url('assets/app/img/icons/word.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
+					<img class="img" v-if="val.files.substr((val.files.lastIndexOf('.') +1)) === 'ppt'" src="{{ url('assets/app/img/icons/power_point.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
+					<img class="img" v-if="val.files.substr((val.files.lastIndexOf('.') +1)) === 'pptx'" src="{{ url('assets/app/img/icons/power_point.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
+					<img class="img" v-if="val.files.substr((val.files.lastIndexOf('.') +1)) === 'ppt'" src="{{ url('assets/app/img/icons/excel.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
+					<img class="img" v-if="val.files.substr((val.files.lastIndexOf('.') +1)) === 'pptx'" src="{{ url('assets/app/img/icons/excel.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
+					<img class="img" v-if="val.files.substr((val.files.lastIndexOf('.') +1)) === 'pdf'" src="{{ url('assets/app/img/icons/pdf-01.svg') }}" alt="" height="30px" style="margin-right: 10px" title="PDF">
+					<img class="img" v-if="val.files.substr((val.files.lastIndexOf('.') +1)) === 'jpg'" src="{{ url('assets/app/img/icons/image.svg') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+					<img class="img" v-if="val.files.substr((val.files.lastIndexOf('.') +1)) === 'png'" src="{{ url('assets/app/img/icons/image.svg') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+					<img class="img" v-if="val.files.substr((val.files.lastIndexOf('.') +1)) === 'jpeg'" src="{{ url('assets/app/img/icons/image.svg') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+					<a v-bind:href="'{{ route('file_detail') }}/' + val._id" v-html="val.name"></a>
+				</td>
 				<td class="view-tablet-only" v-if="val.share[0].user != ''" width="150px">
 					<ul class="list-unstyled disposisi">
 						<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index < 3 && disposisi.user[0] != null">
@@ -354,7 +364,7 @@
 	<script>
 		<?php
 			// Sort By
-			$sortKey = 'created_at';
+			$sortKey = '_id';
 			if (@$_GET['sort'] == 'name') {
 				$sortKey = 'name';
 			} else if (@$_GET['sort'] == 'date') {

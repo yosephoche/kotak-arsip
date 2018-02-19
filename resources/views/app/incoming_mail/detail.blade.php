@@ -42,10 +42,10 @@
 				<div v-for="val in json.incomingMail">
 					<div v-for="image in val.files">
 						<div v-if="image.slice(-3) == 'pdf'">
-							<div><object :data="'{{ asset('assets/app/img/incoming_mail') }}/' + image" type="application/pdf"></object></div>
+							<div><object :data="'{{ url('files') }}/{{ Auth::user()->id_company }}/incoming_mail/' + image" type="application/pdf"></object></div>
 						</div>
 						<div v-else>
-							<div><img :src="'{{ asset('assets/app/img/incoming_mail') }}/' + image" alt=""></div>
+							<div><img :src="'{{ url('files') }}/{{ Auth::user()->id_company }}/incoming_mail/' + image" alt=""></div>
 						</div>
 					</div>
 				</div>
@@ -86,11 +86,11 @@
 							<label>Folder</label>
 							<div class="value"><a :href="'{{ route('folder') }}/' + val.folder" v-html="val.folder"></a></div>
 						</div>
-						<div class="item" v-if="val.share[0].user != ''">
+						<div class="item" v-if="val.share != ''">
 							<label>Disposisi</label>
 							<div class="value">
 								<ul class="list-unstyled">
-									<li v-for="disposisi in val.share"><a :href="'{{ route('incoming_mail_disposition_history') }}/' + val._id" v-html="disposisi.user[0].name"></a></li>
+									<li v-for="disposisi in val.share"><a :href="'{{ route('incoming_mail_disposition_history') }}/' + val._id" v-html="disposisi.name"></a></li>
 								</ul>
 							</div>
 						</div>
@@ -132,31 +132,31 @@
 											<input type="text" :name="'message['+index+']'" class="message-fill hide" value="">
 										</td>
 										<td>
-											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
-											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+											<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
+											<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
 										</td>
 										<td>
 											<span class="name" v-html="val.name"></span><br>
 											<span class="position" v-html="val.position"></span>
 										</td>
 									</tr>
-									<tr v-for="(val, index) in filteredUsers" v-if="val._id != '{{ Auth::user()->_id }}' && dispositionArray.indexOf(val._id) != -1">
+									<!-- <tr v-for="(val, index) in filteredUsers" v-if="val._id != '{{ Auth::user()->_id }}' && dispositionArray.indexOf(val._id) != -1">
 										<td class="text-center">
-											<input type="checkbox" :name="'share['+index+']'" :value="val._id" checked onchange="$(this).parent().find('input').val('-')">
-											<div v-for="info in dispositionInfo" v-if="info != null && info.user[0]._id.$oid == val._id">
-												<input type="text" :name="'date['+index+']'" :value="$options.filters.moment(info.date.$date.$numberLong)" class="hide">
-												<input type="text" :name="'message['+index+']'" :value="info.message" class="hide">
+											<input type="checkbox" class="val-check" :name="'share['+index+']'" :value="val._id" :data-id="val._id" data-date="" checked>
+											<div v-for="info in dispositionInfo" v-if="info != null && info._id.$oid == val._id">
+												<input type="text" :name="'date['+index+']'" :value="$options.filters.moment(info.date.$date.$numberLong)" class="val-date hide">
+												<input type="text" :name="'message['+index+']'" :value="info.message" class="val-message hide">
 											</div>
 										</td>
 										<td>
-											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
-											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+											<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
+											<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
 										</td>
 										<td>
 											<span class="name" v-html="val.name"></span><br>
 											<span class="position" v-html="val.position"></span>
 										</td>
-									</tr>
+									</tr> -->
 								</table>
 							</div>
 						</div>
