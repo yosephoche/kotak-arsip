@@ -27,68 +27,113 @@
 		</div>
 
 		<table class="table table-hover" v-if="json.files != ''">
-			<tr>
-				<th class="{{ @$_GET['sort'] == 'name' ? 'sort' : '' }}">
-					<a href="{{ route('file', ['sort' => 'name', 'asc' => $ascName]) }}">Judul Berkas</a>
-					@if (@$_GET['sort'] == 'name')
-						@if (@$_GET['asc'] == 'true')
-							<i class="fa fa-angle-down i-sort"></i>
-						@elseif (@$_GET['asc'] == 'false')
-							<i class="fa fa-angle-up i-sort"></i>
+			<thead>
+				<tr>
+					<th class="{{ @$_GET['sort'] == 'name' ? 'sort' : '' }} no-border">
+						<a href="{{ route('file', ['sort' => 'name', 'asc' => $ascName]) }}">Judul Berkas</a>
+						@if (@$_GET['sort'] == 'name')
+							@if (@$_GET['asc'] == 'true')
+								<i class="fa fa-angle-down i-sort"></i>
+							@elseif (@$_GET['asc'] == 'false')
+								<i class="fa fa-angle-up i-sort"></i>
+							@endif
 						@endif
-					@endif
-				</th>
-				<th class="view-tablet-only">Dibagikan</th>
-				<th class="view-tablet-only {{ @$_GET['sort'] == 'date' ? 'sort' : '' }}">
-					<a href="{{ route('file', ['sort' => 'date', 'asc' => $ascdate]) }}">Tanggal Unggah</a>
-					@if (@$_GET['sort'] == 'date')
-						@if (@$_GET['asc'] == 'true')
-							<i class="fa fa-angle-down i-sort"></i>
-						@elseif (@$_GET['asc'] == 'false')
-							<i class="fa fa-angle-up i-sort"></i>
+					</th>
+					<th class="view-tablet-only no-border">Dibagikan</th>
+					<th class="view-tablet-only {{ @$_GET['sort'] == 'date' ? 'sort' : '' }} no-border" colspan="2">
+						<a href="{{ route('file', ['sort' => 'date', 'asc' => $ascdate]) }}">Tanggal Unggah</a>
+						@if (@$_GET['sort'] == 'date')
+							@if (@$_GET['asc'] == 'true')
+								<i class="fa fa-angle-down i-sort"></i>
+							@elseif (@$_GET['asc'] == 'false')
+								<i class="fa fa-angle-up i-sort"></i>
+							@endif
 						@endif
-					@endif
-				</th>
-			</tr>
-			<tr class="item" v-for="val in json.files" v-on:click="detailSidebar(val, $event)">
-				<td>
-					<img class="img" v-if="val.files.substr((val.files.lastIndexOf('.') +1)) === 'doc'" src="{{ url('assets/app/img/icons/word.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
-					<img class="img" v-if="val.files.substr((val.files.lastIndexOf('.') +1)) === 'docx'" src="{{ url('assets/app/img/icons/word.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
-					<img class="img" v-if="val.files.substr((val.files.lastIndexOf('.') +1)) === 'ppt'" src="{{ url('assets/app/img/icons/power_point.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
-					<img class="img" v-if="val.files.substr((val.files.lastIndexOf('.') +1)) === 'pptx'" src="{{ url('assets/app/img/icons/power_point.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
-					<img class="img" v-if="val.files.substr((val.files.lastIndexOf('.') +1)) === 'ppt'" src="{{ url('assets/app/img/icons/excel.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
-					<img class="img" v-if="val.files.substr((val.files.lastIndexOf('.') +1)) === 'pptx'" src="{{ url('assets/app/img/icons/excel.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
-					<img class="img" v-if="val.files.substr((val.files.lastIndexOf('.') +1)) === 'pdf'" src="{{ url('assets/app/img/icons/pdf-01.svg') }}" alt="" height="30px" style="margin-right: 10px" title="PDF">
-					<img class="img" v-if="val.files.substr((val.files.lastIndexOf('.') +1)) === 'jpg'" src="{{ url('assets/app/img/icons/image.svg') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
-					<img class="img" v-if="val.files.substr((val.files.lastIndexOf('.') +1)) === 'png'" src="{{ url('assets/app/img/icons/image.svg') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
-					<img class="img" v-if="val.files.substr((val.files.lastIndexOf('.') +1)) === 'jpeg'" src="{{ url('assets/app/img/icons/image.svg') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
-					<a v-bind:href="'{{ route('file_detail') }}/' + val._id" v-html="val.name"></a>
-				</td>
-				<td class="view-tablet-only" v-if="val.share[0].user != ''" width="150px">
-					<ul class="list-unstyled disposisi">
-						<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index < 3 && disposisi.user[0] != null">
-							<b-tooltip v-bind:content="disposisi.user[0].name" placement="bottom">
-								<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + disposisi.user[0].photo + ')' }" v-if="disposisi.user[0].photo != ''"></div>
-								<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
-							</b-tooltip>
-						</li>
-						<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index == 0 && val.share.length > 3">
-							<div class="img-disposisi" v-html="'+' + (val.share.length - 3).toString()" style="background-color: #1079ff; color: #fff"></div>
-						</li>
-					</ul>
-				</td>
-				<td v-else>-</td>
-				<td class="view-tablet-only" v-html="$options.filters.moment(val.date.$date.$numberLong)"></td>
-				<td class="text-right dropdown">
-					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
-					<ul class="dropdown-menu pull-right">
-						<li><a v-bind:href="'{{ route('file_detail') }}/' + val._id">Lihat Detail</a></li>
-						<li><a href="#" data-toggle="modal" data-target="#disposisiModal" v-bind:data-id="val._id" v-on:click="idDispositionArray(val.share)">Bagikan</a></li>
-						<li><a href="#" data-toggle="modal" data-target="#editModal" :data-id="val._id" :data-name="val.name" :data-desc="val.desc" :data-folder="val.folder">Sunting</a></li>
-						<li><a type="button" data-toggle="modal" data-target="#deleteModal" v-bind:data-id="val._id" class="text-danger">Hapus</a></li>
-					</ul>
-				</td>
-			</tr>
+					</th>
+				</tr>
+			</thead>
+			<tbody class="item no-border" v-for="val in json.files" v-on:click="detailSidebar(val, $event)">
+				
+				<!-- Original File -->
+				<tr v-if="val.id_original === null">
+					<td>
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'doc'" src="{{ url('assets/app/img/icons/word.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'docx'" src="{{ url('assets/app/img/icons/word.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'ppt'" src="{{ url('assets/app/img/icons/power_point.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'pptx'" src="{{ url('assets/app/img/icons/power_point.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'xls'" src="{{ url('assets/app/img/icons/excel.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'xlsx'" src="{{ url('assets/app/img/icons/excel.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'pdf'" src="{{ url('assets/app/img/icons/pdf-01.svg') }}" alt="" height="30px" style="margin-right: 10px" title="PDF">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpg'" src="{{ url('assets/app/img/icons/image.svg') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'png'" src="{{ url('assets/app/img/icons/image.svg') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpeg'" src="{{ url('assets/app/img/icons/image.svg') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+						<a v-bind:href="'{{ route('file_detail') }}/' + val._id" v-html="val.name"></a>
+					</td>
+					<td class="view-tablet-only" v-if="val.share != ''" width="150px" style="padding-top: 10px">
+						<ul class="list-unstyled disposisi">
+							<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index < 3 && disposisi != null">
+								<b-tooltip :content="disposisi.name" placement="bottom">
+									<div class="img-disposisi" :style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + disposisi.photo + ')' }" v-if="disposisi.photo != '' && disposisi.photo != null"></div>
+									<div class="img-disposisi" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+								</b-tooltip>
+							</li>
+							<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index == 0 && val.share.length > 3">
+								<div class="img-disposisi" v-html="'+' + (val.share.length - 3).toString()" style="background-color: #1079ff; color: #fff"></div>
+							</li>
+						</ul>
+					</td>
+					<td v-else>-</td>
+					<td class="view-tablet-only" v-html="$options.filters.moment(val.date.$date.$numberLong)"></td>
+					<td class="text-right dropdown">
+						<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
+						<ul class="dropdown-menu pull-right">
+							<li><a v-bind:href="'{{ route('file_detail') }}/' + val._id">Lihat Detail</a></li>
+							<li><a href="#" data-toggle="modal" data-target="#disposisiModal" :data-id="val._id" v-on:click="idDispositionArray(val.share)">Bagikan</a></li>
+							<li v-if="val.id_original === null"><a href="#" data-toggle="modal" data-target="#editModal" :data-id="val._id" :data-name="val.name" :data-desc="val.desc" :data-folder="val.folder">Sunting</a></li>
+							<li><a type="button" data-toggle="modal" data-target="#deleteModal" v-bind:data-id="val._id" class="text-danger">Hapus</a></li>
+						</ul>
+					</td>
+				</tr>
+
+				<tr v-else>
+					<td>
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'doc'" src="{{ url('assets/app/img/icons/word.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'docx'" src="{{ url('assets/app/img/icons/word.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'ppt'" src="{{ url('assets/app/img/icons/power_point.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'pptx'" src="{{ url('assets/app/img/icons/power_point.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'xls'" src="{{ url('assets/app/img/icons/excel.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'xlsx'" src="{{ url('assets/app/img/icons/excel.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'pdf'" src="{{ url('assets/app/img/icons/pdf-01.svg') }}" alt="" height="30px" style="margin-right: 10px" title="PDF">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpg'" src="{{ url('assets/app/img/icons/image.svg') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'png'" src="{{ url('assets/app/img/icons/image.svg') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpeg'" src="{{ url('assets/app/img/icons/image.svg') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+						<a v-bind:href="'{{ route('file_detail') }}/' + val._id" v-html="val.name"></a>
+					</td>
+					<td class="view-tablet-only" v-if="val.shared != ''" width="150px" style="padding-top: 10px">
+						<ul class="list-unstyled disposisi">
+							<li v-for="(disposisi, index) in val.shared" class="img-disposisi" v-if="index < 3 && disposisi != null">
+								<b-tooltip :content="disposisi.name" placement="bottom">
+									<div class="img-disposisi" :style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + disposisi.photo + ')' }" v-if="disposisi.photo != '' && disposisi.photo != null"></div>
+									<div class="img-disposisi" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+								</b-tooltip>
+							</li>
+							<li v-for="(disposisi, index) in val.shared" class="img-disposisi" v-if="index == 0 && val.shared.length > 3">
+								<div class="img-disposisi" v-html="'+' + (val.shared.length - 3).toString()" style="background-color: #1079ff; color: #fff"></div>
+							</li>
+						</ul>
+					</td>
+					<td v-else>-</td>
+					<td class="view-tablet-only" v-html="$options.filters.moment(val.date.$date.$numberLong)"></td>
+					<td class="text-right dropdown">
+						<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
+						<ul class="dropdown-menu pull-right">
+							<li><a v-bind:href="'{{ route('file_detail') }}/' + val._id">Lihat Detail</a></li>
+							<li><a href="#" data-toggle="modal" data-target="#disposisiModal" :data-id="val._id" :data-owner="val.id_owner" v-on:click="idDispositionArray(val.shared)">Bagikan</a></li>
+							<li><a type="button" data-toggle="modal" data-target="#deleteModal" v-bind:data-id="val._id" class="text-danger">Hapus</a></li>
+						</ul>
+					</td>
+				</tr>
+			</tbody>
 
 		</table>
 
@@ -176,25 +221,8 @@
 										<input type="text" :name="'message['+index+']'" class="message-fill hide" value="">
 									</td>
 									<td>
-										<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
-										<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
-									</td>
-									<td>
-										<span class="name" v-html="val.name"></span><br>
-										<span class="position" v-html="val.position"></span>
-									</td>
-								</tr>
-								<tr v-for="(val, index) in filteredUsers" v-if="val._id != '{{ Auth::user()->_id }}' && dispositionArray.indexOf(val._id) != -1">
-									<td class="text-center">
-										<input type="checkbox" :name="'share['+index+']'" :value="val._id" checked onchange="$(this).parent().find('input').val('-')">
-										<div v-for="info in dispositionInfo" v-if="info != null && info.user[0]._id.$oid == val._id">
-											<input type="text" :name="'date['+index+']'" :value="$options.filters.moment(info.date.$date.$numberLong)" class="hide">
-											<input type="text" :name="'message['+index+']'" :value="info.message" class="hide">
-										</div>
-									</td>
-									<td>
-										<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
-										<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+										<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
+										<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
 									</td>
 									<td>
 										<span class="name" v-html="val.name"></span><br>
@@ -325,6 +353,16 @@
 	<template id="sidebar-detail">
 		<div>
 			<div class="select">
+				<div v-for="message in detail.share_info_shared" v-if="message.share_to.$oid == '{{ Auth::user()->id }}'">
+					<div class="item item-highlight" v-if="message.message != null">
+						<label>Pesan untuk Anda</label>
+						<div class="value" v-html="message.message"></div>
+					</div>
+					<div class="item" v-if="detail.id_owner != null">
+						<label>Dibagikan oleh</label>
+						<div class="value" v-html="detail.owner[0].name"></div>
+					</div>
+				</div>
 				<div class="item" v-if="detail.name">
 					<label>Judul Berkas</label>
 					<div class="value" v-html="detail.name"></div>
@@ -337,11 +375,11 @@
 					<label>Folder</label>
 					<div class="value"><a :href="'{{ route('folder') }}/' + detail.folder" v-html="detail.folder"></a></div>
 				</div>
-				<div class="item" v-if="detail.share[0].user != ''">
+				<div class="item" v-if="detail.share != ''">
 					<label>Dibagikan</label>
 					<div class="value">
 						<ul class="list-unstyled">
-							<li v-for="disposisi in detail.share"><a :href="'{{ route('file_shared_history') }}/' + detail._id" v-html="disposisi.user[0].name"></a></li>
+							<li v-for="disposisi in detail.share"><a :href="'{{ route('file_shared_history') }}/' + detail._id" v-html="disposisi.name"></a></li>
 						</ul>
 					</div>
 				</div>
@@ -389,6 +427,35 @@
 		$('#disposisiModal').on('show.bs.modal', function (e) {
 			var id = $(e.relatedTarget).data('id');
 			$(this).find('input[name="id"]').val(id);
+
+			// Remove owner mail from disposition
+			var id_owner = $(e.relatedTarget).data('owner');
+			if (typeof id_owner !== "undefined") {
+				$(this).find('input[value="' + id_owner + '"]').closest('tr').addClass('hide');
+			} else {
+				$(this).find('tr').removeClass('hide');
+			}
+
+			$('#link_history').attr('href', '{{ route('file_shared_history') }}/' + id);
+			
+			// Fill val date
+			var now = moment().format('DD/MM/YYYY');
+			var status = true;
+			$('.val-check').attr('data-date', now);
+			$('.val-check').change(function() {
+				if (status == true) {
+					status = false;
+				} else {
+					status = true;
+				}
+				var id = $(this).data('id');
+				var date = $(this).data('date');
+
+				$(this).parent().find('input.val-check').val(status == false ? '-' : id);
+				$(this).parent().find('input.val-date').val(status == false ? '-' : date);
+				$(this).parent().find('input.val-message').val('');
+				// $(this).val(id);
+			});
 		});
 
 		// Edit Modal

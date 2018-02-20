@@ -41,7 +41,7 @@
 						?>
 						<div class="pos-r">
 							@if ($key == 0)
-								<form action="{{ route('incoming_mail_replace_edit') }}" method="post" id="replaceImage" enctype="multipart/form-data">
+								<form action="{{ route('outgoing_mail_replace_edit') }}" method="post" id="replaceImage" enctype="multipart/form-data">
 									<input type="hidden" name="_token" id="delete_token" value="{{ csrf_token() }}">
 									<input type="file" class="hide" name="file" id="replace" accept=".jpg, .png, .jpeg, .pdf" onchange="$('.page-loader').fadeIn();$('#replaceImage').submit()" multiple>
 									<label for="replace" class="change-img" title="Ganti gambar utama"><i class="fa fa-repeat"></i></label>
@@ -139,7 +139,7 @@
 								<hr>
 								<div class="row">
 									<div class="col-md-6">
-										<a href="{{ route('incoming_mail') }}" class="btn btn-default btn-block">Batal</a>
+										<a href="{{ route('outgoing_mail') }}" class="btn btn-default btn-block">Batal</a>
 									</div>
 									<div class="col-md-6">
 										<button class="btn btn-primary btn-block">Simpan</button>
@@ -159,7 +159,7 @@
 					<form action="">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title" id="disposisiLabelModal">Bagikan</h4>
+							<h4 class="modal-title" id="disposisiLabelModal">Disposisi</h4>
 						</div>
 						<div class="modal-body">
 							<table class="table">
@@ -178,7 +178,7 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-							<button class="btn btn-primary">Bagikan</button>
+							<button class="btn btn-primary">Disposisi</button>
 						</div>
 					</form>
 				</div>
@@ -189,7 +189,7 @@
 	<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabelModal">
 		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
-				<form action="{{ route('incoming_mail_delete') }}" method="post">
+				<form action="{{ route('outgoing_mail_delete') }}" method="post">
 					{{ csrf_field() }}
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -231,7 +231,7 @@
 		  }
 
 		  $.ajax({
-				url: '{{ route("incoming_mail_upload_ajax") }}',
+				url: '{{ route("outgoing_mail_upload_ajax") }}',
 				cache: false,
 				contentType: false,
 				processData: false,
@@ -265,7 +265,7 @@
 			$('#main img[data-image="'+image+'"]').slideUp('fast');
 
 			$.ajax({
-				url: '{{ route("incoming_mail_delete_ajax") }}',
+				url: '{{ route("outgoing_mail_delete_ajax") }}',
 				contentType: false,
 				processData: false,
 				method: 'POST',

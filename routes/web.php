@@ -49,12 +49,14 @@ Route::group(['namespace' => 'App'], function () {
 		Route::group(['prefix' => 'surat/keluar'], function(){
 			Route::get('/', 'OutgoingMailController@getData')->name('api_outgoing_mail');
 			Route::get('/detail/{id?}', 'OutgoingMailController@getDetail')->name('api_outgoing_mail_detail');
+			Route::get('/riwayat-bagikan/{id?}', 'OutgoingMailController@getDetailShared')->name('api_outgoing_mail_detail_shared');
 		});
 
 		//API-File
 		Route::group(['prefix' => 'berkas'], function(){
 			Route::get('/', 'FileController@getData')->name('api_file');
 			Route::get('/detail/{id?}', 'FileController@getDetail')->name('api_file_detail');
+			Route::get('/riwayat-bagikan/{id?}', 'FileController@getDetailShared')->name('api_file_detail_shared');
 		});
 
 		//API-Shared Incoming Mail
@@ -184,6 +186,7 @@ Route::group(['namespace' => 'App'], function () {
 			Route::post('/update/{id?}', 'OutgoingMailController@update')->name('outgoing_mail_update');
 			Route::post('/delete', 'OutgoingMailController@delete')->name('outgoing_mail_delete');
 			Route::post('/bagikan', 'OutgoingMailController@shared')->name('outgoing_mail_shared');
+			Route::get('/bagikan/delete/{id?}/{id_user?}/{id_archieve?}', 'OutgoingMailController@sharedDelete')->name('outgoing_mail_shared_delete');
 			Route::get('/riwayat-bagikan/{id?}', 'OutgoingMailController@sharedHistory')->name('outgoing_mail_shared_history');
 		});
 
@@ -197,6 +200,7 @@ Route::group(['namespace' => 'App'], function () {
 		Route::post('/update/{id?}', 'FileController@update')->name('file_update');
 		Route::post('/delete', 'FileController@delete')->name('file_delete');
 		Route::post('/bagikan', 'FileController@shared')->name('file_shared');
+		Route::get('/bagikan/delete/{id?}/{id_user?}/{id_archieve?}', 'FileController@sharedDelete')->name('file_shared_delete');
 		Route::get('/riwayat-bagikan/{id?}', 'FileController@sharedHistory')->name('file_shared_history');
 	});
 

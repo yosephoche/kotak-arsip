@@ -1,6 +1,6 @@
 @extends('app.layouts.main')
 
-@section('title', 'Riwayat Begikan Berkas')
+@section('title', 'Riwayat Disposisi Surat Masuk')
 
 @section('contents')
 	<div class="ka-main">
@@ -9,8 +9,8 @@
 				<li class="dropdown">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">...</a>
 					<ul class="dropdown-menu">
-						<li><a href="{{ route('file') }}">Berkas</a></li>
-						<li><a href="{{ route('file_detail', ['id' => $archieve->_id]) }}">{{ $archieve->to }}</a></li>
+						<li><a href="{{ route('outgoing_mail') }}">Surat Masuk</a></li>
+						<li><a href="{{ route('outgoing_mail_detail', ['id' => $archieve->_id]) }}">{{ $archieve->from }}</a></li>
 					</ul>
 				</li>
 				<li>Riwayat Disposisi</li>
@@ -20,14 +20,14 @@
 		<hr>
 		<div id="timeline">
 			<ul class="timeline">
-				<li class="tl-item" v-for="val in json.files">
+				<li class="tl-item" v-for="val in json.outgoingMail">
 					<div class="tl-wrap">
 						<span class="tl-date" v-html="$options.filters.fromnow(val.date.date)"></span>
 						<div class="tl-content panel padder b-a">
 							<span class="arrow left pull-up"></span>
 							<div v-html="val.user[0].name"></div>
 							<span class="time" v-html="val.message"></span>
-							<a :href="'{{ route('file_shared_delete') }}/' + val._id + '/' + val.user[0]._id.$oid + '/' + val.id_archieve"><span class="close" title="Hapus Akses">&times;</span></a>
+							<a :href="'{{ route('outgoing_mail_shared_delete') }}/' + val._id + '/' + val.user[0]._id.$oid + '/' + val.id_archieve"><span class="close" title="Hapus Akses">&times;</span></a>
 						</div>
 					</div>
 				</li>
@@ -37,11 +37,11 @@
 @endsection
 
 @section('registerscript')
-	<script src="{{ asset('assets/app/vue/berkas.js') }}"></script>
+	<script src="{{ asset('assets/app/vue/surat-keluar.js') }}"></script>
 	<link rel="stylesheet" href="{{ asset('assets/app/libs/timeline/jquery.timeline.css') }}">
 	<script src="{{ asset('assets/app/libs/timeline/jquery.timeline.js') }}"></script>
 	<script>
-		getDataFilesDetail('{{ route('api_file_detail_shared', ['id' => $archieve->_id]) }}', 'files');
+		getDataOutgoingMailDetail('{{ route('api_outgoing_mail_detail_shared', ['id' => $archieve->_id]) }}', 'outgoingMail');
 
 		$('.ka-body').addClass('ka-body-single');
 	</script>

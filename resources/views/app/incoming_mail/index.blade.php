@@ -59,7 +59,7 @@
 				<tr v-if="val.id_original === null">
 					<td><a :href="'{{ route('incoming_mail_detail') }}/' + val._id" v-html="val.from"></a></td>
 					<td v-html="val.subject"></td>
-					<td class="view-tablet-only" v-if="val.share != ''" width="150px">
+					<td class="view-tablet-only" v-if="val.share != ''" width="150px" style="padding-top: 10px">
 						<ul class="list-unstyled disposisi">
 							<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index < 3 && disposisi != null">
 								<b-tooltip :content="disposisi.name" placement="bottom">
@@ -96,7 +96,7 @@
 						</span>
 					</td>
 					<td v-html="val.subject"></td>
-					<td class="view-tablet-only" v-if="val.shared != ''" width="150px">
+					<td class="view-tablet-only" v-if="val.shared != ''" width="150px" style="padding-top: 10px">
 						<ul class="list-unstyled disposisi">
 							<li v-for="(disposisi, index) in val.shared" class="img-disposisi" v-if="index < 3 && disposisi != null">
 								<b-tooltip :content="disposisi.name" placement="bottom">
@@ -288,13 +288,23 @@
 	<template id="sidebar-detail">
 		<div>
 			<div class="select">
+				<div v-for="message in detail.share_info_shared" v-if="message.share_to.$oid == '{{ Auth::user()->id }}'">
+					<div class="item item-highlight" v-if="message.message != null">
+						<label>Pesan untuk Anda</label>
+						<div class="value" v-html="message.message"></div>
+					</div>
+					<div class="item" v-if="detail.id_owner != null">
+						<label>Dibagikan oleh</label>
+						<div class="value" v-html="detail.owner[0].name"></div>
+					</div>
+				</div>
 				<div class="item" v-if="detail.from">
 					<label>Asal Surat</label>
 					<div class="value" v-html="detail.from"></div>
 				</div>
 				<div class="item" v-if="detail.reference_number">
 					<label>Nomor Surat</label>
-					<div class="value" v-html="detail.reference_number"></div>
+					<div class="value ellipsis" v-html="detail.reference_number"></div>
 				</div>
 				<div class="item" v-if="detail.subject">
 					<label>Perihal</label>
@@ -377,10 +387,8 @@
 			// Remove owner mail from disposition
 			var id_owner = $(e.relatedTarget).data('owner');
 			if (typeof id_owner !== "undefined") {
-				console.log('a');
 				$(this).find('input[value="' + id_owner + '"]').closest('tr').addClass('hide');
 			} else {
-				console.log('b');
 				$(this).find('tr').removeClass('hide');
 			}
 

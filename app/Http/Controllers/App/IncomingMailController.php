@@ -100,11 +100,20 @@ class IncomingMailController extends Controller
 					)
 				),
 				array(
+					'$lookup' => array(
+						'from' => 'users',
+						'localField' => 'share_info_shared.share_from',
+						'foreignField' => '_id',
+						'as' => 'owner'
+					)
+				),
+				array(
 					'$project' => array(
 						'from' => 1,
 						'reference_number' => 1,
 						'id_original' => 1,
 						'id_owner' => 1,
+						'owner.name' => 1,
 						'date' => 1,
 						'subject' => 1,
 						'share_info' => 1,
@@ -149,6 +158,9 @@ class IncomingMailController extends Controller
 						),
 						'id_owner' => array(
 							'$first' => '$id_owner'
+						),
+						'owner' => array(
+							'$first' => '$owner'
 						),
 						'type' => array(
 							'$first' => '$type'
@@ -311,6 +323,7 @@ class IncomingMailController extends Controller
 						'from' => 1,
 						'reference_number' => 1,
 						'id_original' => 1,
+						'id_owner' => 1,
 						'date' => 1,
 						'subject' => 1,
 						'share_info' => 1,
@@ -350,6 +363,9 @@ class IncomingMailController extends Controller
 						),
 						'id_original' => array(
 							'$first' => '$id_original'
+						),
+						'id_owner' => array(
+							'$first' => '$id_owner'
 						),
 						'type' => array(
 							'$first' => '$type'

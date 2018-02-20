@@ -25,12 +25,12 @@
 			</ul>
 			<ul class="right-side">
 				<li v-for="val in json.outgoingMail">
-					<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#disposisiModal" v-bind:data-id="val._id" v-on:click="idDispositionArray(val.share)">Bagikan</a>
+					<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#disposisiModal" :data-id="val._id" :data-owner="val.id_owner" v-on:click="idDispositionArray(val.share)">Disposisi</a>
 				</li>
 				<li class="dropdown" v-for="val in json.outgoingMail">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
 					<ul class="dropdown-menu pull-right">
-						<li><a v-bind:href="'{{ route('outgoing_mail_move') }}/' + val._id">Sunting</a></li>
+						<li v-if="val.id_original === null"><a v-bind:href="'{{ route('outgoing_mail_move') }}/' + val._id">Sunting</a></li>
 						<li><a type="button" data-toggle="modal" data-target="#deleteModal" v-bind:data-id="val._id" class="text-danger">Hapus</a></li>
 					</ul>
 				</li>
@@ -60,7 +60,7 @@
 						</div>
 						<div class="item" v-if="val.reference_number">
 							<label>Nomor Surat</label>
-							<div class="value" v-html="val.reference_number"></div>
+							<div class="value ellipsis" v-html="val.reference_number"></div>
 						</div>
 						<div class="item" v-if="val.subject">
 							<label>Perihal</label>
@@ -86,11 +86,11 @@
 							<label>Folder</label>
 							<div class="value"><a :href="'{{ route('folder') }}/' + val.folder" v-html="val.folder"></a></div>
 						</div>
-						<div class="item" v-if="val.share[0].user != ''">
+						<div class="item" v-if="val.share != ''">
 							<label>Bagikan</label>
 							<div class="value">
 								<ul class="list-unstyled">
-									<li v-for="bagikan in val.share"><a :href="'{{ route('outgoing_mail_shared_history') }}/' + val._id" v-html="bagikan.user[0].name"></a></li>
+									<li v-for="disposisi in val.share"><a :href="'{{ route('outgoing_mail_shared_history') }}/' + val._id" v-html="disposisi.name"></a></li>
 								</ul>
 							</div>
 						</div>
@@ -112,7 +112,7 @@
 						{{ csrf_field() }}
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title" id="disposisiLabelModal">Bagikan</h4>
+							<h4 class="modal-title" id="disposisiLabelModal">Disposisi</h4>
 						</div>
 						<div class="modal-body" style="border-top: 1px solid #ddd">
 							<input type="hidden" name="id">
@@ -132,25 +132,8 @@
 											<input type="text" :name="'message['+index+']'" class="message-fill hide" value="">
 										</td>
 										<td>
-											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
-											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
-										</td>
-										<td>
-											<span class="name" v-html="val.name"></span><br>
-											<span class="position" v-html="val.position"></span>
-										</td>
-									</tr>
-									<tr v-for="(val, index) in filteredUsers" v-if="val._id != '{{ Auth::user()->_id }}' && dispositionArray.indexOf(val._id) != -1">
-										<td class="text-center">
-											<input type="checkbox" :name="'share['+index+']'" :value="val._id" checked onchange="$(this).parent().find('input').val('-')">
-											<div v-for="info in dispositionInfo" v-if="info != null && info.user[0]._id.$oid == val._id">
-												<input type="text" :name="'date['+index+']'" :value="$options.filters.moment(info.date.$date.$numberLong)" class="hide">
-												<input type="text" :name="'message['+index+']'" :value="info.message" class="hide">
-											</div>
-										</td>
-										<td>
-											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
-											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+											<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
+											<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
 										</td>
 										<td>
 											<span class="name" v-html="val.name"></span><br>
@@ -162,7 +145,7 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-							<button class="btn btn-primary">Bagikan</button>
+							<button class="btn btn-primary">Disposisi</button>
 						</div>
 					</form>
 				</div>
@@ -202,6 +185,14 @@
 		$('#disposisiModal').on('show.bs.modal', function (e) {
 			var id = $(e.relatedTarget).data('id');
 			$(this).find('input[name="id"]').val(id);
+
+			// Remove owner mail from disposition
+			var id_owner = $(e.relatedTarget).data('owner');
+			if (typeof id_owner !== "undefined") {
+				$(this).find('input[value="' + id_owner + '"]').closest('tr').addClass('hide');
+			} else {
+				$(this).find('tr').removeClass('hide');
+			}
 		});
 
 		//Delete Modal

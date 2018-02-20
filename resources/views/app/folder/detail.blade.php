@@ -226,7 +226,7 @@
 				</div>
 				<div class="item" v-if="detail.reference_number">
 					<label>Nomor Surat</label>
-					<div class="value" v-html="detail.reference_number"></div>
+					<div class="value ellipsis" v-html="detail.reference_number"></div>
 				</div>
 				<div class="item" v-if="detail.desc">
 					<label>Deskripsi</label>

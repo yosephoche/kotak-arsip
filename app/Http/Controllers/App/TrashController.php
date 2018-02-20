@@ -250,7 +250,7 @@ class TrashController extends Controller
 		}
 
 		Archieve::where('_id', $r->id)->forceDelete();
-		Archieve::where('id_original', GlobalClass::generateMongoObjectId($r->id))->delete();
+		Archieve::where('id_original', GlobalClass::generateMongoObjectId($r->id))->forceDelete();
 
 		$r->session()->flash('success', 'Arsip berhasil dihapus');
 

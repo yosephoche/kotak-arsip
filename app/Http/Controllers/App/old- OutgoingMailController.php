@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use Auth, Session, GlobalClass;
-use Carbon\Carbon, URL;
+use Carbon\Carbon;
 
 class OutgoingMailController extends Controller
 {
@@ -14,7 +14,7 @@ class OutgoingMailController extends Controller
 	{
 		$this->middleware('auth');
 	}
-
+	
 	public function index()
 	{
 		$limit = 25; // change in index too
@@ -46,38 +46,6 @@ class OutgoingMailController extends Controller
 
 			return $collection->aggregate(array(
 				array(
-					'$lookup' => array(
-						'from' => 'storage_sub',
-						'localField' => 'storagesub',
-						'foreignField' => '_id',
-						'as' => 'storagesub'
-					)
-				),
-				array(
-					'$lookup' => array(
-						'from' => 'storage',
-						'localField' => 'storage',
-						'foreignField' => '_id',
-						'as' => 'storage'
-					)
-				),
-				array(
-					'$lookup' => array(
-						'from' => 'share',
-						'localField' => '_id',
-						'foreignField' => 'id_archieve',
-						'as' => 'share_info'
-					)
-				),
-				array(
-					'$lookup' => array(
-						'from' => 'share',
-						'localField' => 'id_original',
-						'foreignField' => 'id_archieve',
-						'as' => 'share_info_shared'
-					)
-				),
-				array(
 					'$unwind' => array(
 						'path' => '$share',
 						'preserveNullAndEmptyArrays' => true
@@ -85,53 +53,40 @@ class OutgoingMailController extends Controller
 				),
 				array(
 					'$lookup' => array(
-						'from' => 'users',
-						'localField' => 'share_info.share_to',
-						'foreignField' => '_id',
-						'as' => 'share'
+						'from'=>'users',
+						'localField'=>'share._id',
+						'foreignField'=>'_id',
+						'as'=>'share.user'
 					)
 				),
 				array(
 					'$lookup' => array(
-						'from' => 'users',
-						'localField' => 'share_info_shared.share_to',
-						'foreignField' => '_id',
-						'as' => 'shared'
+						'from' => 'storage_sub',
+						'localField' => 'storagesub',
+						'foreignField' =>  '_id',
+						'as' => 'storagesub'
 					)
 				),
 				array(
 					'$lookup' => array(
-						'from' => 'users',
-						'localField' => 'share_info_shared.share_from',
-						'foreignField' => '_id',
-						'as' => 'owner'
+						'from' => 'storage',
+						'localField' => 'storage',
+						'foreignField' =>  '_id',
+						'as' => 'storage'
 					)
 				),
 				array(
 					'$project' => array(
 						'to' => 1,
 						'reference_number' => 1,
-						'id_original' => 1,
-						'id_owner' => 1,
-						'owner.name' => 1,
 						'date' => 1,
 						'subject' => 1,
-						'share_info' => 1,
-						'share_info_shared' => 1,
-						'share._id' => 1,
-						'share.name' => 1,
-						'share.position' => 1,
-						'share.photo' => 1,
+						'share.user._id' => 1,
+						'share.user.name' => 1,
+						'share.user.position' => 1,
+						'share.user.photo' => 1,
 						'share.date' => 1,
 						'share.message' => 1,
-						'share.read' => 1,
-						'shared._id' => 1,
-						'shared.name' => 1,
-						'shared.position' => 1,
-						'shared.photo' => 1,
-						'shared.date' => 1,
-						'shared.message' => 1,
-						'shared.read' => 1,
 						'storagesub._id' => 1,
 						'storagesub.name' => 1,
 						'storage._id' => 1,
@@ -152,15 +107,6 @@ class OutgoingMailController extends Controller
 						),
 						'id_company' => array(
 							'$first' => '$id_company'
-						),
-						'id_original' => array(
-							'$first' => '$id_original'
-						),
-						'id_owner' => array(
-							'$first' => '$id_owner'
-						),
-						'owner' => array(
-							'$first' => '$owner'
 						),
 						'type' => array(
 							'$first' => '$type'
@@ -196,17 +142,12 @@ class OutgoingMailController extends Controller
 							'$first' => '$deleted_at'
 						),
 						'share' => array(
-							'$first' => '$share'
-						),
-						'shared' => array(
-							'$first' => '$shared'
-						),
-						'share_info' => array(
-							'$first' => '$share_info'
-						),
-						'share_info_shared' => array(
-							'$first' => '$share_info_shared'
-						),
+							'$push' => array(
+								'user' => '$share.user',
+								'date' => '$share.date',
+								'message' => '$share.message'
+							)
+						)
 					)
 				),
 				array(
@@ -242,19 +183,11 @@ class OutgoingMailController extends Controller
 	public function detail($id)
 	{
 		$data['archieve'] = Archieve::find($id);
-
+		
 		if (isset($_GET['read'])) {
 			$notifications = Notifications::find($_GET['read']);
 			$notifications->read = 1;
 			$notifications->save();
-		}
-
-		if (isset($_GET['read']) OR isset($_GET['read_direct'])) {
-			if ($data['archieve']->id_original != null) {
-				$share = Share::where('id_archieve', GlobalClass::generateMongoObjectId($data['archieve']->id_original))->where('share_to', GlobalClass::generateMongoObjectId(Auth::user()->_id))->first();
-				$share->read = 1;
-				$share->save();
-			}
 		}
 
 		return view('app.outgoing_mail.detail', $data);
@@ -265,38 +198,6 @@ class OutgoingMailController extends Controller
 		$archieve = Archieve::raw(function($collection){
 			return $collection->aggregate(array(
 				array(
-					'$lookup' => array(
-						'from' => 'storage_sub',
-						'localField' => 'storagesub',
-						'foreignField' => '_id',
-						'as' => 'storagesub'
-					)
-				),
-				array(
-					'$lookup' => array(
-						'from' => 'storage',
-						'localField' => 'storage',
-						'foreignField' => '_id',
-						'as' => 'storage'
-					)
-				),
-				array(
-					'$lookup' => array(
-						'from' => 'share',
-						'localField' => '_id',
-						'foreignField' => 'id_archieve',
-						'as' => 'share_info'
-					)
-				),
-				array(
-					'$lookup' => array(
-						'from' => 'share',
-						'localField' => 'id_original',
-						'foreignField' => 'id_archieve',
-						'as' => 'share_info_shared'
-					)
-				),
-				array(
 					'$unwind' => array(
 						'path' => '$share',
 						'preserveNullAndEmptyArrays' => true
@@ -304,72 +205,51 @@ class OutgoingMailController extends Controller
 				),
 				array(
 					'$lookup' => array(
-						'from' => 'users',
-						'localField' => 'share_info.share_to',
-						'foreignField' => '_id',
-						'as' => 'share'
+						'from'=>'users',
+						'localField'=>'share._id',
+						'foreignField'=>'_id',
+						'as'=>'share.user'
 					)
 				),
 				array(
 					'$lookup' => array(
-						'from' => 'users',
-						'localField' => 'share_info_shared.share_to',
-						'foreignField' => '_id',
-						'as' => 'shared'
+						'from' => 'storage_sub',
+						'localField' => 'storagesub',
+						'foreignField' =>  '_id',
+						'as' => 'storagesub'
+					)
+				),
+				array(
+					'$lookup' => array(
+						'from' => 'storage',
+						'localField' => 'storage',
+						'foreignField' =>  '_id',
+						'as' => 'storage'
 					)
 				),
 				array(
 					'$project' => array(
 						'to' => 1,
 						'reference_number' => 1,
-						'id_original' => 1,
-						'id_owner' => 1,
 						'date' => 1,
 						'subject' => 1,
-						'share_info' => 1,
-						'share_info_shared' => 1,
-						'share._id' => 1,
-						'share.name' => 1,
-						'share.position' => 1,
-						'share.photo' => 1,
+						'share.user._id' => 1,
+						'share.user.name' => 1,
+						'share.user.position' => 1,
+						'share.user.photo' => 1,
 						'share.date' => 1,
 						'share.message' => 1,
-						'shared._id' => 1,
-						'shared.name' => 1,
-						'shared.position' => 1,
-						'shared.photo' => 1,
-						'shared.date' => 1,
-						'shared.message' => 1,
 						'storagesub._id' => 1,
 						'storagesub.name' => 1,
 						'storage._id' => 1,
 						'storage.name' => 1,
-						'files' => 1,
-						'type' => 1,
 						'folder' => 1,
-						'id_user' => 1,
-						'id_company' => 1,
-						'deleted_at' => 1
+						'files' => 1,
 					)
 				),
 				array(
 					'$group' => array(
 						'_id' => '$_id',
-						'id_user' => array(
-							'$first' => '$id_user'
-						),
-						'id_company' => array(
-							'$first' => '$id_company'
-						),
-						'id_original' => array(
-							'$first' => '$id_original'
-						),
-						'id_owner' => array(
-							'$first' => '$id_owner'
-						),
-						'type' => array(
-							'$first' => '$type'
-						),
 						'to' => array(
 							'$first' => '$to'
 						),
@@ -397,21 +277,13 @@ class OutgoingMailController extends Controller
 						'files' => array(
 							'$first' => '$files'
 						),
-						'deleted_at' => array(
-							'$first' => '$deleted_at'
-						),
 						'share' => array(
-							'$first' => '$share'
-						),
-						'shared' => array(
-							'$first' => '$shared'
-						),
-						'share_info' => array(
-							'$first' => '$share_info'
-						),
-						'share_info_shared' => array(
-							'$first' => '$share_info_shared'
-						),
+							'$push' => array(
+								'user' => '$share.user',
+								'date' => '$share.date',
+								'message' => '$share.message'
+							)
+						)
 					)
 				)
 			));
@@ -491,7 +363,7 @@ class OutgoingMailController extends Controller
 		//Make Name File
 		$filename = [];
 		for ($i= $strtoint; $i < $strtoint + $countfiles ; $i++) { 
-			$nm_file = $i + 1;
+			$nm_file = $i;
 			$filename[] = $nm_file;
 		}
 
@@ -543,13 +415,6 @@ class OutgoingMailController extends Controller
 	{
 		$file = $r->file('file');
 
-		// Find First Image
-		$dir = public_path('assets/tesseract'.'/'.Auth::user()->_id);
-		$files = scandir($dir);
-
-		//Delete First Image
-		unlink(public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.$files[2]));
-
 		// Image Upload Process
 		$ext = $file->getClientOriginalExtension();
 		$nm_file = "0.".$ext;
@@ -597,7 +462,7 @@ class OutgoingMailController extends Controller
 			$result = public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.'out');
 			$open = public_path('assets/tesseract'.'/'.Auth::user()->_id.'/'.'out.txt');
 
-			// OCR From
+			// OCR To
 			$data['to'] = GlobalClass::OCRKey($image, $result, $open, 'to');
 
 			// OCR Refrence_Number
@@ -647,11 +512,11 @@ class OutgoingMailController extends Controller
 		$surat->subject = $r->subject;
 		$surat->date = GlobalClass::generateIsoDate($date);
 		$surat->storage = GlobalClass::generateMongoObjectId($r->storage);
-		$surat->folder = $r->folder;
 		if ($r->storagesub != '') {
 			$surat->storagesub = GlobalClass::generateMongoObjectId($r->storagesub);
 		}
 		$surat->note = $r->note;
+		$surat->folder = $r->folder;
 		$surat->fulltext = $r->fulltext;
 
 		//Check Image From Tesseract
@@ -694,7 +559,7 @@ class OutgoingMailController extends Controller
 
 	public function move($id)
 	{
-		//outgoing Mail
+		//Outgoing Mail
 		$archieve = Archieve::find($id);
 		$data['archieve'] = $archieve;
 
@@ -733,7 +598,7 @@ class OutgoingMailController extends Controller
 
 	public function edit($id)
 	{	
-		//outgoing Mail
+		//Outgoing Mail
 		$archieve = Archieve::find($id);
 
 		//Check Id Archieve
@@ -781,7 +646,8 @@ class OutgoingMailController extends Controller
 			'to'				=> 'required',
 			'reference_number'	=> 'required',
 			'subject'			=> 'required',
-			'date'				=> 'required'
+			'date'				=> 'required',
+			'storage'			=> 'required',
 		]);
 
 		// Get id Company
@@ -844,26 +710,6 @@ class OutgoingMailController extends Controller
 		$surat->files = $files;
 		$surat->save();
 
-		// Shared update
-		$getIDs = Archieve::where('id_original', GlobalClass::generateMongoObjectId($id))->get();
-		foreach ($getIDs as $share) {
-			$shared = Archieve::find($share->id);
-			$shared->to = $r->to;
-			$shared->search = $r->to;
-			$shared->reference_number = $r->reference_number;
-			$shared->subject = $r->subject;
-			$shared->date = GlobalClass::generateIsoDate($date);
-			$shared->storage = GlobalClass::generateMongoObjectId($r->storage);
-			if ($r->storagesub != '') {
-				$shared->storagesub = GlobalClass::generateMongoObjectId($r->storagesub);
-			}
-			$shared->folder = $r->folder;
-			$shared->note = $r->note;
-			$shared->files = $files;
-			$shared->save();
-		}
-
-
 		$r->session()->flash('success', 'Berhasil menyimpan pembaruan');
 
 		return redirect()->route('outgoing_mail');
@@ -871,68 +717,35 @@ class OutgoingMailController extends Controller
 
 	public function shared(Request $r)
 	{
-		$disposition = Archieve::find($r->id);
+		$surat = Archieve::find($r->id);
 
+		$share = [];
 		@$key = array_keys($r->share);
 		for ($i=0; $i < count($r->share) ; $i++) {
 			$date = Carbon::createFromFormat('d/m/Y', $r->date[$key[$i]]);
-			
-			$surat = new Archieve;
-			$surat->id_user = GlobalClass::generateMongoObjectId($r->share[$key[$i]]);
-			if ($disposition->id_original === null) {
-				$surat->id_original = GlobalClass::generateMongoObjectId($disposition->_id);
-				$surat->id_owner = GlobalClass::generateMongoObjectId($disposition->id_user);
-			} else {
-				$surat->id_original = GlobalClass::generateMongoObjectId($disposition->id_original);
-				$surat->id_owner = GlobalClass::generateMongoObjectId($disposition->id_owner);
-			}
-			$surat->id_company = Auth::user()->id_company;
-			$surat->type = "outgoing_mail";
-			$surat->to = $disposition->to;
-			$surat->search = $disposition->to;
-			$surat->reference_number = $disposition->reference_number;
-			$surat->subject = $disposition->subject;
-			$surat->date = $disposition->date;
-			$surat->storage = $disposition->storage;
-			$surat->folder = $disposition->folder;
-			if ($disposition->storagesub != '') {
-				$surat->storagesub = $disposition->storagesub;
-			}
-			$surat->note = $disposition->note;
-			$surat->fulltext = $disposition->fulltext;
-			$surat->files = $disposition->files;
-			$surat->save();
-			
-			$share = new Share;
-			if ($disposition->id_original === null) {
-				$share->id_archieve = GlobalClass::generateMongoObjectId($disposition->_id);
-			} else {
-				$share->id_archieve = GlobalClass::generateMongoObjectId($disposition->id_original);
-
-				// Notification to owner
-				$user_name = User::find(GlobalClass::generateMongoObjectId($r->share[$key[$i]]));
-				GlobalClass::notif(
-					GlobalClass::generateMongoObjectId($disposition->id_owner),
-					Auth::user()->name.' mendisposisi surat keluar dari <b>'.$disposition->to.'</b> kepada <b>'.$user_name->name.'</b>',
-					URL::route('outgoing_mail_detail', array('id' => $disposition->id_original), false)
-				);
-			}
-			$share->share_from = $disposition->id_user;
-			$share->share_to = GlobalClass::generateMongoObjectId($r->share[$key[$i]]);
-			$share->date = $date;
-			$share->message = $r->message[$key[$i]];
-			$share->read = 0;
-			$share->save();
+			$share[] = [
+				'_id' => GlobalClass::generateMongoObjectId($r->share[$key[$i]]),
+				'date' => GlobalClass::generateIsoDate($date),
+				'message' => $r->message[$key[$i]]
+			];
 			
 			// Notification
 			GlobalClass::notif(
 				GlobalClass::generateMongoObjectId($r->share[$key[$i]]),
-				Auth::user()->name.' mendisposisi surat keluar dari <b>'.$disposition->to.'</b> kepada Anda',
-				URL::route('outgoing_mail_detail', array('id' => $surat->getKey()), false)
+				Auth::user()->name.' membagikan surat keluar kepada <b>'.$surat->to.'</b> kepada Anda',
+				route('shared_outgoing_mail_detail', ['_id' => $surat->_id])
 			);
 		}
 
-		$r->session()->flash('success', 'Surat keluar berhasil didisposisi');
+
+		if ($r->share != null) {
+			$surat->share = $share;
+		} else {
+			$surat->share = '';
+		}
+		$surat->save();
+
+		$r->session()->flash('success', 'Surat keluar berhasil dibagikan');
 
 		return redirect()->route('outgoing_mail');
 	}
@@ -941,55 +754,7 @@ class OutgoingMailController extends Controller
 	{
 		$data['archieve'] = Archieve::find($id);
 
-		return view('app.outgoing_mail.disposition', $data);
-	}
-
-	public function sharedDelete($id, $id_user, $id_archieve)
-	{
-		Archieve::where('id_user', GlobalClass::generateMongoObjectId($id_user))->where('id_original', GlobalClass::generateMongoObjectId($id_archieve))->forceDelete();
-		Share::find($id)->delete();
-
-		return redirect()->back();
-	}
-
-	public function getDetailShared($id)
-	{
-		$archieve = Share::raw(function($collection) use($id){
-
-			return $collection->aggregate(array(
-				array(
-					'$lookup' => array(
-						'from' => 'users',
-						'localField' => 'share_to',
-						'foreignField' => '_id',
-						'as' => 'user'
-					)
-				),
-				array(
-					'$project' => array(
-						'id_archieve' => 1,
-						'date.date' => 1,
-						'message' => 1,
-						'user._id' => 1,
-						'user.name' => 1,
-					)
-				),
-				array(
-					'$match' => array(
-						'id_archieve' => GlobalClass::generateMongoObjectId($id),
-					)
-				),
-				array(
-					'$sort' => array(
-						'date' => -1
-					)
-				)
-			));
-		});
-
-		return response()->json([
-			'outgoingMail'  =>  $archieve
-		]);
+		return view('app.outgoing_mail.shared', $data);
 	}
 
 	public function delete(Request $r)
