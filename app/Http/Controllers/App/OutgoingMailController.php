@@ -913,7 +913,7 @@ class OutgoingMailController extends Controller
 				$user_name = User::find(GlobalClass::generateMongoObjectId($r->share[$key[$i]]));
 				GlobalClass::notif(
 					GlobalClass::generateMongoObjectId($disposition->id_owner),
-					Auth::user()->name.' mendisposisi surat keluar dari <b>'.$disposition->to.'</b> kepada <b>'.$user_name->name.'</b>',
+					Auth::user()->name.' membagikan surat keluar dari <b>'.$disposition->to.'</b> kepada <b>'.$user_name->name.'</b>',
 					URL::route('outgoing_mail_detail', array('id' => $disposition->id_original), false)
 				);
 			}
@@ -927,7 +927,7 @@ class OutgoingMailController extends Controller
 			// Notification
 			GlobalClass::notif(
 				GlobalClass::generateMongoObjectId($r->share[$key[$i]]),
-				Auth::user()->name.' mendisposisi surat keluar dari <b>'.$disposition->to.'</b> kepada Anda',
+				Auth::user()->name.' membagikan surat keluar dari <b>'.$disposition->to.'</b> kepada Anda',
 				URL::route('outgoing_mail_detail', array('id' => $surat->getKey()), false)
 			);
 		}
