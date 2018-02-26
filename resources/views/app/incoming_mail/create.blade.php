@@ -52,7 +52,7 @@
 								<button type="button" id="delete" class="delete-img" data-image="{{ $img }}" title="Hapus">×</button>
 							</form>
 							@if ($check == 'pdf')
-								<img src="{{ asset('assets/app/img/icons/pdf.svg') }}" alt="">
+								<img src="{{ asset('assets/app/img/icons/pdf.png') }}" alt="">
 							@else
 								<img src="{{ asset('assets/tesseract/').'/'.Auth::user()->_id.'/'.$img.'?'.$rand}}" alt="">
 							@endif

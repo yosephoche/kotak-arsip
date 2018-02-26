@@ -20,8 +20,8 @@
 
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs" role="tablist">
-			<li role="presentation" class="{{ @!$_GET['tab'] ? 'active' : '' }}"><a href="#tab-1" aria-controls="tab-1" role="tab" data-toggle="tab">Koneksi Server</a></li>
-			<li role="presentation" class="{{ @$_GET['tab'] == 'account' ? 'active' : '' }}"><a href="#tab-2" aria-controls="tab-2" role="tab" data-toggle="tab">Akun</a></li>
+			<!-- <li role="presentation" class="{{ @!$_GET['tab'] ? 'active' : '' }}"><a href="#tab-1" aria-controls="tab-1" role="tab" data-toggle="tab">Koneksi Server</a></li> -->
+			<li role="presentation" class="{{ @!$_GET['tab'] ? 'active' : '' }} {{ @$_GET['tab'] == 'account' ? 'active' : '' }}"><a href="#tab-2" aria-controls="tab-2" role="tab" data-toggle="tab">Akun</a></li>
 			<li role="presentation" class="{{ @$_GET['tab'] == 'security' ? 'active' : '' }}"><a href="#tab-3" aria-controls="tab-3" role="tab" data-toggle="tab">Keamanan</a></li>
 			@if (Auth::user()->status == 'admin')
 				<li role="presentation" class="{{ @$_GET['tab'] == 'company' ? 'active' : '' }}"><a href="#tab-4" aria-controls="tab-4" role="tab" data-toggle="tab">Perusahaan</a></li>
@@ -30,15 +30,15 @@
 
 		<!-- Tab panes -->
 		<div class="tab-content">
-			<div role="tabpanel" class="tab-pane {{ @!$_GET['tab'] ? 'active' : '' }}" id="tab-1">
+			<!-- <div role="tabpanel" class="tab-pane {{ @!$_GET['tab'] ? 'active' : '' }}" id="tab-1">
 				<?php 
 					//Check IP Server
 					$serverIP = getHostByName(getHostName());
 				?>
 				<p>Untuk mengakses kotakarsip di komputer lainnya dalam satu jaringan adalah sebagai berikut:</p>
 				<blockquote><b>{{ $serverIP }}</b></blockquote>
-			</div>
-			<div role="tabpanel" class="tab-pane tab-account-setting {{ @$_GET['tab'] == 'account' ? 'active' : '' }}" id="tab-2">
+			</div> -->
+			<div role="tabpanel" class="tab-pane tab-account-setting {{ @!$_GET['tab'] ? 'active' : '' }} {{ @$_GET['tab'] == 'account' ? 'active' : '' }}" id="tab-2">
 				<h3>Informasi Akun Anda</h3>
 				<table class="table">
 					<tr>
@@ -47,7 +47,7 @@
 							@if ($user->photo != '')
 								<div class="img-profile-setting" style="background-image: url({{ asset('assets/app/img/users').'/'.$user->photo }})"></div>
 							@else
-								<div class="img-profile-setting" style="background-image: url({{ asset('assets/app/img/icons') }}/user-white.svg)"></div>
+								<div class="img-profile-setting" style="background-image: url({{ asset('assets/app/img/icons') }}/user-white.png)"></div>
 							@endif
 						</td>
 						<td width="100px" align="right">

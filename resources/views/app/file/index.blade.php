@@ -57,16 +57,16 @@
 				<!-- Original File -->
 				<tr v-if="val.id_original === null">
 					<td>
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'doc'" src="{{ url('assets/app/img/icons/word.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'docx'" src="{{ url('assets/app/img/icons/word.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'ppt'" src="{{ url('assets/app/img/icons/power_point.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'pptx'" src="{{ url('assets/app/img/icons/power_point.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'xls'" src="{{ url('assets/app/img/icons/excel.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'xlsx'" src="{{ url('assets/app/img/icons/excel.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'pdf'" src="{{ url('assets/app/img/icons/pdf-01.svg') }}" alt="" height="30px" style="margin-right: 10px" title="PDF">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpg'" src="{{ url('assets/app/img/icons/image.svg') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'png'" src="{{ url('assets/app/img/icons/image.svg') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpeg'" src="{{ url('assets/app/img/icons/image.svg') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'doc'" src="{{ url('assets/app/img/icons/word.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'docx'" src="{{ url('assets/app/img/icons/word.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'ppt'" src="{{ url('assets/app/img/icons/power_point.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'pptx'" src="{{ url('assets/app/img/icons/power_point.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'xls'" src="{{ url('assets/app/img/icons/excel.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'xlsx'" src="{{ url('assets/app/img/icons/excel.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'pdf'" src="{{ url('assets/app/img/icons/pdf-01.png') }}" alt="" height="30px" style="margin-right: 10px" title="PDF">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpg'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'png'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpeg'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
 						<a v-bind:href="'{{ route('file_detail') }}/' + val._id" v-html="val.name"></a>
 					</td>
 					<td class="view-tablet-only" v-if="val.share != ''" width="150px" style="padding-top: 10px">
@@ -74,7 +74,7 @@
 							<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index < 3 && disposisi != null">
 								<b-tooltip :content="disposisi.name" placement="bottom">
 									<div class="img-disposisi" :style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + disposisi.photo + ')' }" v-if="disposisi.photo != '' && disposisi.photo != null"></div>
-									<div class="img-disposisi" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+									<div class="img-disposisi" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.png)' }" v-else></div>
 								</b-tooltip>
 							</li>
 							<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index == 0 && val.share.length > 3">
@@ -97,16 +97,16 @@
 
 				<tr v-else>
 					<td>
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'doc'" src="{{ url('assets/app/img/icons/word.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'docx'" src="{{ url('assets/app/img/icons/word.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'ppt'" src="{{ url('assets/app/img/icons/power_point.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'pptx'" src="{{ url('assets/app/img/icons/power_point.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'xls'" src="{{ url('assets/app/img/icons/excel.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'xlsx'" src="{{ url('assets/app/img/icons/excel.svg') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'pdf'" src="{{ url('assets/app/img/icons/pdf-01.svg') }}" alt="" height="30px" style="margin-right: 10px" title="PDF">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpg'" src="{{ url('assets/app/img/icons/image.svg') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'png'" src="{{ url('assets/app/img/icons/image.svg') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpeg'" src="{{ url('assets/app/img/icons/image.svg') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'doc'" src="{{ url('assets/app/img/icons/word.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'docx'" src="{{ url('assets/app/img/icons/word.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'ppt'" src="{{ url('assets/app/img/icons/power_point.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'pptx'" src="{{ url('assets/app/img/icons/power_point.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'xls'" src="{{ url('assets/app/img/icons/excel.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'xlsx'" src="{{ url('assets/app/img/icons/excel.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'pdf'" src="{{ url('assets/app/img/icons/pdf-01.png') }}" alt="" height="30px" style="margin-right: 10px" title="PDF">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpg'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'png'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpeg'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
 						<a v-bind:href="'{{ route('file_detail') }}/' + val._id" v-html="val.name"></a>
 					</td>
 					<td class="view-tablet-only" v-if="val.shared != ''" width="150px" style="padding-top: 10px">
@@ -114,7 +114,7 @@
 							<li v-for="(disposisi, index) in val.shared" class="img-disposisi" v-if="index < 3 && disposisi != null">
 								<b-tooltip :content="disposisi.name" placement="bottom">
 									<div class="img-disposisi" :style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + disposisi.photo + ')' }" v-if="disposisi.photo != '' && disposisi.photo != null"></div>
-									<div class="img-disposisi" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+									<div class="img-disposisi" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.png)' }" v-else></div>
 								</b-tooltip>
 							</li>
 							<li v-for="(disposisi, index) in val.shared" class="img-disposisi" v-if="index == 0 && val.shared.length > 3">
@@ -143,7 +143,7 @@
 			<br>
 			<br>
 			<br>
-			<img src="{{ url('assets/app/img/icons') }}/no_file.svg" alt="" width="400px">
+			<img src="{{ url('assets/app/img/icons') }}/no_file.png" alt="" width="300px">
 			<br>
 			<br>
 			<br>
@@ -222,7 +222,7 @@
 									</td>
 									<td>
 										<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
-										<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+										<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.png)' }" v-else></div>
 									</td>
 									<td>
 										<span class="name" v-html="val.name"></span><br>
@@ -344,7 +344,7 @@
 	<!-- No select data in table -->
 	<template id="no-select">
 		<div class="no-select text-center">
-			<img src="{{ asset('assets/app/img/icons/select_file.svg') }}" alt="Pilih salah satu">
+			<img src="{{ asset('assets/app/img/icons/select_file.png') }}" alt="Pilih salah satu">
 			<p>Pilih salah satu data untuk melihat detail</p>
 		</div>
 	</template>
@@ -422,7 +422,7 @@
 			}
 
 		?>
-		getDataFiles('{{ route("api_file", ["sort" => $sortKey]) }}&asc={{ $asc }}&page={{ $page }}', 'files');
+		getDataFiles('{{ route("api_file", ["sort" => $sortKey]) }}&asc={{ $asc }}{{ $page != 1 ? "&page=".$page : "" }}', 'files');
 
 		$('#disposisiModal').on('show.bs.modal', function (e) {
 			var id = $(e.relatedTarget).data('id');

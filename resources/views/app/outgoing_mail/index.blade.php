@@ -58,13 +58,13 @@
 				<!-- Original File -->
 				<tr v-if="val.id_original === null">
 					<td><a :href="'{{ route('outgoing_mail_detail') }}/' + val._id" v-html="val.to"></a></td>
-					<td v-html="val.subject"></td>
+					<td><div class="ellipsis" style="max-width: 200px"><span v-html="val.subject"></span></div></td>
 					<td class="view-tablet-only" v-if="val.share != ''" width="150px" style="padding-top: 10px">
 						<ul class="list-unstyled disposisi">
 							<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index < 3 && disposisi != null">
 								<b-tooltip :content="disposisi.name" placement="bottom">
 									<div class="img-disposisi" :style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + disposisi.photo + ')' }" v-if="disposisi.photo != '' && disposisi.photo != null"></div>
-									<div class="img-disposisi" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+									<div class="img-disposisi" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.png)' }" v-else></div>
 								</b-tooltip>
 							</li>
 							<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index == 0 && val.share.length > 3">
@@ -101,7 +101,7 @@
 							<li v-for="(disposisi, index) in val.shared" class="img-disposisi" v-if="index < 3 && disposisi != null">
 								<b-tooltip :content="disposisi.name" placement="bottom">
 									<div class="img-disposisi" :style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + disposisi.photo + ')' }" v-if="disposisi.photo != '' && disposisi.photo != null"></div>
-									<div class="img-disposisi" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+									<div class="img-disposisi" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.png)' }" v-else></div>
 								</b-tooltip>
 							</li>
 							<li v-for="(disposisi, index) in val.shared" class="img-disposisi" v-if="index == 0 && val.shared.length > 3">
@@ -131,7 +131,7 @@
 			<br>
 			<br>
 			<br>
-			<img src="{{ url('assets/app/img/icons') }}/no_file.svg" alt="" width="400px">
+			<img src="{{ url('assets/app/img/icons') }}/no_file.png" alt="" width="300px">
 			<br>
 			<br>
 			<br>
@@ -215,7 +215,7 @@
 									</td>
 									<td>
 										<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
-										<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+										<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.png)' }" v-else></div>
 									</td>
 									<td>
 										<span class="name" v-html="val.name"></span><br>
@@ -262,7 +262,7 @@
 	<!-- No select data in table -->
 	<template id="no-select">
 		<div class="no-select text-center">
-			<img src="{{ asset('assets/app/img/icons/select_file.svg') }}" alt="Pilih salah satu">
+			<img src="{{ asset('assets/app/img/icons/select_file.png') }}" alt="Pilih salah satu">
 			<p>Pilih salah satu data untuk melihat detail</p>
 		</div>
 	</template>
@@ -360,7 +360,7 @@
 			}
 
 		?>
-		getDataOutgoingMail('{{ route("api_outgoing_mail", ["sort" => $sortKey]) }}&asc={{ $asc }}&page={{ $page }}', 'outgoingMail');
+		getDataOutgoingMail('{{ route("api_outgoing_mail", ["sort" => $sortKey]) }}&asc={{ $asc }}{{ $page != 1 ? "&page=".$page : "" }}', 'outgoingMail');
 
 		$('#disposisiModal').on('show.bs.modal', function (e) {
 			// Get ID

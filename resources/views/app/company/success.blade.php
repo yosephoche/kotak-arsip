@@ -18,7 +18,7 @@
 	<div id="app">
 		<nav class="ka-nav ka-nav-detail">
 			<div class="brand brand-center">
-				<img src="{{ asset('assets/app/img/logo.svg') }}" class="logo" alt="Logo KotakArsip"> &nbsp;&nbsp;<b>KOTAK<span>ARSIP</span></b>
+				<img src="{{ asset('assets/app/img/logo.png') }}" class="logo" alt="Logo KotakArsip"> &nbsp;&nbsp;<b>KOTAK<span>ARSIP</span></b>
 			</div>
 		</nav>
 
@@ -26,7 +26,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-offset-4 col-md-4 text-center">
-						<img src="{{ asset('assets/app/img/company.svg') }}" alt="" width="80%" style="margin-top: 60px">
+						<img src="{{ asset('assets/app/img/company.png') }}" alt="" width="80%" style="margin-top: 60px">
 					</div>
 					<div class="col-md-12 text-center">
 						<h1>Selamat, Perusahaan Anda berhasil terdaftar</h1>

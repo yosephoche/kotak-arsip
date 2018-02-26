@@ -22,7 +22,7 @@
 			</tr>
 			<tr class="item" v-for="val in json.folder" @click="detailSidebar(val, $event)">
 				<td>
-					<img class="img" src="{{ url('assets/app/img/icons/folder.svg') }}" alt="" height="30px">
+					<img class="img" src="{{ url('assets/app/img/icons/folder.png') }}" alt="" height="30px">
 					<a :href="'{{ route('folder_detail') }}/' + val.folder.replace(' ','_')" v-html="val.folder"></a>
 				</td>
 				<td class="view-tablet-only" v-html="val.count + ' arsip'"></td>
@@ -43,7 +43,7 @@
 			<br>
 			<br>
 			<br>
-			<img src="{{ url('assets/app/img/icons') }}/no_file.svg" alt="" width="400px">
+			<img src="{{ url('assets/app/img/icons') }}/no_file.png" alt="" width="300px">
 			<br>
 			<br>
 			<br>
@@ -142,7 +142,7 @@
 	<!-- No select data in table -->
 	<template id="no-select">
 		<div class="no-select text-center">
-			<img src="{{ asset('assets/app/img/icons/select_file.svg') }}" alt="Pilih salah satu">
+			<img src="{{ asset('assets/app/img/icons/select_file.png') }}" alt="Pilih salah satu">
 			<p>Pilih salah satu data untuk melihat detail</p>
 		</div>
 	</template>

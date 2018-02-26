@@ -32,21 +32,21 @@
 				</div>
 
 				<div class="row">
-					<div class="col-md-4">
+					<div class="col-md-6">
 						<div class="form-group form-line">
 							<label for="">No. Telpon/HP</label>
 							<input type="text" name="phone" value="{{ $member->phone }}" class="form-control" required>
 						</div>
 					</div>
 					
-					<div class="col-md-4">
+					<div class="col-md-6">
 						<div class="form-group form-line">
 							<label for="">Jabatan</label>
 							<input type="text" name="position" value="{{ $member->position }}" class="form-control" required>
 						</div>
 					</div>
 
-					<div class="col-md-4">
+					<div class="col-md-4 hide">
 						<div class="form-group form-line">
 							<label for="">Status</label>
 							<select class="form-control" name="status" required>

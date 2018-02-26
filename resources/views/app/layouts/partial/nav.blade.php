@@ -4,7 +4,7 @@
 			<a href="#"><i class="fa fa-bars"></i></a>
 		</li>
 		<li class="brand">
-			<a href="{{ route('incoming_mail') }}"><img src="{{ asset('assets/app/img/logo-white.svg') }}" class="logo" alt="Logo KotakArsip"></a>
+			<a href="{{ route('incoming_mail') }}"><img src="{{ asset('assets/app/img/logo-white.png') }}" class="logo" alt="Logo KotakArsip"></a>
 		</li>
 		<li class="search">
 			<form action="{{ route('search') }}" id="typeahead">
@@ -41,7 +41,7 @@
 				@empty
 					<li class="text-center">
 						<br>
-						<img src="{{ asset('assets/app/img/icons') }}/cannot-preview.svg" alt="Pratinjau belum mendukung format berkas" width="100px"><br><br>
+						<img src="{{ asset('assets/app/img/icons') }}/cannot-preview.png" alt="Pratinjau belum mendukung format berkas" width="100px"><br><br>
 					</li>
 					<li role="separator" class="divider"></li>
 				@endforelse
@@ -54,7 +54,7 @@
 				@if (Auth::user()->photo != '')
 					<div class="img-profile" style="background: url({{ asset('assets/app/img/users').'/thumb-'.Auth::user()->photo }})"></div>
 				@else
-					<div class="img-profile" style="background: url({{ asset('assets/app/img/icons/user-white.svg') }})"></div>
+					<div class="img-profile" style="background: url({{ asset('assets/app/img/icons/user-white.png') }})"></div>
 				@endif
 				<span class="view-desktop-only">{{ Auth::user()->name }}</span> &nbsp;<i class="fa fa-caret-down"></i>
 			</a>

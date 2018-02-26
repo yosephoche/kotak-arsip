@@ -76,28 +76,28 @@
 						<div class="row select-cabinet">
 							<div class="col-md-3 text-center">
 								<label for="filling-cabinet" class="text-center active">
-									<img src="{{ asset('assets/app/img/icons/filling_cabinet.svg') }}" width="80%">
+									<img src="{{ asset('assets/app/img/icons/filling_cabinet.png') }}" width="80%">
 									<p>Filling Cabinet</p>
 								</label>
 							</div>
 
 							<div class="col-md-3 text-center">
 								<label for="rotary-cabinet" class="text-center">
-									<img src="{{ asset('assets/app/img/icons/rotary_cabinet.svg') }}" width="80%">
+									<img src="{{ asset('assets/app/img/icons/rotary_cabinet.png') }}" width="80%">
 									<p>Rotary Cabinet</p>
 								</label>
 							</div>
 
 							<div class="col-md-3 text-center">
 								<label for="lemari-arsip" class="text-center">
-									<img src="{{ asset('assets/app/img/icons/lemari_arsip.svg') }}" width="80%">
+									<img src="{{ asset('assets/app/img/icons/lemari_arsip.png') }}" width="80%">
 									<p>Lemari Arsip</p>
 								</label>
 							</div>
 
 							<div class="col-md-3 text-center">
 								<label for="rak-arsip" class="text-center">
-									<img src="{{ asset('assets/app/img/icons/rak_arsip.svg') }}" width="80%">
+									<img src="{{ asset('assets/app/img/icons/rak_arsip.png') }}" width="80%">
 									<p>Rak Arsip</p>
 								</label>
 							</div>
@@ -137,28 +137,28 @@
 						<div class="row select-cabinet">
 							<div class="col-md-3 text-center">
 								<label for="edit-filling-cabinet" class="text-center active">
-									<img src="{{ asset('assets/app/img/icons/filling_cabinet.svg') }}" width="80%">
+									<img src="{{ asset('assets/app/img/icons/filling_cabinet.png') }}" width="80%">
 									<p>Filling Cabinet</p>
 								</label>
 							</div>
 
 							<div class="col-md-3 text-center">
 								<label for="edit-rotary-cabinet" class="text-center">
-									<img src="{{ asset('assets/app/img/icons/rotary_cabinet.svg') }}" width="80%">
+									<img src="{{ asset('assets/app/img/icons/rotary_cabinet.png') }}" width="80%">
 									<p>Rotary Cabinet</p>
 								</label>
 							</div>
 
 							<div class="col-md-3 text-center">
 								<label for="edit-lemari-arsip" class="text-center">
-									<img src="{{ asset('assets/app/img/icons/lemari_arsip.svg') }}" width="80%">
+									<img src="{{ asset('assets/app/img/icons/lemari_arsip.png') }}" width="80%">
 									<p>Lemari Arsip</p>
 								</label>
 							</div>
 
 							<div class="col-md-3 text-center">
 								<label for="edit-rak-arsip" class="text-center">
-									<img src="{{ asset('assets/app/img/icons/rak_arsip.svg') }}" width="80%">
+									<img src="{{ asset('assets/app/img/icons/rak_arsip.png') }}" width="80%">
 									<p>Rak Arsip</p>
 								</label>
 							</div>
@@ -223,7 +223,7 @@
 	<!-- No select data in table -->
 	<template id="no-select">
 		<div class="no-select text-center">
-			<img src="{{ asset('assets/app/img/icons/select_file.svg') }}" alt="Pilih salah satu">
+			<img src="{{ asset('assets/app/img/icons/select_file.png') }}" alt="Pilih salah satu">
 			<p>Pilih salah satu data untuk melihat detail</p>
 		</div>
 	</template>
@@ -237,7 +237,7 @@
 			</div>
 			<div class="item" v-if="detail.type">
 				<div class="text-center">
-					<img :src="'{{ asset('assets/app/img/icons') }}/' + detail.type + '.svg'">
+					<img :src="'{{ asset('assets/app/img/icons') }}/' + detail.type + '.png'">
 					<p v-html="detail.type.replace('_', ' ').replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();})"></p>
 				</div>
 			</div>

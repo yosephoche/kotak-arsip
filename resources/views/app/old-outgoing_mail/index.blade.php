@@ -59,7 +59,7 @@
 						<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index < 3 && disposisi.user[0] != null">
 							<b-tooltip v-bind:content="disposisi.user[0].name" placement="bottom">
 								<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + disposisi.user[0].photo + ')' }" v-if="disposisi.user[0].photo != ''"></div>
-								<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+								<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.png)' }" v-else></div>
 							</b-tooltip>
 						</li>
 						<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index == 0 && val.share.length > 3">
@@ -88,7 +88,7 @@
 			<br>
 			<br>
 			<br>
-			<img src="{{ url('assets/app/img/icons') }}/no_file.svg" alt="" width="400px">
+			<img src="{{ url('assets/app/img/icons') }}/no_file.png" alt="" width="300px">
 			<br>
 			<br>
 			<br>
@@ -172,7 +172,7 @@
 									</td>
 									<td>
 										<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
-										<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+										<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.png)' }" v-else></div>
 									</td>
 									<td>
 										<span class="name" v-html="val.name"></span><br>
@@ -189,7 +189,7 @@
 									</td>
 									<td>
 										<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
-										<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+										<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.png)' }" v-else></div>
 									</td>
 									<td>
 										<span class="name" v-html="val.name"></span><br>
@@ -236,7 +236,7 @@
 	<!-- No select data in table -->
 	<template id="no-select">
 		<div class="no-select text-center">
-			<img src="{{ asset('assets/app/img/icons/select_file.svg') }}" alt="Pilih salah satu">
+			<img src="{{ asset('assets/app/img/icons/select_file.png') }}" alt="Pilih salah satu">
 			<p>Pilih salah satu data untuk melihat detail</p>
 		</div>
 	</template>

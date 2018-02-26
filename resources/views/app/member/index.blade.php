@@ -24,7 +24,7 @@
 				<td>
 					<a class="disposisi">
 						<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users')}}/thumb-'+ val.photo +')' }" v-if="val.photo != '' && val.photo != null"></div>
-						<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+						<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.png)' }" v-else></div>
 						&nbsp;&nbsp;&nbsp;<span v-html="val.name"></span>
 					</a>
 				</td>
@@ -91,7 +91,7 @@
 	<!-- No select data in table -->
 	<template id="no-select">
 		<div class="no-select text-center">
-			<img src="assets/app/img/icons/select_file.svg" alt="Pilih salah satu">
+			<img src="assets/app/img/icons/select_file.png" alt="Pilih salah satu">
 			<p>Pilih salah satu data untuk melihat detail</p>
 		</div>
 	</template>

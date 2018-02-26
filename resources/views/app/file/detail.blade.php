@@ -28,7 +28,7 @@
 					<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#disposisiModal" :data-id="val._id" :data-owner="val.id_owner" v-on:click="idDispositionArray(val.share)">Disposisi</a>
 				</li>
 				<li v-for="val in json.files">
-					<a :href="'{{ url('files') }}/{{ Auth::user()->id_company }}/files/' + val.files[0]" title="Unduh Berkas" download><i class="fa fa-download"></i></a>
+					<a :href="'{{ url('files') }}/{{ Auth::user()->id_company }}/file/' + val.files[0]" title="Unduh Berkas" download><i class="fa fa-download"></i></a>
 				</li>
 				<li class="dropdown" v-for="val in json.files">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
@@ -44,10 +44,10 @@
 			<div class="ka-main">
 				<div v-for="val in json.files">
 					<div v-if="val.files[0].slice(-3) == 'pdf'">
-						<div><object :data="'{{ url('files') }}/{{ Auth::user()->id_company }}/files/' + val.files[0]" type="application/pdf"></object></div>
+						<div><object :data="'{{ url('files') }}/{{ Auth::user()->id_company }}/file/' + val.files[0]" type="application/pdf"></object></div>
 					</div>
 					<div v-if="val.files[0].slice(-3) == 'png' || val.files[0].slice(-3) == 'jpg' || val.files[0].slice(-4) == 'jpeg'">
-						<div><img :src="'{{ url('files') }}/{{ Auth::user()->id_company }}/files/' + val.files[0]" alt=""></div>
+						<div><img :src="'{{ url('files') }}/{{ Auth::user()->id_company }}/file/' + val.files[0]" alt=""></div>
 					</div>
 					<div v-if="val.files[0].slice(-4) == 'docx' || val.files[0].slice(-3) == 'doc' || val.files[0].slice(-3) == 'ppt' || val.files[0].slice(-4) == 'pptx' || val.files[0].slice(-3) == 'xls' || val.files[0].slice(-4) == 'xlsx'">
 						<div>
@@ -57,8 +57,8 @@
 							<br>
 							<br>
 							<br>
-							<img src="{{ asset('assets/app/img/icons') }}/cannot-preview.svg" alt="Pratinjau belum mendukung format berkas" width="100px"><br><br>
-							<p>Pratinjau belum mendukung format berkas, silahkan <a :href="'{{ url('files') }}/{{ Auth::user()->id_company }}/files/' + val.files[0]" title="Unduh Berkas" download>unduh berkas</a>.</p>
+							<img src="{{ asset('assets/app/img/icons') }}/cannot-preview.png" alt="Pratinjau belum mendukung format berkas" width="100px"><br><br>
+							<p>Pratinjau belum mendukung format berkas, silahkan <a :href="'{{ url('files') }}/{{ Auth::user()->id_company }}/file/' + val.files[0]" title="Unduh Berkas" download>unduh berkas</a>.</p>
 						</div>
 					</div>
 				</div>
@@ -164,7 +164,7 @@
 										</td>
 										<td>
 											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
-											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.png)' }" v-else></div>
 										</td>
 										<td>
 											<span class="name" v-html="val.name"></span><br>
@@ -181,7 +181,7 @@
 										</td>
 										<td>
 											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
-											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.svg)' }" v-else></div>
+											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.png)' }" v-else></div>
 										</td>
 										<td>
 											<span class="name" v-html="val.name"></span><br>
