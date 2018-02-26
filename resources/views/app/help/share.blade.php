@@ -15,32 +15,11 @@
 		<div class="help-content">
 			<hr>
 			<h2>Bagikan</h2>
-			<p>Seluruh arsip yang didisposisi/dibagikan bersama Anda dapat dilihat <a href="{{ route('shared_incoming_mail') }}" title="Halaman Bagikan" data-toggle="tooltip" data-placement="bottom">disini</a>.</p>
-			<div class="row">
-				<div class="col-md-12">
-					<br>
-					<div class="header-browser">
-						<div class="red"></div>
-						<div class="yellow"></div>
-						<div class="green"></div>
-					</div>
-					<img class="img" src="{{ url('assets/app/img/help/bagikan-1.png') }}" alt=""><br>
-					<br>
-					<div class="text-center">
-						<i class="img-caption">Halaman Bagikan</i>
-					</div>
-					<br>
-				</div>
-			</div>
-
-			<br>
-			<br>
-
-			<p>Berikut adalah cara membagikan arsip(khusus untuk surat masuk istilah yang digunakan adalah disposisi):</p>
+			<p>Seluruh arsip yang didisposisi/dibagikan bersama Anda dapat dilihat di menu masing-masing berdasarkan jenis arsipnya. Berikut adalah cara membagikan arsip(khusus untuk surat masuk istilah yang digunakan adalah disposisi):</p>
 
 			<h3>1. Klik icon titik tiga pada bagian kanan surat masuk lalu pilih <b>Bagikan</b></h3>
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-12 col-lg-8 col-lg-offset-2">
 					<br>
 					<div class="header-browser">
 						<div class="red"></div>
@@ -57,7 +36,7 @@
 			</div>
 			<h3>2. Kemudian akan tampil modal window seperti gambar berikut</h3>
 			<div class="row">
-				<div class="col-md-offset-2 col-md-8">
+				<div class="col-md-offset-2 col-md-8 col-lg-6 col-lg-offset-3">
 					<br>
 					<div class="header-browser">
 						<div class="red"></div>

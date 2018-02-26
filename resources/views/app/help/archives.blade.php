@@ -17,7 +17,7 @@
 			<h2>Jenis Arsip Lainnya</h2>
 			<p>Dengan fitur ini Anda dapat membuat format arsip selain surat masuk dan surat keluar. Caranya klik tombol <b>+ Jenis Arsip</b> pada menu.</p>
 			<div class="row">
-				<div class="col-md-offset-4 col-md-4">
+				<div class="col-md-offset-4 col-md-4 col-lg-2 col-lg-offset-5">
 					<br>
 					<div class="header-browser">
 						<div class="red"></div>
@@ -35,9 +35,9 @@
 
 			<div class="row">
 				<div class="col-xs-6">
-					<a href="{{ route('help_outgoing_mail_delete') }}" class="next-help pull-left">
+					<a href="{{ route('help_file') }}" class="next-help pull-left">
 						<span>Sebelumnya</span>
-						<h4><i class="fa fa-arrow-left"></i>&nbsp; Hapus Surat Keluar</h4>
+						<h4><i class="fa fa-arrow-left"></i>&nbsp; Berkas</h4>
 					</a>
 				</div>
 				<div class="col-xs-6">

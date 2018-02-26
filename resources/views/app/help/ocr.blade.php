@@ -26,9 +26,9 @@
 					</a>
 				</div>
 				<div class="col-xs-6">
-					<a href="{{ route('help_server') }}" class="next-help">
+					<a href="{{ route('help_storage') }}" class="next-help">
 						<span>Selanjutnya</span>
-						<h4>Koneksi Server &nbsp;<i class="fa fa-arrow-right"></i></h4>
+						<h4>Penyimpanan Arsip &nbsp;<i class="fa fa-arrow-right"></i></h4>
 					</a>
 				</div>
 			</div>

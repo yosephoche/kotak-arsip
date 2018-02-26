@@ -18,7 +18,7 @@
 			<p>Untuk memudahkan Anda mencari arsip fisik, Anda dapat memasukkan data penyimpanan arsip fisik Anda pada halaman <a href="{{ route('storage') }}">Penyimpanan Arsip</a>. Data ini nantinya dapat Anda gunakan saat menginput arsip sehingga memudahkan pencarian nantinya. Berikut cara menambahkan penyimpanan arsip:</p>
 			<h3>1. Pilih menu <a href="{{ route('storage') }}">Penyimpanan Arsip</a></h3>
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-12 col-lg-8 col-lg-offset-2">
 					<br>
 					<div class="header-browser">
 						<div class="red"></div>
@@ -36,7 +36,7 @@
 			<h3>2. Kemudian klik tombol tambah dan akan tampil seperti pada gambar berikut:</h3>
 			<p>Anda dapat memilih sesuai penyimpanan arsip yang Anda miliki, umumnya penyimpanan arsip berupa filling cabinet, rotary cabinet, lemari arsip, dan rak arsip.</p>
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-12 col-lg-8 col-lg-offset-2">
 					<br>
 					<div class="header-browser">
 						<div class="red"></div>
@@ -54,9 +54,9 @@
 			<br>
 			<div class="row">
 				<div class="col-xs-6">
-					<a href="{{ route('help_server') }}" class="next-help pull-left">
+					<a href="{{ route('help_ocr') }}" class="next-help pull-left">
 						<span>Sebelumnya</span>
-						<h4><i class="fa fa-arrow-left"></i>&nbsp; Koneksi Server </h4>
+						<h4><i class="fa fa-arrow-left"></i>&nbsp; Teknologi OCR </h4>
 					</a>
 				</div>
 				<div class="col-xs-6">

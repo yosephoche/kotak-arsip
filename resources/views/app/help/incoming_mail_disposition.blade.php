@@ -19,7 +19,7 @@
 
 			<h3>1. Klik icon titik tiga pada bagian kanan surat masuk lalu pilih <b>Disposisi</b></h3>
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-12 col-lg-8 col-lg-offset-2">
 					<br>
 					<div class="header-browser">
 						<div class="red"></div>
@@ -36,7 +36,7 @@
 			</div>
 			<h3>2. Kemudian akan tampil modal window seperti gambar berikut</h3>
 			<div class="row">
-				<div class="col-md-offset-2 col-md-8">
+				<div class="col-md-offset-2 col-md-8 col-lg-6 col-lg-offset-3">
 					<br>
 					<div class="header-browser">
 						<div class="red"></div>

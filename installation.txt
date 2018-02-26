@@ -1,0 +1,6 @@
+1. install apache
+2. install composer
+3. install mongodb (dont forget create data/db folder)
+4. install php-mongodb driver (choose 86X version TS)
+5. install tesseract
+6. set virtual host

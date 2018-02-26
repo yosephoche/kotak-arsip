@@ -17,7 +17,7 @@
 			<h2>Pencarian</h2>
 			<p>Anda dapat melakukan pencarian langsung pada bagian atas aplikasi berdasarkan subyek arsip seperti asal surat pada surat masuk dan tujuan surat pada surat keluar.</p>
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-12 col-lg-8 col-lg-offset-2">
 					<img style="border-radius: 5px" class="img" src="{{ url('assets/app/img/help/pencarian-1.png') }}" alt=""><br>
 					<br>
 					<div class="text-center">
@@ -29,7 +29,7 @@
 			<br>
 			<p>Setelah Anda memasukkan kata kunci pencarian, silahkan tekan <b>Enter</b> dan Anda akan diarahkan pada halaman <a href="{{ route('search', ['q' => '']) }}">Pencarian</a> kemudian Anda akan melihat daftar arsip yang sesuai dengan kata kunci Anda.</p>
 			<div class="row">
-				<div class="col-md-offset-1 col-md-10">
+				<div class="col-md-offset-1 col-md-10 col-lg-8 col-lg-offset-2">
 					<br>
 					<div class="header-browser">
 						<div class="red"></div>

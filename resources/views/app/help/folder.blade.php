@@ -17,7 +17,7 @@
 			<h2>Folder</h2>
 			<p>Fitur <b>Folder</b> digunakan untuk mengelompokkan arsip-arsip meskipun berbeda jenis agar memudahkan Anda dalam mencari arsip yang saling berkaitan satu sama lain.</p>
 			<div class="row">
-				<div class="col-md-offset-1 col-md-10">
+				<div class="col-md-offset-1 col-md-10 col-lg-6 col-lg-offset-3">
 					<br>
 					<div class="header-browser">
 						<div class="red"></div>
@@ -39,12 +39,6 @@
 					<a href="{{ route('help_share') }}" class="next-help pull-left">
 						<span>Sebelumnya</span>
 						<h4><i class="fa fa-arrow-left"></i>&nbsp; Bagikan </h4>
-					</a>
-				</div>
-				<div class="col-xs-6">
-					<a href="{{ route('help_file') }}" class="next-help">
-						<span>Selanjutnya</span>
-						<h4>Berkas &nbsp;<i class="fa fa-arrow-right"></i></h4>
 					</a>
 				</div>
 			</div>

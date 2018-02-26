@@ -25,7 +25,7 @@
 			<h3>3. Teks pada gambar akan masuk otomatis pada kolom isian sesuai label masing-masing</h3>
 			<p style="margin-left: 20px">Jika teks pada gambar tidak terbaca maka isian akan kosong dan dapat diinput secara manual. Selain itu Anda dapat menambahkan beberapa info setelahnya seperti penyimpanan fisik arsip, <a href="{{ route('help_folder') }}">folder</a>, dan keterangan.</p>
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-12 col-lg-8 col-lg-offset-2">
 					<br>
 					<div class="header-browser">
 						<div class="red"></div>
@@ -51,7 +51,7 @@
 
 			<h3>1. Klik icon titik tiga pada bagian kanan surat masuk lalu pilih <b>Sunting</b></h3>
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-12 col-lg-8 col-lg-offset-2">
 					<br>
 					<div class="header-browser">
 						<div class="red"></div>

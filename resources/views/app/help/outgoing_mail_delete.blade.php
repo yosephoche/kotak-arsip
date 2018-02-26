@@ -19,7 +19,7 @@
 
 			<h3>1. Klik icon titik tiga pada bagian kanan surat keluar lalu pilih <b>Hapus</b></h3>
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-12 col-lg-8 col-lg-offset-2">
 					<br>
 					<div class="header-browser">
 						<div class="red"></div>
@@ -36,7 +36,7 @@
 			</div>
 			<h3>2. Klik tombol <b>Hapus</b></h3>
 			<div class="row">
-				<div class="col-md-offset-3 col-md-6">
+				<div class="col-md-offset-3 col-md-6 col-lg-4 col-lg-offset-4">
 					<br>
 					<div class="header-browser">
 						<div class="red"></div>
@@ -55,15 +55,15 @@
 
 			<div class="row">
 				<div class="col-xs-6">
-					<a href="{{ route('help_incoming_mail_create') }}" class="next-help pull-left">
+					<a href="{{ route('help_outgoing_mail_create') }}" class="next-help pull-left">
 						<span>Sebelumnya</span>
 						<h4><i class="fa fa-arrow-left"></i>&nbsp; Tambah/Sunting Surat Keluar </h4>
 					</a>
 				</div>
 				<div class="col-xs-6">
-					<a href="{{ route('help_archives') }}" class="next-help">
+					<a href="{{ route('help_file') }}" class="next-help">
 						<span>Selanjutnya</span>
-						<h4>Jenis Arsip Lainnya &nbsp;<i class="fa fa-arrow-right"></i></h4>
+						<h4>Berkas &nbsp;<i class="fa fa-arrow-right"></i></h4>
 					</a>
 				</div>
 			</div>

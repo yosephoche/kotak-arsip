@@ -19,9 +19,15 @@
 
 			<div class="row">
 				<div class="col-xs-6">
-					<a href="{{ route('help_folder') }}" class="next-help pull-left">
+					<a href="{{ route('help_outgoing_mail_delete') }}" class="next-help pull-left">
 						<span>Sebelumnya</span>
-						<h4><i class="fa fa-arrow-left"></i>&nbsp; Folder</h4>
+						<h4><i class="fa fa-arrow-left"></i>&nbsp; Hapus Surat Keluar</h4>
+					</a>
+				</div>
+				<div class="col-xs-6">
+					<a href="{{ route('help_archives') }}" class="next-help">
+						<span>Selanjutnya</span>
+						<h4>Jenis Arsip Lainnya &nbsp;<i class="fa fa-arrow-right"></i></h4>
 					</a>
 				</div>
 			</div>

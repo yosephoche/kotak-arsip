@@ -19,7 +19,7 @@
 
 			<h3>1. Klik icon titik tiga pada bagian kanan surat masuk lalu pilih <b>Hapus</b></h3>
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-12 col-lg-8 col-lg-offset-2">
 					<br>
 					<div class="header-browser">
 						<div class="red"></div>
@@ -36,7 +36,7 @@
 			</div>
 			<h3>2. Klik tombol <b>Hapus</b></h3>
 			<div class="row">
-				<div class="col-md-offset-3 col-md-6">
+				<div class="col-md-offset-3 col-md-6 col-lg-4 col-lg-offset-4">
 					<br>
 					<div class="header-browser">
 						<div class="red"></div>
