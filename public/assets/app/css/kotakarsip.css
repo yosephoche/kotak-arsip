@@ -11534,6 +11534,7 @@ a:hover, a:focus, a:active, a:visited {
   height: 100%;
   float: left;
   overflow-y: auto;
+  transition: all .2s;
 }
 .ka-body .ka-menus li {
   margin-top: 15px;
@@ -11565,6 +11566,17 @@ a:hover, a:focus, a:active, a:visited {
   border-radius: 3px;
   font-size: 12px;
   padding: 5px 8px;
+}
+.ka-body .overlay-menu {
+  background-color: #000;
+  opacity: .5;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: none;
 }
 .ka-body .ka-main {
   padding: 20px;
@@ -12182,19 +12194,29 @@ a:hover, a:focus, a:active, a:visited {
   .ka-nav .search {
     width: 40vw;
   }
+  .ka-nav #typeahead, .ka-nav .twitter-typeahead {
+    width: 40vw !important;
+  }
 
   .ka-body .ka-menus {
     position: fixed;
     z-index: 9;
   }
   .ka-body .ka-main {
-    width: 100%;
+    width: 100% !important;
   }
   .ka-body .ka-sidebar-detail {
     display: none !important;
   }
+
+  .modal-disposisi .modal-body > .col-md-6:first-child {
+    display: none;
+  }
 }
 @media only screen and (max-width: 540px) {
+  .ka-nav .right-side > li {
+    margin-left: 25px;
+  }
   .ka-nav .notif {
     display: none !important;
   }
@@ -12202,7 +12224,17 @@ a:hover, a:focus, a:active, a:visited {
     margin-left: 0px !important;
   }
 
-  .ka-body .ka-menus {
+  .help-content .next-help {
     width: 100%;
+    margin-top: 20px;
+    margin-bottom: 0;
+    text-align: center;
+    float: none !important;
+  }
+  .help-content .col-xs-6 {
+    width: 100% !important;
+  }
+  .help-content .col-xs-6:last-child {
+    margin-bottom: 50px;
   }
 }

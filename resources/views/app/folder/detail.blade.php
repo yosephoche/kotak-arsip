@@ -64,7 +64,7 @@
 						@endif
 					@endif
 				</th>
-				<th width="150px">Jenis Arsip</th>
+				<th width="150px" class="view-tablet-only">Jenis Arsip</th>
 			</tr>
 			<tr class="item" v-for="val in json.folder" @click="detailSidebar(val, $event)">
 				<td>
@@ -83,7 +83,7 @@
 					<div v-if="val.type == 'outgoing_mail'" v-html="val.subject"></div>
 					<div v-if="val.type == 'file'" v-html="val.desc"></div>
 				</td>
-				<td>
+				<td class="view-tablet-only">
 					<div v-if="val.type == 'incoming_mail'">
 						<span class="color-blue">Surat Masuk</span>
 					</div>

@@ -6,7 +6,8 @@ function getDataLicenseImb(api, key) {
 			search: '',
 			json: { key : [] },
 			detail: '',
-			users: { "users" : [] }
+			users: { "users" : [] },
+			active: false
 		},
 		created: function () {
 			var _this = this;
@@ -42,6 +43,16 @@ function getDataLicenseImb(api, key) {
 				element.removeClass('new-notif');
 				element.find('.badge').remove();
 			},
+			navToggle: function (e) {
+				var element = $(e.target).closest('.nav-toggle');
+				if (this.active == false) {
+					this.active = true;
+					navShow();
+				} else {
+					this.active = false;
+					navClose();
+				}
+			},
 			inputFileSubmit: function (e) {
 				var element = $(e.target);
 				element.closest('form').submit();
@@ -73,7 +84,8 @@ function getDataLicenseFiles(api, key) {
 		el: '#app',
 		data: {
 			json: { key : [] },
-			detail: ''
+			detail: '',
+			active: false
 		},
 		created: function () {
 			var _this = this;

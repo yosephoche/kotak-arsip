@@ -18,7 +18,7 @@
 		<table class="table table-hover" v-if="json.folder != ''">
 			<tr>
 				<th>Nama Folder</th>
-				<th width="150px">Jumlah Arsip</th>
+				<th width="150px" class="view-tablet-only" colspan="2">Jumlah Arsip</th>
 			</tr>
 			<tr class="item" v-for="val in json.folder" @click="detailSidebar(val, $event)">
 				<td>

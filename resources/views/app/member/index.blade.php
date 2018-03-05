@@ -17,18 +17,18 @@
 		<table class="table table-hover">
 			<tr>
 				<th class="sort" @click="sortBy('name', $event)">Nama Lengkap <i class="fa fa-angle-down i-sort"></i></th>
-				<th @click="sortBy('position', $event)">Jabatan</th>
+				<th class="view-tablet-only" @click="sortBy('position', $event)">Jabatan</th>
 				<th colspan="2"></th>
 			</tr>
 			<tr class="item va-mid" v-for="val in orderedUsers" @click="detailSidebar(val, $event)">
 				<td>
-					<a class="disposisi">
+					<a class="disposisi ellipsis">
 						<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users')}}/thumb-'+ val.photo +')' }" v-if="val.photo != '' && val.photo != null"></div>
 						<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.png)' }" v-else></div>
 						&nbsp;&nbsp;&nbsp;<span v-html="val.name"></span>
 					</a>
 				</td>
-				<td v-html="val.position"></td>
+				<td class="view-tablet-only" v-html="val.position"></td>
 				<td>
 					<div v-if="val.status == 'admin'" class="badge badge-line" v-html="val.status"></div>
 				</td>

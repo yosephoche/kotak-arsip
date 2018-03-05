@@ -95,24 +95,10 @@ class SearchController extends Controller
 
 			return $collection->aggregate(array(
 				array(
-					'$unwind' => array(
-						'path' => '$share',
-						'preserveNullAndEmptyArrays' => true
-					)
-				),
-				array(
-					'$lookup' => array(
-						'from'=>'users',
-						'localField'=>'share._id',
-						'foreignField'=>'_id',
-						'as'=>'share.user'
-					)
-				),
-				array(
 					'$lookup' => array(
 						'from' => 'storage_sub',
 						'localField' => 'storagesub',
-						'foreignField' =>  '_id',
+						'foreignField' => '_id',
 						'as' => 'storagesub'
 					)
 				),
@@ -120,8 +106,54 @@ class SearchController extends Controller
 					'$lookup' => array(
 						'from' => 'storage',
 						'localField' => 'storage',
-						'foreignField' =>  '_id',
+						'foreignField' => '_id',
 						'as' => 'storage'
+					)
+				),
+				array(
+					'$lookup' => array(
+						'from' => 'share',
+						'localField' => '_id',
+						'foreignField' => 'id_archieve',
+						'as' => 'share_info'
+					)
+				),
+				array(
+					'$lookup' => array(
+						'from' => 'share',
+						'localField' => 'id_original',
+						'foreignField' => 'id_archieve',
+						'as' => 'share_info_shared'
+					)
+				),
+				array(
+					'$unwind' => array(
+						'path' => '$share',
+						'preserveNullAndEmptyArrays' => true
+					)
+				),
+				array(
+					'$lookup' => array(
+						'from' => 'users',
+						'localField' => 'share_info.share_to',
+						'foreignField' => '_id',
+						'as' => 'share'
+					)
+				),
+				array(
+					'$lookup' => array(
+						'from' => 'users',
+						'localField' => 'share_info_shared.share_to',
+						'foreignField' => '_id',
+						'as' => 'shared'
+					)
+				),
+				array(
+					'$lookup' => array(
+						'from' => 'users',
+						'localField' => 'share_info_shared.share_from',
+						'foreignField' => '_id',
+						'as' => 'owner'
 					)
 				),
 				array(
@@ -130,24 +162,36 @@ class SearchController extends Controller
 						'from' => 1,
 						'to' => 1,
 						'reference_number' => 1,
+						'id_original' => 1,
+						'id_owner' => 1,
+						'owner.name' => 1,
 						'date' => 1,
 						'subject' => 1,
-						'desc' => 1,
-						'share.user._id' => 1,
-						'share.user.name' => 1,
-						'share.user.position' => 1,
-						'share.user.photo' => 1,
+						'share_info' => 1,
+						'share_info_shared' => 1,
+						'share._id' => 1,
+						'share.name' => 1,
+						'share.position' => 1,
+						'share.photo' => 1,
 						'share.date' => 1,
 						'share.message' => 1,
+						'share.read' => 1,
+						'shared._id' => 1,
+						'shared.name' => 1,
+						'shared.position' => 1,
+						'shared.photo' => 1,
+						'shared.date' => 1,
+						'shared.message' => 1,
+						'shared.read' => 1,
 						'storagesub._id' => 1,
 						'storagesub.name' => 1,
 						'storage._id' => 1,
 						'storage.name' => 1,
 						'files' => 1,
 						'type' => 1,
+						'folder' => 1,
 						'id_user' => 1,
 						'id_company' => 1,
-						'fulltext' => 1,
 						'deleted_at' => 1
 					)
 				),
@@ -159,6 +203,15 @@ class SearchController extends Controller
 						),
 						'id_company' => array(
 							'$first' => '$id_company'
+						),
+						'id_original' => array(
+							'$first' => '$id_original'
+						),
+						'id_owner' => array(
+							'$first' => '$id_owner'
+						),
+						'owner' => array(
+							'$first' => '$owner'
 						),
 						'type' => array(
 							'$first' => '$type'
@@ -175,9 +228,6 @@ class SearchController extends Controller
 						'subject' => array(
 							'$first' => '$subject'
 						),
-						'desc' => array(
-							'$first' => '$desc'
-						),
 						'reference_number' => array(
 							'$first' => '$reference_number'
 						),
@@ -193,22 +243,27 @@ class SearchController extends Controller
 						'storage' => array(
 							'$first' => '$storage'
 						),
+						'folder' => array(
+							'$first' => '$folder'
+						),
 						'files' => array(
 							'$first' => '$files'
 						),
 						'deleted_at' => array(
 							'$first' => '$deleted_at'
 						),
-						'fulltext' => array(
-							'$first' => '$fulltext'
-						),
 						'share' => array(
-							'$push' => array(
-								'user' => '$share.user',
-								'date' => '$share.date',
-								'message' => '$share.message'
-							)
-						)
+							'$first' => '$share'
+						),
+						'shared' => array(
+							'$first' => '$shared'
+						),
+						'share_info' => array(
+							'$first' => '$share_info'
+						),
+						'share_info_shared' => array(
+							'$first' => '$share_info_shared'
+						),
 					)
 				),
 				array(
@@ -222,10 +277,10 @@ class SearchController extends Controller
 							'$regex' => $q,
 							'$options' => 'i'
 						),
-						'fulltext' => array(
-							'$regex' => $fulltext,
-							'$options' => 'i'
-						),
+						// 'fulltext' => array(
+						// 	'$regex' => $fulltext,
+						// 	'$options' => 'i'
+						// ),
 						'id_user' => GlobalClass::generateMongoObjectId(Auth::user()->_id),
 						'id_company' => Auth::user()->id_company,
 						'deleted_at' => null,

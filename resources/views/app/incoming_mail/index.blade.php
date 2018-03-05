@@ -39,7 +39,7 @@
 							@endif
 						@endif
 					</th>
-					<th class="{{ @$_GET['sort'] == 'subject' ? 'sort' : '' }} no-border">
+					<th class="{{ @$_GET['sort'] == 'subject' ? 'sort' : '' }} no-border view-tablet-only">
 						<a href="{{ route('incoming_mail', ['sort' => 'subject', 'asc' => $ascSubject]) }}">Perihal</a>
 						@if (@$_GET['sort'] == 'subject')
 							@if (@$_GET['asc'] == 'true')
@@ -58,7 +58,7 @@
 				<!-- Original File -->
 				<tr v-if="val.id_original === null">
 					<td><a :href="'{{ route('incoming_mail_detail') }}/' + val._id" v-html="val.from"></a></td>
-					<td><div class="ellipsis" style="max-width: 200px"><span v-html="val.subject"></span></div></td>
+					<td class="view-tablet-only"><div class="ellipsis" style="max-width: 200px"><span v-html="val.subject"></span></div></td>
 					<td class="view-tablet-only" v-if="val.share != ''" width="150px" style="padding-top: 10px">
 						<ul class="list-unstyled disposisi">
 							<li v-for="(disposisi, index) in val.share" class="img-disposisi" v-if="index < 3 && disposisi != null">
@@ -95,7 +95,7 @@
 							<a :href="'{{ route('incoming_mail_detail') }}/' + val._id" v-html="val.from"></a>
 						</span>
 					</td>
-					<td v-html="val.subject"></td>
+					<td class="view-tablet-only" v-html="val.subject"></td>
 					<td class="view-tablet-only" v-if="val.shared != ''" width="150px" style="padding-top: 10px">
 						<ul class="list-unstyled disposisi">
 							<li v-for="(disposisi, index) in val.shared" class="img-disposisi" v-if="index < 3 && disposisi != null">

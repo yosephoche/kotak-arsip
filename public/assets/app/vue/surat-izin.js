@@ -7,6 +7,7 @@ function getDataLicense(api, key) {
 			sort: 'asc',
 			json: { key : [] },
 			detail: '',
+			active: false
 		},
 		created: function () {
 			var _this = this;
@@ -41,6 +42,16 @@ function getDataLicense(api, key) {
 				element.find('.fa-bell').removeClass('animated infinite');
 				element.removeClass('new-notif');
 				element.find('.badge').remove();
+			},
+			navToggle: function (e) {
+				var element = $(e.target).closest('.nav-toggle');
+				if (this.active == false) {
+					this.active = true;
+					navShow();
+				} else {
+					this.active = false;
+					navClose();
+				}
 			},
 			sortBy: function (e) {
 				// change icon

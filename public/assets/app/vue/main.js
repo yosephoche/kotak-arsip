@@ -6,7 +6,8 @@ function getDataSuratMasuk(api, key) {
 			search: '',
 			json: { key : [] },
 			detail: '',
-			pengguna: { "pengguna" : [] }
+			pengguna: { "pengguna" : [] },
+			active: false
 		},
 		created: function () {
 			var _this = this;
@@ -40,7 +41,17 @@ function getDataSuratMasuk(api, key) {
 				element.find('.fa-bell').removeClass('animated infinite');
 				element.removeClass('new-notif');
 				element.find('.badge').remove();
-			}
+			},
+			navToggle: function (e) {
+				var element = $(e.target).closest('.nav-toggle');
+				if (this.active == false) {
+					this.active = true;
+					navShow();
+				} else {
+					this.active = false;
+					navClose();
+				}
+			},
 		},
 		computed: {
 			filteredUsers:function() {
@@ -60,7 +71,8 @@ function getDataSuratMasukDetail(api, key) {
 		data: {
 			search: '',
 			json: { key : [] },
-			pengguna: { "pengguna" : [] }
+			pengguna: { "pengguna" : [] },
+			active: false
 		},
 		created: function () {
 			var _this = this;
@@ -85,7 +97,17 @@ function getDataSuratMasukDetail(api, key) {
 			favorite: function (e) {
 				var element = $(e.target).closest('#favorite');
 				element.find('i').toggleClass('fa-star fa-star-o');
-			}
+			},
+			navToggle: function (e) {
+				var element = $(e.target).closest('.nav-toggle');
+				if (this.active == false) {
+					this.active = true;
+					navShow();
+				} else {
+					this.active = false;
+					navClose();
+				}
+			},
 		}
 	});
 }

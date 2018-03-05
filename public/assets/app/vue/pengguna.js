@@ -11,7 +11,8 @@ function getDataUsers(api, key) {
 			userEmail: '',
 			userHp: '',
 			userPosition: '',
-			userPhoto: ''
+			userPhoto: '',
+			active: false
 		},
 		created: function () {
 			var _this = this;
@@ -46,6 +47,16 @@ function getDataUsers(api, key) {
 				element.find('.fa-bell').removeClass('animated infinite');
 				element.removeClass('new-notif');
 				element.find('.badge').remove();
+			},
+			navToggle: function (e) {
+				var element = $(e.target).closest('.nav-toggle');
+				if (this.active == false) {
+					this.active = true;
+					navShow();
+				} else {
+					this.active = false;
+					navClose();
+				}
 			},
 			sortBy: function (key, e) {
 				this.sortKey = key;

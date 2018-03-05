@@ -49,7 +49,7 @@
 						@endif
 					@endif
 				</th>
-				<th width="150px">Jenis Arsip</th>
+				<th class="view-tablet-only" width="150px">Jenis Arsip</th>
 			</tr>
 			<tr class="item" v-for="val in json.search" @click="detailSidebar(val, $event)">
 				<td>
@@ -74,7 +74,7 @@
 						<span v-html="val.desc"></span>
 					</div>
 				</td>
-				<td>
+				<td class="view-tablet-only">
 					<div v-if="val.type == 'incoming_mail'">
 						<span class="color-blue">Surat Masuk</span>
 					</div>

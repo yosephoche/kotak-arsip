@@ -19,11 +19,11 @@
         <nav class="ka-nav ka-nav-detail">
             <ul class="left-side">
                 <li class="brand">
-                    <img src="{{ asset('assets/app/img/logo.png') }}" class="logo" alt="Logo KotakArsip"> &nbsp;&nbsp;<b>KOTAK<span>ARSIP</span></b>
+                    <img src="{{ asset('assets/app/img/logo.png') }}" class="logo" alt="Logo KotakArsip"> &nbsp;&nbsp;<b class="view-tablet-only">KOTAK<span>ARSIP</span></b>
                 </li>
             </ul>
             <ul class="right-side">
-                <li><a href="">Laporkan masalah</a></li>
+                <!-- <li><a href="">Laporkan masalah</a></li> -->
                 <li>
                     <a href="{{ route('login') }}" class="btn btn-primary">Masuk</a>
                 </li>
@@ -33,7 +33,7 @@
         <div class="ka-body">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-offset-2 col-md-4">
+                    <div class="col-md-offset-2 col-md-4 view-tablet-only">
                         <img src="{{ asset('assets/app/img/login.png') }}" alt="" width="98%" style="margin-top: 60px">
                     </div>
                     <div class="col-md-4">

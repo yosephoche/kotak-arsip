@@ -6,7 +6,8 @@ function getDataStorage(api, key) {
 			sort: 'asc',
 			json: { key : [] },
 			detail: '',
-			sortKey: 'name'
+			sortKey: 'name',
+			active: false
 		},
 		created: function () {
 			var _this = this;
@@ -42,6 +43,16 @@ function getDataStorage(api, key) {
 				element.removeClass('new-notif');
 				element.find('.badge').remove();
 			},
+			navToggle: function (e) {
+				var element = $(e.target).closest('.nav-toggle');
+				if (this.active == false) {
+					this.active = true;
+					navShow();
+				} else {
+					this.active = false;
+					navClose();
+				}
+			},
 			sortBy: function (key, e) {
 				this.sortKey = key;
 
@@ -75,7 +86,8 @@ function getDataStorageSub(api, key) {
 			sort: 'asc',
 			json: { key : [] },
 			detail: '',
-			sortKey: 'name'
+			sortKey: 'name',
+			active: false
 		},
 		created: function () {
 			var _this = this;
@@ -110,6 +122,16 @@ function getDataStorageSub(api, key) {
 				element.find('.fa-bell').removeClass('animated infinite');
 				element.removeClass('new-notif');
 				element.find('.badge').remove();
+			},
+			navToggle: function (e) {
+				var element = $(e.target).closest('.nav-toggle');
+				if (this.active == false) {
+					this.active = true;
+					navShow();
+				} else {
+					this.active = false;
+					navClose();
+				}
 			},
 			sortBy: function (key, e) {
 				this.sortKey = key;

@@ -18,11 +18,11 @@
 		<table class="table table-hover" v-if="orderedStorage != ''">
 			<tr>
 				<th class="sort" @click="sortBy('name', $event)">Nama/Kode map, folder, guide atau ordner <i class="fa fa-angle-down i-sort"></i></th>
-				<th colspan="2">Jumlah Arsip</th>
+				<th class="view-tablet-only" colspan="2">Jumlah Arsip</th>
 			</tr>
 			<tr class="item" v-for="val in orderedStorage" @click="detailSidebar(val, $event)">
 				<td><a href="#" v-html="val.name"></a></td>
-				<td>
+				<td class="view-tablet-only">
 					<span v-html="val.count + ' arsip'" v-if="val.count > 0"></span>
 					<span v-html="'-'" v-else></span>
 				</td>

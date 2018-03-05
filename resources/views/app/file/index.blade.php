@@ -57,16 +57,16 @@
 				<!-- Original File -->
 				<tr v-if="val.id_original === null">
 					<td>
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'doc'" src="{{ url('assets/app/img/icons/word.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'docx'" src="{{ url('assets/app/img/icons/word.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'ppt'" src="{{ url('assets/app/img/icons/power_point.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'pptx'" src="{{ url('assets/app/img/icons/power_point.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'xls'" src="{{ url('assets/app/img/icons/excel.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'xlsx'" src="{{ url('assets/app/img/icons/excel.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'pdf'" src="{{ url('assets/app/img/icons/pdf-01.png') }}" alt="" height="30px" style="margin-right: 10px" title="PDF">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpg'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'png'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpeg'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+						<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'doc'" src="{{ url('assets/app/img/icons/word.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
+						<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'docx'" src="{{ url('assets/app/img/icons/word.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
+						<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'ppt'" src="{{ url('assets/app/img/icons/power_point.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
+						<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'pptx'" src="{{ url('assets/app/img/icons/power_point.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
+						<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'xls'" src="{{ url('assets/app/img/icons/excel.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
+						<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'xlsx'" src="{{ url('assets/app/img/icons/excel.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
+						<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'pdf'" src="{{ url('assets/app/img/icons/pdf-01.png') }}" alt="" height="30px" style="margin-right: 10px" title="PDF">
+						<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpg'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+						<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'png'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+						<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpeg'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
 						<a v-bind:href="'{{ route('file_detail') }}/' + val._id" v-html="val.name"></a>
 					</td>
 					<td class="view-tablet-only" v-if="val.share != ''" width="150px" style="padding-top: 10px">
@@ -97,16 +97,16 @@
 
 				<tr v-else>
 					<td>
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'doc'" src="{{ url('assets/app/img/icons/word.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'docx'" src="{{ url('assets/app/img/icons/word.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'ppt'" src="{{ url('assets/app/img/icons/power_point.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'pptx'" src="{{ url('assets/app/img/icons/power_point.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'xls'" src="{{ url('assets/app/img/icons/excel.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'xlsx'" src="{{ url('assets/app/img/icons/excel.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'pdf'" src="{{ url('assets/app/img/icons/pdf-01.png') }}" alt="" height="30px" style="margin-right: 10px" title="PDF">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpg'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'png'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
-						<img class="img" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpeg'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+						<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'doc'" src="{{ url('assets/app/img/icons/word.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
+						<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'docx'" src="{{ url('assets/app/img/icons/word.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
+						<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'ppt'" src="{{ url('assets/app/img/icons/power_point.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
+						<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'pptx'" src="{{ url('assets/app/img/icons/power_point.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
+						<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'xls'" src="{{ url('assets/app/img/icons/excel.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
+						<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'xlsx'" src="{{ url('assets/app/img/icons/excel.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
+						<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'pdf'" src="{{ url('assets/app/img/icons/pdf-01.png') }}" alt="" height="30px" style="margin-right: 10px" title="PDF">
+						<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpg'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+						<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'png'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+						<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpeg'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
 						<a v-bind:href="'{{ route('file_detail') }}/' + val._id" v-html="val.name"></a>
 					</td>
 					<td class="view-tablet-only" v-if="val.shared != ''" width="150px" style="padding-top: 10px">

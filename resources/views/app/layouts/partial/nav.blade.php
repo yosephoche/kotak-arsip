@@ -1,6 +1,6 @@
 <nav class="ka-nav">
 	<ul class="left-side">
-		<li class="nav-toggle">
+		<li class="nav-toggle" @click="navToggle">
 			<a href="#"><i class="fa fa-bars"></i></a>
 		</li>
 		<li class="brand">

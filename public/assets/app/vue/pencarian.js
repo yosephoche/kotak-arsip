@@ -7,7 +7,8 @@ function getDataSearch(api, key) {
 			json: { key : [], 'users' : [] },
 			detail: '',
 			dispositionArray: '',
-			dispositionInfo: ''
+			dispositionInfo: '',
+			active: false
 		},
 		created: function () {
 			var _this = this;
@@ -38,6 +39,16 @@ function getDataSearch(api, key) {
 				element.find('.fa-bell').removeClass('animated infinite');
 				element.removeClass('new-notif');
 				element.find('.badge').remove();
+			},
+			navToggle: function (e) {
+				var element = $(e.target).closest('.nav-toggle');
+				if (this.active == false) {
+					this.active = true;
+					navShow();
+				} else {
+					this.active = false;
+					navClose();
+				}
 			},
 			inputFileSubmit: function (e) {
 				var element = $(e.target);
@@ -84,7 +95,8 @@ function getDataSearchDetail(api, key) {
 		data: {
 			search: '',
 			json: { key : [], 'users' : [] },
-			dispositionArray: ''
+			dispositionArray: '',
+			active: false
 		},
 		created: function () {
 			var _this = this;
@@ -111,6 +123,16 @@ function getDataSearchDetail(api, key) {
 				element.find('.fa-bell').removeClass('animated infinite');
 				element.removeClass('new-notif');
 				element.find('.badge').remove();
+			},
+			navToggle: function (e) {
+				var element = $(e.target).closest('.nav-toggle');
+				if (this.active == false) {
+					this.active = true;
+					navShow();
+				} else {
+					this.active = false;
+					navClose();
+				}
 			},
 			idDispositionArray: function (data) {
 				var id = new Array();

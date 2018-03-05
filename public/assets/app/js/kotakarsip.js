@@ -55498,15 +55498,17 @@ var getUrlParameter = function getUrlParameter(sParam) {
 function navShow() {
 	$('.ka-menus').css('margin-left', 0);
 	$('.ka-sidebar-detail').hide();
+	$('.overlay-menu').fadeIn();
 }
 
 function navClose() {
 	$('.ka-menus').css('margin-left', '-100%');
 	$('.ka-sidebar-detail').show();
+	$('.overlay-menu').fadeOut();
 }
 
 // function callback
-$(".nav-toggle").clicktoggle(navShow, navClose);
+// $(".nav-toggle").clicktoggle(navShow, navClose);
 // $('.new-notif').click(function() {
 // 	$(this).find('.fa-bell').removeClass('animated infinite');
 // 	$(this).removeClass('new-notif');

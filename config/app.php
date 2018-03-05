@@ -181,7 +181,8 @@ return [
         Jenssegers\Mongodb\Auth\PasswordResetServiceProvider::class,
         App\Providers\GlobalClassServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
-        'Folklore\Image\ImageServiceProvider'
+        'Folklore\Image\ImageServiceProvider',
+        Telegram\Bot\Laravel\TelegramServiceProvider::class
 
     ],
 
@@ -234,7 +235,8 @@ return [
         'GlobalClass' => App\Facades\GlobalClass::class,
         'Moloquent' => Jenssegers\Mongodb\Eloquent\Model::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
-        'Image' => 'Folklore\Image\Facades\Image'
+        'Image' => 'Folklore\Image\Facades\Image',
+        'Telegram' => Telegram\Bot\Laravel\Facades\Telegram::class
     ],
 
 ];

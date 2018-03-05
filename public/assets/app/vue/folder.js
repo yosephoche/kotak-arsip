@@ -6,6 +6,7 @@ function getDataFolder(api, key) {
 			folder: '',
 			json: { key : [], 'users' : [] },
 			detail: '',
+			active: false
 		},
 		created: function () {
 			var _this = this;
@@ -36,7 +37,17 @@ function getDataFolder(api, key) {
 				element.find('.fa-bell').removeClass('animated infinite');
 				element.removeClass('new-notif');
 				element.find('.badge').remove();
-			}
+			},
+			navToggle: function (e) {
+				var element = $(e.target).closest('.nav-toggle');
+				if (this.active == false) {
+					this.active = true;
+					navShow();
+				} else {
+					this.active = false;
+					navClose();
+				}
+			},
 		}
 	});
 }
@@ -50,7 +61,8 @@ function getDataFolderDetail(api, key) {
 			json: { key : [], 'users' : [] },
 			detail: '',
 			dispositionArray: '',
-			dispositionInfo: ''
+			dispositionInfo: '',
+			active: false
 		},
 		created: function () {
 			var _this = this;
@@ -81,6 +93,16 @@ function getDataFolderDetail(api, key) {
 				element.find('.fa-bell').removeClass('animated infinite');
 				element.removeClass('new-notif');
 				element.find('.badge').remove();
+			},
+			navToggle: function (e) {
+				var element = $(e.target).closest('.nav-toggle');
+				if (this.active == false) {
+					this.active = true;
+					navShow();
+				} else {
+					this.active = false;
+					navClose();
+				}
 			},
 			inputFileSubmit: function (e) {
 				var element = $(e.target);
