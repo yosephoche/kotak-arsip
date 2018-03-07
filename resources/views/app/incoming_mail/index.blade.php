@@ -338,6 +338,14 @@
 						</ul>
 					</div>
 				</div>
+				<div class="item" v-if="detail.shared != ''">
+					<label>Disposisi</label>
+					<div class="value">
+						<ul class="list-unstyled">
+							<li v-for="disposisi in detail.shared" v-html="disposisi.name"></li>
+						</ul>
+					</div>
+				</div>
 				<div class="item" v-if="detail.date">
 					<label>Tanggal Masuk</label>
 					<div class="value" v-html="$options.filters.moment(detail.date.$date.$numberLong)"></div>

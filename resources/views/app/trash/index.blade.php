@@ -63,7 +63,7 @@
 						<a v-html="val.search"></a>
 					</div>
 				</td>
-				<td class="view-tablet-only">
+				<td class="view-tablet-only" v-if="val.subject !== null">
 					<div v-if="val.type == 'incoming_mail'">
 						<span v-html="val.subject"></span>
 					</div>
@@ -74,6 +74,7 @@
 						<span v-html="val.desc"></span>
 					</div>
 				</td>
+				<td v-else>-</td>
 				<td class="view-tablet-only">
 					<div v-if="val.type == 'incoming_mail'">
 						<span class="color-blue">Surat Masuk</span>

@@ -59,6 +59,10 @@
 				<span class="view-desktop-only">{{ Auth::user()->name }}</span> &nbsp;<i class="fa fa-caret-down"></i>
 			</a>
 			<ul class="dropdown-menu pull-right">
+				<?php $status = Auth::user()->status ?>
+				@if ($status == 'admin')
+					<li><a href="{{ route('status_capacity') }}">Kapasitas</a></li>
+				@endif
 				<li><a href="{{ route('setting', ['tab' => 'account']) }}">Pengaturan Akun</a></li>
 				<li><a href="{{ route('help') }}">Bantuan</a></li>
 				<li role="separator" class="divider"></li>

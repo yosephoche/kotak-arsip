@@ -281,6 +281,9 @@ class SearchController extends Controller
 						// 	'$regex' => $fulltext,
 						// 	'$options' => 'i'
 						// ),
+						'type' => array(
+							'$ne' => 'employee'
+						),
 						'id_user' => GlobalClass::generateMongoObjectId(Auth::user()->_id),
 						'id_company' => Auth::user()->id_company,
 						'deleted_at' => null,

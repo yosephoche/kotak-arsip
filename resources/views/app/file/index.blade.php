@@ -147,7 +147,7 @@
 			<br>
 			<br>
 			<br>
-			Belum ada data berkas
+			Belum ada berkas
 		</div>
 
 		<?php
@@ -380,6 +380,14 @@
 					<div class="value">
 						<ul class="list-unstyled">
 							<li v-for="disposisi in detail.share"><a :href="'{{ route('file_shared_history') }}/' + detail._id" v-html="disposisi.name"></a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="item" v-if="detail.shared != ''">
+					<label>Dibagikan</label>
+					<div class="value">
+						<ul class="list-unstyled">
+							<li v-for="disposisi in detail.shared" v-html="disposisi.name"></li>
 						</ul>
 					</div>
 				</div>

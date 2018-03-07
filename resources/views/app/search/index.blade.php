@@ -95,7 +95,7 @@
 						<a v-bind:href="'{{ route('file_detail') }}/' + val._id" v-html="val.search"></a>
 					</div>
 				</td>
-				<td class="view-tablet-only">
+				<td class="view-tablet-only" v-if="val.subject !== null">
 					<div v-if="val.type == 'incoming_mail'">
 						<span v-html="val.subject"></span>
 					</div>
@@ -106,6 +106,7 @@
 						<span v-html="val.desc">Berkas</span>
 					</div>
 				</td>
+				<td v-else>-</td>
 				<td>
 					<div v-if="val.type == 'incoming_mail'">
 						<span class="color-blue">Surat Masuk</span>

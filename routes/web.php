@@ -67,6 +67,12 @@ Route::group(['namespace' => 'App'], function () {
 			Route::get('/riwayat-bagikan/{id?}', 'FileController@getDetailShared')->name('api_file_detail_shared');
 		});
 
+		//API-Employee
+		Route::group(['prefix' => 'arsip-kepegawaian'], function(){
+			Route::get('/berkas/{id?}', 'EmployeeController@getDataEmployee')->name('api_employee');
+			Route::get('/berkas/detail/{id?}', 'EmployeeController@getDetail')->name('api_employee_detail');
+		});
+
 		//API-Shared Incoming Mail
 		Route::group(['prefix' => 'berbagi/surat/masuk'], function(){
 			Route::get('/', 'SharedController@getDataIncomingMail')->name('api_shared_incoming_mail');
@@ -200,7 +206,21 @@ Route::group(['namespace' => 'App'], function () {
 
 	});
 
-	//Outgoing Mail
+	//Employee
+	Route::group(['prefix' => 'arsip-kepegawaian'], function(){
+		Route::get('/', 'EmployeeController@index')->name('employee');
+		Route::get('/berkas/{id?}', 'EmployeeController@files')->name('employee_files');
+		Route::get('/berkas/detail/{id?}', 'EmployeeController@detail')->name('employee_detail');
+		Route::get('/dropdown', 'EmployeeController@dropdownAjax')->name('employee_files_substorage');
+		Route::post('/store', 'EmployeeController@store')->name('employee_store');
+		Route::post('/update/{id?}', 'EmployeeController@update')->name('employee_update');
+		Route::post('/delete', 'EmployeeController@delete')->name('employee_delete');
+		Route::post('/bagikan', 'EmployeeController@shared')->name('employee_shared');
+		Route::get('/bagikan/delete/{id?}/{id_user?}/{id_archieve?}', 'EmployeeController@sharedDelete')->name('employee_shared_delete');
+		Route::get('/riwayat-bagikan/{id?}', 'EmployeeController@sharedHistory')->name('employee_shared_history');
+	});
+
+	//File
 	Route::group(['prefix' => 'berkas'], function(){
 		Route::get('/', 'FileController@index')->name('file');
 		Route::post('/store', 'FileController@store')->name('file_store');
@@ -288,6 +308,9 @@ Route::group(['namespace' => 'App'], function () {
 		Route::get('/', 'NotificationsController@index')->name('notifications');
 		Route::get('/read-all', 'NotificationsController@readAll')->name('notifications_readall');
 	});
+
+	//Status
+	Route::get('/kapasitas', 'StatusController@capacity')->name('status_capacity');
 
 	//Help
 	Route::group(['prefix' => 'bantuan'], function(){

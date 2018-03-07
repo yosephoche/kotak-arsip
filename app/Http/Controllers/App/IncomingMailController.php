@@ -612,7 +612,7 @@ class IncomingMailController extends Controller
 			// --- END OCR Code ---
 		} else {
 			$data['fulltext'] = "";
-		}	
+		}
 
 		//Storage
 		$data['storage'] = Storage::where('id_company', Auth::user()->id_company)->orderBy('name')->get();

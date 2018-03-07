@@ -106,6 +106,7 @@
 								<label>Penyimpanan Arsip <i>(opsional)</i></label>
 								<div class="value">
 									<select name="storage" id="storage" class="form-control">
+										<option value="">Tidak ada</option>
 										@foreach ($storage as $s)
 											<option value="{{ $s->_id }}" {{ $s->_id == $archieve->storage ? 'selected' : '' }}>{{ $s->name }}</option>
 										@endforeach

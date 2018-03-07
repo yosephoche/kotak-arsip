@@ -51,7 +51,7 @@
 							<label for="">Status</label>
 							<select class="form-control" name="status" required>
 								<?php 
-									$status = ["anggota"=>"Anggota", "kepala-divisi"=>"Kepala Divisi", "operator"=>"Operator", "admin"=>"Admin"];
+									$status = ["anggota"=>"Anggota", "admin"=>"Admin"];
 									foreach ($status as $key => $value) {
 								?>
 									<option value="{{ $key }}"  {{ $key == $member->status ? 'selected' : '' }}>{{ $value }}</option>

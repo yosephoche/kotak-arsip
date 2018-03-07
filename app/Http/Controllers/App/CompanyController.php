@@ -33,7 +33,7 @@ class CompanyController extends Controller
 			if ($company_code) {
 				$user = User::find(Auth::user()->_id);
 				$user->id_company = $company_code->_id;
-				$user->status = 'member';
+				$user->status = 'anggota';
 				$user->save();
 
 				return redirect()->route('incoming_mail');
@@ -77,6 +77,7 @@ class CompanyController extends Controller
 			mkdir(public_path('files').'/'.$id_company->_id.'/incoming_mail', 0777, true);
 			mkdir(public_path('files').'/'.$id_company->_id.'/outgoing_mail', 0777, true);
 			mkdir(public_path('files').'/'.$id_company->_id.'/files', 0777, true);
+			mkdir(public_path('files').'/'.$id_company->_id.'/employee', 0777, true);
 
 			return redirect()->route('company_register_success');
 		}

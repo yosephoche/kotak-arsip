@@ -7,6 +7,24 @@ use DB, Session, Response, Image, Auth, DateTime, Request;
 
 class GlobalClass
 {
+	public function formatBytes($size) {
+		$units = array( 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
+		$power = $size > 0 ? floor(log($size, 1024)) : 0;
+		$size = array(
+				number_format(floor($size / pow(1024, $power)), 0, '.', ','),
+				$units[$power],
+				($size / 1024) / 1024
+			);
+		return $size;
+	}
+
+	public function dirSize($dir) {
+		$size = 0;
+		foreach (glob(rtrim($dir, '/').'/*.*', GLOB_NOSORT) as $each) {
+			$size += is_file($each) ? filesize($each) : folderSize($each);
+		}
+		return $size;
+	}
 
 	public function Upload ($files, $destinationPath, $thumb)
 	{
@@ -147,7 +165,7 @@ class GlobalClass
 		// Subject
 		if ($key == 'subject') {
 			$subject = '';
-			$searchsubject = array("Perihal :", "Hal :", "Perihal:", "Hal:");
+			$searchsubject = array("Perihal :", "Periha] :", "Hal :", "Perihal:", "Periha]:", "Hal:");
 			@$myfile = fopen($open, "r") or die("Unable to open file!");
 			while(!feof($myfile)) 
 			{

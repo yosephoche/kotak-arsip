@@ -12170,6 +12170,85 @@ a:hover, a:focus, a:active, a:visited {
   color: #0070ff;
 }
 
+.tile {
+  border-radius: 3px;
+  border: 1px solid #ecf5ff;
+  position: relative;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.tile .add-storage {
+  background-color: #ecf5ff;
+  color: #0070ff;
+  width: 24px;
+  height: 24px;
+  line-height: 21px;
+  text-align: center;
+  border-radius: 50%;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  z-index: 2;
+}
+.tile .add-storage span {
+  background-color: #0070ff;
+  color: #fff;
+  position: absolute;
+  font-size: 12px;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  border-radius: 20px;
+  left: 0px;
+  top: 0;
+  text-align: right;
+  padding-right: 10px;
+  z-index: -1;
+  display: block;
+  opacity: 0;
+  overflow: hidden;
+  transition: all .2s;
+}
+.tile .add-storage:hover {
+  background-color: #0070ff;
+  color: #fff;
+}
+.tile .add-storage:hover span {
+  display: block;
+  width: 135px;
+  opacity: 1;
+}
+.tile .tile-value {
+  font-size: 20px;
+  font-weight: bold;
+  color: #0070ff;
+}
+.tile .tile-info {
+  color: #999;
+  font-size: 12px;
+}
+.tile .tile-info b {
+  font-size: 14px;
+  color: #0070ff;
+}
+.tile .tile-progress {
+  height: 3px;
+  background-color: #0070ff;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+.tile:after {
+  content: "";
+  background-color: #ecf5ff;
+  height: 3px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
 @media only screen and (min-width: 960px) {
   .ka-body .ka-menus {
     margin-left: 0 !important;
