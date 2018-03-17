@@ -20,12 +20,12 @@
 					<div class="col-md-12">
 						<div class="form-group form-line">
 							<label for="">Nama Lengkap</label>
-							<input type="text" name="name" class="form-control" value="{!! old('name') !!}" required>
+							<input type="text" name="name" class="form-control" value="{!! old('name') !!}" autocomplete="off" required>
 						</div>
 					
 						<div class="form-group form-line">
 							<label for="">Email</label>
-							<input type="email" name="email" class="form-control" value="{!! old('email') !!}" required>
+							<input type="email" name="email" class="form-control" value="{!! old('email') !!}" autocomplete="off" required>
 						</div>
 					</div>
 				</div>
@@ -34,7 +34,7 @@
 					<div class="col-md-6">
 						<div class="form-group form-line">
 							<label for="">No. Telpon/HP</label>
-							<input type="text" name="phone" class="form-control" value="{!! old('phone') !!}" required>
+							<input type="text" name="phone" class="form-control" value="{!! old('phone') !!}" autocomplete="off" required>
 						</div>
 					</div>
 					

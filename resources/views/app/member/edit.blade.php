@@ -21,12 +21,12 @@
 					<div class="col-md-12">
 						<div class="form-group form-line">
 							<label for="">Nama Lengkap</label>
-							<input type="text" name="name" value="{{ $member->name }}" class="form-control" required>
+							<input type="text" name="name" value="{{ $member->name }}" class="form-control" autocomplete="off" required>
 						</div>
 					
 						<div class="form-group form-line">
 							<label for="">Email</label>
-							<input type="email" name="email" value="{{ $member->email }}" class="form-control" required>
+							<input type="email" name="email" value="{{ $member->email }}" class="form-control" autocomplete="off" required>
 						</div>
 					</div>
 				</div>
@@ -35,7 +35,7 @@
 					<div class="col-md-4">
 						<div class="form-group form-line">
 							<label for="">No. Telpon/HP</label>
-							<input type="text" name="phone" value="{{ $member->phone }}" class="form-control" required>
+							<input type="text" name="phone" value="{{ $member->phone }}" class="form-control" autocomplete="off" required>
 						</div>
 					</div>
 					

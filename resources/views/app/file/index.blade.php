@@ -257,13 +257,13 @@
 					</div>
 					<div class="modal-body">
 						<div class="form-group">
-							<input type="text" name="name" class="form-control" placeholder="Judul Berkas">
+							<input type="text" name="name" class="form-control" placeholder="Judul Berkas" autocomplete="off">
 						</div>
 						<div class="form-group">
 							<textarea name="desc" rows="5" class="form-control" placeholder="Deskripsi"></textarea>
 						</div>
 						<div class="form-group">
-							<input type="file" name="file[]" class="form-control" placeholder="Judul Berkas" accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx">
+							<input type="file" name="file[]" class="form-control" accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx">
 						</div>
 						<div class="form-group">
 							<input type="text" name="folder" class="form-control" list="folder" autocomplete="off" placeholder="Folder">
@@ -296,7 +296,7 @@
 						<input type="hidden" class="form-control" name="id">
 
 						<div class="form-group">
-							<input type="text" name="name" class="form-control" placeholder="Judul Berkas">
+							<input type="text" name="name" class="form-control" placeholder="Judul Berkas" autocomplete="off">
 						</div>
 
 						<div class="form-group">

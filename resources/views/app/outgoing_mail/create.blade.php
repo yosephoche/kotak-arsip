@@ -88,15 +88,15 @@
 							</div>
 							<div class="item">
 								<label>Nomor Surat</label>
-								<div class="value"><input type="text" class="form-control" name="reference_number" value="{{ @ltrim($reference_number) }}" required></div>
+								<div class="value"><input type="text" class="form-control" name="reference_number" value="{{ @ltrim($reference_number) }}" autocomplete="off" required></div>
 							</div>
 							<div class="item">
 								<label>Perihal</label>
-								<div class="value"><input type="text" class="form-control" name="subject" value="{{ @ltrim($subject) }}" required></div>
+								<div class="value"><input type="text" class="form-control" name="subject" value="{{ @ltrim($subject) }}" autocomplete="off" required></div>
 							</div>
 							<div class="item">
 								<label>Tanggal Keluar</label>
-								<div class="value"><input type="text" class="form-control" name="date" value="{{ date('d/m/Y') }}" id="datepicker"></div>
+								<div class="value"><input type="text" class="form-control" name="date" value="{{ date('d/m/Y') }}" id="datepicker" autocomplete="off"></div>
 							</div>
 							<div class="item">
 								<label>Penyimpanan Arsip <i>(opsional)</i></label>
@@ -127,7 +127,7 @@
 							</div>
 							<div class="item">
 								<label>Keterangan <i>(opsional)</i></label>
-								<div class="value"><input type="text" class="form-control" name="note"></div>
+								<div class="value"><input type="text" class="form-control" name="note" autocomplete="off"></div>
 								<input type="hidden" name="fulltext" value="{{ $fulltext }}">
 							</div>
 							<div class="item">

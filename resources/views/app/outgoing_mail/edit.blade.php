@@ -88,11 +88,11 @@
 							</div>
 							<div class="item">
 								<label>Nomor Surat</label>
-								<div class="value"><input type="text" class="form-control" name="reference_number" value="{{ $archieve->reference_number }}" required></div>
+								<div class="value"><input type="text" class="form-control" name="reference_number" value="{{ $archieve->reference_number }}" autocomplete="off" required></div>
 							</div>
 							<div class="item">
 								<label>Perihal</label>
-								<div class="value"><input type="text" class="form-control" name="subject" value="{{ $archieve->subject }}" required></div>
+								<div class="value"><input type="text" class="form-control" name="subject" value="{{ $archieve->subject }}" autocomplete="off" required></div>
 							</div>
 							<div class="item">
 								<?php 
@@ -100,7 +100,7 @@
 									$date =  Carbon\Carbon::createFromTimestamp($format)->format('d/m/Y');
 								 ?>
 								<label>Tanggal Keluar</label>
-								<div class="value"><input type="text" class="form-control" name="date" value="{{ $date }}" id="datepicker" required></div>
+								<div class="value"><input type="text" class="form-control" name="date" value="{{ $date }}" id="datepicker" autocomplete="off" required></div>
 							</div>
 							<div class="item">
 								<label>Penyimpanan Arsip <i>(opsional)</i></label>
@@ -134,7 +134,7 @@
 							</div>
 							<div class="item">
 								<label>Keterangan <i>(opsional)</i></label>
-								<div class="value"><input type="text" class="form-control" name="note" value="{{ $archieve->note }}"></div>
+								<div class="value"><input type="text" class="form-control" name="note" value="{{ $archieve->note }}" autocomplete="off"></div>
 							</div>
 							<div class="item">
 								<hr>
