@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\App;
 use App\Archieve, App\User, App\Share, App\Notifications, App\Emails;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
@@ -212,26 +213,32 @@ class FileController extends Controller
 
 	public function detail($id)
 	{
-		$data['archieve'] = Archieve::find($id);
+		try {
+			$data['archieve'] = Archieve::findOrFail($id);
 
-		//Folder
-		$data['folder'] = Archieve::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->select('folder')->groupBy('folder')->orderBy('folder')->get();
+			//Folder
+			$data['folder'] = Archieve::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->select('folder')->groupBy('folder')->orderBy('folder')->get();
 
-		if (isset($_GET['read'])) {
-			$notifications = Notifications::find($_GET['read']);
-			$notifications->read = 1;
-			$notifications->save();
-		}
-
-		if (isset($_GET['read']) OR isset($_GET['read_direct'])) {
-			if ($data['archieve']->id_original != null) {
-				$share = Share::where('id_archieve', GlobalClass::generateMongoObjectId($data['archieve']->id_original))->where('share_to', GlobalClass::generateMongoObjectId(Auth::user()->_id))->first();
-				$share->read = 1;
-				$share->save();
+			if (isset($_GET['read'])) {
+				$notifications = Notifications::find($_GET['read']);
+				$notifications->read = 1;
+				$notifications->save();
 			}
-		}
 
-		return view('app.file.detail', $data);
+			if (isset($_GET['read']) OR isset($_GET['read_direct'])) {
+				if ($data['archieve']->id_original != null) {
+					$share = Share::where('id_archieve', GlobalClass::generateMongoObjectId($data['archieve']->id_original))->where('share_to', GlobalClass::generateMongoObjectId(Auth::user()->_id))->first();
+					$share->read = 1;
+					$share->save();
+				}
+			}
+
+			return view('app.file.detail', $data);
+		}
+		catch(ModelNotFoundException $e)
+		{
+			return view('errors.detail-not-found');
+		}
 	}
 
 	public function getDetail($id)
@@ -514,7 +521,7 @@ class FileController extends Controller
 
 	public function sharedHistory($id)
 	{
-		$data['archieve'] = Archieve::find($id);
+		$data['archieve'] = Archieve::findOrFail($id);
 
 		return view('app.file.shared', $data);
 	}

@@ -67,7 +67,7 @@ class MemberController extends Controller
 
 	public function edit($id)
 	{
-		$data['member'] = User::find($id);
+		$data['member'] = User::findOrFail($id);
 
 		return view('app.member.edit', $data);
 	}

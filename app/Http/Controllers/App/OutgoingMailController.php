@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\App;
 use App\Archieve, App\StorageSub, App\User, App\Storage, App\Share, App\Notifications, App\Emails;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
@@ -241,23 +242,29 @@ class OutgoingMailController extends Controller
 
 	public function detail($id)
 	{
-		$data['archieve'] = Archieve::find($id);
+		try {
+			$data['archieve'] = Archieve::findOrFail($id);
 
-		if (isset($_GET['read'])) {
-			$notifications = Notifications::find($_GET['read']);
-			$notifications->read = 1;
-			$notifications->save();
-		}
-
-		if (isset($_GET['read']) OR isset($_GET['read_direct'])) {
-			if ($data['archieve']->id_original != null) {
-				$share = Share::where('id_archieve', GlobalClass::generateMongoObjectId($data['archieve']->id_original))->where('share_to', GlobalClass::generateMongoObjectId(Auth::user()->_id))->first();
-				$share->read = 1;
-				$share->save();
+			if (isset($_GET['read'])) {
+				$notifications = Notifications::find($_GET['read']);
+				$notifications->read = 1;
+				$notifications->save();
 			}
-		}
 
-		return view('app.outgoing_mail.detail', $data);
+			if (isset($_GET['read']) OR isset($_GET['read_direct'])) {
+				if ($data['archieve']->id_original != null) {
+					$share = Share::where('id_archieve', GlobalClass::generateMongoObjectId($data['archieve']->id_original))->where('share_to', GlobalClass::generateMongoObjectId(Auth::user()->_id))->first();
+					$share->read = 1;
+					$share->save();
+				}
+			}
+
+			return view('app.outgoing_mail.detail', $data);
+		}
+		catch(ModelNotFoundException $e)
+		{
+			return view('errors.detail-not-found');
+		}
 	}
 
 	public function getDetail($id)
@@ -734,7 +741,7 @@ class OutgoingMailController extends Controller
 	public function edit($id)
 	{	
 		//outgoing Mail
-		$archieve = Archieve::find($id);
+		$archieve = Archieve::findOrFail($id);
 
 		//Check Id Archieve
 		if ($archieve == false) {
@@ -952,7 +959,7 @@ class OutgoingMailController extends Controller
 
 	public function sharedHistory($id)
 	{
-		$data['archieve'] = Archieve::find($id);
+		$data['archieve'] = Archieve::findOrFail($id);
 
 		return view('app.outgoing_mail.disposition', $data);
 	}

@@ -106,7 +106,7 @@ class StorageController extends Controller
 
 	public function edit($id)
 	{
-		$data['storage'] = Storage::find($id);
+		$data['storage'] = Storage::findOrFail($id);
 
 		return view('app.storage.edit', $data);
 	}

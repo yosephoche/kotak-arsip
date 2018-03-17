@@ -127,7 +127,7 @@ class EmployeeController extends Controller
 
 	public function detail($id)
 	{
-		$data['archieve'] = Archieve::find($id);
+		$data['archieve'] = Archieve::findOrFail($id);
 		
 		//Storage
 		$data['storage'] = Storage::where('id_company', Auth::user()->id_company)->orderBy('name')->get();

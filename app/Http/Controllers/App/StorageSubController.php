@@ -49,7 +49,7 @@ class StorageSubController extends Controller
 
     public function index($id)
     {
-        $data['storage'] = Storage::find($id);
+        $data['storage'] = Storage::findOrFail($id);
         return view('app.storage_sub.index', $data);
     }
 
