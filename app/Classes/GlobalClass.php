@@ -101,7 +101,7 @@ class GlobalClass
 		// From
 		if ($key == 'from') {
 			$from = '';
-			$searchfrom = array("LEMBAGA", "PT", "CV", "PT.", "CV.", "PEMERINTAH", "ORGANISASI");
+			$searchfrom = array("LEMBAGA", "PT", "CV", "PT.", "CV.", "PEMERINTAH", "ORGANISASI", "Kepala Dinas", "Dinas");
 			@$myfile = fopen($open, "r") or die("Unable to open file!");
 			while(!feof($myfile)) 
 			{
@@ -122,7 +122,7 @@ class GlobalClass
 		// To
 		if ($key == 'to') {
 			$to = '';
-			$searchto = array("LEMBAGA", "KERUKUNAN", "PT", "CV", "PT.", "CV.", "PEMERINTAH", "ORGANISASI");
+			$searchto = array("LEMBAGA", "PT", "CV", "PT.", "CV.", "PEMERINTAH", "ORGANISASI", "Kepala Dinas", "Dinas");
 			@$myfile = fopen($open, "r") or die("Unable to open file!");
 			while(!feof($myfile)) 
 			{

@@ -192,7 +192,8 @@ class SearchController extends Controller
 						'folder' => 1,
 						'id_user' => 1,
 						'id_company' => 1,
-						'deleted_at' => 1
+						'deleted_at' => 1,
+						'fulltext' => 1
 					)
 				),
 				array(
@@ -252,6 +253,9 @@ class SearchController extends Controller
 						'deleted_at' => array(
 							'$first' => '$deleted_at'
 						),
+						'fulltext' => array(
+							'$first' => '$fulltext'
+						),
 						'share' => array(
 							'$first' => '$share'
 						),
@@ -277,10 +281,10 @@ class SearchController extends Controller
 							'$regex' => $q,
 							'$options' => 'i'
 						),
-						// 'fulltext' => array(
-						// 	'$regex' => $fulltext,
-						// 	'$options' => 'i'
-						// ),
+						'fulltext' => array(
+							'$regex' => $fulltext,
+							'$options' => 'i'
+						),
 						'type' => array(
 							'$ne' => 'employee'
 						),

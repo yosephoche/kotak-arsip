@@ -71,7 +71,14 @@ function getDataFiles(api, key) {
 		computed: {
 			filteredUsers:function() {
 				var self = this;
-				return this.json.users.filter(function(user) {
+				function compare(a, b) {
+					if (a.name < b.name)
+						return -1;
+					if (a.name > b.name)
+						return 1;
+					return 0;
+				}
+				return this.json.users.sort(compare).filter(function(user) {
 					return user.name.toLowerCase().indexOf(self.search.toLowerCase())>=0;
 				});
 			}
@@ -137,8 +144,8 @@ function getDataFilesDetail(api, key) {
 				var id = new Array();
 				var info = new Array();
 				for (var i = 0; i < data.length; i++) {
-					if (data[i].user[0] != null) {
-						id.push(data[i].user[0]._id.$oid);
+					if (data[i] != null) {
+						id.push(data[i]._id.$oid);
 					}
 				}
 				for (var i = 0; i < data.length; i++) {

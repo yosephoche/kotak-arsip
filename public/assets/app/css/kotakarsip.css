@@ -11455,10 +11455,11 @@ a:hover, a:focus, a:active, a:visited {
   opacity: 1;
 }
 .ka-nav .notif .dropdown-menu.pull-right {
+  padding-bottom: 34px;
   right: -22px;
   width: 380px;
   overflow-y: auto;
-  max-height: 400px;
+  height: 400px;
 }
 .ka-nav .notif .dropdown-menu.pull-right .notif-title h3 {
   font-size: 16px;
@@ -11478,6 +11479,9 @@ a:hover, a:focus, a:active, a:visited {
 }
 .ka-nav .notif .dropdown-menu.pull-right .notif-title a:hover, .ka-nav .notif .dropdown-menu.pull-right .notif-title a:focus {
   background-color: transparent;
+}
+.ka-nav .notif .dropdown-menu.pull-right li {
+  border-top: 1px solid #e5e5e5;
 }
 .ka-nav .notif .dropdown-menu.pull-right li a {
   white-space: inherit;
@@ -11505,6 +11509,29 @@ a:hover, a:focus, a:active, a:visited {
 }
 .ka-nav .notif .dropdown-menu.pull-right li.unread {
   background-color: #ecf5ff;
+}
+.ka-nav .notif .dropdown-menu.pull-right li.empty img {
+  margin-top: 100px;
+}
+.ka-nav .notif .dropdown-menu.pull-right li:first-child {
+  border-top: 0;
+  position: fixed;
+  background: #fff;
+  width: 378px;
+  border-bottom: 1px solid #e5e5e5;
+  padding-top: 5px;
+  margin-top: -5px;
+}
+.ka-nav .notif .dropdown-menu.pull-right li:nth-child(2) {
+  margin-top: 39px;
+}
+.ka-nav .notif .dropdown-menu.pull-right li:last-child {
+  position: fixed;
+  top: 402px;
+}
+.ka-nav .notif .dropdown-menu.pull-right li:last-child a {
+  width: 378px;
+  background: #fff;
 }
 .ka-nav .dropdown-menu li {
   margin: 0;
@@ -11575,7 +11602,7 @@ a:hover, a:focus, a:active, a:visited {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 1;
+  z-index: 8;
   display: none;
 }
 .ka-body .ka-main {
@@ -11844,6 +11871,9 @@ a:hover, a:focus, a:active, a:visited {
   border-top: 0;
 }
 
+.page-login {
+  overflow: auto;
+}
 .page-login .ka-body {
   padding-top: 22vh;
 }

@@ -1,6 +1,6 @@
 @extends('app.layouts.main')
 
-@section('title', 'Riwayat Begikan Berkas')
+@section('title', 'Riwayat Berbagi Berkas')
 
 @section('contents')
 	<div class="ka-main">
@@ -10,10 +10,10 @@
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">...</a>
 					<ul class="dropdown-menu">
 						<li><a href="{{ route('file') }}">Berkas</a></li>
-						<li><a href="{{ route('file_detail', ['id' => $archieve->_id]) }}">{{ $archieve->to }}</a></li>
+						<li><a href="{{ route('file_detail', ['id' => $archieve->_id]) }}">{{ $archieve->name }}</a></li>
 					</ul>
 				</li>
-				<li>Riwayat Disposisi</li>
+				<li>Riwayat Berbagi</li>
 			</ul>
 		</div>
 

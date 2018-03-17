@@ -107,7 +107,12 @@
 						<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpg'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
 						<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'png'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
 						<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpeg'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
-						<a v-bind:href="'{{ route('file_detail') }}/' + val._id" v-html="val.name"></a>
+						<span v-if="val.share_info_shared[val.share_info_shared.findIndex(x => x.share_to.$oid == '{{ Auth::user()->_id }}')].read == 0">
+							<b><a v-bind:href="'{{ route('file_detail') }}/' + val._id + '?read_direct=true'" v-html="val.name"></a></b>
+						</span>
+						<span v-else>
+							<a v-bind:href="'{{ route('file_detail') }}/' + val._id" v-html="val.name"></a>
+						</span>
 					</td>
 					<td class="view-tablet-only" v-if="val.shared != ''" width="150px" style="padding-top: 10px">
 						<ul class="list-unstyled disposisi">
@@ -258,7 +263,7 @@
 							<textarea name="desc" rows="5" class="form-control" placeholder="Deskripsi"></textarea>
 						</div>
 						<div class="form-group">
-							<input type="file" name="file[]" class="form-control" placeholder="Judul Berkas" accept=".jpg, .png, .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx">
+							<input type="file" name="file[]" class="form-control" placeholder="Judul Berkas" accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx">
 						</div>
 						<div class="form-group">
 							<input type="text" name="folder" class="form-control" list="folder" autocomplete="off" placeholder="Folder">
@@ -360,7 +365,7 @@
 					</div>
 					<div class="item" v-if="detail.id_owner != null">
 						<label>Dibagikan oleh</label>
-						<div class="value" v-html="detail.owner[0].name"></div>
+						<div class="value" v-html="detail.owner[detail.owner.length - 1].name"></div>
 					</div>
 				</div>
 				<div class="item" v-if="detail.name">

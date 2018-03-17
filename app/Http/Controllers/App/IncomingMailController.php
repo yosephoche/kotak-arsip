@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\App;
-use App\Archieve, App\StorageSub, App\User, App\Storage, App\Share, App\Notifications;
+use App\Archieve, App\StorageSub, App\User, App\Storage, App\Share, App\Notifications, App\Emails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
@@ -652,7 +652,7 @@ class IncomingMailController extends Controller
 			$surat->storagesub = GlobalClass::generateMongoObjectId($r->storagesub);
 		}
 		$surat->note = $r->note;
-		$surat->fulltext = $r->fulltext;
+		$surat->fulltext = $r->fulltext == null ? $r->from : $r->fulltext;
 
 		//Check Image From Tesseract
 		$dir = public_path('assets/tesseract'.'/'.Auth::user()->_id);
@@ -931,6 +931,19 @@ class IncomingMailController extends Controller
 				Auth::user()->name.' mendisposisi surat masuk dari <b>'.$disposition->from.'</b> kepada Anda',
 				URL::route('incoming_mail_detail', array('id' => $surat->getKey()), false)
 			);
+
+			// Emails
+			$emails = new Emails;
+			$emails->id_user = GlobalClass::generateMongoObjectId($r->share[$key[$i]]);
+			$emails->id_user_from = GlobalClass::generateMongoObjectId(Auth::user()->_id);
+			$emails->type = 'disposition';
+			$emails->status = 0;
+			if ($disposition->id_original === null) {
+				$emails->id_archieve = GlobalClass::generateMongoObjectId($disposition->_id);
+			} else {
+				$emails->id_archieve = GlobalClass::generateMongoObjectId($disposition->id_original);
+			}
+			$emails->save();
 		}
 
 		$r->session()->flash('success', 'Surat masuk berhasil didisposisi');

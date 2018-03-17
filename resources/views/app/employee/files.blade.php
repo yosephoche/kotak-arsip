@@ -135,7 +135,7 @@
 							<textarea name="desc" rows="5" class="form-control" placeholder="Deskripsi"></textarea>
 						</div>
 						<div class="form-group">
-							<input type="file" name="file[]" class="form-control" placeholder="Judul Berkas" accept=".jpg, .png, .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx">
+							<input type="file" name="file[]" class="form-control" placeholder="Judul Berkas" accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx">
 						</div>
 						<div class="form-group">
 							<label>Penyimpanan Arsip <i>(opsional)</i></label>

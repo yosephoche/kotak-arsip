@@ -1,6 +1,6 @@
 @extends('app.layouts.main')
 
-@section('title', 'Riwayat Disposisi Surat Masuk')
+@section('title', 'Riwayat Berbagi Surat Keluar')
 
 @section('contents')
 	<div class="ka-main">
@@ -9,11 +9,11 @@
 				<li class="dropdown">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">...</a>
 					<ul class="dropdown-menu">
-						<li><a href="{{ route('outgoing_mail') }}">Surat Masuk</a></li>
-						<li><a href="{{ route('outgoing_mail_detail', ['id' => $archieve->_id]) }}">{{ $archieve->from }}</a></li>
+						<li><a href="{{ route('outgoing_mail') }}">Surat Keluar</a></li>
+						<li><a href="{{ route('outgoing_mail_detail', ['id' => $archieve->_id]) }}">{{ $archieve->to }}</a></li>
 					</ul>
 				</li>
-				<li>Riwayat Disposisi</li>
+				<li>Riwayat Berbagi</li>
 			</ul>
 		</div>
 

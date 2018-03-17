@@ -1,8 +1,7 @@
 <?php
 
-use App\Http\Middleware\MemberPermissions;
-use App\Http\Middleware\StoragePermissions;
-use App\Http\Middleware\CheckSerial;
+// use App\Http\Middleware\CheckSerial;
+use App\Http\Middleware\AdminPermission;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +15,6 @@ use App\Http\Middleware\CheckSerial;
 */
 
 Route::get('/', function () {
-    // return view('welcome');
     return redirect()->route('login');
 });
 
@@ -34,12 +32,11 @@ Route::group(['namespace' => 'ChatBot'], function () {
 });
 
 //Activation
-Route::get('/activation', 'ActivationController@index')->name('activation');
-Route::post('/activation/store', 'ActivationController@store')->name('activation_store');
+// Route::get('/activation', 'ActivationController@index')->name('activation');
+// Route::post('/activation/store', 'ActivationController@store')->name('activation_store');
 
 Auth::routes();
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
-
 Route::get('/home', 'HomeController@index')->name('home');
 
 // Route::group(['namespace' => 'App', 'middleware' => CheckSerial::class], function () {
@@ -68,44 +65,25 @@ Route::group(['namespace' => 'App'], function () {
 		});
 
 		//API-Employee
-		Route::group(['prefix' => 'arsip-kepegawaian'], function(){
+		Route::group(['prefix' => 'arsip-kepegawaian', 'middleware' => AdminPermission::class], function(){
 			Route::get('/berkas/{id?}', 'EmployeeController@getDataEmployee')->name('api_employee');
 			Route::get('/berkas/detail/{id?}', 'EmployeeController@getDetail')->name('api_employee_detail');
 		});
 
-		//API-Shared Incoming Mail
-		Route::group(['prefix' => 'berbagi/surat/masuk'], function(){
-			Route::get('/', 'SharedController@getDataIncomingMail')->name('api_shared_incoming_mail');
-			Route::get('/detail/{id?}', 'SharedController@getDetailIncomingMail')->name('api_shared_incoming_mail_detail');
-		});
-
-		//API-Shared Outgoing Mail
-		Route::group(['prefix' => 'berbagi/surat/keluar'], function(){
-			Route::get('/', 'SharedController@getDataOutgoingMail')->name('api_shared_outgoing_mail');
-			Route::get('/detail/{id?}', 'SharedController@getDetailOutgoingMail')->name('api_shared_outgoing_mail_detail');
-		});
-
-		//API-Shared Files
-		Route::group(['prefix' => 'berbagi/berkas'], function(){
-			Route::get('/', 'SharedController@getDataFile')->name('api_shared_file');
-			Route::get('/detail/{id?}', 'SharedController@getDetailFile')->name('api_shared_file_detail');
-		});
-
 		//API-Storage
-		Route::group(['prefix' => 'penyimpanan-arsip'], function(){
+		Route::group(['prefix' => 'penyimpanan-arsip', 'middleware' => AdminPermission::class], function(){
 			Route::get('/', 'StorageController@getData')->name('api_storage');
 		});
 
 		//API-Storage-Sub
-		Route::group(['prefix' => 'penyimpanan-arsip/sub'], function(){
+		Route::group(['prefix' => 'penyimpanan-arsip/sub', 'middleware' => AdminPermission::class], function(){
 			Route::get('/{id?}', 'StorageSubController@getData')->name('api_storage_sub');
 		});
 
 		//API-Member
-		Route::group(['prefix' => 'anggota'], function(){
+		Route::group(['prefix' => 'anggota', 'middleware' => AdminPermission::class], function(){
 			Route::get('/', 'MemberController@getData')->name('api_member');
 		});
-
 
 		//API-Search
 		Route::group(['prefix' => 'pencarian'], function(){
@@ -113,12 +91,10 @@ Route::group(['namespace' => 'App'], function () {
 			Route::get('/autocomplete', 'SearchController@getDataAutocomplete')->name('api_search_autocomplete');
 		});
 
-
 		//API-Trash
 		Route::group(['prefix' => 'sampah'], function(){
 			Route::get('/', 'TrashController@getData')->name('api_trash');
 		});
-
 
 		//API-Folder
 		Route::group(['prefix' => 'folder'], function(){
@@ -134,14 +110,8 @@ Route::group(['namespace' => 'App'], function () {
 		Route::get('/register/success', 'CompanyController@registerSuccess')->name('company_register_success');
 	});
 
-	//Archieve-Types
-	Route::group(['prefix' => 'achieve/type/'], function(){
-		Route::get('/register', 'ArchieveTypesController@register')->name('archieve_type_register');
-		Route::post('/store', 'ArchieveTypesController@store')->name('archieve_type_store');
-	});
-
 	//Storage
-	Route::group(['prefix' => 'penyimpanan-arsip', 'middleware' => StoragePermissions::class], function(){
+	Route::group(['prefix' => 'penyimpanan-arsip', 'middleware' => AdminPermission::class], function(){
 		Route::get('/', 'StorageController@index')->name('storage');
 		Route::get('/register', 'StorageController@register')->name('storage_register');
 		Route::get('/success', 'StorageController@success')->name('storage_register_success');
@@ -151,7 +121,7 @@ Route::group(['namespace' => 'App'], function () {
 	});
 
 	//Storage-Sub
-	Route::group(['prefix' => 'penyimpanan-arsip/sub', 'middleware' => StoragePermissions::class], function(){
+	Route::group(['prefix' => 'penyimpanan-arsip/sub', 'middleware' => AdminPermission::class], function(){
 		Route::get('/register', 'StorageSubController@register')->name('storage_sub_register');
 		Route::post('/register/store', 'StorageSubController@registerstore')->name('storage_sub_register_store');
 		Route::get('/{id?}', 'StorageSubController@index')->name('storage_sub');
@@ -207,7 +177,7 @@ Route::group(['namespace' => 'App'], function () {
 	});
 
 	//Employee
-	Route::group(['prefix' => 'arsip-kepegawaian'], function(){
+	Route::group(['prefix' => 'arsip-kepegawaian', 'middleware' => AdminPermission::class], function(){
 		Route::get('/', 'EmployeeController@index')->name('employee');
 		Route::get('/berkas/{id?}', 'EmployeeController@files')->name('employee_files');
 		Route::get('/berkas/detail/{id?}', 'EmployeeController@detail')->name('employee_detail');
@@ -240,38 +210,8 @@ Route::group(['namespace' => 'App'], function () {
 		Route::post('/delete', 'FolderController@delete')->name('folder_delete');
 	});
 
-	//Share
-	Route::group(['prefix' => 'berbagi'], function(){
-		//Incoming Mail
-		Route::group(['prefix' => 'surat/masuk'], function(){
-			Route::get('/', 'SharedController@index')->name('shared_incoming_mail');
-			Route::get('/detail/{id?}', 'SharedController@detail')->name('shared_incoming_mail_detail');
-			Route::post('/delete', 'SharedController@delete')->name('shared_incoming_mail_delete');
-			Route::post('/delete-detail', 'SharedController@deleteDetail')->name('shared_incoming_mail_delete_detail');
-			Route::get('/disposition/history/{id?}', 'IncomingMailController@dispositionHistory')->name('shared_incoming_mail_disposition_history');
-		});
-
-		//Outgoing Mail
-		Route::group(['prefix' => 'surat/keluar'], function(){
-			Route::get('/', 'SharedController@index')->name('shared_outgoing_mail');
-			Route::get('/detail/{id?}', 'SharedController@detail')->name('shared_outgoing_mail_detail');
-			Route::post('/delete', 'SharedController@delete')->name('shared_outgoing_mail_delete');
-			Route::post('/delete-detail', 'SharedController@deleteDetail')->name('shared_outgoing_mail_delete_detail');
-			Route::get('/shared/history/{id?}', 'IncomingMailController@dispositionHistory')->name('shared_outgoing_mail_shared_history');
-		});
-
-		//Outgoing Mail
-		Route::group(['prefix' => 'berkas'], function(){
-			Route::get('/', 'SharedController@index')->name('shared_file');
-			Route::get('/detail/{id?}', 'SharedController@detail')->name('shared_file_detail');
-			Route::post('/delete', 'SharedController@delete')->name('shared_file_delete');
-			Route::post('/delete-detail', 'SharedController@deleteDetail')->name('shared_file_delete_detail');
-			Route::get('/shared/history/{id?}', 'FileController@dispositionHistory')->name('shared_file_shared_history');
-		});
-	});
-
 	//Member
-	Route::group(['prefix' => 'anggota', 'middleware' => MemberPermissions::class], function(){
+	Route::group(['prefix' => 'anggota', 'middleware' => AdminPermission::class], function(){
 		Route::get('/', 'MemberController@index')->name('member');
 		Route::get('/create', 'MemberController@create')->name('member_create');
 		Route::post('/store', 'MemberController@store')->name('member_store');
@@ -310,7 +250,7 @@ Route::group(['namespace' => 'App'], function () {
 	});
 
 	//Status
-	Route::get('/kapasitas', 'StatusController@capacity')->name('status_capacity');
+	Route::get('/kapasitas', 'StatusController@capacity')->name('status_capacity')->middleware(AdminPermission::class);
 
 	//Help
 	Route::group(['prefix' => 'bantuan'], function(){

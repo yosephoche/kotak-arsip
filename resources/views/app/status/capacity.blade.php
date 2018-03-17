@@ -48,6 +48,14 @@
 
 			<div class="col-md-4 col-sm-6">
 				<div class="tile">
+					<div class="tile-label">Arsip Kepegawaian</div>
+					<div class="tile-value">{{ $size_employee[0].' '.$size_employee[1] }}</div>
+					<div class="tile-progress" style="width: {{ $percentage_employee }}%"></div>
+				</div>
+			</div>
+
+			<div class="col-md-4 col-sm-6">
+				<div class="tile">
 					<div class="tile-label">Berkas</div>
 					<div class="tile-value">{{ $size_file[0].' '.$size_file[1] }}</div>
 					<div class="tile-progress" style="width: {{ $percentage_file }}%"></div>

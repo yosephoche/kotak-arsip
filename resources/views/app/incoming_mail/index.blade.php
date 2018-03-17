@@ -88,7 +88,7 @@
 				<!-- Shared File -->
 				<tr v-else>
 					<td>
-						<span v-if="val.share_info_shared[0].read == 0">
+						<span v-if="val.share_info_shared[val.share_info_shared.findIndex(x => x.share_to.$oid == '{{ Auth::user()->_id }}')].read == 0">
 							<i class="fa fa-circle color-primary"></i> &nbsp;<b><a :href="'{{ route('incoming_mail_detail') }}/' + val._id + '?read_direct=true'" v-html="val.from"></a></b>
 						</span>
 						<span v-else>
@@ -166,7 +166,9 @@
 		<form action="{{ route('incoming_mail_upload') }}" method="post" enctype="multipart/form-data">
 			{{ csrf_field() }}
 			<input type="file" v-on:change="inputFileSubmit" id="inputFileSubmit" name="image" class="hide" accept=".jpg, .png, .jpeg, .pdf">
+			@if (Auth::user()->id_company != null)	
 			<label for="inputFileSubmit" class="btn btn-primary btn-block">Tambah</label>
+			@endif
 		</form>
 
 
@@ -222,23 +224,6 @@
 										<span class="position" v-html="val.position"></span>
 									</td>
 								</tr>
-								<!-- <tr v-for="(val, index) in filteredUsers" v-if="val._id != '{{ Auth::user()->_id }}' && dispositionArray.indexOf(val._id) != -1">
-									<td class="text-center">
-										<input type="checkbox" class="val-check" :name="'share['+index+']'" :value="val._id" :data-id="val._id" data-date="" checked>
-										<div v-for="info in dispositionInfo" v-if="info != null && info._id.$oid == val._id">
-											<input type="text" :name="'date['+index+']'" :value="$options.filters.moment(info.date.$date.$numberLong)" class="val-date hide">
-											<input type="text" :name="'message['+index+']'" :value="info.message" class="val-message hide">
-										</div>
-									</td>
-									<td>
-										<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
-										<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.png)' }" v-else></div>
-									</td>
-									<td>
-										<span class="name" v-html="val.name"></span><br>
-										<span class="position" v-html="val.position"></span>
-									</td>
-								</tr> -->
 							</table>
 						</div>
 					</div>
@@ -295,7 +280,7 @@
 					</div>
 					<div class="item" v-if="detail.id_owner != null">
 						<label>Dibagikan oleh</label>
-						<div class="value" v-html="detail.owner[0].name"></div>
+						<div class="value" v-html="detail.owner[detail.owner.length - 1].name"></div>
 					</div>
 				</div>
 				<div class="item" v-if="detail.from">

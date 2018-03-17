@@ -25,7 +25,12 @@
 			</ul>
 			<ul class="right-side">
 				<li v-for="val in json.outgoingMail">
-					<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#disposisiModal" :data-id="val._id" :data-owner="val.id_owner" v-on:click="idDispositionArray(val.share)">Disposisi</a>
+					<div v-if="val.share.length > 0">
+						<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#disposisiModal" :data-id="val._id" :data-owner="val.id_owner" v-on:click="idDispositionArray(val.share)">Disposisi</a>
+					</div>
+					<div v-else>
+						<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#disposisiModal" :data-id="val._id" :data-owner="val.id_owner" v-on:click="idDispositionArray(val.shared)">Disposisi</a>
+					</div>
 				</li>
 				<li class="dropdown" v-for="val in json.outgoingMail">
 					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>

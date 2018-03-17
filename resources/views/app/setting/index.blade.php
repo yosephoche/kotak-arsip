@@ -32,8 +32,8 @@
 		<div class="tab-content">
 			<!-- <div role="tabpanel" class="tab-pane {{ @!$_GET['tab'] ? 'active' : '' }}" id="tab-1">
 				<?php 
-					//Check IP Server
-					// $serverIP = getHostByName(getHostName());
+					// Check IP Server
+					$serverIP = getHostByName(getHostName());
 				?>
 				<p>Untuk mengakses kotakarsip di komputer lainnya dalam satu jaringan adalah sebagai berikut:</p>
 				<blockquote><b>{{ $serverIP }}</b></blockquote>

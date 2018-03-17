@@ -88,7 +88,7 @@
 				<!-- Shared File -->
 				<tr v-else>
 					<td>
-						<span v-if="val.share_info_shared[0].read == 0">
+						<span v-if="val.share_info_shared[val.share_info_shared.findIndex(x => x.share_to.$oid == '{{ Auth::user()->_id }}')].read == 0">
 							<i class="fa fa-circle color-primary"></i> &nbsp;<b><a :href="'{{ route('outgoing_mail_detail') }}/' + val._id + '?read_direct=true'" v-html="val.to"></a></b>
 						</span>
 						<span v-else>
@@ -166,7 +166,9 @@
 		<form action="{{ route('outgoing_mail_upload') }}" method="post" enctype="multipart/form-data">
 			{{ csrf_field() }}
 			<input type="file" v-on:change="inputFileSubmit" id="inputFileSubmit" name="image" class="hide" accept=".jpg, .png, .jpeg, .pdf">
+			@if (Auth::user()->id_company != null)	
 			<label for="inputFileSubmit" class="btn btn-primary btn-block">Tambah</label>
+			@endif
 		</form>
 
 
@@ -278,7 +280,7 @@
 					</div>
 					<div class="item" v-if="detail.id_owner != null">
 						<label>Dibagikan oleh</label>
-						<div class="value" v-html="detail.owner[0].name"></div>
+						<div class="value" v-html="detail.owner[detail.owner.length - 1].name"></div>
 					</div>
 				</div>
 				<div class="item" v-if="detail.to">

@@ -25,7 +25,12 @@
 			</ul>
 			<ul class="right-side">
 				<li v-for="val in json.files">
-					<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#disposisiModal" :data-id="val._id" :data-owner="val.id_owner" v-on:click="idDispositionArray(val.share)">Disposisi</a>
+					<div v-if="val.share.length > 0">
+						<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#disposisiModal" :data-id="val._id" :data-owner="val.id_owner" v-on:click="idDispositionArray(val.share)">Disposisi</a>
+					</div>
+					<div v-else>
+						<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#disposisiModal" :data-id="val._id" :data-owner="val.id_owner" v-on:click="idDispositionArray(val.shared)">Disposisi</a>
+					</div>
 				</li>
 				<li v-for="val in json.files">
 					<a :href="'{{ url('files') }}/{{ Auth::user()->id_company }}/file/' + val.files[0]" title="Unduh Berkas" download><i class="fa fa-download"></i></a>
@@ -79,11 +84,11 @@
 							<label>Folder</label>
 							<div class="value"><a :href="'{{ route('folder') }}/' + val.folder" v-html="val.folder"></a></div>
 						</div>
-						<div class="item" v-if="val.share[0].user != ''">
-							<label>Disposisi</label>
+						<div class="item" v-if="val.share != ''">
+							<label>Bagikan</label>
 							<div class="value">
 								<ul class="list-unstyled">
-									<li v-for="disposisi in val.share"><a :href="'{{ route('file_shared_history') }}/' + val._id" v-html="disposisi.user[0].name"></a></li>
+									<li v-for="disposisi in val.share"><a :href="'{{ route('file_shared_history') }}/' + val._id" v-html="disposisi.name"></a></li>
 								</ul>
 							</div>
 						</div>
@@ -163,25 +168,8 @@
 											<input type="text" :name="'message['+index+']'" class="message-fill hide" value="">
 										</td>
 										<td>
-											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
-											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.png)' }" v-else></div>
-										</td>
-										<td>
-											<span class="name" v-html="val.name"></span><br>
-											<span class="position" v-html="val.position"></span>
-										</td>
-									</tr>
-									<tr v-for="(val, index) in filteredUsers" v-if="val._id != '{{ Auth::user()->_id }}' && dispositionArray.indexOf(val._id) != -1">
-										<td class="text-center">
-											<input type="checkbox" :name="'share['+index+']'" :value="val._id" checked onchange="$(this).parent().find('input').val('-')">
-											<div v-for="info in dispositionInfo" v-if="info != null && info.user[0]._id.$oid == val._id">
-												<input type="text" :name="'date['+index+']'" :value="$options.filters.moment(info.date.$date.$numberLong)" class="hide">
-												<input type="text" :name="'message['+index+']'" :value="info.message" class="hide">
-											</div>
-										</td>
-										<td>
-											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
-											<div class="img-profile" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.png)' }" v-else></div>
+											<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
+											<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.png)' }" v-else></div>
 										</td>
 										<td>
 											<span class="name" v-html="val.name"></span><br>

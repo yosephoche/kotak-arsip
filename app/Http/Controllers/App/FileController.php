@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\App;
-use App\Archieve, App\User, App\Share, App\Notifications;
+use App\Archieve, App\User, App\Share, App\Notifications, App\Emails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
@@ -217,6 +217,20 @@ class FileController extends Controller
 		//Folder
 		$data['folder'] = Archieve::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->select('folder')->groupBy('folder')->orderBy('folder')->get();
 
+		if (isset($_GET['read'])) {
+			$notifications = Notifications::find($_GET['read']);
+			$notifications->read = 1;
+			$notifications->save();
+		}
+
+		if (isset($_GET['read']) OR isset($_GET['read_direct'])) {
+			if ($data['archieve']->id_original != null) {
+				$share = Share::where('id_archieve', GlobalClass::generateMongoObjectId($data['archieve']->id_original))->where('share_to', GlobalClass::generateMongoObjectId(Auth::user()->_id))->first();
+				$share->read = 1;
+				$share->save();
+			}
+		}
+
 		return view('app.file.detail', $data);
 	}
 
@@ -269,12 +283,20 @@ class FileController extends Controller
 						'id_original' => 1,
 						'id_owner' => 1,
 						'desc' => 1,
-						'share.user._id' => 1,
-						'share.user.name' => 1,
-						'share.user.position' => 1,
-						'share.user.photo' => 1,
+						'share_info' => 1,
+						'share_info_shared' => 1,
+						'share._id' => 1,
+						'share.name' => 1,
+						'share.position' => 1,
+						'share.photo' => 1,
 						'share.date' => 1,
 						'share.message' => 1,
+						'shared._id' => 1,
+						'shared.name' => 1,
+						'shared.position' => 1,
+						'shared.photo' => 1,
+						'shared.date' => 1,
+						'shared.message' => 1,
 						'files' => 1,
 						'type' => 1,
 						'folder' => 1,
@@ -320,11 +342,16 @@ class FileController extends Controller
 							'$first' => '$deleted_at'
 						),
 						'share' => array(
-							'$push' => array(
-								'user' => '$share.user',
-								'date' => '$share.date',
-								'message' => '$share.message'
-							)
+							'$first' => '$share'
+						),
+						'shared' => array(
+							'$first' => '$shared'
+						),
+						'share_info' => array(
+							'$first' => '$share_info'
+						),
+						'share_info_shared' => array(
+							'$first' => '$share_info_shared'
 						)
 					)
 				)
@@ -465,6 +492,19 @@ class FileController extends Controller
 				Auth::user()->name.' membagikan berkas <b>'.$disposition->to.'</b> kepada Anda',
 				URL::route('file_detail', array('id' => $file->getKey()), false)
 			);
+
+			// Emails
+			$emails = new Emails;
+			$emails->id_user = GlobalClass::generateMongoObjectId($r->share[$key[$i]]);
+			$emails->id_user_from = GlobalClass::generateMongoObjectId(Auth::user()->_id);
+			$emails->type = 'disposition';
+			$emails->status = 0;
+			if ($disposition->id_original === null) {
+				$emails->id_archieve = GlobalClass::generateMongoObjectId($disposition->_id);
+			} else {
+				$emails->id_archieve = GlobalClass::generateMongoObjectId($disposition->id_original);
+			}
+			$emails->save();
 		}
 
 		$r->session()->flash('success', 'Berkas berhasil dibagikan');

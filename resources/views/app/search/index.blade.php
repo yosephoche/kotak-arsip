@@ -342,14 +342,6 @@
 						</ul>
 					</div>
 				</div>
-				<div class="item" v-if="detail.share[0].user != ''">
-					<label>Disposisi</label>
-					<div class="value">
-						<ul class="list-unstyled">
-							<li v-for="disposisi in detail.share"><a :href="'{{ route('incoming_mail_disposition_history') }}/' + detail._id" v-html="disposisi.user[0].name"></a></li>
-						</ul>
-					</div>
-				</div>
 				<div class="item" v-if="detail.date">
 					<div v-if="detail.type == 'incoming_mail'">
 						<label>Tanggal Masuk</label>
@@ -371,6 +363,9 @@
 				</div>
 				<div v-if="detail.type == 'outgoing_mail'">
 					<a v-bind:href="'{{ route('outgoing_mail_detail') }}/' + detail._id" class="btn btn-default btn-block">Lihat Detail</a>
+				</div>
+				<div v-if="detail.type == 'file'">
+					<a v-bind:href="'{{ route('file_detail') }}/' + detail._id" class="btn btn-default btn-block">Lihat Detail</a>
 				</div>
 			</div>
 		</div>

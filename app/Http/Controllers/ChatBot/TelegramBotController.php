@@ -12,7 +12,7 @@ class TelegramBotController extends Controller
 	public function setWebhook()
 	{
 		$telegram = new Api(env('TELEGRAM_BOT_TOKEN'));
-		$response = $telegram->setWebhook(['url' => 'https://ecee6ddf.ngrok.io/telegrambot/webhook']);
+		$response = $telegram->setWebhook(['url' => 'https://5be0cc58.ngrok.io/telegrambot/webhook']);
 
 		return 'ok';
 	}
