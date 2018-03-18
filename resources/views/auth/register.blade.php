@@ -18,9 +18,11 @@
 	<div id="app">
 		<nav class="ka-nav ka-nav-detail">
 			<ul class="left-side">
-				<li class="brand">
-					<img src="{{ asset('assets/app/img/logo.png') }}" class="logo" alt="Logo KotakArsip"> &nbsp;&nbsp;<b class="view-tablet-only">KOTAK<span>ARSIP</span></b>
-				</li>
+				<a href="/">
+					<li class="brand">
+						<img src="{{ asset('assets/app/img/logo.png') }}" class="logo" alt="Logo KotakArsip"> &nbsp;&nbsp;<b class="view-tablet-only">KOTAK<span>ARSIP</span></b>
+					</li>
+				</a>
 			</ul>
 			<ul class="right-side">
 				<!-- <li><a href="">Laporkan masalah</a></li> -->
