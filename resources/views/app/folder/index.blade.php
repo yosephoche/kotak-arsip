@@ -15,6 +15,10 @@
 			</ul>
 		</div>
 
+		@if (Auth::user()->id_company == '')
+			<div class="alert alert-warning">Anda belum mendaftarkan/bergabung perusahaan Anda, <a href="{{ route('setting') }}">klik disini!</a></div>
+		@endif
+
 		<table class="table table-hover" v-if="json.folder != ''">
 			<tr>
 				<th>Nama Folder</th>

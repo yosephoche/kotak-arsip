@@ -46,7 +46,7 @@
 			<div class="ka-main">
 				<div v-for="val in json.outgoingMail">
 					<div v-for="image in val.files">
-						<div v-if="image.slice(-3) == 'pdf'">
+						<div v-if="image.slice(-3).toLowerCase() == 'pdf'">
 							<div><object :data="'{{ url('files') }}/{{ Auth::user()->id_company }}/outgoing_mail/' + image" type="application/pdf"></object></div>
 						</div>
 						<div v-else>

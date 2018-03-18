@@ -103,10 +103,10 @@
 						<span v-html="val.subject"></span>
 					</div>
 					<div v-if="val.type == 'file'">
-						<span v-html="val.desc">Berkas</span>
+						<span v-html="val.desc"></span>
 					</div>
 				</td>
-				<td v-else>-</td>
+				<td class="view-tablet-only" v-else>-</td>
 				<td>
 					<div v-if="val.type == 'incoming_mail'">
 						<span class="color-blue">Surat Masuk</span>

@@ -36,7 +36,7 @@
 				<div class="images" id="images">
 					@foreach ($image as $key => $img)
 						<?php 
-							$check = substr($img, -3);
+							$check = strtolower(substr($img, -3));
 							$rand = rand(111111,999999);
 						?>
 						<div class="pos-r">
@@ -65,7 +65,7 @@
 				<div id="main">
 					@foreach ($image as $img)
 						<?php 
-							$check = substr($img, -3);
+							$check = strtolower(substr($img, -3));
 							$rand = rand(111111,999999);
 						 ?>
 						 @if ($check == 'pdf')

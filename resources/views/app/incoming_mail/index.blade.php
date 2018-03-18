@@ -25,6 +25,10 @@
 				<li><a href="{{ route('incoming_mail') }}">Surat Masuk</a></li>
 			</ul>
 		</div>
+
+		@if (Auth::user()->id_company == '')
+			<div class="alert alert-warning">Anda belum mendaftarkan/bergabung perusahaan Anda, <a href="{{ route('setting') }}">klik disini!</a></div>
+		@endif
 		
 		<table class="table table-hover" v-if="json.incomingMail != ''">
 			<thead>	
@@ -166,7 +170,7 @@
 		<form action="{{ route('incoming_mail_upload') }}" method="post" enctype="multipart/form-data">
 			{{ csrf_field() }}
 			<input type="file" v-on:change="inputFileSubmit" id="inputFileSubmit" name="image" class="hide" accept=".jpg, .png, .jpeg, .pdf">
-			@if (Auth::user()->id_company != null)	
+			@if (Auth::user()->id_company != null)
 			<label for="inputFileSubmit" class="btn btn-primary btn-block">Tambah</label>
 			@endif
 		</form>

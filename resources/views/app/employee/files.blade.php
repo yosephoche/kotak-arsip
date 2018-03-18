@@ -56,16 +56,16 @@
 				
 				<!-- Original File -->
 				<td>
-					<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'doc'" src="{{ url('assets/app/img/icons/word.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
-					<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'docx'" src="{{ url('assets/app/img/icons/word.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
-					<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'ppt'" src="{{ url('assets/app/img/icons/power_point.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
-					<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'pptx'" src="{{ url('assets/app/img/icons/power_point.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
-					<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'xls'" src="{{ url('assets/app/img/icons/excel.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
-					<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'xlsx'" src="{{ url('assets/app/img/icons/excel.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
-					<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'pdf'" src="{{ url('assets/app/img/icons/pdf-01.png') }}" alt="" height="30px" style="margin-right: 10px" title="PDF">
-					<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpg'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
-					<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'png'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
-					<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)) === 'jpeg'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+					<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)).toLowerCase() === 'doc'" src="{{ url('assets/app/img/icons/word.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
+					<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)).toLowerCase() === 'docx'" src="{{ url('assets/app/img/icons/word.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Word">
+					<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)).toLowerCase() === 'ppt'" src="{{ url('assets/app/img/icons/power_point.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
+					<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)).toLowerCase() === 'pptx'" src="{{ url('assets/app/img/icons/power_point.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Power Point">
+					<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)).toLowerCase() === 'xls'" src="{{ url('assets/app/img/icons/excel.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
+					<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)).toLowerCase() === 'xlsx'" src="{{ url('assets/app/img/icons/excel.png') }}" alt="" height="30px" style="margin-right: 10px" title="Mic. Excel">
+					<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)).toLowerCase() === 'pdf'" src="{{ url('assets/app/img/icons/pdf-01.png') }}" alt="" height="30px" style="margin-right: 10px" title="PDF">
+					<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)).toLowerCase() === 'jpg'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+					<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)).toLowerCase() === 'png'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
+					<img class="img view-tablet-only" v-if="val.files[0].substr((val.files[0].lastIndexOf('.') + 1)).toLowerCase() === 'jpeg'" src="{{ url('assets/app/img/icons/image.png') }}" alt="" height="30px" style="margin-right: 10px" title="File Gambar">
 					<a v-bind:href="'{{ route('employee_detail') }}/' + val._id" v-html="val.name"></a>
 				</td>
 				<td class="view-tablet-only" v-html="val.desc" v-if="val.desc != null"></td>

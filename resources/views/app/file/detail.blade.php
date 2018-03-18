@@ -48,13 +48,13 @@
 		<section class="ka-body ka-body-detail">
 			<div class="ka-main">
 				<div v-for="val in json.files">
-					<div v-if="val.files[0].slice(-3) == 'pdf'">
+					<div v-if="val.files[0].slice(-3).toLowerCase() == 'pdf'">
 						<div><object :data="'{{ url('files') }}/{{ Auth::user()->id_company }}/file/' + val.files[0]" type="application/pdf"></object></div>
 					</div>
-					<div v-if="val.files[0].slice(-3) == 'png' || val.files[0].slice(-3) == 'jpg' || val.files[0].slice(-4) == 'jpeg'">
+					<div v-if="val.files[0].slice(-3).toLowerCase() == 'png' || val.files[0].slice(-3).toLowerCase() == 'jpg' || val.files[0].slice(-4).toLowerCase() == 'jpeg'">
 						<div><img :src="'{{ url('files') }}/{{ Auth::user()->id_company }}/file/' + val.files[0]" alt=""></div>
 					</div>
-					<div v-if="val.files[0].slice(-4) == 'docx' || val.files[0].slice(-3) == 'doc' || val.files[0].slice(-3) == 'ppt' || val.files[0].slice(-4) == 'pptx' || val.files[0].slice(-3) == 'xls' || val.files[0].slice(-4) == 'xlsx'">
+					<div v-if="val.files[0].slice(-4).toLowerCase() == 'docx' || val.files[0].slice(-3).toLowerCase() == 'doc' || val.files[0].slice(-3).toLowerCase() == 'ppt' || val.files[0].slice(-4).toLowerCase() == 'pptx' || val.files[0].slice(-3).toLowerCase() == 'xls' || val.files[0].slice(-4).toLowerCase() == 'xlsx'">
 						<div>
 							<br>
 							<br>
