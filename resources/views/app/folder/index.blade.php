@@ -19,6 +19,10 @@
 			<div class="alert alert-warning">Anda belum mendaftarkan/bergabung perusahaan Anda, <a href="{{ route('setting') }}">klik disini!</a></div>
 		@endif
 
+		@if (Auth::user()->phone == '')
+			<div class="alert alert-warning">Silahkan lengkapi profil Anda, <a href="{{ route('setting') }}?tab=account">klik disini!</a></div>
+		@endif
+
 		<table class="table table-hover" v-if="json.folder != ''">
 			<tr>
 				<th>Nama Folder</th>

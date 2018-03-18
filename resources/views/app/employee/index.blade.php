@@ -14,6 +14,10 @@
 			</ul>
 		</div>
 
+		@if (Auth::user()->phone == '')
+			<div class="alert alert-warning">Silahkan lengkapi profil Anda, <a href="{{ route('setting') }}?tab=account">klik disini!</a></div>
+		@endif
+
 		<table class="table table-hover">
 			<tr>
 				<th class="sort" @click="sortBy('name', $event)">Nama Lengkap <i class="fa fa-angle-down i-sort"></i></th>
