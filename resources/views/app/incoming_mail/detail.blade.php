@@ -47,7 +47,9 @@
 				<div v-for="val in json.incomingMail">
 					<div v-for="image in val.files">
 						<div v-if="image.slice(-3).toLowerCase() == 'pdf'">
-							<div><object :data="'{{ url('files') }}/{{ Auth::user()->id_company }}/incoming_mail/' + image" type="application/pdf"></object></div>
+							<div>
+								<object :data="'/pdf/web/viewer.html?data={{ url('files') }}/{{ Auth::user()->id_company }}/incoming_mail/' + image"></object>
+							</div>
 						</div>
 						<div v-else>
 							<div><img :src="'{{ url('files') }}/{{ Auth::user()->id_company }}/incoming_mail/' + image" alt=""></div>
