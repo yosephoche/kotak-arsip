@@ -8981,7 +8981,7 @@ function getDefaultPreferences() {
       "cursorToolOnLoad": 0,
       "enableWebGL": false,
       "pdfBugEnabled": false,
-      "disableRange": false,
+      "disableRange": true,
       "disableStream": false,
       "disableAutoFetch": false,
       "disableFontFace": false,
@@ -10050,10 +10050,8 @@ exports.ViewHistory = ViewHistory;
 
 "use strict";
 
-var url_string = window.location.href;
-var url = new URL(url_string);
-var getData = window.location.search.substr(6);
-var DEFAULT_URL = getData;
+
+var DEFAULT_URL = 'compressed.tracemonkey-pldi-09.pdf';
 ;
 var pdfjsWebApp = void 0;
 {

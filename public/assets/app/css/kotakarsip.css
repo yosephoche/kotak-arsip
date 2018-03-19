@@ -11607,8 +11607,9 @@ a:hover, a:focus, a:active, a:visited {
 }
 .ka-body .ka-main {
   padding: 20px;
+  padding-bottom: 40px;
   width: calc(100% - 450px);
-  height: 100%;
+  height: calc(100vh - 50px);
   float: left;
   overflow-y: auto;
 }
@@ -11764,18 +11765,20 @@ a:hover, a:focus, a:active, a:visited {
 .ka-body.ka-body-detail .ka-main {
   width: calc(100% - 225px);
   padding: 0;
+  padding-bottom: 40px;
   text-align: center;
 }
-.ka-body.ka-body-detail .ka-main img, .ka-body.ka-body-detail .ka-main object {
+.ka-body.ka-body-detail .ka-main img, .ka-body.ka-body-detail .ka-main object, .ka-body.ka-body-detail .ka-main iframe {
   max-width: 100%;
 }
 .ka-body.ka-body-detail .ka-main img {
   margin-bottom: 20px;
 }
-.ka-body.ka-body-detail .ka-main object {
+.ka-body.ka-body-detail .ka-main object, .ka-body.ka-body-detail .ka-main iframe {
   width: calc(100% + 40px);
   height: calc(100vh - 50px);
   margin-bottom: -5px;
+  border: 0;
 }
 .ka-body.ka-body-detail .ka-sidebar-detail .detail-info .select {
   height: calc(100vh - 50px);

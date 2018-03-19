@@ -7,5 +7,4 @@
 <script src="{{ !empty(Cookie::get('sidebar')) ? Cookie::get('sidebar') : asset('assets/app/vue/components/sidebar-detail.js') }}"></script>
 <script>
 	$(".nav-toggle").clicktoggle(navShow, navClose);
-	$(".ka-main").append("<br /><br /><br /><br />");
 </script>

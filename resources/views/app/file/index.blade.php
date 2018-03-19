@@ -90,7 +90,7 @@
 							</li>
 						</ul>
 					</td>
-					<td v-else>-</td>
+					<td class="view-tablet-only" v-else>-</td>
 					<td class="view-tablet-only" v-html="$options.filters.moment(val.date.$date.$numberLong)"></td>
 					<td class="text-right dropdown">
 						<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
@@ -135,7 +135,7 @@
 							</li>
 						</ul>
 					</td>
-					<td v-else>-</td>
+					<td class="view-tablet-only" v-else>-</td>
 					<td class="view-tablet-only" v-html="$options.filters.moment(val.date.$date.$numberLong)"></td>
 					<td class="text-right dropdown">
 						<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
