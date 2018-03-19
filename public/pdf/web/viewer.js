@@ -10052,7 +10052,7 @@ exports.ViewHistory = ViewHistory;
 
 var url_string = window.location.href;
 var url = new URL(url_string);
-var getData = url.searchParams.get("data");
+var getData = window.location.search.substr(6);
 var DEFAULT_URL = getData;
 ;
 var pdfjsWebApp = void 0;
