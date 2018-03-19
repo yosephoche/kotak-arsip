@@ -123,7 +123,7 @@
 						</div>
 						<div class="modal-body" style="border-top: 1px solid #ddd">
 							<input type="hidden" name="id">
-							<div class="col-md-6">
+							<div class="col-md-6 view-tablet-only">
 								<br>
 								<textarea name="message" rows="13" placeholder="Tambahkan pesan (opsional)" class="form-control no-border no-padding no-resize" onchange="$('.message-fill').val($(this).val())"></textarea>
 							</div>

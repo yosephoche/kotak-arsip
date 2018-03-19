@@ -54,7 +54,10 @@
 							</div>
 							<div class="form-group row">
 								<div class="col-md-6">
-									<input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}> &nbsp;<label for="remember">Tetap masuk</label>
+									<div class="checkbox">
+										<input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
+										<label for="remember"><div class="choice-checkbox"></div>Tetap Masuk</label>
+									</div>
 								</div>
 								<div class="col-md-6">
 									<button class="btn btn-primary btn-block">Masuk</button>

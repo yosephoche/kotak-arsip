@@ -97,6 +97,9 @@
 		</div>
 	</div>
 
+	@if (Auth::user()->id_company != null)
+	<a href="#" data-toggle="modal" data-target="#newModal" class="btn-add-mobile">+</a>
+	@endif
 	<aside class="ka-sidebar-detail">
 		<a href="#" data-toggle="modal" data-target="#newModal" class="btn btn-primary btn-block">Tambah</a>
 

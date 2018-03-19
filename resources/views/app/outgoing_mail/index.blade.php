@@ -86,7 +86,7 @@
 						<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
 						<ul class="dropdown-menu pull-right">
 							<li><a :href="'{{ route('outgoing_mail_detail') }}/' + val._id">Lihat Detail</a></li>
-							<li><a href="#" data-toggle="modal" data-target="#disposisiModal" :data-id="val._id" v-on:click="idDispositionArray(val.share)">Disposisi</a></li>
+							<li><a href="#" data-toggle="modal" data-target="#disposisiModal" :data-id="val._id" v-on:click="idDispositionArray(val.share)">Bagikan</a></li>
 							<li v-if="val.id_original === null"><a :href="'{{ route('outgoing_mail_move') }}/' + val._id">Sunting</a></li>
 							<li><a type="button" data-toggle="modal" data-target="#deleteModal" :data-id="val._id" class="text-danger">Hapus</a></li>
 						</ul>
@@ -123,7 +123,7 @@
 						<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
 						<ul class="dropdown-menu pull-right">
 							<li><a :href="'{{ route('outgoing_mail_detail') }}/' + val._id">Lihat Detail</a></li>
-							<li><a href="#" data-toggle="modal" data-target="#disposisiModal" :data-id="val._id" :data-owner="val.id_owner" v-on:click="idDispositionArray(val.shared)">Disposisi</a></li>
+							<li><a href="#" data-toggle="modal" data-target="#disposisiModal" :data-id="val._id" :data-owner="val.id_owner" v-on:click="idDispositionArray(val.shared)">Bagikan</a></li>
 							<li><a type="button" data-toggle="modal" data-target="#deleteModal" :data-id="val._id" class="text-danger">Hapus</a></li>
 						</ul>
 					</td>
@@ -143,7 +143,7 @@
 			<br>
 			<br>
 			<br>
-			Belum ada data surat keluar
+			Belum ada surat keluar
 		</div>
 
 		<?php
@@ -170,6 +170,9 @@
 		@endif
 	</div>
 
+	@if (Auth::user()->id_company != null)
+	<label for="inputFileSubmit" class="btn-add-mobile">+</label>
+	@endif
 	<aside class="ka-sidebar-detail">
 		<form action="{{ route('outgoing_mail_upload') }}" method="post" enctype="multipart/form-data">
 			{{ csrf_field() }}
@@ -208,7 +211,7 @@
 					</div>
 					<div class="modal-body" style="border-top: 1px solid #ddd">
 						<input type="hidden" name="id">
-						<div class="col-md-6">
+						<div class="col-md-6 view-tablet-only">
 							<br>
 							<textarea name="message" rows="13" placeholder="Tambahkan pesan (opsional)" class="form-control no-border no-padding no-resize" onchange="$('.message-fill').val($(this).val())"></textarea>
 						</div>

@@ -11274,6 +11274,49 @@ textarea {
   max-width: 100%;
 }
 
+input[type="text"],
+input[type="password"],
+textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.checkbox {
+  margin-top: 5px;
+}
+.checkbox input {
+  display: none;
+}
+.checkbox .choice-checkbox {
+  display: inline-block;
+  vertical-align: middle;
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  -webkit-transition: 0.2s;
+  -o-transition: 0.2s;
+  transition: 0.2s;
+}
+.checkbox .choice-checkbox:after {
+  content: "✔";
+  color: #fff;
+  position: absolute;
+  top: 4px;
+  left: 5px;
+}
+.checkbox input:checked ~ label .choice-checkbox {
+  border: #0070ff;
+  background-color: #0070ff;
+}
+.checkbox label {
+  cursor: pointer;
+  padding-left: 0;
+}
+
 .ka-menus, .ka-main, .detail-info .select {
   cursor: default !important;
 }
@@ -11607,7 +11650,7 @@ a:hover, a:focus, a:active, a:visited {
 }
 .ka-body .ka-main {
   padding: 20px;
-  padding-bottom: 40px;
+  padding-bottom: 70px;
   width: calc(100% - 450px);
   height: calc(100vh - 50px);
   float: left;
@@ -11765,7 +11808,7 @@ a:hover, a:focus, a:active, a:visited {
 .ka-body.ka-body-detail .ka-main {
   width: calc(100% - 225px);
   padding: 0;
-  padding-bottom: 40px;
+  padding-bottom: 70px;
   text-align: center;
 }
 .ka-body.ka-body-detail .ka-main img, .ka-body.ka-body-detail .ka-main object, .ka-body.ka-body-detail .ka-main iframe {
@@ -12280,6 +12323,32 @@ a:hover, a:focus, a:active, a:visited {
   position: absolute;
   bottom: 0;
   left: 0;
+}
+
+.btn-add-mobile {
+  display: none;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  margin: auto;
+  background-color: #0070ff;
+  color: #fff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  z-index: 7;
+  text-align: center;
+  line-height: 44px;
+  font-size: 30px;
+  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+}
+.btn-add-mobile:hover, .btn-add-mobile:focus, .btn-add-mobile:visited {
+  color: #fff;
+}
+@media only screen and (max-width: 720px) {
+  .btn-add-mobile {
+    display: block;
+  }
 }
 
 @media only screen and (min-width: 960px) {

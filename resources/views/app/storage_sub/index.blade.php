@@ -43,7 +43,7 @@
 			<br>
 			<br>
 			<br>
-			Belum ada data sub penyimpanan
+			Belum ada sub penyimpanan
 		</div>
 	</div>
 

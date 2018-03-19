@@ -26,10 +26,10 @@
 			<ul class="right-side">
 				<li v-for="val in json.files">
 					<div v-if="val.share.length > 0">
-						<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#disposisiModal" :data-id="val._id" :data-owner="val.id_owner" v-on:click="idDispositionArray(val.share)">Disposisi</a>
+						<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#disposisiModal" :data-id="val._id" :data-owner="val.id_owner" v-on:click="idDispositionArray(val.share)">Bagikan</a>
 					</div>
 					<div v-else>
-						<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#disposisiModal" :data-id="val._id" :data-owner="val.id_owner" v-on:click="idDispositionArray(val.shared)">Disposisi</a>
+						<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#disposisiModal" :data-id="val._id" :data-owner="val.id_owner" v-on:click="idDispositionArray(val.shared)">Bagikan</a>
 					</div>
 				</li>
 				<li v-for="val in json.files">
@@ -148,11 +148,11 @@
 						{{ csrf_field() }}
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title" id="disposisiLabelModal">Disposisi</h4>
+							<h4 class="modal-title" id="disposisiLabelModal">Bagikan</h4>
 						</div>
 						<div class="modal-body" style="border-top: 1px solid #ddd">
 							<input type="hidden" name="id">
-							<div class="col-md-6">
+							<div class="col-md-6 view-tablet-only">
 								<br>
 								<textarea name="message" rows="13" placeholder="Tambahkan pesan (opsional)" class="form-control no-border no-padding no-resize" onchange="$('.message-fill').val($(this).val())"></textarea>
 							</div>
@@ -181,7 +181,7 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-							<button class="btn btn-primary">Disposisi</button>
+							<button class="btn btn-primary">Bagikan</button>
 						</div>
 					</form>
 				</div>

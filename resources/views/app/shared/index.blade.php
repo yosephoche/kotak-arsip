@@ -177,7 +177,7 @@
 			<br>
 			<br>
 			<br>
-			Belum ada data {{ $type }}
+			Belum ada {{ $type }}
 		</div>
 	</div>
 
