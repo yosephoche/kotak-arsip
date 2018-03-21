@@ -13,4 +13,4 @@
 <link type="text/css" rel="stylesheet" href="{{ !empty(Cookie::get('vue')) ? Cookie::get('vue') : asset('assets/app/css/bootstrap-vue.css') }}"/>
 
 <!-- Custom css -->
-<link href="{{ !empty(Cookie::get('main_css')) ? Cookie::get('main_css') : asset('assets/app/css/kotakarsip.css') }}" rel="stylesheet">
+<link href="{{ !empty(Cookie::get('main_css')) ? Cookie::get('main_css') : asset('assets/app/css/kotakarsip.min.css') }}" rel="stylesheet">

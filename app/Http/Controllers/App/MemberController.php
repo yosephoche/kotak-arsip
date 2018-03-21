@@ -80,8 +80,9 @@ class MemberController extends Controller
 			'name'      => 'required',
 			'email'     => 'required|email|unique:users,email,'.$member->_id.',_id',
 			'phone'     => 'required',
-			'status'    => 'required',
 			'position'  => 'required',
+			'status'    => 'required',
+			'password_confirmation'  => 'same:password',
 		]);
 
 		$member->name = $r->name;

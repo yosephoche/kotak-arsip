@@ -24,8 +24,13 @@
 							<span class="tl-date">{{ $date }}</span>
 							<div class="tl-content panel padder b-a">
 								<span class="arrow left pull-up"></span>
-								<a href="{{ $notif->link }}" style="color: #333">{!! $notif->message !!}</a>
-								<span class="time">{{ $time }}</span>
+								@if ($notif->read === 0)
+									<a href="{{ $notif->link }}?read={{ $notif->_id }}" style="color: #333"><i class="fa fa-circle color-primary"></i> &nbsp;{!! $notif->message !!}</a>
+									<span class="time"> &nbsp; &nbsp; &nbsp;&nbsp;{{ $time }}</span>
+								@else
+									<a href="{{ $notif->link }}?read={{ $notif->_id }}" style="color: #333">{!! $notif->message !!}</a>
+									<span class="time">{{ $time }}</span>
+								@endif
 							</div>
 						</div>
 					</li>

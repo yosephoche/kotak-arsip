@@ -15,9 +15,9 @@
 	<ul class="right-side">
 		<?php
 			$count = App\Notifications::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->orderBy('_id', 'desc')->where('read', 0)->count();
-			$notifications = App\Notifications::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->orderBy('_id', 'desc')->where('read', 0)->get();
+			$notifications = App\Notifications::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->orderBy('_id', 'desc')->take(9)->get();
 			if ($count > 9) {
-				$notifications = App\Notifications::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->orderBy('_id', 'desc')->where('read', 0)->take(9)->get();
+				$notifications = App\Notifications::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->orderBy('_id', 'desc')->take(9)->get();
 			}
 		?>
 		<li class="notif dropdown {{ count($notifications->where('read', 0)) > 0 ? 'new-notif' : '' }}">

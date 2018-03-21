@@ -66,7 +66,7 @@
 			@elseif ($type == 'file')
 				<?php $type_archieve = 'berkas' ?>
 			@endif
-			<a href="https://kotakarsip.com/{{ $type_archieve }}/detail/{{ $id }}" style="background-color: #0070ff; color: #fff; padding: 15px 20px; text-align: center; display: inline-block; text-decoration: none; border-radius: 3px; font-weight: normal">Lihat di Aplikasi</a>
+			<a href="https://kotakarsip.com/{{ $type_archieve }}/detail/{{ $id }}?read_direct=true" style="background-color: #0070ff; color: #fff; padding: 15px 20px; text-align: center; display: inline-block; text-decoration: none; border-radius: 3px; font-weight: normal">Lihat di Aplikasi</a>
 			<br />
 			<br />
 			<p style="color: #999; line-height: 24px; font-weight: normal">Dapatkan kemudahan memanajemen arsip pada perusahaan Anda di KotakArsip.com</p>

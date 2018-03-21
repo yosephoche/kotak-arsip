@@ -72,6 +72,11 @@
 							</div>
 							<div class="form-group">
 								<input type="password" name="password_confirmation" class="form-control" placeholder="Ulang Kata Sandi" required>
+								@if ($errors->has('password_confirmation'))
+									<span class="help-block">
+										<strong>{{ $errors->first('password_confirmation') }}</strong>
+									</span>
+								@endif
 							</div>
 							<div class="form-group">
 								<div id="capcha_ka"></div>

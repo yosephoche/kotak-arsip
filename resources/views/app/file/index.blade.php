@@ -270,13 +270,13 @@
 					</div>
 					<div class="modal-body">
 						<div class="form-group">
-							<input type="text" name="name" class="form-control" placeholder="Judul Berkas" autocomplete="off">
+							<input type="text" name="name" class="form-control" placeholder="Judul Berkas" autocomplete="off" required>
 						</div>
 						<div class="form-group">
 							<textarea name="desc" rows="5" class="form-control" placeholder="Deskripsi"></textarea>
 						</div>
 						<div class="form-group">
-							<input type="file" name="file[]" class="form-control" accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx">
+							<input type="file" name="file[]" class="form-control" accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx" required>
 						</div>
 						<div class="form-group">
 							<input type="text" name="folder" class="form-control" list="folder" autocomplete="off" placeholder="Folder">
@@ -309,7 +309,7 @@
 						<input type="hidden" class="form-control" name="id">
 
 						<div class="form-group">
-							<input type="text" name="name" class="form-control" placeholder="Judul Berkas" autocomplete="off">
+							<input type="text" name="name" class="form-control" placeholder="Judul Berkas" autocomplete="off" required>
 						</div>
 
 						<div class="form-group">
@@ -317,7 +317,7 @@
 						</div>
 
 						<div class="form-group">
-							<input type="text" name="folder" class="form-control" list="folder" autocomplete="off" placeholder="Folder">
+							<input type="text" name="folder" class="form-control" list="folder" autocomplete="off" placeholder="Folder" required>
 							<datalist id="folder">
 								@foreach ($folder as $val)
 									<option value="{{ $val->folder }}">

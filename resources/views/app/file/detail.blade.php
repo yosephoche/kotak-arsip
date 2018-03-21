@@ -55,16 +55,7 @@
 						<div><img :src="'{{ url('files') }}/{{ Auth::user()->id_company }}/file/' + val.files[0]" alt=""></div>
 					</div>
 					<div v-if="val.files[0].slice(-4).toLowerCase() == 'docx' || val.files[0].slice(-3).toLowerCase() == 'doc' || val.files[0].slice(-3).toLowerCase() == 'ppt' || val.files[0].slice(-4).toLowerCase() == 'pptx' || val.files[0].slice(-3).toLowerCase() == 'xls' || val.files[0].slice(-4).toLowerCase() == 'xlsx'">
-						<div>
-							<br>
-							<br>
-							<br>
-							<br>
-							<br>
-							<br>
-							<img src="{{ asset('assets/app/img/icons') }}/cannot-preview.png" alt="Pratinjau belum mendukung format berkas" width="100px"><br><br>
-							<p>Pratinjau belum mendukung format berkas, silahkan <a :href="'{{ url('files') }}/{{ Auth::user()->id_company }}/file/' + val.files[0]" title="Unduh Berkas" download>unduh berkas</a>.</p>
-						</div>
+						<div><iframe :src="'https://view.officeapps.live.com/op/view.aspx?src={{ url('files') }}/{{ Auth::user()->id_company }}/file/' + val.files[0]"></iframe></div>
 					</div>
 				</div>
 			</div>

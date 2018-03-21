@@ -113,6 +113,10 @@
 				<label>Jabatan</label>
 				<div class="value" v-html="detail.position"></div>
 			</div>
+			<div class="item" v-if="detail.phone">
+				<label>No. Telpon/HP</label>
+				<div class="value" v-html="detail.phone"></div>
+			</div>
 		</div>
 	</template>
 @endsection

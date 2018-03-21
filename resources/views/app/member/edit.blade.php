@@ -22,11 +22,21 @@
 						<div class="form-group form-line">
 							<label for="">Nama Lengkap</label>
 							<input type="text" name="name" value="{{ $member->name }}" class="form-control" autocomplete="off" required>
+							@if ($errors->has('name'))
+								<span class="help-block">
+									<strong>{{ $errors->first('name') }}</strong>
+								</span>
+							@endif
 						</div>
 					
 						<div class="form-group form-line">
 							<label for="">Email</label>
 							<input type="email" name="email" value="{{ $member->email }}" class="form-control" autocomplete="off" required>
+							@if ($errors->has('email'))
+								<span class="help-block">
+									<strong>{{ $errors->first('email') }}</strong>
+								</span>
+							@endif
 						</div>
 					</div>
 				</div>
@@ -35,7 +45,12 @@
 					<div class="col-md-4">
 						<div class="form-group form-line">
 							<label for="">No. Telpon/HP</label>
-							<input type="text" name="phone" value="{{ $member->phone }}" class="form-control" autocomplete="off" required>
+							<input type="text" name="phone" value="{{ $member->phone }}" class="form-control" pattern="[0-9]" autocomplete="off" required>
+							@if ($errors->has('phone'))
+								<span class="help-block">
+									<strong>{{ $errors->first('phone') }}</strong>
+								</span>
+							@endif
 						</div>
 					</div>
 					
@@ -43,6 +58,11 @@
 						<div class="form-group form-line">
 							<label for="">Jabatan</label>
 							<input type="text" name="position" value="{{ $member->position }}" class="form-control" required>
+							@if ($errors->has('position'))
+								<span class="help-block">
+									<strong>{{ $errors->first('position') }}</strong>
+								</span>
+							@endif
 						</div>
 					</div>
 
@@ -84,6 +104,11 @@
 						<div class="form-group form-line">
 							<label for="">Konfirmasi Kata Sandi</label>
 							<input type="password" name="password_confirmation" class="form-control">
+							@if ($errors->has('password_confirmation'))
+								<span class="help-block">
+									<strong>{{ $errors->first('password_confirmation') }}</strong>
+								</span>
+							@endif
 						</div>
 					</div>
 				</div>
