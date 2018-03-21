@@ -23,14 +23,6 @@ Route::get('refresh-csrf', function(){
     return csrf_token();
 });
 
-Route::group(['namespace' => 'ChatBot'], function () {
-	Route::group(['prefix' => 'telegrambot'], function(){
-		Route::get('/setWebhook', 'TelegramBotController@setWebhook')->name('telegrambot_setWebhook');
-		Route::get('/webhook', 'TelegramBotController@webhook')->name('telegrambot_webhook');
-		Route::post('/webhook', 'TelegramBotController@webhook')->name('telegrambot_webhook');
-	});
-});
-
 //Activation
 // Route::get('/activation', 'ActivationController@index')->name('activation');
 // Route::post('/activation/store', 'ActivationController@store')->name('activation_store');
