@@ -328,7 +328,7 @@
 				</div>
 				<div class="item" v-if="detail.share != ''">
 					<label>Disposisi</label>
-					<div class="value">
+					<div class="value value-disposition">
 						<ul class="list-unstyled">
 							<li v-for="disposisi in detail.share"><a :href="'{{ route('incoming_mail_disposition_history') }}/' + detail._id" v-html="disposisi.name"></a></li>
 						</ul>
@@ -336,7 +336,7 @@
 				</div>
 				<div class="item" v-if="detail.shared != ''">
 					<label>Disposisi</label>
-					<div class="value">
+					<div class="value value-disposition">
 						<ul class="list-unstyled">
 							<li v-for="disposisi in detail.shared" v-html="disposisi.name"></li>
 						</ul>

@@ -240,7 +240,7 @@
 				</div>
 				<div class="item" v-if="detail.share[0].user != ''">
 					<label>Disposisi</label>
-					<div class="value">
+					<div class="value value-disposition">
 						<ul class="list-unstyled">
 							<li v-for="disposisi in detail.share"><a :href="'{{ route('incoming_mail_disposition_history') }}/' + detail._id" v-html="disposisi.user[0].name"></a></li>
 						</ul>

@@ -78,7 +78,8 @@
 						<a v-bind:href="'{{ route('file_detail') }}/' + val._id" v-html="val.search"></a>
 					</div>
 				</td>
-				<td class="view-tablet-only">
+				<td class="view-tablet-only" v-if="val.subject === null && val.desc === null">-</td>
+				<td class="view-tablet-only" v-else>
 					<div v-if="val.type == 'incoming_mail'" v-html="val.subject"></div>
 					<div v-if="val.type == 'outgoing_mail'" v-html="val.subject"></div>
 					<div v-if="val.type == 'file'" v-html="val.desc"></div>
@@ -258,7 +259,7 @@
 				</div>
 				<div class="item" v-if="detail.share[0].user != ''">
 					<label>Disposisi</label>
-					<div class="value">
+					<div class="value value-disposition">
 						<ul class="list-unstyled">
 							<li v-for="disposisi in detail.share"><a :href="'{{ route('incoming_mail_disposition_history') }}/' + detail._id" v-html="disposisi.user[0].name"></a></li>
 						</ul>
