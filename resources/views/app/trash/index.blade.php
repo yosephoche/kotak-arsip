@@ -264,7 +264,7 @@
 	<script src="{{ asset('assets/app/vue/pencarian.js') }}"></script>
 	<script>
 		<?php
-			// Sort By
+			/* Sort By */
 			$sortKey = '_id';
 			if (@$_GET['sort'] == 'search') {
 				$sortKey = 'search';
@@ -272,13 +272,13 @@
 				$sortKey = 'subject';
 			}
 
-			// Ascending or Descending
+			/* Ascending or Descending */
 			$asc = 'false';
 			if (@$_GET['asc'] == 'true') {
 				$asc = 'true';
 			}
 
-			// Pagination
+			/* Pagination */
 			$page = 1;
 			if (@$_GET['page']) {
 				$page = $_GET['page'];

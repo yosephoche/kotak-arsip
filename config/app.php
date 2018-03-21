@@ -182,8 +182,7 @@ return [
         App\Providers\GlobalClassServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         'Folklore\Image\ImageServiceProvider',
-        Telegram\Bot\Laravel\TelegramServiceProvider::class
-
+        'HTMLMin\HTMLMin\HTMLMinServiceProvider',
     ],
 
     /*
@@ -236,7 +235,7 @@ return [
         'Moloquent' => Jenssegers\Mongodb\Eloquent\Model::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Image' => 'Folklore\Image\Facades\Image',
-        'Telegram' => Telegram\Bot\Laravel\Facades\Telegram::class
+        'HTMLMin' => HTMLMin\HTMLMin\Facades\HTMLMin::class,
     ],
 
 ];

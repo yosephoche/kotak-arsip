@@ -126,13 +126,13 @@
 	<script>
 		getDataUsers('{{ route("api_member") }}', 'users');
 
-		// Delete Modal
+		/* Delete Modal */
 		$('#deleteModal').on('show.bs.modal', function (e) {
 			var id = $(e.relatedTarget).data('id');
 			$(this).find('input[name="id"]').val(id);
 		});
 
-		// 3 mean 3second
+		/* 3 mean 3second */
 		alertTimeout(3);
 	</script>
 @endsection

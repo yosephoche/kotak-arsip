@@ -32,7 +32,7 @@
 		<div class="tab-content">
 			<!-- <div role="tabpanel" class="tab-pane {{ @!$_GET['tab'] ? 'active' : '' }}" id="tab-1">
 				<?php 
-					// Check IP Server
+					/* Check IP Server */
 					$serverIP = getHostByName(getHostName());
 				?>
 				<p>Untuk mengakses kotakarsip di komputer lainnya dalam satu jaringan adalah sebagai berikut:</p>
@@ -217,7 +217,7 @@
 
 @section('registerscript')
 	<script>
-		// Edit Modal User
+		/* Edit Modal User */
 		$('#usereditModal').on('show.bs.modal', function (e) {
 			var id = $(e.relatedTarget).data('id');
 			var name = $(e.relatedTarget).data('name');
@@ -229,7 +229,7 @@
 			$(this).find('#editLabelModal').text(label);
 		});
 
-		// Edit Modal Password
+		/* Edit Modal Password */
 		$('#passwordeditModal').on('show.bs.modal', function (e) {
 			var id = $(e.relatedTarget).data('id');
 			var label = $(e.relatedTarget).data('label');
@@ -237,7 +237,7 @@
 			$(this).find('#editLabelModal').text(label);
 		});
 
-		// Edit Modal Company
+		/* Edit Modal Company */
 		$('#companyeditModal').on('show.bs.modal', function (e) {
 			var id = $(e.relatedTarget).data('id');
 			var name = $(e.relatedTarget).data('name');
@@ -249,7 +249,7 @@
 			$(this).find('#editLabelModal').text(label);
 		});
 
-		// 3 mean 3second
+		/* 3 mean 3second */
 		alertTimeout(3);
 	</script>
 @endsection

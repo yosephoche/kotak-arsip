@@ -376,7 +376,7 @@
 	<script src="{{ asset('assets/app/vue/pencarian.js') }}"></script>
 	<script>
 		<?php
-			// Sort By
+			/* Sort By */
 			$sortKey = '_id';
 			if (@$_GET['sort'] == 'search') {
 				$sortKey = 'search';
@@ -384,13 +384,13 @@
 				$sortKey = 'subject';
 			}
 
-			// Ascending or Descending
+			/* Ascending or Descending */
 			$asc = 'false';
 			if (@$_GET['asc'] == 'true') {
 				$asc = 'true';
 			}
 
-			// Pagination
+			/* Pagination */
 			$page = 1;
 			if (@$_GET['page']) {
 				$page = $_GET['page'];
@@ -404,16 +404,16 @@
 			$(this).find('input[name="id"]').val(id);
 		});
 
-		// Date Picker
+		/* Date Picker */
 		$('#datepicker').datepicker({
 			format: 'dd/mm/yyyy'
 		});
 
-		// Storage
+		/* Storage */
 		$('#subshow').hide();
 		$('#storage').on('change', function(e){
 			var storage_id = e.target.value;
-			//ajax
+			/* ajax */
 			$.get('{{ route("search") }}/dropdown?storage_id=' + storage_id, function(data){
 				if (data == 0) {
 					$('#subshow').hide();

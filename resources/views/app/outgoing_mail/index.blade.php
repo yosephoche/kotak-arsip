@@ -360,7 +360,7 @@
 	<script src="{{ asset('assets/app/vue/surat-keluar.js') }}"></script>
 	<script>
 		<?php
-			// Sort By
+			/* Sort By */
 			$sortKey = '_id';
 			if (@$_GET['sort'] == 'to') {
 				$sortKey = 'to';
@@ -368,13 +368,13 @@
 				$sortKey = 'subject';
 			}
 
-			// Ascending or Descending
+			/* Ascending or Descending */
 			$asc = 'false';
 			if (@$_GET['asc'] == 'true') {
 				$asc = 'true';
 			}
 
-			// Pagination
+			/* Pagination */
 			$page = 1;
 			if (@$_GET['page']) {
 				$page = $_GET['page'];
@@ -384,11 +384,11 @@
 		getDataOutgoingMail('{{ route("api_outgoing_mail", ["sort" => $sortKey]) }}&asc={{ $asc }}{{ $page != 1 ? "&page=".$page : "" }}', 'outgoingMail');
 
 		$('#disposisiModal').on('show.bs.modal', function (e) {
-			// Get ID
+			/* Get ID */
 			var id = $(e.relatedTarget).data('id');
 			$(this).find('input[name="id"]').val(id);
 
-			// Remove owner mail to disposition
+			/* Remove owner mail to disposition */
 			var id_owner = $(e.relatedTarget).data('owner');
 			if (typeof id_owner !== "undefined") {
 				console.log('a');
@@ -400,7 +400,7 @@
 
 			$('#link_history').attr('href', '{{ route('outgoing_mail_shared_history') }}/' + id);
 			
-			// Fill val date
+			/* Fill val date */
 			var now = moment().format('DD/MM/YYYY');
 			var status = true;
 			$('.val-check').attr('data-date', now);
@@ -416,7 +416,7 @@
 				$(this).parent().find('input.val-check').val(status == false ? '-' : id);
 				$(this).parent().find('input.val-date').val(status == false ? '-' : date);
 				$(this).parent().find('input.val-message').val('');
-				// $(this).val(id);
+				/* $(this).val(id); */
 			});
 		});
 
@@ -425,7 +425,7 @@
 			$(this).find('input[name="id"]').val(id);
 		});
 
-		// 3 mean 3second
+		/* 3 mean 3second */
 		alertTimeout(3);
 	</script>
 @endsection

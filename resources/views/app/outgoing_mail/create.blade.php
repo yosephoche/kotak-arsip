@@ -150,12 +150,12 @@
 
 	<script src="{{ asset('assets/app/js/kotakarsip.js') }}"></script>
 	<script>
-		// Date Picker
+		/* Date Picker */
 		$('#datepicker').datepicker({
 			format: 'dd/mm/yyyy'
 		});
 
-		//Upload Multiple Image
+		/* Upload Multiple Image */
 		$('#files').on('change', function(e) {
 		  e.preventDefault();
 
@@ -189,7 +189,7 @@
 			 });
 		});
 
-		//delete Image
+		/* delete Image */
 		$(document).on('click', '#delete', function() {
 
 			var image = $(this).data('image');	
@@ -199,7 +199,7 @@
 			form.append('_token', token);
 			form.append('image', image);
 
-			// Remove image view
+			/* Remove image view */
 			$(this).closest('.pos-r').slideUp('fast');
 			$('#main img[data-image="'+image+'"]').slideUp('fast');
 
@@ -219,13 +219,13 @@
 			});
 		});
 
-		//Ajax Dropdown
-		//Hide Sub Storage
+		/* Ajax Dropdown */
+		/* Hide Sub Storage */
 		$('#subshow').hide();
 
 		$('#storage').on('change', function(e){
 			var storage_id = e.target.value;
-			//ajax
+			/* ajax */
 			$.get('dropdown?storage_id=' + storage_id, function(data){
 				if (data == 0) {
 					$('#subshow').hide();

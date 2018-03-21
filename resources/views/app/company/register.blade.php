@@ -60,7 +60,7 @@
     <script>
         $('input').keyup(function() {
 
-            // Company Code filled
+            /* Company Code filled */
             var company_code = $('#company_code').val();
             if (company_code !== '') {
                 $('#company_name').attr('disabled', 'disabled');
@@ -68,7 +68,7 @@
                 $('#company_name').removeAttr('disabled');
             }
 
-            // Company Name filled
+            /* Company Name filled */
             var company_name = $('#company_name').val();
             if (company_name !== '') {
                 $('#company_code').attr('disabled', 'disabled');

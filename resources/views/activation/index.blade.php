@@ -45,21 +45,21 @@
 </head>
 <body>
 	<?php
-		// For Mac
-		// ob_start();
-		// system("ifconfig en1 | awk '/ether/{print $2}'");
-		// $mac = substr(ob_get_contents(), 0, 17);
-		// ob_clean();
+		/* For Mac */
+		/* ob_start(); */
+		/* system("ifconfig en1 | awk '/ether/{print $2}'"); */
+		/* $mac = substr(ob_get_contents(), 0, 17); */
+		/* ob_clean(); */
 
-		// For Ubuntu
+		/* For Ubuntu */
 		ob_start();
 		system("ifconfig -a | grep -Po 'HWaddr \K.*$'");
 		$mac = substr(ob_get_contents(), 0, 17);
 		ob_clean();
 
-		// For Windows
-		// $string = exec('getmac');
-		// $mac = substr($string, 0, 17);
+		/* For Windows */
+		/* $string = exec('getmac'); */
+		/* $mac = substr($string, 0, 17); */
 
 		echo $mac;
 	 ?>

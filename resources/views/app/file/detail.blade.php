@@ -217,7 +217,7 @@
 			var id = $(e.relatedTarget).data('id');
 			$(this).find('input[name="id"]').val(id);
 
-			// Remove owner mail from disposition
+			/* Remove owner mail from disposition */
 			var id_owner = $(e.relatedTarget).data('owner');
 			if (typeof id_owner !== "undefined") {
 				$(this).find('input[value="' + id_owner + '"]').closest('tr').addClass('hide');
@@ -226,7 +226,7 @@
 			}
 		});
 
-		// Edit Modal
+		/* Edit Modal */
 		$('#editModal').on('show.bs.modal', function (e) {
 			var key = ['id', 'name', 'desc', 'folder'];
 			for (var i = 0; i < key.length; i++) {
@@ -234,7 +234,7 @@
 			}
 		});
 
-		//Delete Modal
+		/* Delete Modal */
 		$('#deleteModal').on('show.bs.modal', function (e) {
 			var id = $(e.relatedTarget).data('id');
 			$(this).find('input[name="id"]').val(id);

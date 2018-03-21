@@ -48,7 +48,7 @@
 	<script>
 		getDataUsers('{{ route("api_member") }}', 'users');
 
-		// 3 mean 3second
+		/* 3 mean 3second */
 		alertTimeout(3);
 	</script>
 @endsection

@@ -306,7 +306,7 @@
 	<script>
 		getDataEmployee('{{ route("api_employee", ["id" => $user->_id]) }}', 'employee');
 
-		// Edit Modal
+		/* Edit Modal */
 		$('#editModal').on('show.bs.modal', function (e) {
 			var key = ['id', 'name', 'desc'];
 			for (var i = 0; i < key.length; i++) {
@@ -319,13 +319,13 @@
 			$(this).find('input[name="id"]').val(id);
 		});
 
-		//Ajax Dropdown
-		//Hide Sub Storage
+		/* Ajax Dropdown */
+		/* Hide Sub Storage */
 		$('#subshow, #edit-subshow').hide();
 
 		$('#storage').on('change', function(e){
 			var storage_id = e.target.value;
-			//ajax
+			/* ajax */
 			$.get('{{ route("employee_files_substorage") }}?storage_id=' + storage_id, function(data){
 				if (data == 0) {
 					$('#subshow').hide();
@@ -341,7 +341,7 @@
 		});
 		$('#edit-storage').on('change', function(e){
 			var storage_id = e.target.value;
-			//ajax
+			/* ajax */
 			$.get('{{ route("employee_files_substorage") }}?storage_id=' + storage_id, function(data){
 				if (data == 0) {
 					$('#edit-subshow').hide();
@@ -356,7 +356,7 @@
 			});
 		});
 
-		// 3 mean 3second
+		/* 3 mean 3second */
 		alertTimeout(3);
 	</script>
 @endsection

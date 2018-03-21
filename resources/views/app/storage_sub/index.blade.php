@@ -181,7 +181,7 @@
 	<script>
 		getDataStorageSub('{{ route("api_storage_sub", ["id" => $storage->_id]) }}', 'subStorage');
 
-		// Radio Button For Select Cabinet
+		/* Radio Button For Select Cabinet */
 		$('.select-cabinet label').click(function() {
 			var id = $(this).attr('for');
 
@@ -192,7 +192,7 @@
 			$('label[for="' + id + '"]').addClass('active');
 		});
 
-		// Edit Modal
+		/* Edit Modal */
 		$('#editModal').on('show.bs.modal', function (e) {
 			var key = ['id', 'name'];
 			for (var i = 0; i < key.length; i++) {
@@ -200,13 +200,13 @@
 			}
 		});
 
-		// Delete Modal
+		/* Delete Modal */
 		$('#deleteModal').on('show.bs.modal', function (e) {
 			var id = $(e.relatedTarget).data('id');
 			$(this).find('input[name="id"]').val(id);
 		});
 
-		// 3 mean 3second
+		/* 3 mean 3second */
 		alertTimeout(3);
 	</script>
 @endsection

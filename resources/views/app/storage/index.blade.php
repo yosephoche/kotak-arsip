@@ -250,7 +250,7 @@
 	<script>
 		getDataStorage('{{ route("api_storage") }}', 'storage');
 
-		// Radio Button For Select Cabinet
+		/* Radio Button For Select Cabinet */
 		$('.select-cabinet label').click(function() {
 			var id = $(this).attr('for');
 
@@ -261,27 +261,27 @@
 			$('label[for="' + id + '"]').addClass('active');
 		});
 
-		// Edit Modal
+		/* Edit Modal */
 		$('#editModal').on('show.bs.modal', function (e) {
 			var key = ['id', 'name'];
 			for (var i = 0; i < key.length; i++) {
 				$(this).find('input[name="' + key[i] + '"]').val($(e.relatedTarget).data(key[i]));
 			}
 
-			// For Type
+			/* For Type */
 			var type = 'edit-' + $(e.relatedTarget).data('type').replace('_', '-');
 			$(this).find('input#' + type).attr('checked', 'checked');
 			$(this).find('label').removeClass('active');
 			$(this).find('label[for="' + type + '"]').addClass('active');
 		});
 
-		// Delete Modal
+		/* Delete Modal */
 		$('#deleteModal').on('show.bs.modal', function (e) {
 			var id = $(e.relatedTarget).data('id');
 			$(this).find('input[name="id"]').val(id);
 		});
 
-		// 3 mean 3second
+		/* 3 mean 3second */
 		alertTimeout(3);
 	</script>
 @endsection

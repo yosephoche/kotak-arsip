@@ -168,7 +168,7 @@
 	<script>
 		getDataFilesDetail('{{ route('api_employee_detail', ['id' => $archieve->_id]) }}', 'files');
 
-		// Edit Modal
+		/* Edit Modal */
 		$('#editModal').on('show.bs.modal', function (e) {
 			var key = ['id', 'name', 'desc'];
 			for (var i = 0; i < key.length; i++) {
@@ -176,18 +176,18 @@
 			}
 		});
 
-		//Delete Modal
+		/* Delete Modal */
 		$('#deleteModal').on('show.bs.modal', function (e) {
 			var id = $(e.relatedTarget).data('id');
 			$(this).find('input[name="id"]').val(id);
 		});
 
-		// Storage
+		/* Storage */
 		$('#subshow').hide();
 
 		$('#storage').on('change', function(e){
 			var storage_id = e.target.value;
-			//ajax
+			/* ajax */
 			$.get('{{ route("employee_files_substorage") }}?storage_id=' + storage_id, function(data){
 				if (data == 0) {
 					$('#subshow').hide();

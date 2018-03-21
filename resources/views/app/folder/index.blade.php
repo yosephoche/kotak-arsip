@@ -177,14 +177,14 @@
 	<script>
 		getDataFolder('{{ route("api_folder") }}', 'folder');
 
-		// Edit Modal
+		/* Edit Modal */
 		$('#editModal').on('show.bs.modal', function (e) {
 			var folder = $(e.relatedTarget).data('folder');
 			$(this).find('input[name="old_folder"]').val(folder);
 			$(this).find('input[name="folder"]').val(folder);
 		});
 
-		// Delete Modal
+		/* Delete Modal */
 		$('#deleteModal').on('show.bs.modal', function (e) {
 			var folder = $(e.relatedTarget).data('folder');
 			$(this).find('input[name="folder"]').val(folder);
