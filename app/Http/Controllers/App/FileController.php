@@ -230,6 +230,10 @@ class FileController extends Controller
 					$share = Share::where('id_archieve', GlobalClass::generateMongoObjectId($data['archieve']->id_original))->where('share_to', GlobalClass::generateMongoObjectId(Auth::user()->_id))->first();
 					$share->read = 1;
 					$share->save();
+					
+					$notif = Notifications::where('link', '/berkas/detail/'.$id)->where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->first();
+					$notif->read = 1;
+					$notif->save();
 				}
 			}
 
