@@ -21,7 +21,11 @@
 	<div id="app">
 		<nav class="ka-nav ka-nav-detail">
 			<ul class="left-side">
-				<li class="back"><a href="{{ URL::previous() }}"><i class="fa fa-angle-left"></i> &nbsp;&nbsp;Kembali</a></li>
+				@if (isset($_GET['read']) || isset($_GET['read_direct']))
+					<li class="back"><a href="{{ URL::previous() }}"><i class="fa fa-angle-left"></i> &nbsp;&nbsp;Kembali</a></li>
+				@else
+					<li class="back"><a href="{{ route('incoming_mail') }}"><i class="fa fa-angle-left"></i> &nbsp;&nbsp;Kembali</a></li>
+				@endif
 			</ul>
 			<ul class="right-side">
 				<li v-for="val in json.incomingMail">
