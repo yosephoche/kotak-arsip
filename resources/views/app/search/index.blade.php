@@ -86,13 +86,13 @@
 			<tr class="item" v-for="val in json.search" @click="detailSidebar(val, $event)">
 				<td>
 					<div v-if="val.type == 'incoming_mail'">
-						<a v-bind:href="'{{ route('incoming_mail_detail') }}/' + val._id" v-html="val.search"></a>
+						<a v-bind:href="'{{ route('incoming_mail_detail') }}/' + val._id + '?read_direct=true'" v-html="val.search"></a>
 					</div>
 					<div v-if="val.type == 'outgoing_mail'">
-						<a v-bind:href="'{{ route('outgoing_mail_detail') }}/' + val._id" v-html="val.search"></a>
+						<a v-bind:href="'{{ route('outgoing_mail_detail') }}/' + val._id + '?read_direct=true'" v-html="val.search"></a>
 					</div>
 					<div v-if="val.type == 'file'">
-						<a v-bind:href="'{{ route('file_detail') }}/' + val._id" v-html="val.search"></a>
+						<a v-bind:href="'{{ route('file_detail') }}/' + val._id + '?read_direct=true'" v-html="val.search"></a>
 					</div>
 				</td>
 				<td class="view-tablet-only" v-if="val.subject !== null">
