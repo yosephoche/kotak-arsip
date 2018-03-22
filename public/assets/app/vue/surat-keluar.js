@@ -162,7 +162,7 @@ function getDataOutgoingMailDetail(api, key) {
 				return day + "/" + month + "/" + year;
 			},
 			datetime: function (date) {
-				return moment(date).format("DD/MM");
+				return moment(date).format("DD/MM/YYYY hh:mm:ss");
 			},
 			fromnow: function (date) {
 				moment.locale('fr', {

@@ -99,7 +99,7 @@
 						</div>
 						<div class="item" v-if="val.share != ''">
 							<label>Disposisi</label>
-							<div class="value">
+							<div class="value value-disposition">
 								<ul class="list-unstyled">
 									<li v-for="disposisi in val.share"><a :href="'{{ route('incoming_mail_disposition_history') }}/' + val._id" v-html="disposisi.name"></a></li>
 								</ul>
