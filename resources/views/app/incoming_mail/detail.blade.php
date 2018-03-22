@@ -52,7 +52,7 @@
 					<div v-for="image in val.files">
 						<div v-if="image.slice(-3).toLowerCase() == 'pdf'">
 							<div>
-								<iframe :src="'/pdf/web/viewer.html?file={{ url('files') }}/{{ Auth::user()->id_company }}/incoming_mail/' + image"></iframe>
+								<embed :src="'/pdf/web/viewer.html?file={{ url('files') }}/{{ Auth::user()->id_company }}/incoming_mail/' + image"></embed>
 							</div>
 						</div>
 						<div v-else>

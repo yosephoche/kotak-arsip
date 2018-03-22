@@ -53,13 +53,13 @@
 			<div class="ka-main">
 				<div v-for="val in json.files">
 					<div v-if="val.files[0].slice(-3).toLowerCase() == 'pdf'">
-						<div><iframe :src="'/pdf/web/viewer.html?file={{ url('files') }}/{{ Auth::user()->id_company }}/file/' + val.files[0]"></iframe></div>
+						<div><embed :src="'/pdf/web/viewer.html?file={{ url('files') }}/{{ Auth::user()->id_company }}/file/' + val.files[0]"></embed></div>
 					</div>
 					<div v-if="val.files[0].slice(-3).toLowerCase() == 'png' || val.files[0].slice(-3).toLowerCase() == 'jpg' || val.files[0].slice(-4).toLowerCase() == 'jpeg'">
 						<div><img :src="'{{ url('files') }}/{{ Auth::user()->id_company }}/file/' + val.files[0]" alt=""></div>
 					</div>
 					<div v-if="val.files[0].slice(-4).toLowerCase() == 'docx' || val.files[0].slice(-3).toLowerCase() == 'doc' || val.files[0].slice(-3).toLowerCase() == 'ppt' || val.files[0].slice(-4).toLowerCase() == 'pptx' || val.files[0].slice(-3).toLowerCase() == 'xls' || val.files[0].slice(-4).toLowerCase() == 'xlsx'">
-						<div><iframe :src="'https://view.officeapps.live.com/op/view.aspx?src={{ url('files') }}/{{ Auth::user()->id_company }}/file/' + val.files[0]"></iframe></div>
+						<div><embed :src="'https://view.officeapps.live.com/op/view.aspx?src={{ url('files') }}/{{ Auth::user()->id_company }}/file/' + val.files[0]"></embed></div>
 					</div>
 				</div>
 			</div>

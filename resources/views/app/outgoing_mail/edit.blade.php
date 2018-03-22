@@ -69,7 +69,7 @@
 							$rand = rand(111111,999999);
 						 ?>
 						 @if ($check == 'pdf')
-							<div><iframe src="/pdf/web/viewer.html?file={{ asset('assets/tesseract').'/'.Auth::user()->_id.'/'.$img.'?'.$rand }}"></iframe></div>
+							<div><embed src="/pdf/web/viewer.html?file={{ asset('assets/tesseract').'/'.Auth::user()->_id.'/'.$img.'?'.$rand }}"></embed></div>
 						 @else
 							<div><img src="{{ asset('assets/tesseract').'/'.Auth::user()->_id.'/'.$img.'?'.$rand }}" alt="" data-image="{{ $img }}"></div>
 						 @endif

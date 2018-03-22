@@ -41,7 +41,7 @@
 			<div class="ka-main">
 				<div v-for="val in json.files">
 					<div v-if="val.files[0].slice(-3).toLowerCase() == 'pdf'">
-						<div><iframe :src="'/pdf/web/viewer.html?file={{ url('files') }}/{{ Auth::user()->id_company }}/employee/{{ $archieve->id_employee }}/' + val.files[0]"></iframe></div>
+						<div><embed :src="'/pdf/web/viewer.html?file={{ url('files') }}/{{ Auth::user()->id_company }}/employee/{{ $archieve->id_employee }}/' + val.files[0]"></embed></div>
 					</div>
 					<div v-if="val.files[0].slice(-3).toLowerCase() == 'png' || val.files[0].slice(-3).toLowerCase() == 'jpg' || val.files[0].slice(-4).toLowerCase() == 'jpeg'">
 						<div><img :src="'{{ url('files') }}/{{ Auth::user()->id_company }}/employee/{{ $archieve->id_employee }}/' + val.files[0]" alt=""></div>
