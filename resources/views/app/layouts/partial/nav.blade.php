@@ -20,11 +20,11 @@
 				$notifications = App\Notifications::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->orderBy('_id', 'desc')->take(9)->get();
 			}
 		?>
-		<li class="notif dropdown {{ count($notifications->where('read', 0)) > 0 ? 'new-notif' : '' }}">
+		<li class="notif dropdown {{ $count > 0 ? 'new-notif' : '' }}">
 			@if ($count > 9)
-				<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bell {{ count($notifications->where('read', 0)) > 0 ? 'animated swing infinite' : '' }}"></i> {!! count($notifications->where('read', 0)) > 0 ? '<span class="badge">'.count($notifications->where('read', 0)).'+</span>' : '' !!}</a>
+				<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bell {{ $count > 0 ? 'animated swing infinite' : '' }}"></i> {!! $count > 0 ? '<span class="badge">9+</span>' : '' !!}</a>
 			@else
-				<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bell {{ count($notifications->where('read', 0)) > 0 ? 'animated swing infinite' : '' }}"></i> {!! count($notifications->where('read', 0)) > 0 ? '<span class="badge">'.count($notifications->where('read', 0)).'</span>' : '' !!}</a>
+				<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bell {{ $count > 0 ? 'animated swing infinite' : '' }}"></i> {!! $count > 0 ? '<span class="badge">'.$count.'</span>' : '' !!}</a>
 			@endif
 
 			<ul class="dropdown-menu pull-right">

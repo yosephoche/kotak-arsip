@@ -138,7 +138,12 @@
 									</tr>
 									<tr v-for="(val, index) in filteredUsers" v-if="val._id != '{{ Auth::user()->_id }}' && dispositionArray.indexOf(val._id) == -1">
 										<td class="text-center">
-											<input type="checkbox" :name="'share['+index+']'" :value="val._id">
+										<div v-if="checked.indexOf(val._id) !== -1">
+											<input type="checkbox" :name="'share['+index+']'" :value="val._id" @change="check(val._id)" :id="val._id" class="checked" checked>
+										</div>
+										<div v-else>
+											<input type="checkbox" :name="'share['+index+']'" :value="val._id" @change="check(val._id)" :id="val._id" class="unchecked">
+										</div>
 											<input type="text" :name="'date['+index+']'" value="{{ date('d/m/Y') }}" class="hide">
 											<input type="text" :name="'message['+index+']'" class="message-fill hide" value="">
 										</td>
@@ -151,23 +156,6 @@
 											<span class="position" v-html="val.position"></span>
 										</td>
 									</tr>
-									<!-- <tr v-for="(val, index) in filteredUsers" v-if="val._id != '{{ Auth::user()->_id }}' && dispositionArray.indexOf(val._id) != -1">
-										<td class="text-center">
-											<input type="checkbox" class="val-check" :name="'share['+index+']'" :value="val._id" :data-id="val._id" data-date="" checked>
-											<div v-for="info in dispositionInfo" v-if="info != null && info._id.$oid == val._id">
-												<input type="text" :name="'date['+index+']'" :value="$options.filters.moment(info.date.$date.$numberLong)" class="val-date hide">
-												<input type="text" :name="'message['+index+']'" :value="info.message" class="val-message hide">
-											</div>
-										</td>
-										<td>
-											<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/users') }}/thumb-' + val.photo + ')' }" v-if="val.photo != '' && val.photo != null"></div>
-											<div class="img-profile" :style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.png)' }" v-else></div>
-										</td>
-										<td>
-											<span class="name" v-html="val.name"></span><br>
-											<span class="position" v-html="val.position"></span>
-										</td>
-									</tr> -->
 								</table>
 							</div>
 						</div>
@@ -211,23 +199,35 @@
 		getDataIncomingMailDetail('{{ route('api_incoming_mail_detail', ['id' => $archieve->_id]) }}', 'incomingMail');
 		
 		$('#disposisiModal').on('show.bs.modal', function (e) {
-			var id = $(e.relatedTarget).data('id');
-			$(this).find('input[name="id"]').val(id);
+			/* Reset Form */
+				$(this).find('textarea').val('');
+				$(this).find('input[type="checkbox"]').prop('checked', false);
+
+			/* Get ID */
+				var id = $(e.relatedTarget).data('id');
+				$(this).find('input[name="id"]').val(id);
 
 			/* Remove owner mail from disposition */
-			var id_owner = $(e.relatedTarget).data('owner');
-			if (typeof id_owner !== "undefined") {
-				$(this).find('input[value="' + id_owner + '"]').closest('tr').addClass('hide');
-			} else {
-				$(this).find('tr').removeClass('hide');
-			}
+				var id_owner = $(e.relatedTarget).data('owner');
+				if (typeof id_owner !== "undefined") {
+					$('#' + id_owner).closest('tr').addClass('hide');
+				}
+				/* if search */
+					$('.search input').keyup(function() {
+						if (typeof id_owner !== "undefined") {
+							$('#' + id_owner).closest('tr').addClass('hide');
+						}
+						/* check unchecked */
+							$('.checked').prop('checked', true);
+							$('.unchecked').prop('checked', false);
+					});
 		});
 
 		/* Delete Modal */
-		$('#deleteModal').on('show.bs.modal', function (e) {
-			var id = $(e.relatedTarget).data('id');
-			$(this).find('input[name="id"]').val(id);
-		});
+			$('#deleteModal').on('show.bs.modal', function (e) {
+				var id = $(e.relatedTarget).data('id');
+				$(this).find('input[name="id"]').val(id);
+			});
 	</script>
 
 </body>

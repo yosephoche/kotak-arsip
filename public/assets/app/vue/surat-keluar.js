@@ -8,7 +8,8 @@ function getDataOutgoingMail(api, key) {
 			detail: '',
 			dispositionArray: '',
 			dispositionInfo: '',
-			active: false
+			active: false,
+			checked: []
 		},
 		created: function () {
 			var _this = this;
@@ -66,6 +67,14 @@ function getDataOutgoingMail(api, key) {
 					info.push(data[i]);
 				}
 				return this.dispositionArray = id, this.dispositionInfo = info;
+			},
+			check: function (id) {
+				if ($('#' + id).is(":checked")) {
+					this.checked.push(id);
+				} else {
+					var index = this.checked.indexOf(id);
+					this.checked.splice(index, 1);
+				}
 			}
 		},
 		computed: {
@@ -102,7 +111,8 @@ function getDataOutgoingMailDetail(api, key) {
 			search: '',
 			json: { key : [], 'users' : [] },
 			dispositionArray: '',
-			active: false
+			active: false,
+			checked: []
 		},
 		created: function () {
 			var _this = this;
@@ -152,6 +162,14 @@ function getDataOutgoingMailDetail(api, key) {
 					info.push(data[i]);
 				}
 				return this.dispositionArray = id, this.dispositionInfo = info;
+			},
+			check: function (id) {
+				if ($('#' + id).is(":checked")) {
+					this.checked.push(id);
+				} else {
+					var index = this.checked.indexOf(id);
+					this.checked.splice(index, 1);
+				}
 			}
 		},
 		filters: {

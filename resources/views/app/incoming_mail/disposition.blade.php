@@ -22,7 +22,7 @@
 			<ul class="timeline">
 				<li class="tl-item" v-for="val in json.incomingMail">
 					<div class="tl-wrap">
-						<span class="tl-date" v-html="$options.filters.datetime()"></span>
+						<span class="tl-date" v-html="$options.filters.datetime(val.date.date)"></span>
 						<div class="tl-content panel padder b-a">
 							<span class="arrow left pull-up"></span>
 							<div v-html="val.user[0].name"></div>

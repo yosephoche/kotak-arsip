@@ -136,7 +136,12 @@
 									</tr>
 									<tr v-for="(val, index) in filteredUsers" v-if="val._id != '{{ Auth::user()->_id }}' && dispositionArray.indexOf(val._id) == -1">
 										<td class="text-center">
-											<input type="checkbox" :name="'share['+index+']'" :value="val._id">
+											<div v-if="checked.indexOf(val._id) !== -1">
+											<input type="checkbox" :name="'share['+index+']'" :value="val._id" @change="check(val._id)" :id="val._id" class="checked" checked>
+										</div>
+										<div v-else>
+											<input type="checkbox" :name="'share['+index+']'" :value="val._id" @change="check(val._id)" :id="val._id" class="unchecked">
+										</div>
 											<input type="text" :name="'date['+index+']'" value="{{ date('d/m/Y') }}" class="hide">
 											<input type="text" :name="'message['+index+']'" class="message-fill hide" value="">
 										</td>
@@ -192,23 +197,35 @@
 		getDataOutgoingMailDetail('{{ route('api_outgoing_mail_detail', ['id' => $archieve->_id]) }}', 'outgoingMail');
 		
 		$('#disposisiModal').on('show.bs.modal', function (e) {
-			var id = $(e.relatedTarget).data('id');
-			$(this).find('input[name="id"]').val(id);
+			/* Reset Form */
+				$(this).find('textarea').val('');
+				$(this).find('input[type="checkbox"]').prop('checked', false);
+
+			/* Get ID */
+				var id = $(e.relatedTarget).data('id');
+				$(this).find('input[name="id"]').val(id);
 
 			/* Remove owner mail from disposition */
-			var id_owner = $(e.relatedTarget).data('owner');
-			if (typeof id_owner !== "undefined") {
-				$(this).find('input[value="' + id_owner + '"]').closest('tr').addClass('hide');
-			} else {
-				$(this).find('tr').removeClass('hide');
-			}
+				var id_owner = $(e.relatedTarget).data('owner');
+				if (typeof id_owner !== "undefined") {
+					$('#' + id_owner).closest('tr').addClass('hide');
+				}
+				/* if search */
+					$('.search input').keyup(function() {
+						if (typeof id_owner !== "undefined") {
+							$('#' + id_owner).closest('tr').addClass('hide');
+						}
+						/* check unchecked */
+							$('.checked').prop('checked', true);
+							$('.unchecked').prop('checked', false);
+					});
 		});
 
 		/* Delete Modal */
-		$('#deleteModal').on('show.bs.modal', function (e) {
-			var id = $(e.relatedTarget).data('id');
-			$(this).find('input[name="id"]').val(id);
-		});
+			$('#deleteModal').on('show.bs.modal', function (e) {
+				var id = $(e.relatedTarget).data('id');
+				$(this).find('input[name="id"]').val(id);
+			});
 	</script>
 
 </body>

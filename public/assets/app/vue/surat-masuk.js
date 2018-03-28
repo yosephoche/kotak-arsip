@@ -8,7 +8,8 @@ function getDataIncomingMail(api, key) {
 			detail: '',
 			dispositionArray: '',
 			dispositionInfo: '',
-			active: false
+			active: false,
+			checked: []
 		},
 		created: function () {
 			var _this = this;
@@ -66,6 +67,14 @@ function getDataIncomingMail(api, key) {
 					info.push(data[i]);
 				}
 				return this.dispositionArray = id, this.dispositionInfo = info;
+			},
+			check: function (id) {
+				if ($('#' + id).is(":checked")) {
+					this.checked.push(id);
+				} else {
+					var index = this.checked.indexOf(id);
+					this.checked.splice(index, 1);
+				}
 			}
 		},
 		computed: {
@@ -78,6 +87,7 @@ function getDataIncomingMail(api, key) {
 						return 1;
 					return 0;
 				}
+
 				return this.json.users.sort(compare).filter(function(user) {
 					return user.name.toLowerCase().indexOf(self.search.toLowerCase())>=0;
 				});
@@ -102,7 +112,8 @@ function getDataIncomingMailDetail(api, key) {
 			search: '',
 			json: { key : [], 'users' : [] },
 			dispositionArray: '',
-			active: false
+			active: false,
+			checked: []
 		},
 		created: function () {
 			var _this = this;
@@ -152,6 +163,14 @@ function getDataIncomingMailDetail(api, key) {
 					info.push(data[i]);
 				}
 				return this.dispositionArray = id, this.dispositionInfo = info;
+			},
+			check: function (id) {
+				if ($('#' + id).is(":checked")) {
+					this.checked.push(id);
+				} else {
+					var index = this.checked.indexOf(id);
+					this.checked.splice(index, 1);
+				}
 			}
 		},
 		filters: {

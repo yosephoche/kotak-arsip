@@ -87,6 +87,7 @@
 						<ul class="dropdown-menu pull-right">
 							<li><a :href="'{{ route('incoming_mail_detail') }}/' + val._id">Lihat Detail</a></li>
 							<li><a href="#" data-toggle="modal" data-target="#disposisiModal" :data-id="val._id" v-on:click="idDispositionArray(val.share)">Disposisi</a></li>
+							<li v-if="val.share.length > 0"><a v-bind:href="'{{ route('incoming_mail_disposition_history') }}/' + val._id">Riwayat Disposisi</a></li>
 							<li v-if="val.id_original === null"><a :href="'{{ route('incoming_mail_move') }}/' + val._id">Sunting</a></li>
 							<li><a type="button" data-toggle="modal" data-target="#deleteModal" :data-id="val._id" class="text-danger">Hapus</a></li>
 						</ul>
@@ -222,7 +223,12 @@
 								</tr>
 								<tr v-for="(val, index) in filteredUsers" v-if="val._id != '{{ Auth::user()->_id }}' && dispositionArray.indexOf(val._id) == -1">
 									<td class="text-center">
-										<input type="checkbox" :name="'share['+index+']'" :value="val._id">
+										<div v-if="checked.indexOf(val._id) !== -1">
+											<input type="checkbox" :name="'share['+index+']'" :value="val._id" @change="check(val._id)" :id="val._id" class="checked" checked>
+										</div>
+										<div v-else>
+											<input type="checkbox" :name="'share['+index+']'" :value="val._id" @change="check(val._id)" :id="val._id" class="unchecked">
+										</div>
 										<input type="text" :name="'date['+index+']'" value="{{ date('d/m/Y') }}" class="hide">
 										<input type="text" :name="'message['+index+']'" class="message-fill hide" value="">
 									</td>
@@ -384,38 +390,53 @@
 		getDataIncomingMail('{{ route("api_incoming_mail", ["sort" => $sortKey]) }}&asc={{ $asc }}{{ $page != 1 ? "&page=".$page : "" }}', 'incomingMail');
 
 		$('#disposisiModal').on('show.bs.modal', function (e) {
+			/* Reset Form */
+				$(this).find('textarea').val('');
+				$(this).find('input[type="checkbox"]').prop('checked', false);
+
 			/* Get ID */
-			var id = $(e.relatedTarget).data('id');
-			$(this).find('input[name="id"]').val(id);
+				var id = $(e.relatedTarget).data('id');
+				$(this).find('input[name="id"]').val(id);
 
 			/* Remove owner mail from disposition */
-			var id_owner = $(e.relatedTarget).data('owner');
-			if (typeof id_owner !== "undefined") {
-				$(this).find('input[value="' + id_owner + '"]').closest('tr').addClass('hide');
-			} else {
-				$(this).find('tr').removeClass('hide');
-			}
+				var id_owner = $(e.relatedTarget).data('owner');
+				if (typeof id_owner !== "undefined") {
+					$('#' + id_owner).closest('tr').addClass('hide');
+				} else {
+					$(this).find('tr').removeClass('hide');
+				}
+				/* if search */
+					$('.search input').keyup(function() {
+						if (typeof id_owner !== "undefined") {
+							$('#' + id_owner).closest('tr').addClass('hide');
+						} else {
+							$(this).find('tr').removeClass('hide');
+						}
+						/* check unchecked */
+							$('.checked').prop('checked', true);
+							$('.unchecked').prop('checked', false);
+					});
 
 			$('#link_history').attr('href', '{{ route('incoming_mail_disposition_history') }}/' + id);
 			
 			/* Fill val date */
-			var now = moment().format('DD/MM/YYYY');
-			var status = true;
-			$('.val-check').attr('data-date', now);
-			$('.val-check').change(function() {
-				if (status == true) {
-					status = false;
-				} else {
-					status = true;
-				}
-				var id = $(this).data('id');
-				var date = $(this).data('date');
+				var now = moment().format('DD/MM/YYYY');
+				var status = true;
+				$('.val-check').attr('data-date', now);
+				$('.val-check').change(function() {
+					if (status == true) {
+						status = false;
+					} else {
+						status = true;
+					}
+					var id = $(this).data('id');
+					var date = $(this).data('date');
 
-				$(this).parent().find('input.val-check').val(status == false ? '-' : id);
-				$(this).parent().find('input.val-date').val(status == false ? '-' : date);
-				$(this).parent().find('input.val-message').val('');
-				/* $(this).val(id); */
-			});
+					$(this).parent().find('input.val-check').val(status == false ? '-' : id);
+					$(this).parent().find('input.val-date').val(status == false ? '-' : date);
+					$(this).parent().find('input.val-message').val('');
+					/* $(this).val(id); */
+				});
 		});
 
 		$('#deleteModal').on('show.bs.modal', function (e) {
@@ -424,6 +445,6 @@
 		});
 
 		/* 3 mean 3second */
-		alertTimeout(3);
+			alertTimeout(3);
 	</script>
 @endsection
