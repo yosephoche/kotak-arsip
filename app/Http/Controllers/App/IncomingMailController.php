@@ -793,7 +793,6 @@ class IncomingMailController extends Controller
 			'reference_number'	=> 'required',
 			'subject'			=> 'required',
 			'date'				=> 'required',
-			'storage'			=> 'required',
 		]);
 
 		// Get id Company

@@ -51,12 +51,14 @@
 
 		<section class="ka-body ka-body-detail">
 			<div class="ka-main">
-				<div v-for="val in json.files">
+				<div v-for="(val, index) in json.files">
 					<div v-if="val.files[0].slice(-3).toLowerCase() == 'pdf'">
 						<div><embed :src="'/pdf/web/viewer.html?file={{ url('files') }}/{{ Auth::user()->id_company }}/file/' + val.files[0]"></embed></div>
 					</div>
 					<div v-if="val.files[0].slice(-3).toLowerCase() == 'png' || val.files[0].slice(-3).toLowerCase() == 'jpg' || val.files[0].slice(-4).toLowerCase() == 'jpeg'">
-						<div><img :src="'{{ url('files') }}/{{ Auth::user()->id_company }}/file/' + val.files[0]" alt=""></div>
+						<div><img :src="'{{ url('files') }}/{{ Auth::user()->id_company }}/file/' + val.files[0]" :id="'rotate' + index"></div>
+							<button class="btn-rotate" data-rotate="0" :onclick="'rotateImg(' + index + ', this)'"><i class="fa fa-repeat"></i> &nbsp;Putar Gambar</button>
+							<a :href="'{{ url('files') }}/{{ Auth::user()->id_company }}/file/' + val.files[0]" class="btn-rotate" download><i class="fa fa-download"></i> &nbsp;Unduh</a>
 					</div>
 					<div v-if="val.files[0].slice(-4).toLowerCase() == 'docx' || val.files[0].slice(-3).toLowerCase() == 'doc' || val.files[0].slice(-3).toLowerCase() == 'ppt' || val.files[0].slice(-4).toLowerCase() == 'pptx' || val.files[0].slice(-3).toLowerCase() == 'xls' || val.files[0].slice(-4).toLowerCase() == 'xlsx'">
 						<div><embed :src="'https://view.officeapps.live.com/op/view.aspx?src={{ url('files') }}/{{ Auth::user()->id_company }}/file/' + val.files[0]"></embed></div>

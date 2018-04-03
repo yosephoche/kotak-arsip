@@ -87,7 +87,7 @@
 						<ul class="dropdown-menu pull-right">
 							<li><a :href="'{{ route('outgoing_mail_detail') }}/' + val._id">Lihat Detail</a></li>
 							<li><a href="#" data-toggle="modal" data-target="#disposisiModal" :data-id="val._id" v-on:click="idDispositionArray(val.share)">Bagikan</a></li>
-							<li v-if="val.share.length > 0"><a v-bind:href="'{{ route('outgoing_mail_shared_history') }}/' + val._id">Riwayat Disposisi</a></li>
+							<li v-if="val.share.length > 0"><a v-bind:href="'{{ route('outgoing_mail_shared_history') }}/' + val._id">Riwayat Berbagi</a></li>
 							<li v-if="val.id_original === null"><a :href="'{{ route('outgoing_mail_move') }}/' + val._id">Sunting</a></li>
 							<li><a type="button" data-toggle="modal" data-target="#deleteModal" :data-id="val._id" class="text-danger">Hapus</a></li>
 						</ul>

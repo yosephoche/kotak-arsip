@@ -500,7 +500,7 @@ class FileController extends Controller
 			// Notification
 			GlobalClass::notif(
 				GlobalClass::generateMongoObjectId($r->share[$key[$i]]),
-				Auth::user()->name.' membagikan berkas <b>'.$disposition->to.'</b> kepada Anda',
+				Auth::user()->name.' membagikan berkas <b>'.$disposition->name.'</b> kepada Anda',
 				URL::route('file_detail', array('id' => $file->getKey()), false)
 			);
 

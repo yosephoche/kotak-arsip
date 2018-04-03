@@ -49,14 +49,16 @@
 		<section class="ka-body ka-body-detail">
 			<div class="ka-main">
 				<div v-for="val in json.incomingMail">
-					<div v-for="image in val.files">
+					<div v-for="(image, index) in val.files">
 						<div v-if="image.slice(-3).toLowerCase() == 'pdf'">
 							<div>
 								<embed :src="'/pdf/web/viewer.html?file={{ url('files') }}/{{ Auth::user()->id_company }}/incoming_mail/' + image"></embed>
 							</div>
 						</div>
 						<div v-else>
-							<div><img :src="'{{ url('files') }}/{{ Auth::user()->id_company }}/incoming_mail/' + image" alt=""></div>
+							<div><img :src="'{{ url('files') }}/{{ Auth::user()->id_company }}/incoming_mail/' + image" :id="'rotate' + index"></div>
+							<button class="btn-rotate" data-rotate="0" :onclick="'rotateImg(' + index + ', this)'"><i class="fa fa-repeat"></i> &nbsp;Putar Gambar</button>
+							<a :href="'{{ url('files') }}/{{ Auth::user()->id_company }}/incoming_mail/' + image" class="btn-rotate" download><i class="fa fa-download"></i> &nbsp;Unduh</a>
 						</div>
 					</div>
 				</div>
