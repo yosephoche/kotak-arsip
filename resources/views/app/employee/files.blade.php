@@ -22,7 +22,8 @@
 	<div class="ka-main">
 		<div class="breadcrumbs">
 			<ul class="list-inline">
-				<li><a href="{{ route('employee') }}">Arsip {{ $user->name }}</a></li>
+				<li><a href="{{ route('employee') }}">Arsip Kepegawaian</a></li>
+				<li>{{ $user->name }}</li>
 			</ul>
 		</div>
 
