@@ -426,7 +426,7 @@ class IncomingMailController extends Controller
 					)
 				)
 			));
-		})->where('_id', $id);
+		})->where('_id', $id)->where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id));
 
 		$users = User::select('name', 'position', 'photo')->where('id_company', Auth::user()->id_company)->get();
 
