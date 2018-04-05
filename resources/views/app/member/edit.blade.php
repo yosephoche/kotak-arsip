@@ -45,7 +45,7 @@
 					<div class="col-md-4">
 						<div class="form-group form-line">
 							<label for="">No. Telpon/HP</label>
-							<input type="text" name="phone" value="{{ $member->phone }}" class="form-control" pattern="[0-9]" autocomplete="off" required>
+							<input type="text" name="phone" value="{{ $member->phone }}" class="form-control" pattern="[0-9]*" autocomplete="off" required>
 							@if ($errors->has('phone'))
 								<span class="help-block">
 									<strong>{{ $errors->first('phone') }}</strong>
