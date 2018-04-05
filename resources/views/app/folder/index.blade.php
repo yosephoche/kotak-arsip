@@ -23,15 +23,15 @@
 			<div class="alert alert-warning">Silahkan lengkapi profil Anda, <a href="{{ route('setting') }}?tab=account">klik disini!</a></div>
 		@endif
 
-		<table class="table table-hover" v-if="json.folder != ''">
+		<table class="table table-hover" v-if="json.folder != ''" id="list-folder">
 			<tr>
 				<th>Nama Folder</th>
 				<th width="150px" class="view-tablet-only" colspan="2">Jumlah Arsip</th>
 			</tr>
-			<tr class="item" v-for="val in json.folder" @click="detailSidebar(val, $event)">
+			<tr class="item" v-for="val in json.folder" @click="detailSidebar(val, $event)" :data-first="_.first(val.folder.split(' '))">
 				<td>
 					<img class="img" src="{{ url('assets/app/img/icons/folder.png') }}" alt="" height="30px">
-					<a :href="'{{ route('folder_detail') }}/' + val.folder.replace(' ','_')" v-html="val.folder"></a>
+					<a class="name-folder" :href="'{{ route('folder_detail') }}/' + val.folder.replace(' ','_')" v-html="val.folder"></a>
 				</td>
 				<td class="view-tablet-only" v-html="val.count + ' arsip'"></td>
 				<td class="text-right dropdown">
@@ -189,5 +189,45 @@
 			var folder = $(e.relatedTarget).data('folder');
 			$(this).find('input[name="folder"]').val(folder);
 		});
+
+		/* Collapse folder with same previx */
+			$(window).load(function(){
+				var arr = [];
+				var index = [];
+				$('.name-folder').each(function(i, el) {
+					var firstWord = _.first($(el).text().split(" "));
+					arr.push(firstWord);
+				});
+
+				/* Create object for count same value in array */
+					var count = {};
+					arr.forEach(function(i) {
+						count[i] = (count[i] || 0) + 1;
+					});
+
+				/* Remove non duplicate value */
+					for (var c in count) {
+						if(count[c] == 1) {
+							delete count[c];
+						}
+					}
+
+				/* Create new collapse */
+					var keys = Object.keys(count);
+					for (var i = keys.length - 1; i >= 0; i--) {
+						var index = arr.indexOf(keys[i]) + 2;
+						var element = $('#list-folder tr:nth-child(' + index + ')');
+						$('#list-folder tr[data-first="' + keys[i] + '"').hide();
+						$('#list-folder tr[data-first="' + keys[i] + '"] td:first-child').css('padding-left', '60px');
+						element.before('<tr class="item collapse-item" data-key="' + keys[i] + '"><td><img class="img" src="{{ url('assets/app/img/icons/folder-collapse.png') }}" height="30px"> ' + keys[i] + '</td><td colspan="2">' + count[keys[i]] + ' folder</td></tr>')
+					}
+
+				/* Collapse click */
+					$('.collapse-item').click(function() {
+						var key = $(this).attr('data-key');
+						$('#list-folder tr[data-first="' + key + '"').toggle();
+						console.log(key);
+					});
+			});
 	</script>
 @endsection

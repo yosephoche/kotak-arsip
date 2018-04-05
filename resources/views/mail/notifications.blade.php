@@ -9,7 +9,7 @@
 </head>
 <body style="-moz-box-sizing: border-box; -ms-text-size-adjust: 100%; -webkit-box-sizing: border-box; -webkit-text-size-adjust: 100%; Margin: 0; box-sizing: border-box; color: #343434; font-family: 'Open Sans', sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; min-width: 100%; padding: 0; text-align: left; width: 100% !important;">
 	<div style="text-align: center">
-		<img src="http://kotakarsip.com/assets/app/img/email/head.png" alt="Logo KotakArsip" />
+		<img src="https://app.kotakarsip.com/assets/app/img/email/head.png" alt="Logo KotakArsip" />
 		<div style="max-width: 450px; width: 100%; padding: 20px; margin: auto">
 			<h2 style="color: #999; font-weight: normal;">Hi <b style="color: #0070ff">{{ $fullname }}</b>,</h2>
 			<p style="color: #999; line-height: 24px; font-weight: normal"><b style="color: #0070ff">{{ $user_from }}</b> telah membagikan arsip kepada Anda.<br>Berikut detail arsipnya:</p>
@@ -66,11 +66,11 @@
 			@elseif ($type == 'file')
 				<?php $type_archieve = 'berkas' ?>
 			@endif
-			<a href="https://kotakarsip.com/{{ $type_archieve }}/detail/{{ $id }}?read_direct=true" style="background-color: #0070ff; color: #fff; padding: 15px 20px; text-align: center; display: inline-block; text-decoration: none; border-radius: 3px; font-weight: normal">Lihat di Aplikasi</a>
+			<a href="https://app.kotakarsip.com/{{ $type_archieve }}/detail/{{ $id }}?read_direct=true" style="background-color: #0070ff; color: #fff; padding: 15px 20px; text-align: center; display: inline-block; text-decoration: none; border-radius: 3px; font-weight: normal">Lihat di Aplikasi</a>
 			<br />
 			<br />
 			<p style="color: #999; line-height: 24px; font-weight: normal">Dapatkan kemudahan memanajemen arsip pada perusahaan Anda di KotakArsip.com</p>
-			<img src="http://kotakarsip.com/assets/app/img/email/thanks.png" alt="Logo KotakArsip" />
+			<img src="https://app.kotakarsip.com/assets/app/img/email/thanks.png" alt="Logo KotakArsip" />
 		</div>
 	</div>
 </body>

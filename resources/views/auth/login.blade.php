@@ -6,76 +6,88 @@
 
 	@include('app.layouts.partial.meta')
 
-	<title>Kotakarsip</title>
+	<title>Login Kotakarsip</title>
 
-	@include('app.layouts.partial.style')
-
+	<link rel="icon" sizes="16x16" href="{{ asset('assets/app/img/favicon.png') }}" />
+	<link rel="stylesheet" href="{{ asset('assets/app/css/kotakarsip-lp.min.css') }}">
 </head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light">
+		<a class="navbar-brand" href="{{ route('login') }}">
+			<div class="row align-items-center">
+				<img src="{{ asset('assets/app/img/logo.png') }}" alt="Logo KotakArsip">
+				<h3>KotakArsip</h3>
+			</div>
+		</a>
 
-
-<body class="page-login">
-
-	<div id="app">
-		<nav class="ka-nav ka-nav-detail">
-			<ul class="left-side">
-				<a href="/">
-					<li class="brand">
-						<img src="{{ asset('assets/app/img/logo.png') }}" class="logo" alt="Logo KotakArsip"> &nbsp;&nbsp;<b class="view-tablet-only">KOTAK<span>ARSIP</span></b>
-					</li>
+		<ul class="navbar-nav ml-auto">
+			<li class="nav-item">
+				<a class="nav-link btn-primary" href="{{ route('register') }}">
+					Daftar
 				</a>
-			</ul>
-			<ul class="right-side">
-				<!-- <li><a href="">Laporkan masalah</a></li> -->
-				<li>
-					<a href="{{ route('register') }}" class="btn btn-primary">Daftar</a>
-				</li>
-			</ul>
-		</nav>
+			</li>
+		</ul>
+	</nav>
 
-		<div class="ka-body">
-			<div class="container">
+	<div class="main">
+		<div class="form-wrapper">
+			<div class="bullet nb-1"></div>
+			<div class="bullet nb-2"></div>
+			<div class="container col-lg-4 col-md-5 col-sm-8">
 				<div class="row">
-					<div class="col-md-offset-2 col-md-4 view-tablet-only">
-						<img src="{{ asset('assets/app/img/login.png') }}" alt="" width="98%" style="margin-top: 60px">
-					</div>
-					<div class="col-md-4">
-						<h1>Masuk</h1>
-
+					<div class="col-md-12">
+						<h3>Login</h3>
 						<form action="{{ route('login') }}" method="POST">
 							{{ csrf_field() }}
 							@if ( $errors->has('email') or $errors->has('password') )
 								<div class="alert-top alert alert-danger text-center">Email atau kata sandi salah</div>
 							@endif
-							<div class="form-group">
-								<input type="text" name="email" value="{{ old('email') }}" class="form-control" placeholder="Alamat Email">
+							<div class="input-item mb-4">
+								<input type="email" name="email" value="{{ old('email') }}" class="form-control" placeholder="Alamat Email">
 							</div>
-							<div class="form-group">
-								<input type="password" name="password" class="form-control" placeholder="Kata Sandi">
+							<div class="input-group mb-4 password">
+								<input type="password" name="password" class="form-control" placeholder="Kata Sandi" aria-label="Recipient's username" aria-describedby="basic-addon2">
+								<div class="input-group-append">
+									<button class="btn" type="button"><span class="fas fa-eye"></span></button>
+								</div>
 							</div>
-							<div class="form-group row">
-								<div class="col-md-6">
-									<div class="checkbox">
-										<input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
-										<label for="remember"><div class="choice-checkbox"></div>Tetap Masuk</label>
-									</div>
+							<div class="form-group mb-4">
+								<div class="checkbox">
+									<input type="checkbox" id="rememberme" name="remember" {{ old('remember') ? 'checked' : '' }}>
+									<label for="rememberme"><div class="choice-checkbox"></div> Tetap Masuk</label>
 								</div>
-								<div class="col-md-6">
-									<button class="btn btn-primary btn-block">Masuk</button>
-								</div>
+							</div>
+							<div class="display-inline">
+								<button class="daftar">Masuk</button>
+								<a href="{{ route('password.request') }}" class="forgot">Lupa kata sandi?</a>
 							</div>
 						</form>
-
-						<hr>
-
-						<a href="{{ route('password.request') }}">Lupa kata sandi?</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="globalfooter" class="small">
+		<div class="container">
+			<div class="gf-footer">
+				<div class="row justify-content-between">
+					<div class="left">
+						<small>© copyright 2018 KotakArsip</small>
+					</div>
+					<div class="right">
+						<ul class="row justify-content-between">
+							<li>Ikuti kami</li>
+							<li><a href="#"><img src="" alt=""><span class="fab fa-facebook-square"></span></a></li>
+							<li><a href="#"><img src="" alt=""><span class="fab fa-instagram"></span></a></li>
+							<li><a href="#"><img src="" alt=""><span class="fab fa-linkedin"></span></a></li>
+							<li><a href="#"><img src="" alt=""><span class="fab fa-youtube"></span></a></li>
+						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	 @include('app.layouts.partial.script')
-
+	<script src="{{ asset('assets/app/js/kotakarsip-lp.min.js') }}"></script>
 </body>
-
 </html>
