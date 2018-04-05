@@ -251,7 +251,7 @@ class FolderController extends Controller
 	public function detail($folder)
 	{
 		$limit = 25; // change in index too
-		$data['archieve'] = Archieve::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->whereNull('deleted_at')->paginate($limit);
+		$data['archieve'] = Archieve::where('id_user', GlobalClass::generateMongoObjectId(Auth::user()->_id))->where('folder', $folder)->whereNull('deleted_at')->paginate($limit);
 		$data['folder'] = $folder;
 		return view('app.folder.detail', $data);
 	}
