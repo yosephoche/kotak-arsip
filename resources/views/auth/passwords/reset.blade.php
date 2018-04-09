@@ -12,6 +12,9 @@
 	<link rel="stylesheet" href="{{ asset('assets/app/css/kotakarsip-lp.min.css') }}">
 
 	<style>
+		input {
+			-webkit-appearance: none; -moz-appearance: none; appearance: none;
+		}
 		.help-block {
 			font-size: 12px;
 			display: block;

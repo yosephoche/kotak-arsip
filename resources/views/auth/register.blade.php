@@ -6,88 +6,90 @@
 
 	@include('app.layouts.partial.meta')
 
-	<title>Kotakarsip</title>
+	<title>Daftar Kotakarsip</title>
 
-	@include('app.layouts.partial.style')
+	<link rel="icon" sizes="16x16" href="{{ asset('assets/app/img/favicon.png') }}" />
+	<link rel="stylesheet" href="{{ asset('assets/app/css/kotakarsip-lp.min.css') }}">
 
+	<style>
+		input {
+			-webkit-appearance: none; -moz-appearance: none; appearance: none;
+		}
+		.help-block {
+			font-size: 12px;
+			display: block;
+			margin-top: 10px;
+		}
+	</style>
 </head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light">
+		<a class="navbar-brand" href="{{ route('login') }}">
+			<div class="row align-items-center">
+				<img src="{{ asset('assets/app/img/logo.png') }}" alt="Logo KotakArsip">
+				<h3>KotakArsip</h3>
+			</div>
+		</a>
 
-
-<body class="page-login">
-
-	<div id="app">
-		<nav class="ka-nav ka-nav-detail">
-			<ul class="left-side">
-				<a href="/">
-					<li class="brand">
-						<img src="{{ asset('assets/app/img/logo.png') }}" class="logo" alt="Logo KotakArsip"> &nbsp;&nbsp;<b class="view-tablet-only">KOTAK<span>ARSIP</span></b>
-					</li>
+		<ul class="navbar-nav ml-auto">
+			<li class="nav-item">
+				<a class="nav-link btn-primary" href="{{ route('login') }}">
+					Login
 				</a>
-			</ul>
-			<ul class="right-side">
-				<!-- <li><a href="">Laporkan masalah</a></li> -->
-				<li>
-					<a href="{{ route('login') }}" class="btn btn-primary">Masuk</a>
-				</li>
-			</ul>
-		</nav>
+			</li>
+		</ul>
+	</nav>
 
-		<div class="ka-body" style="padding-top: 12vh">
-			<div class="container">
+	<div class="main">
+		<div class="form-wrapper">
+			<div class="bullet nb-1"></div>
+			<div class="bullet nb-2"></div>
+			<div class="container col-lg-4 col-md-5 col-sm-7">
 				<div class="row">
-					<div class="col-md-offset-2 col-md-4 view-tablet-only">
-						<img src="{{ asset('assets/app/img/login.png') }}" alt="" width="98%" style="margin-top: 120px">
-					</div>
-					<div class="col-md-4">
-						<h1>Daftar</h1>
-
+					<div class="col-md-12">
+						<h3>Daftar</h3>
 						<form method="POST" action="{{ route('register') }}">
 							{{ csrf_field() }}
 							<input type="hidden" name="email_status" value="pending">
-							
-							<div class="form-group">
+
+							<div class="input-item mb-4">
 								<input type="text" name="name" value="{{ old('name') }}" class="form-control" placeholder="Nama Lengkap" required>
 								@if ($errors->has('name'))
 									<span class="help-block">
 										<strong>{{ $errors->first('name') }}</strong>
 									</span>
 								@endif
-
 							</div>
-							<div class="form-group">
-								<input type="text" name="email" value="{{ old('email') }}" class="form-control" placeholder="Alamat Email" required>
+
+							<div class="input-item mb-4">
+								<input type="email" name="email" value="{{ old('email') }}" class="form-control" placeholder="Alamat Email" required>
 								@if ($errors->has('email'))
 									<span class="help-block">
 										<strong>{{ $errors->first('email') }}</strong>
 									</span>
 								@endif
 							</div>
-							<div class="form-group">
-								<input type="password" name="password" class="form-control" placeholder="Kata Sandi" required>
+
+							<div class="mb-4 password">
+								<div class="input-group">
+									<input type="password" name="password" class="form-control" placeholder="Kata Sandi" aria-label="Recipient's username" aria-describedby="basic-addon2">
+									<div class="input-group-append">
+										<button class="btn" type="button"><span class="fas fa-eye"></span></button>
+									</div>
+								</div>
 								@if ($errors->has('password'))
 									<span class="help-block">
 										<strong>{{ $errors->first('password') }}</strong>
 									</span>
 								@endif
 							</div>
-							<div class="form-group">
-								<input type="password" name="password_confirmation" class="form-control" placeholder="Ulang Kata Sandi" required>
-								@if ($errors->has('password_confirmation'))
-									<span class="help-block">
-										<strong>{{ $errors->first('password_confirmation') }}</strong>
-									</span>
-								@endif
-							</div>
-							<div class="form-group">
+
+							<div class="input-item mb-4">
 								<div id="capcha_ka"></div>
 							</div>
-							<!-- <div class="form-group">
-								<input type="checkbox"> &nbsp;Saya setuju dengan ketentuan <a href="">KotakArsip</a>
-							</div> -->
-							<div class="form-group row">
-								<div class="col-md-6">
-									<button class="btn btn-primary btn-block">Daftar</button>
-								</div>
+
+							<div class="display-inline">
+								<button class="daftar">Daftar</button>
 							</div>
 						</form>
 					</div>
@@ -95,8 +97,19 @@
 			</div>
 		</div>
 	</div>
+	<div id="globalfooter" class="small">
+		<div class="container">
+			<div class="gf-footer">
+				<div class="row justify-content-between">
+					<div class="col-12 text-center">
+						<small>© copyright 2018 KotakArsip</small>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-   @include('app.layouts.partial.script')
+	<script src="{{ asset('assets/app/js/kotakarsip-lp.min.js') }}"></script>
 	<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit&hl=id"
 		async defer>
 	</script>
@@ -115,7 +128,5 @@
 			}
 		});
 	</script>
-
 </body>
-
 </html>

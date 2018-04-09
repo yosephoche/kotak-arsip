@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\App;
 use Illuminate\Http\Request;
+use App\User, App\UserLoginCode;
 use App\Http\Controllers\Controller;
 use Auth, GlobalClass, File;
 
@@ -45,5 +46,91 @@ class StatusController extends Controller
 		}
 
 		return view('app.status.capacity', $data);
+	}
+
+	public function twostepauth()
+	{
+		// User Agent
+		$useragent = $_SERVER['HTTP_USER_AGENT'];
+
+		// Redirect back if already confirmed
+		$check = UserLoginCode::where('email', Auth::user()->email)->where('user_agent', $useragent)->where('status', 1)->first();
+
+		if (count($check) > 0) {
+			return redirect()->back();
+		}
+
+		return view('app.status.twostepauth');
+	}
+
+	public function twostepauth_update(Request $r)
+	{
+		// User Agent
+		$useragent = $_SERVER['HTTP_USER_AGENT'];
+
+		$code = UserLoginCode::where('email', Auth::user()->email)->where('user_agent', $useragent)->where('code', (integer)$r->code)->where('status', 0)->first();
+		if (count($code) > 0) {
+			$code->status = 1;
+			$code->save();
+
+			// Remove Duplicate
+			UserLoginCode::where('email', Auth::user()->email)->where('user_agent', $useragent)->where('status', 0)->delete();
+
+			return redirect()->route('incoming_mail');
+		} else {
+			$r->session()->flash('error', 'Kode yang Anda masukkan salah');
+			return redirect()->route('twostepauth');
+		}
+	
+		return redirect()->route('twostepauth');
+	}
+
+	public function twostepauth_active(Request $r)
+	{
+		// User status twostepauth
+		$user = User::find(Auth::user()->_id);
+		$user->twostepauth = 1;
+		$user->save();
+
+		// User Agent
+		$useragent = $r->useragent;
+
+        // Random code
+        $randomcode = rand(1111, 9999);
+
+        // Generate new code for verification
+        $count = UserLoginCode::where('user_agent', $useragent)->where('email', Auth::user()->email)->count();
+        if ($count == 0) {
+	        $code = new UserLoginCode;
+	        $code->email = Auth::user()->email;
+	        $code->code = $randomcode;
+	        $code->user_agent = $useragent;
+	        $code->status = 1;
+	        $code->save();
+        }
+	
+		return redirect(route('setting') . '?tab=security');
+	}
+
+	public function twostepauth_remove()
+	{
+		// Change status twostepauth
+		$user = User::find(Auth::user()->_id);
+		$user->twostepauth = 0;
+		$user->save();
+
+		// Remove all device
+		$code = UserLoginCode::where('email', Auth::user()->email)->delete();
+		
+		return redirect(route('setting') . '?tab=security');
+	}
+
+	public function device_delete(Request $r)
+	{
+		UserLoginCode::where('_id', $r->id)->delete();
+
+		$r->session()->flash('success', 'Perangkat berhasil dihapus');
+
+		return redirect(route('setting') . '?tab=security');
 	}
 }

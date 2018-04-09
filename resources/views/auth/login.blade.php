@@ -10,6 +10,12 @@
 
 	<link rel="icon" sizes="16x16" href="{{ asset('assets/app/img/favicon.png') }}" />
 	<link rel="stylesheet" href="{{ asset('assets/app/css/kotakarsip-lp.min.css') }}">
+
+	<style>
+		input {
+			-webkit-appearance: none; -moz-appearance: none; appearance: none;
+		}
+	</style>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light">
@@ -33,7 +39,7 @@
 		<div class="form-wrapper">
 			<div class="bullet nb-1"></div>
 			<div class="bullet nb-2"></div>
-			<div class="container col-lg-4 col-md-5 col-sm-8">
+			<div class="container col-lg-4 col-md-5 col-sm-7">
 				<div class="row">
 					<div class="col-md-12">
 						<h3>Login</h3>
@@ -45,11 +51,8 @@
 							<div class="input-item mb-4">
 								<input type="email" name="email" value="{{ old('email') }}" class="form-control" placeholder="Alamat Email">
 							</div>
-							<div class="input-group mb-4 password">
-								<input type="password" name="password" class="form-control" placeholder="Kata Sandi" aria-label="Recipient's username" aria-describedby="basic-addon2">
-								<div class="input-group-append">
-									<button class="btn" type="button"><span class="fas fa-eye"></span></button>
-								</div>
+							<div class="input-item mb-4">
+								<input type="password" name="password" class="form-control" placeholder="Kata Sandi">
 							</div>
 							<div class="form-group mb-4">
 								<div class="checkbox">
@@ -71,17 +74,8 @@
 		<div class="container">
 			<div class="gf-footer">
 				<div class="row justify-content-between">
-					<div class="left">
+					<div class="col-12 text-center">
 						<small>© copyright 2018 KotakArsip</small>
-					</div>
-					<div class="right">
-						<ul class="row justify-content-between">
-							<li>Ikuti kami</li>
-							<li><a href="#"><img src="" alt=""><span class="fab fa-facebook-square"></span></a></li>
-							<li><a href="#"><img src="" alt=""><span class="fab fa-instagram"></span></a></li>
-							<li><a href="#"><img src="" alt=""><span class="fab fa-linkedin"></span></a></li>
-							<li><a href="#"><img src="" alt=""><span class="fab fa-youtube"></span></a></li>
-						</ul>
 					</div>
 				</div>
 			</div>

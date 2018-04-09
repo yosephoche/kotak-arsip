@@ -2,6 +2,7 @@
 
 // use App\Http\Middleware\CheckSerial;
 use App\Http\Middleware\AdminPermission;
+use App\Http\Middleware\TwoStepAuth;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +35,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 // Route::group(['namespace' => 'App', 'middleware' => CheckSerial::class], function () {
 Route::group(['namespace' => 'App'], function () {
 	//API
-	Route::group(['prefix' => 'api'], function(){
+	Route::group(['prefix' => 'api', 'middleware' => TwoStepAuth::class], function(){
 		//API-Incoming_Mail
 		Route::group(['prefix' => 'surat/masuk'], function(){
 			Route::get('/', 'IncomingMailController@getData')->name('api_incoming_mail');
@@ -96,14 +97,14 @@ Route::group(['namespace' => 'App'], function () {
 	});
 
 	//Company
-	Route::group(['prefix' => 'perusahaan'], function(){
+	Route::group(['prefix' => 'perusahaan', 'middleware' => TwoStepAuth::class], function(){
 		Route::get('/register', 'CompanyController@register')->name('company_register');
 		Route::post('/store', 'CompanyController@store')->name('company_store');
 		Route::get('/register/success', 'CompanyController@registerSuccess')->name('company_register_success');
 	});
 
 	//Storage
-	Route::group(['prefix' => 'penyimpanan-arsip', 'middleware' => AdminPermission::class], function(){
+	Route::group(['prefix' => 'penyimpanan-arsip', 'middleware' => AdminPermission::class, 'middleware' => TwoStepAuth::class], function(){
 		Route::get('/', 'StorageController@index')->name('storage');
 		Route::get('/register', 'StorageController@register')->name('storage_register');
 		Route::get('/success', 'StorageController@success')->name('storage_register_success');
@@ -113,7 +114,7 @@ Route::group(['namespace' => 'App'], function () {
 	});
 
 	//Storage-Sub
-	Route::group(['prefix' => 'penyimpanan-arsip/sub', 'middleware' => AdminPermission::class], function(){
+	Route::group(['prefix' => 'penyimpanan-arsip/sub', 'middleware' => AdminPermission::class, 'middleware' => TwoStepAuth::class], function(){
 		Route::get('/register', 'StorageSubController@register')->name('storage_sub_register');
 		Route::post('/register/store', 'StorageSubController@registerstore')->name('storage_sub_register_store');
 		Route::get('/{id?}', 'StorageSubController@index')->name('storage_sub');
@@ -123,7 +124,7 @@ Route::group(['namespace' => 'App'], function () {
 	});
 
 	//Mail
-	Route::group(['prefix' => 'surat'], function(){
+	Route::group(['prefix' => 'surat', 'middleware' => TwoStepAuth::class], function(){
 		//Incoming Mail
 		Route::group(['prefix' => 'masuk'], function(){
 			Route::get('/', 'IncomingMailController@index')->name('incoming_mail');
@@ -169,7 +170,7 @@ Route::group(['namespace' => 'App'], function () {
 	});
 
 	//Employee
-	Route::group(['prefix' => 'arsip-kepegawaian', 'middleware' => AdminPermission::class], function(){
+	Route::group(['prefix' => 'arsip-kepegawaian', 'middleware' => AdminPermission::class, 'middleware' => TwoStepAuth::class], function(){
 		Route::get('/', 'EmployeeController@index')->name('employee');
 		Route::get('/berkas/{id?}', 'EmployeeController@files')->name('employee_files');
 		Route::get('/berkas/detail/{id?}', 'EmployeeController@detail')->name('employee_detail');
@@ -183,7 +184,7 @@ Route::group(['namespace' => 'App'], function () {
 	});
 
 	//File
-	Route::group(['prefix' => 'berkas'], function(){
+	Route::group(['prefix' => 'berkas', 'middleware' => TwoStepAuth::class], function(){
 		Route::get('/', 'FileController@index')->name('file');
 		Route::post('/store', 'FileController@store')->name('file_store');
 		Route::get('/detail/{id?}', 'FileController@detail')->name('file_detail');
@@ -195,7 +196,7 @@ Route::group(['namespace' => 'App'], function () {
 	});
 
 	//Folder
-	Route::group(['prefix' => 'folder'], function(){
+	Route::group(['prefix' => 'folder', 'middleware' => TwoStepAuth::class], function(){
 		Route::get('/', 'FolderController@index')->name('folder');
 		Route::get('/{folder?}', 'FolderController@detail')->name('folder_detail');
 		Route::post('/update', 'FolderController@update')->name('folder_update');
@@ -203,7 +204,7 @@ Route::group(['namespace' => 'App'], function () {
 	});
 
 	//Member
-	Route::group(['prefix' => 'anggota', 'middleware' => AdminPermission::class], function(){
+	Route::group(['prefix' => 'anggota', 'middleware' => AdminPermission::class, 'middleware' => TwoStepAuth::class], function(){
 		Route::get('/', 'MemberController@index')->name('member');
 		Route::get('/create', 'MemberController@create')->name('member_create');
 		Route::post('/store', 'MemberController@store')->name('member_store');
@@ -213,7 +214,7 @@ Route::group(['namespace' => 'App'], function () {
 	});
 
 	//Setting
-	Route::group(['prefix' => 'pengaturan'], function(){
+	Route::group(['prefix' => 'pengaturan', 'middleware' => TwoStepAuth::class], function(){
 		Route::get('/', 'SettingController@index')->name('setting');
 		Route::post('/update/user', 'SettingController@updateuser')->name('update_user');
 		Route::post('/update/password', 'SettingController@updatepassword')->name('update_password');
@@ -221,7 +222,7 @@ Route::group(['namespace' => 'App'], function () {
 	});
 
 	//Trash
-	Route::group(['prefix' => 'sampah'], function(){
+	Route::group(['prefix' => 'sampah', 'middleware' => TwoStepAuth::class], function(){
 		Route::get('/', 'TrashController@index')->name('trash');
 		Route::get('/restore/{id?}', 'TrashController@restore')->name('trash_restore');
 		Route::post('/delete', 'TrashController@delete')->name('trash_delete');
@@ -229,23 +230,28 @@ Route::group(['namespace' => 'App'], function () {
 	});
 
 	//Search
-	Route::group(['prefix' => 'pencarian'], function(){
+	Route::group(['prefix' => 'pencarian', 'middleware' => TwoStepAuth::class], function(){
 		Route::get('/', 'SearchController@index')->name('search');
 		Route::get('/dropdown', 'SearchController@dropdownAjax')->name('search_substorage');
 		Route::post('/delete', 'SearchController@delete')->name('search_delete');
 	});
 
 	//Notifications
-	Route::group(['prefix' => 'notifications'], function(){
+	Route::group(['prefix' => 'notifications', 'middleware' => TwoStepAuth::class], function(){
 		Route::get('/', 'NotificationsController@index')->name('notifications');
 		Route::get('/read-all', 'NotificationsController@readAll')->name('notifications_readall');
 	});
 
 	//Status
-	Route::get('/kapasitas', 'StatusController@capacity')->name('status_capacity')->middleware(AdminPermission::class);
+	Route::get('/kapasitas', 'StatusController@capacity')->name('status_capacity')->middleware(AdminPermission::class)->middleware(TwoStepAuth::class);
+	Route::post('/perangkat-terhubung/delete', 'StatusController@device_delete')->name('status_list_device_delete')->middleware(TwoStepAuth::class);
+	Route::get('/two-step-auth', 'StatusController@twostepauth')->name('twostepauth');
+	Route::post('/two-step-auth/update', 'StatusController@twostepauth_update')->name('twostepauth_update');
+	Route::post('/two-step-auth/active', 'StatusController@twostepauth_active')->name('twostepauth_active');
+	Route::post('/two-step-auth/remove', 'StatusController@twostepauth_remove')->name('twostepauth_remove');
 
 	//Help
-	Route::group(['prefix' => 'bantuan'], function(){
+	Route::group(['prefix' => 'bantuan', 'middleware' => TwoStepAuth::class], function(){
 		Route::get('/', 'HelpController@index')->name('help');
 		Route::get('/teknologi-ocr', 'HelpController@ocr')->name('help_ocr');
 		Route::get('/koneksi-server', 'HelpController@server')->name('help_server');

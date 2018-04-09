@@ -88,6 +88,51 @@
 						<td><b>Kata Sandi</b><br>Tetapkan kata sandi unik untuk melindungi akun KotakArsip Anda.</td>
 						<td align="right"><a href="#" class="btn btn-default" data-toggle="modal" data-target="#passwordeditModal" data-id="{{ $user->_id }}" data-label="Sunting Kata Sandi">Ganti Kata Sandi</a></td>
 					</tr>
+					<tr>
+						<td><b>2 Langkah Verifikasi</b><br>Aktifkan fitur ini untuk meningkatkan keamanan akun Anda.</td>
+						<td align="right">
+							@if (Auth::user()->twostepauth == 1)
+								<a href="#" class="btn btn-danger" data-toggle="modal" data-target="#twostepauth-remove" data-id="{{ $user->_id }}" data-label="Non-aktifkan 2 Langkah Verifikasi">Non-aktifkan</a>
+							@else
+								<a href="#" class="btn btn-default" data-toggle="modal" data-target="#twostepauth" data-id="{{ $user->_id }}" data-label="Aktifkan 2 Langkah Verifikasi">Aktifkan</a>
+							@endif
+						</td>
+					</tr>
+
+					@if (Auth::user()->twostepauth == 1)
+						<tr>
+							<td colspan="2" style="border-top: 0; padding-top: 0 !important;">
+								<table class="table table-bordered">
+									<tr>
+										<th style="background-color: #f5f5f5">Jenis Perangkat</th>
+										<th class="view-tablet-only" style="background-color: #f5f5f5">Sistem Operasi</th>
+										<th style="width: 200px; background-color: #f5f5f5">Akses</th>
+									</tr>
+									@foreach ($devices as $device)
+										<tr class="item">
+											<td>
+												<?php
+													$useragent = substr($device->user_agent,strpos($device->user_agent,'(')+1); // remove the first ( and everything before it
+													$useragent = substr($useragent,0,strpos($useragent,';')); // remove the first ) and everything after it
+													echo $useragent;
+												?>
+											</td>
+											<td class="view-tablet-only">
+												{{ GlobalClass::getOS($device->user_agent) }}
+											</td>
+											<td>
+												@if ($device->user_agent == $_SERVER['HTTP_USER_AGENT'])
+													<span class="text-info">Terpakai saat ini</span>
+												@else
+													<a href="#" class="text-danger" data-toggle="modal" data-target="#deleteDevice" data-id="{{ $device->_id }}">Hapus Perangkat</a>
+												@endif
+											</td>
+										</tr>
+									@endforeach
+								</table>
+							</td>
+						</tr>
+					@endif
 				</table>
 			</div>
 			
@@ -213,6 +258,86 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- Two Step Auth -->
+	<div class="modal fade" id="twostepauth" tabindex="-1" role="dialog" aria-labelledby="editLabelModal">
+		<div class="modal-dialog" role="document" style="max-width: 400px">
+			<div class="modal-content">
+				<form action="{{ route('twostepauth_active') }}" method="POST">
+					{{ csrf_field() }}
+					<input type="hidden" name="useragent" value="{{ $_SERVER['HTTP_USER_AGENT'] }}">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="editLabelModal">Aktifkan 2 Langkah Verifikasi</h4>
+						<hr>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-8 col-md-offset-2 text-center">
+								<img src="{{ url('assets/app/img/icons/security.png') }}" width="80%">
+								<br>
+								<br>
+								<br>
+							</div>
+							<div class="col-md-12 text-center">
+								<h4 style="line-height: 1.6">Keamanan lebih kuat untuk Akun Anda.</h4>
+								<p>Setiap perangkat baru yang masuk ke akun Anda akan mendapatkan syarat verifikasi kode unik yang nanti akan dikirimkan ke email Anda.</p>
+								<br>
+								<button class="btn btn-primary btn-lg">Aktifkan Sekarang</button>
+								<br>
+								<br>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Remove Two Step Auth -->
+	<div class="modal fade" id="twostepauth-remove" tabindex="-1" role="dialog" aria-labelledby="editLabelModal">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<form action="{{ route('twostepauth_remove') }}" method="POST">
+					{{ csrf_field() }}
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="editLabelModal">Non-aktifkan 2 Langkah Verifikasi</h4>
+					</div>
+					<div class="modal-body">
+						Apakah Anda yakin akan menonaktifkan fitur 2 langkah Verifikasi? Hal ini dapat menurunkan keamanan akun Anda.
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-danger">Non-aktifkan Sekarang</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modals -->
+	<div class="modal fade" id="deleteDevice" tabindex="-1" role="dialog" aria-labelledby="deleteLabelModal">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<form action="{{ route('status_list_device_delete') }}" method="POST">
+					{{ csrf_field() }}
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="deleteLabelModal">Hapus Perangkat</h4>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" name="id">
+						Apakah Anda yakin ingin menghapus perangkat ini?
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+						<button class="btn btn-danger">Ya, hapus</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- End Modal -->
 @endsection
 
 @section('registerscript')
@@ -251,5 +376,11 @@
 
 		/* 3 mean 3second */
 		alertTimeout(3);
+
+		/* Delete Device */
+		$('#deleteDevice').on('show.bs.modal', function (e) {
+			var id = $(e.relatedTarget).data('id');
+			$(this).find('input[name="id"]').val(id);
+		});
 	</script>
 @endsection

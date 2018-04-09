@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\App;
-use App\User, App\Company;
+use App\User, App\Company, App\UserLoginCode;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth, GlobalClass, Hash;
@@ -21,6 +21,7 @@ class SettingController extends Controller
 
 		$data['user'] = User::where('_id', Auth::user()->_id)->first();
 		$data['company'] = Company::where('_id', Auth::user()->id_company)->first();
+		$data['devices'] = UserLoginCode::where('email', Auth::user()->email)->where('status', 1)->get();
 
 		return view('app.setting.index', $data);
 	}
