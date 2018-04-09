@@ -270,3 +270,20 @@ Route::group(['namespace' => 'App'], function () {
 		Route::get('/berkas', 'HelpController@file')->name('help_file');
 	});
 });
+
+
+//Chatbot API
+Route::group(['namespace' => 'Chatbot'], function () {
+	Route::group(['prefix' => '019273097109238019823098120983019283098120398109823091823098123/api/v1'], function () {
+		Route::group(['prefix' => 'auth'], function () {
+			Route::get('/login','AuthController@authLoginForm');
+			Route::post('/login','AuthController@authLoginSave')->name('chatbot_post_login');
+		});
+		Route::get('/latest-archieve', 'ArsipController@latestArchieve');
+		Route::get('/find','ArsipController@findArchieve');
+		Route::get('/authorized','AuthController@isAuthorized');
+		Route::get('/latest/{id}/detail','ArsipController@detailArchieve');
+		Route::get('/users/{id}/info','ArsipController@getDetailInfo');
+		Route::get('/users/{id}/remove','ArsipController@removeUserTelegram');
+	});
+});
