@@ -953,6 +953,7 @@ class IncomingMailController extends Controller
 			} else {
 				$emails->id_archieve = GlobalClass::generateMongoObjectId($disposition->id_original);
 			}
+			$emails->link = $surat->id;
 			$emails->save();
 		}
 

@@ -515,6 +515,7 @@ class FileController extends Controller
 			} else {
 				$emails->id_archieve = GlobalClass::generateMongoObjectId($disposition->id_original);
 			}
+			$emails->link = $file->id;
 			$emails->save();
 		}
 
