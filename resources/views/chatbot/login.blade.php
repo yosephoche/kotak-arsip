@@ -37,6 +37,7 @@
 						<h3>Login</h3>
 						<form action="{{ route('chatbot_post_login') }}" method="POST">
 							{{ csrf_field() }}
+							<input type="hidden" name="u" value="{{ $username }}">
 							@if ( $errors->has('email') or $errors->has('password') )
 								<div class="alert-top alert alert-danger text-center">Email atau kata sandi salah</div>
 							@endif
@@ -46,15 +47,8 @@
 							<div class="input-item mb-4">
 								<input type="password" name="password" class="form-control" placeholder="Kata Sandi">
 							</div>
-							<div class="form-group mb-4">
-								<div class="checkbox">
-									<input type="checkbox" id="rememberme" name="remember" {{ old('remember') ? 'checked' : '' }}>
-									<label for="rememberme"><div class="choice-checkbox"></div> Tetap Masuk</label>
-								</div>
-							</div>
 							<div class="display-inline">
 								<button class="daftar">Masuk</button>
-								<a href="{{ route('password.request') }}" class="forgot">Lupa kata sandi?</a>
 							</div>
 						</form>
 					</div>
@@ -62,18 +56,5 @@
 			</div>
 		</div>
 	</div>
-	<div id="globalfooter" class="small">
-		<div class="container">
-			<div class="gf-footer">
-				<div class="row justify-content-between">
-					<div class="col-12 text-center">
-						<small>© copyright 2018 KotakArsip</small>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<script src="{{ asset('assets/app/js/kotakarsip-lp.min.js') }}"></script>
 </body>
 </html>
