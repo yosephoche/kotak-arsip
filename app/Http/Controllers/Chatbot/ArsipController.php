@@ -156,16 +156,17 @@ class ArsipController extends Controller
 	{
 		$removeUser = UserVerification::where('user_telegram', $id)->first();
 		$data = '';
-		if($removeUser->delete()){
+		if ($removeUser) {
+			$removeUser->delete();
 			$data = [
 				'status'    => 'ok',
-				'message'	=> 'user is succesfully delete'
+				'message' => 'user is succesfully delete'
 			];
 			return response()->json($data, 200);
 		}
 		$data = [
 			'status'    => 'failed',
-			'message'	=> 'user is failed to delete'
+			'message' => 'user is failed to delete'
 		];
 		return response()->json($data, 200);
 	}
