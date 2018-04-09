@@ -287,6 +287,9 @@
 				<div v-if="detail.type == 'outgoing_mail'">
 					<a v-bind:href="'{{ route('outgoing_mail_detail') }}/' + detail._id" class="btn btn-default btn-block">Lihat Detail</a>
 				</div>
+				<div v-if="detail.type == 'file'">
+					<a v-bind:href="'{{ route('file_detail') }}/' + detail._id" class="btn btn-default btn-block">Lihat Detail</a>
+				</div>
 			</div>
 		</div>
 	</template>
