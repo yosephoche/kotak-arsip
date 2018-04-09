@@ -124,7 +124,14 @@ function getDataOutgoingMailDetail(api, key) {
 		computed: {
 			filteredUsers:function() {
 				var self = this;
-				return this.json.users.filter(function(user) {
+				function compare(a, b) {
+					if (a.name < b.name)
+						return -1;
+					if (a.name > b.name)
+						return 1;
+					return 0;
+				}				
+				return this.json.users.sort(compare).filter(function(user) {
 					return user.name.toLowerCase().indexOf(self.search.toLowerCase())>=0;
 				});
 			}
