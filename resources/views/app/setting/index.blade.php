@@ -113,7 +113,23 @@
 											<td>
 												<?php
 													$useragent = substr($device->user_agent,strpos($device->user_agent,'(')+1); // remove the first ( and everything before it
-													$useragent = substr($useragent,0,strpos($useragent,';')); // remove the first ) and everything after it
+													$useragent = substr($useragent,0,strpos($useragent,')')); // remove the first ) and everything after it
+													if (substr_count($useragent, ';') == 2) {
+														$useragent = substr($useragent,strpos($useragent,';') + 1);
+														$useragent = substr($useragent,strpos($useragent,';') + 1);
+														if ($useragent == ' x64' || $useragent == ' x86') {
+															$useragent = 'Computer Windows';
+														}
+													} else if (substr_count($useragent, ';') > 2) {
+														$useragent = substr($useragent,strpos($useragent,';') + 1);
+														$useragent = substr($useragent,strpos($useragent,';') + 1);
+														$useragent = substr($useragent,0,strpos($useragent,';'));
+														if ($useragent == ' x64' || $useragent == ' x86') {
+															$useragent = 'Computer Windows';
+														}
+													} else {
+														$useragent = substr($useragent,0,strpos($useragent,';'));
+													}
 													echo $useragent;
 												?>
 											</td>
