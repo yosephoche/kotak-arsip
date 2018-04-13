@@ -97,9 +97,14 @@ Route::group(['namespace' => 'App'], function () {
 	});
 
 	//Company
-	Route::group(['prefix' => 'perusahaan', 'middleware' => TwoStepAuth::class], function(){
+	Route::group(['prefix' => 'perusahaan'], function(){
 		Route::get('/register', 'CompanyController@register')->name('company_register');
 		Route::post('/store', 'CompanyController@store')->name('company_store');
+		Route::get('/pilih-paket', 'CompanyController@selectPackage')->name('company_select_package');
+		Route::post('/pilih-paket/store', 'CompanyController@selectPackageStore')->name('company_select_package_store');
+		Route::get('/konfirmasi-pembayaran', 'CompanyController@paymentConfirmation')->name('company_payment_confirmation');
+		Route::post('/konfirmasi-pembayaran/store', 'CompanyController@paymentConfirmationStore')->name('company_payment_confirmation_store');
+		Route::post('/invoice/store', 'CompanyController@paymentInvoiceStore')->name('company_invoice_store');
 		Route::get('/register/success', 'CompanyController@registerSuccess')->name('company_register_success');
 	});
 
