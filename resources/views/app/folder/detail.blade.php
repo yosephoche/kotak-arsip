@@ -80,9 +80,9 @@
 				</td>
 				<td class="view-tablet-only" v-if="val.subject === null && val.desc === null">-</td>
 				<td class="view-tablet-only" v-else>
-					<div v-if="val.type == 'incoming_mail'" v-html="val.subject"></div>
-					<div v-if="val.type == 'outgoing_mail'" v-html="val.subject"></div>
-					<div v-if="val.type == 'file'" v-html="val.desc"></div>
+					<div v-if="val.type == 'incoming_mail'" v-html="val.subject" class="ellipsis" style="max-width: 300px"></div>
+					<div v-if="val.type == 'outgoing_mail'" v-html="val.subject" class="ellipsis" style="max-width: 300px"></div>
+					<div v-if="val.type == 'file'" v-html="val.desc" class="ellipsis" style="max-width: 300px"></div>
 				</td>
 				<td class="view-tablet-only">
 					<div v-if="val.type == 'incoming_mail'">

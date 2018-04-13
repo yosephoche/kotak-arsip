@@ -714,7 +714,7 @@ class OutgoingMailController extends Controller
 		if (file_exists($file)) {
 			array_map('unlink', glob("$file/*.*"));
 		} else {
-			mkdir(public_path('assets/tesseract'.'/'.Auth::user()->_id));
+			mkdir(public_path('assets/tesseract'.'/'.Auth::user()->_id), 0777, true);
 		}
 
 		$files = $archieve->files;

@@ -95,14 +95,14 @@
 						<a v-bind:href="'{{ route('file_detail') }}/' + val._id + '?read_direct=true'" v-html="val.search"></a>
 					</div>
 				</td>
-				<td class="view-tablet-only" v-if="val.subject !== null">
-					<div v-if="val.type == 'incoming_mail'">
+				<td class="view-tablet-only" v-if="val.subject !== null || val.desc !== null">
+					<div v-if="val.type == 'incoming_mail'" class="ellipsis" style="max-width: 300px">
 						<span v-html="val.subject"></span>
 					</div>
-					<div v-if="val.type == 'outgoing_mail'">
+					<div v-if="val.type == 'outgoing_mail'" class="ellipsis" style="max-width: 300px">
 						<span v-html="val.subject"></span>
 					</div>
-					<div v-if="val.type == 'file'">
+					<div v-if="val.type == 'file'" class="ellipsis" style="max-width: 300px">
 						<span v-html="val.desc"></span>
 					</div>
 				</td>
