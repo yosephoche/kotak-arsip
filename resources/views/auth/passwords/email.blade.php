@@ -20,6 +20,9 @@
 			display: block;
 			margin-top: 10px;
 		}
+		.main {
+			min-height: calc(100vh - 100px);
+		}
 	</style>
 </head>
 <body>

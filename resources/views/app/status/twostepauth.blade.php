@@ -15,6 +15,14 @@
 			font-size: 14px;
 			margin-bottom: 20px;
 		}
+		.help-block {
+			font-size: 12px;
+			display: block;
+			margin-top: 10px;
+		}
+		.main {
+			min-height: calc(100vh - 100px);
+		}
 	</style>
 </head>
 <body>

@@ -16,6 +16,8 @@
 			<br />
 			<div style="font-size: 30px; letter-spacing: 5px; font-weight: bold; color: #0070ff">{{ $code }}</div>
 			<br />
+			<p style="color: #999; line-height: 24px; font-weight: normal">Jika aktifitas login ini tidak berasal dari Anda, silahkan <a href="https://app.kotakarsip.com/password/reset">ganti kata sandi</a>.</p>
+			<br />
 			<p style="color: #999; line-height: 24px; font-weight: normal">Dapatkan kemudahan memanajemen arsip pada perusahaan Anda di KotakArsip.com</p>
 			<img src="http://app.kotakarsip.com/assets/app/img/email/thanks.png" alt="Logo KotakArsip" />
 		</div>
