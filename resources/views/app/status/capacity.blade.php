@@ -15,9 +15,9 @@
 				<div class="tile no-margin">
 					<a href="#" class="add-storage">+<span>Tambah Kapasitas</span></a>
 					<div class="tile-label">Total Kapasitas</div>
-					<div class="tile-value">20 GB</div>
+					<div class="tile-value">{{ $capacity->size }} GB</div>
 					<br>
-					<div class="tile-info">Terpakai <b>{{ $size[0].' '.$size[1] }}</b> dari 20 GB</div>
+					<div class="tile-info">Terpakai <b>{{ $size[0].' '.$size[1] }}</b> dari {{ $capacity->size }} GB</div>
 					<div class="tile-progress" style="width: {{ $percentage }}%"></div>
 				</div>
 			</div>

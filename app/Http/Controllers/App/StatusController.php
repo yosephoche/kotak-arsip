@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\App;
 use Illuminate\Http\Request;
-use App\User, App\UserLoginCode;
+use App\User, App\UserLoginCode, App\CompanyService;
 use App\Http\Controllers\Controller;
 use Auth, GlobalClass, File;
 
@@ -15,6 +15,10 @@ class StatusController extends Controller
 
 	public function capacity()
 	{
+		// Total Capacity
+		$capacity = CompanyService::where('id_company', GlobalClass::generateMongoObjectId(Auth::user()->id_company))->select('size')->first();
+		$data['capacity'] = $capacity;
+
 		// Get Size
 		$type = ['incoming_mail', 'outgoing_mail', 'file'];
 		$files = 0;
@@ -39,7 +43,7 @@ class StatusController extends Controller
 		$data['size'] = $file_size;
 
 		// Get percentage
-		@$data['percentage'] = 100 / (21474836480 / $files);
+		@$data['percentage'] = 100 / ($capacity->size*pow(1024,3) / $files);
 		@$data['percentage_employee'] = 100 / ($files / $employee);
 		for ($i=0; $i < count($type); $i++) {
 			@$data['percentage_'.$type[$i]] = 100 / ($files / $data['bytes_'.$type[$i]]);
