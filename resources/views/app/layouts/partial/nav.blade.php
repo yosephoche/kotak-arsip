@@ -64,7 +64,7 @@
 			</a>
 			<ul class="dropdown-menu pull-right">
 				<?php $status = Auth::user()->status ?>
-				@if ($status == 'admin')
+				@if ($status == 'admin' && Auth::user()->email != 'demo@kotakarsip.com')
 					<li><a href="{{ route('status_capacity') }}">Kapasitas</a></li>
 				@endif
 				<li><a href="{{ route('setting', ['tab' => 'account']) }}">Pengaturan Akun</a></li>

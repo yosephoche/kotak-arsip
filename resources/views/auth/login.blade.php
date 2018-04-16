@@ -23,6 +23,9 @@
 		.main {
 			min-height: calc(100vh - 100px);
 		}
+		.alert-info-demo p {
+			font-size: 12px;
+		}
 	</style>
 </head>
 <body>
@@ -55,6 +58,14 @@
 							{{ csrf_field() }}
 							@if ( $errors->has('email') or $errors->has('password') )
 								<div class="alert-top alert alert-danger text-center">Email atau kata sandi salah</div>
+							@endif
+
+							@if (isset($_GET['demo']))
+								<div class="alert-top alert alert-info alert-info-demo">
+									<p>Untuk mencoba akun demo, gunakan akun dibawah ini:</p>
+									Email: <b>demo@kotakarsip.com</b><br>
+									Password: <b>demokotakarsip</b>
+								</div>
 							@endif
 							<div class="input-item mb-4">
 								<input type="email" name="email" value="{{ old('email') }}" class="form-control" placeholder="Alamat Email">
