@@ -15,7 +15,7 @@
 		<div class="help-content">
 			<hr>
 			<h2>Apa itu OCR?</h2>
-			<p>OCR (Optical Character Recognition) adalah teknologi yang berfungsi untuk mengekstrak tulisan pada gambar hasil scan menjadi teks yang dapat dimanipulasi. Dengan adanya OCR, gambar yang bertulisan tangan, tulisan mesin ketik atau teks komputer, dapat dimanipulasi. Teks hasil ekstrak dari OCR dapat dicari kata per kata atau per kalimat. Dan setiap teks dapat dimanipulasi, diganti, atau diberikan barcode.</p>
+			<p>Optical Character Recognition(OCR) adalah teknologi yang berfungsi untuk mengekstrak tulisan pada gambar hasil scan menjadi teks yang dapat dimanipulasi. Dengan adanya OCR, gambar yang bertulisan tangan, tulisan mesin ketik atau teks komputer, dapat dimanipulasi. Teks hasil ekstrak dari OCR dapat dicari kata per kata atau per kalimat. Dan setiap teks dapat dimanipulasi, diganti, atau diberikan barcode.</p>
 			<p>Pada KotakArsip teknologi OCR aktif saat Anda menambahkan arsip baru. Seluruh arsip di KotakArsip memiliki hasil ekstrak OCR di sistem sehingga Anda dapat melakukan pencarian secara <i>Fulltext</i> pada arsip Anda.</p>
 
 			<div class="row">
