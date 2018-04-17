@@ -27,7 +27,7 @@
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light">
-		<a class="navbar-brand" href="{{ route('login') }}">
+		<a class="navbar-brand" href="https://www.kotakarsip.com/">
 			<div class="row align-items-center">
 				<img src="{{ asset('assets/app/img/logo.png') }}" alt="Logo KotakArsip">
 				<h3>KotakArsip</h3>
