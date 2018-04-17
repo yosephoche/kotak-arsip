@@ -4,24 +4,8 @@
 use App\Http\Middleware\AdminPermission;
 use App\Http\Middleware\TwoStepAuth;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Route::get('/', function () {
     return redirect()->route('login');
-});
-
-//Refresh CSRF-Token
-Route::get('refresh-csrf', function(){
-    return csrf_token();
 });
 
 //Activation
@@ -32,7 +16,6 @@ Auth::routes();
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 Route::get('/home', 'HomeController@index')->name('home');
 
-// Route::group(['namespace' => 'App', 'middleware' => CheckSerial::class], function () {
 Route::group(['namespace' => 'App'], function () {
 	//API
 	Route::group(['prefix' => 'api', 'middleware' => TwoStepAuth::class], function(){
@@ -175,7 +158,7 @@ Route::group(['namespace' => 'App'], function () {
 	});
 
 	//Employee
-	Route::group(['prefix' => 'arsip-kepegawaian', 'middleware' => AdminPermission::class, 'middleware' => TwoStepAuth::class], function(){
+	Route::group(['prefix' => 'kepegawaian', 'middleware' => AdminPermission::class, 'middleware' => TwoStepAuth::class], function(){
 		Route::get('/', 'EmployeeController@index')->name('employee');
 		Route::get('/berkas/{id?}', 'EmployeeController@files')->name('employee_files');
 		Route::get('/berkas/detail/{id?}', 'EmployeeController@detail')->name('employee_detail');
