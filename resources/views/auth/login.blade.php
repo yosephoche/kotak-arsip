@@ -61,9 +61,12 @@
 							@endif
 
 							@if (isset($_GET['demo']))
+								<?php
+									$emailDemo = App\User::where('position', 'Demo')->select('email')->get();
+								?>
 								<div class="alert-top alert alert-info alert-info-demo">
 									<p>Untuk mencoba akun demo, gunakan akun dibawah ini:</p>
-									Email: <b>demo@kotakarsip.com</b><br>
+									Email: <b>{{ @$emailDemo[rand(0, count($emailDemo) - 1)]->email }}</b><br>
 									Password: <b>demokotakarsip</b>
 								</div>
 							@endif

@@ -14,50 +14,56 @@
 			</ul>
 		</div>
 
-		<table class="table table-hover">
-			<tr>
-				<th class="sort" @click="sortBy('name', $event)">Nama Lengkap <i class="fa fa-angle-down i-sort"></i></th>
-				<th class="view-tablet-only" @click="sortBy('position', $event)">Jabatan</th>
-				<th colspan="2"></th>
-			</tr>
-			<tr class="item va-mid" v-for="val in orderedUsers" @click="detailSidebar(val, $event)">
-				<td>
-					<a class="disposisi ellipsis">
-						<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users')}}/thumb-'+ val.photo +')' }" v-if="val.photo != '' && val.photo != null"></div>
-						<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.png)' }" v-else></div>
-						&nbsp;&nbsp;&nbsp;<span v-html="val.name"></span>
-					</a>
-				</td>
-				<td class="view-tablet-only" v-html="val.position"></td>
-				<td>
-					<div v-if="val.status == 'admin'" class="badge badge-line" v-html="val.status"></div>
-				</td>
-				<td class="text-right dropdown">
-					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
-					<ul class="dropdown-menu pull-right">
-						<li><a v-bind:href="'{{ route('member_edit') }}/' + val._id">Sunting</a></li>
-						<li v-if="val.status != 'admin'"><a href="#" data-toggle="modal" data-target="#deleteModal" class="text-danger" v-bind:data-id="val._id">Hapus</a></li>
-					</ul>
-				</td>
-			</tr>
-		</table>
+		@if (substr(Auth::user()->email, -9) != '@demo.com')
+			<table class="table table-hover">
+				<tr>
+					<th class="sort" @click="sortBy('name', $event)">Nama Lengkap <i class="fa fa-angle-down i-sort"></i></th>
+					<th class="view-tablet-only" @click="sortBy('position', $event)">Jabatan</th>
+					<th colspan="2"></th>
+				</tr>
+				<tr class="item va-mid" v-for="val in orderedUsers" @click="detailSidebar(val, $event)">
+					<td>
+						<a class="disposisi ellipsis">
+							<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/users')}}/thumb-'+ val.photo +')' }" v-if="val.photo != '' && val.photo != null"></div>
+							<div class="img-disposisi" v-bind:style="{ backgroundImage: 'url({{ asset('assets/app/img/icons') }}/user.png)' }" v-else></div>
+							&nbsp;&nbsp;&nbsp;<span v-html="val.name"></span>
+						</a>
+					</td>
+					<td class="view-tablet-only" v-html="val.position"></td>
+					<td>
+						<div v-if="val.status == 'admin'" class="badge badge-line" v-html="val.status"></div>
+					</td>
+					<td class="text-right dropdown">
+						<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
+						<ul class="dropdown-menu pull-right">
+							<li><a v-bind:href="'{{ route('member_edit') }}/' + val._id">Sunting</a></li>
+							<li v-if="val.status != 'admin'"><a href="#" data-toggle="modal" data-target="#deleteModal" class="text-danger" v-bind:data-id="val._id">Hapus</a></li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+		@else
+			<div class="alert alert-warning">Anda dalam mode demo</div>
+		@endif
 	</div>
 
 	<aside class="ka-sidebar-detail">
-		<a href="{{ route('member_create') }}" class="btn btn-primary btn-block">Tambah</a>
+		@if (substr(Auth::user()->email, -9) != '@demo.com')
+			<a href="{{ route('member_create') }}" class="btn btn-primary btn-block">Tambah</a>
 
-		<br>
+			<br>
 
-		<div class="detail-info">
+			<div class="detail-info">
 
-			<div v-if="detail !== ''">
-				<detail :detail="detail"></detail>
+				<div v-if="detail !== ''">
+					<detail :detail="detail"></detail>
+				</div>
+				<div v-else>
+					<no-select></no-select>
+				</div>
+
 			</div>
-			<div v-else>
-				<no-select></no-select>
-			</div>
-
-		</div>
+		@endif
 	</aside>
 @endsection
 

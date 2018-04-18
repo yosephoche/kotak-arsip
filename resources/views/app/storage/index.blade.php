@@ -14,45 +14,51 @@
 			</ul>
 		</div>
 
-		<table class="table table-hover">
-			<tr>
-				<th class="sort" @click="sortBy('name', $event)">Nama/Kode Penyimpanan Arsip <i class="fa fa-angle-down i-sort"></i></th>
-				<th class="view-tablet-only" @click="sortBy('type', $event)">Jenis</th>
-				<th colspan="2" class="view-tablet-only">Jumlah Arsip</th>
-			</tr>
-			<tr class="item" v-for="val in orderedStorage" @click="detailSidebar(val, $event)">
-				<td><a v-bind:href="'{{ route('storage_sub') }}/' + val._id" v-html="val.name"></a></td>
-				<td class="view-tablet-only" v-html="val.type.replace('_', ' ').replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();})"></td>
-				<td class="view-tablet-only">
-					<span v-html="val.count + ' arsip'" v-if="val.count > 0"></span>
-					<span v-html="'-'" v-else></span>
-				</td>
-				<td class="text-right dropdown">
-					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
-					<ul class="dropdown-menu pull-right">
-						<li><a href="#" data-toggle="modal" data-target="#editModal" :data-id="val._id" :data-name="val.name" :data-type="val.type">Sunting</a></li>
-						<li v-if="val.count > 0"><a href="#" data-toggle="modal" data-target="#deleteNotModal" class="text-danger">Hapus</a></li>
-						<li v-else><a href="#" data-toggle="modal" data-target="#deleteModal" class="text-danger" v-bind:data-id="val._id">Hapus</a></li>
-					</ul>
-				</td>
-			</tr>
-		</table>
+		@if (substr(Auth::user()->email, -9) != '@demo.com')
+			<table class="table table-hover">
+				<tr>
+					<th class="sort" @click="sortBy('name', $event)">Nama/Kode Penyimpanan Arsip <i class="fa fa-angle-down i-sort"></i></th>
+					<th class="view-tablet-only" @click="sortBy('type', $event)">Jenis</th>
+					<th colspan="2" class="view-tablet-only">Jumlah Arsip</th>
+				</tr>
+				<tr class="item" v-for="val in orderedStorage" @click="detailSidebar(val, $event)">
+					<td><a v-bind:href="'{{ route('storage_sub') }}/' + val._id" v-html="val.name"></a></td>
+					<td class="view-tablet-only" v-html="val.type.replace('_', ' ').replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();})"></td>
+					<td class="view-tablet-only">
+						<span v-html="val.count + ' arsip'" v-if="val.count > 0"></span>
+						<span v-html="'-'" v-else></span>
+					</td>
+					<td class="text-right dropdown">
+						<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h"></i></a>
+						<ul class="dropdown-menu pull-right">
+							<li><a href="#" data-toggle="modal" data-target="#editModal" :data-id="val._id" :data-name="val.name" :data-type="val.type">Sunting</a></li>
+							<li v-if="val.count > 0"><a href="#" data-toggle="modal" data-target="#deleteNotModal" class="text-danger">Hapus</a></li>
+							<li v-else><a href="#" data-toggle="modal" data-target="#deleteModal" class="text-danger" v-bind:data-id="val._id">Hapus</a></li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+		@else
+			<div class="alert alert-warning">Anda dalam mode demo</div>
+		@endif
 	</div>
 	<aside class="ka-sidebar-detail">
-		<a href="#" data-toggle="modal" data-target="#newModal" class="btn btn-primary btn-block">Tambah</a>
+		@if (substr(Auth::user()->email, -9) != '@demo.com')
+			<a href="#" data-toggle="modal" data-target="#newModal" class="btn btn-primary btn-block">Tambah</a>
 
-		<br>
+			<br>
 
-		<div class="detail-info">
+			<div class="detail-info">
 
-			<div v-if="detail !== ''">
-				<detail :detail="detail"></detail>
+				<div v-if="detail !== ''">
+					<detail :detail="detail"></detail>
+				</div>
+				<div v-else>
+					<no-select></no-select>
+				</div>
+
 			</div>
-			<div v-else>
-				<no-select></no-select>
-			</div>
-
-		</div>
+		@endif
 	</aside>
 @endsection
 

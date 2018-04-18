@@ -18,7 +18,7 @@
 			</ul>
 		</div>
 
-		@if (Auth::user()->email != 'demo@kotakarsip.com')
+		@if (substr(Auth::user()->email, -9) != '@demo.com')
 			<!-- Nav tabs -->
 			<ul class="nav nav-tabs" role="tablist">
 				<!-- <li role="presentation" class="{{ @!$_GET['tab'] ? 'active' : '' }}"><a href="#tab-1" aria-controls="tab-1" role="tab" data-toggle="tab">Koneksi Server</a></li> -->
