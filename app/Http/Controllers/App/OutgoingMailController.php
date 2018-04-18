@@ -461,7 +461,7 @@ class OutgoingMailController extends Controller
 			$images = [];
 			for ($i=0; $i < count($files); $i++) { 
 				// Conditions for find images
-				$ext = substr($files[$i], -3);
+				$ext = strtolower(substr($files[$i], -3));
 				if ($ext == 'jpg' || $ext == 'peg' || $ext == 'png') {
 					array_push($images, $files[$i]);
 				}
@@ -592,7 +592,7 @@ class OutgoingMailController extends Controller
 		$images = [];
 		for ($i=0; $i < count($files); $i++) { 
 			// Conditions for find images
-			$ext = substr($files[$i], -3);
+			$ext = strtolower(substr($files[$i], -3));
 			if ($ext == 'jpg' || $ext == 'peg' || $ext == 'png' || $ext == 'pdf') {
 				array_push($images, $files[$i]);
 			}
@@ -671,7 +671,7 @@ class OutgoingMailController extends Controller
 		$images = [];
 		for ($i=0; $i < count($file); $i++) { 
 			// Conditions for find images
-			$ext = substr($file[$i], -3);
+			$ext = strtolower(substr($file[$i], -3));
 			if ($ext == 'jpg' || $ext == 'peg' || $ext == 'png' || $ext == 'pdf') {
 				array_push($images, $file[$i]);
 			}
@@ -681,7 +681,7 @@ class OutgoingMailController extends Controller
 		$files = [];
 		foreach ($images as $img) {
 			$rand = rand(111111,999999);
-			$ext = substr($img, -3);
+			$ext = strtolower(substr($img, -3));
 			if ($ext == 'jpg') {
 				$nm_file = $rand.'.'.'jpg';
 			} elseif ($ext == 'png') {
@@ -766,7 +766,7 @@ class OutgoingMailController extends Controller
 		$images = [];
 		for ($i=0; $i < count($files); $i++) { 
 			// Conditions for find images
-			$ext = substr($files[$i], -3);
+			$ext = strtolower(substr($files[$i], -3));
 			if ($ext == 'jpg' || $ext == 'peg' || $ext == 'png' || $ext == 'pdf') {
 				array_push($images, $files[$i]);
 			}
@@ -828,7 +828,7 @@ class OutgoingMailController extends Controller
 		$images = [];
 		for ($i=0; $i < count($file); $i++) { 
 			// Conditions for find images
-			$ext = substr($file[$i], -3);
+			$ext = strtolower(substr($file[$i], -3));
 			if ($ext == 'jpg' || $ext == 'peg' || $ext == 'png' || $ext == 'pdf') {
 				array_push($images, $file[$i]);
 			}
@@ -838,7 +838,7 @@ class OutgoingMailController extends Controller
 		$files = [];
 		foreach ($images as $img) {
 			$rand = rand(111111,999999);
-			$ext = substr($img, -3);
+			$ext = strtolower(substr($img, -3));
 			if ($ext == 'jpg') {
 				$nm_file = $rand.'.'.'jpg';
 			} elseif ($ext == 'png') {
