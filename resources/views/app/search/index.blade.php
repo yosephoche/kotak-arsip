@@ -207,7 +207,7 @@
 					<div class="modal-body" style="border-top: 1px solid #ddd">
 						<div class="form-group">
 							<label for="">Full text (<i>Fitur OCR memungkinkan Anda mencari teks dalam gambar hasil scan</i>)</label>
-							<input name="fulltext" class="form-control" value="{{ @$_GET['fulltext'] }}">
+							<input name="fulltext" class="form-control" value="{{ @$_GET['fulltext'] }}" autocomplete="off">
 						</div>
 
 
