@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\App;
-use App\Archieve, App\StorageSub, App\User, App\Storage, App\Share, App\Notifications, App\Emails;
+use App\Archieve, App\StorageSub, App\User, App\Storage, App\Share, App\Notifications, App\Emails, App\Tracker;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -14,6 +14,12 @@ class IncomingMailController extends Controller
 	public function __construct()
 	{
 		$this->middleware('auth');
+
+		// Tracker User
+		$this->middleware(function ($request, $next) {
+			Tracker::hit(Auth::user()->email, Auth::user()->id_company);
+			return $next($request);
+		});
 	}
 
 	public function index()
@@ -474,10 +480,10 @@ class IncomingMailController extends Controller
 
 			// OCR Execution By Tesseract
 			// For Windows
-			$output = exec('tesseract "'.$image.'" "'.$result.'" -l ind+eng');
+			$output = exec('tesseract "'.$image.'" "'.$result.'" -l ind');
 
 			// For Mac
-			$output = exec('/usr/local/bin/tesseract "'.$image.'" "'.$result.'" -l ind+eng');
+			$output = exec('/usr/local/bin/tesseract "'.$image.'" "'.$result.'" -l ind');
 
 			return redirect()->route('incoming_mail_create');
 		}
@@ -541,10 +547,10 @@ class IncomingMailController extends Controller
 
 			// OCR Execution By Tesseract
 			// For Windows
-			$output = exec('tesseract "'.$image.'" "'.$result.'" -l ind+eng');
+			$output = exec('tesseract "'.$image.'" "'.$result.'" -l ind');
 
 			// For Mac
-			$output = exec('/usr/local/bin/tesseract "'.$image.'" "'.$result.'" -l ind+eng');
+			$output = exec('/usr/local/bin/tesseract "'.$image.'" "'.$result.'" -l ind');
 		}
 		
 		return redirect()->back();

@@ -5,7 +5,7 @@
 		<li {{ Request::is('surat/masuk*') ? 'class=active' : '' }}><a href="{{ route('incoming_mail') }}">Surat Masuk</a></li>
 		<li {{ Request::is('surat/keluar*') ? 'class=active' : '' }}><a href="{{ route('outgoing_mail') }}">Surat Keluar</a></li>
 		@if ($status == 'admin')
-		<li {{ Request::is('arsip-kepegawaian*') ? 'class=active' : '' }}><a href="{{ route('employee') }}">Arsip Kepegawaian</a></li>
+		<li {{ Request::is('kepegawaian*') ? 'class=active' : '' }}><a href="{{ route('employee') }}">Arsip Kepegawaian</a></li>
 		@endif
 		<li {{ Request::is('berkas*') ? 'class=active' : '' }}><a href="{{ route('file') }}">Berkas</a></li>
 		<li {{ Request::is('folder*') ? 'class=active' : '' }}><a href="{{ route('folder') }}">Folder</a></li>

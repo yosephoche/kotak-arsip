@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\App;
-use App\Storage;
+use App\Storage, App\Tracker;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
@@ -11,6 +11,12 @@ class StorageController extends Controller
 	public function __construct()
 	{
 		$this->middleware('auth');
+
+		// Tracker User
+		$this->middleware(function ($request, $next) {
+			Tracker::hit(Auth::user()->email, Auth::user()->id_company);
+			return $next($request);
+		});
 	}
 	
 	public function index()

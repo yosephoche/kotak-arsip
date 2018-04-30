@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\App;
-use App\User;
+use App\User, App\Tracker;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth, Session, GlobalClass;
@@ -11,6 +11,12 @@ class MemberController extends Controller
 	public function __construct()
 	{
 		$this->middleware('auth');
+
+		// Tracker User
+		$this->middleware(function ($request, $next) {
+			Tracker::hit(Auth::user()->email, Auth::user()->id_company);
+			return $next($request);
+		});
 	}
 	
 	public function index()

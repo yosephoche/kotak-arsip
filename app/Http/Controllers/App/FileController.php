@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\App;
-use App\Archieve, App\User, App\Share, App\Notifications, App\Emails;
+use App\Archieve, App\User, App\Share, App\Notifications, App\Emails, App\Tracker;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -14,6 +14,12 @@ class FileController extends Controller
 	public function __construct()
 	{
 		$this->middleware('auth');
+
+		// Tracker User
+		$this->middleware(function ($request, $next) {
+			Tracker::hit(Auth::user()->email, Auth::user()->id_company);
+			return $next($request);
+		});
 	}
 	
 	public function index()

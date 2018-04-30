@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\App;
 use Illuminate\Http\Request;
-use App\User, App\UserLoginCode, App\CompanyService;
+use App\User, App\UserLoginCode, App\CompanyService, App\Tracker;
 use App\Http\Controllers\Controller;
 use Auth, GlobalClass, File;
 
@@ -11,6 +11,12 @@ class StatusController extends Controller
 	public function __construct()
 	{
 		$this->middleware('auth');
+
+		// Tracker User
+		$this->middleware(function ($request, $next) {
+			Tracker::hit(Auth::user()->email, Auth::user()->id_company);
+			return $next($request);
+		});
 	}
 
 	public function capacity()
