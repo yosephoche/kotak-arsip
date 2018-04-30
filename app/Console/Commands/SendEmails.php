@@ -29,7 +29,7 @@ class SendEmails extends Command
 			$disposition = Share::where('id_archieve', GlobalClass::generateMongoObjectId($email->id_archieve))->where('share_to', GlobalClass::generateMongoObjectId($email->id_user))->select('message')->first();
 			// Mail Data
 			$sendto = $user->email;
-			if (count($archieve) !== 0) {
+			if (isset($archieve)) {
 				$data = [
 					'id' => (string)$email->link,
 					'fullname' => $user->name,
@@ -38,7 +38,7 @@ class SendEmails extends Command
 					'type' => $archieve->type,
 					'date' => Carbon::createFromTimestampMs((int)(string)$archieve->date)->format('d/m/Y'),
 					'disposition_message' => $disposition->message !== null ? $disposition->message : '-',
-					'files' => count($archieve->search),
+					'files' => count($archieve->files),
 				];
 				if ($archieve->type == 'incoming_mail' || $archieve->type == 'outgoing_mail') {
 					$data['subject'] = $archieve->subject != null ? $archieve->subject : '-';
