@@ -22,3 +22,12 @@ services:
         - .:/application
         - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.3/fpm/conf.d/99-overrides.ini
 
+    mongodb:
+      image: mongo
+      container_name: mongo
+      restart: always
+      volumes:
+        - ./data/db/mongo:/data/db
+      ports:
+        - "27020:27017"
+      command: --storageEngine wiredTiger
